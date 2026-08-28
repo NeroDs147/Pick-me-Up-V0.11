@@ -1,0 +1,1641 @@
+# ⏳ AETHERIA — TIME SYSTEM
+
+> **Time does not stop when the Master does.**
+>
+> The world of Aetheria continues to move.
+>
+> Characters live, NPCs act, factions move, events occur, and the world changes as time passes.
+
+---
+
+# 📌 1. OVERVIEW
+
+The **Time System** is the global system responsible for controlling and tracking the passage of time within Aetheria.
+
+Time is treated as a fundamental part of the world simulation.
+
+The system controls:
+
+```text
+Second
+Minute
+Hour
+Day
+Night
+Week
+Month
+Season
+Year
+```
+
+Time is then used by other systems:
+
+```text
+Time System
+     ↓
+Game State System
+     ↓
+┌───────────────┬───────────────┬───────────────┐
+│               │               │
+NPC State    World State     Event State
+│               │               │
+Quest State  Faction State   Character State
+```
+
+---
+
+# 🎯 2. PURPOSE
+
+The Time System exists to create a living world.
+
+Without a Time System:
+
+```text
+NPC
+↓
+Always available
+```
+
+With a Time System:
+
+```text
+NPC
+↓
+Morning → Working
+Afternoon → Working
+Evening → Tavern
+Night → Sleeping
+```
+
+The world therefore becomes dynamic rather than static.
+
+---
+
+# 🧠 3. CORE PRINCIPLE
+
+The Time System follows one primary rule:
+
+> **The world has its own clock.**
+
+The Master does not directly control the passage of time.
+
+Instead:
+
+```text
+WORLD TIME
+    ↓
+TIME SYSTEM
+    ↓
+GAME STATE SYSTEM
+    ↓
+WORLD CHANGES
+```
+
+The Master can influence events, but normal time continues to progress.
+
+---
+
+# 🕐 4. TIME STRUCTURE
+
+Aetheria uses the following hierarchy:
+
+```text
+YEAR
+ │
+ └── MONTH
+       │
+       └── WEEK
+             │
+             └── DAY
+                   │
+                   ├── MORNING
+                   ├── AFTERNOON
+                   ├── EVENING
+                   └── NIGHT
+                         │
+                         └── HOUR
+                               │
+                               └── MINUTE
+```
+
+---
+
+# 🌅 5. DAY CYCLE
+
+Each day is divided into several periods.
+
+```text
+00:00 ─────────────── 05:59
+        NIGHT
+
+06:00 ─────────────── 11:59
+        MORNING
+
+12:00 ─────────────── 17:59
+        AFTERNOON
+
+18:00 ─────────────── 21:59
+        EVENING
+
+22:00 ─────────────── 23:59
+        NIGHT
+```
+
+These periods can later be customized according to the world configuration.
+
+---
+
+# 🌞 6. TIME OF DAY
+
+The Time System exposes a simple state:
+
+```text
+TimeOfDay
+```
+
+Possible values:
+
+```text
+NIGHT
+MORNING
+AFTERNOON
+EVENING
+```
+
+Example:
+
+```text
+CurrentTime:
+08:35
+
+TimeOfDay:
+MORNING
+```
+
+Another:
+
+```text
+CurrentTime:
+23:42
+
+TimeOfDay:
+NIGHT
+```
+
+---
+
+# 📅 7. CALENDAR SYSTEM
+
+Aetheria uses an in-game calendar.
+
+Basic structure:
+
+```text
+Year
+Month
+Day
+```
+
+Example:
+
+```text
+Year:
+001
+
+Month:
+03
+
+Day:
+17
+```
+
+Therefore:
+
+```text
+YEAR 001
+MONTH 03
+DAY 17
+```
+
+can represent the current world date.
+
+---
+
+# 🗓️ 8. WEEK SYSTEM
+
+Every seven days form one week.
+
+```text
+DAY 1
+DAY 2
+DAY 3
+DAY 4
+DAY 5
+DAY 6
+DAY 7
+```
+
+The exact names can later be defined by the Aetheria Calendar System.
+
+Example future implementation:
+
+```text
+Sol
+Luna
+Astra
+Terra
+Ignis
+Aqua
+Umbra
+```
+
+---
+
+# 🌙 9. MONTH SYSTEM
+
+Months are controlled by the world calendar.
+
+Example:
+
+```text
+Month 01
+Month 02
+Month 03
+...
+Month 12
+```
+
+The number of months and days per month should be configurable.
+
+This allows the world design to change without rewriting the core Time System.
+
+---
+
+# 🍂 10. SEASON SYSTEM
+
+Time can also be divided into seasons.
+
+Example:
+
+```text
+SPRING
+   ↓
+SUMMER
+   ↓
+AUTUMN
+   ↓
+WINTER
+   ↓
+SPRING
+```
+
+Seasons can affect:
+
+```text
+Weather
+Environment
+Resources
+NPC behavior
+Farming
+Monster appearance
+Quest availability
+World events
+```
+
+---
+
+# 🌦️ 11. WEATHER CONNECTION
+
+The Time System does not necessarily control weather directly.
+
+Instead:
+
+```text
+TIME SYSTEM
+     ↓
+DATE / SEASON
+     ↓
+GAME STATE SYSTEM
+     ↓
+WEATHER SYSTEM
+```
+
+Example:
+
+```text
+Winter
++
+Night
++
+High altitude
+```
+
+may increase the probability of:
+
+```text
+Snow
+```
+
+---
+
+# 🧑 12. NPC DAILY ROUTINE
+
+NPCs can use the Time System to determine their behavior.
+
+Example:
+
+```text
+NPC_000012
+```
+
+Routine:
+
+```text
+06:00
+Wake Up
+
+07:00
+Breakfast
+
+08:00
+Work
+
+12:00
+Lunch
+
+13:00
+Work
+
+18:00
+Return Home
+
+20:00
+Tavern
+
+22:00
+Sleep
+```
+
+The NPC's behavior is evaluated through:
+
+```text
+TIME SYSTEM
+      ↓
+GAME STATE SYSTEM
+      ↓
+NPC STATE
+```
+
+---
+
+# 🧍 13. CHARACTER ROUTINE
+
+Characters can also have time-based behavior.
+
+Example:
+
+```text
+CHAR_000125
+```
+
+During the day:
+
+```text
+Training
+Exploration
+Quest
+Crafting
+Rest
+```
+
+During the night:
+
+```text
+Rest
+Conversation
+Guard Duty
+Special Event
+```
+
+The exact behavior depends on the Character State.
+
+---
+
+# ⚔️ 14. COMBAT TIME
+
+Combat can occur inside world time.
+
+Example:
+
+```text
+Floor 20
+Time:
+22:30
+```
+
+The battle starts at:
+
+```text
+22:30
+```
+
+If the battle lasts long enough:
+
+```text
+23:15
+```
+
+The world time continues progressing.
+
+The battle does not automatically freeze world time unless the game mode explicitly requires it.
+
+---
+
+# 🗼 15. TOWER TIME
+
+The Tower of Rebirth is connected to the global Time System.
+
+Example:
+
+```text
+Master
+   ↓
+Enter Floor 20
+   ↓
+08:00
+   ↓
+Exploration
+   ↓
+Battle
+   ↓
+10:45
+   ↓
+Floor Event
+```
+
+The Tower can therefore contain time-based mechanics.
+
+Examples:
+
+```text
+Night-only enemy
+Morning-only NPC
+Time-limited event
+Timed dungeon
+Periodic boss
+Hidden route
+```
+
+---
+
+# ⏱️ 16. GAME TIME VS REAL TIME
+
+Aetheria should distinguish between:
+
+```text
+REAL TIME
+```
+
+and:
+
+```text
+GAME TIME
+```
+
+Real time:
+
+```text
+Actual player's computer time
+```
+
+Game time:
+
+```text
+Time inside Aetheria
+```
+
+The game should primarily use:
+
+> **GAME TIME**
+
+for world simulation.
+
+Example:
+
+```text
+Real Time:
+17:30
+
+Game Time:
+Day 42 — 08:15
+```
+
+These do not need to be identical.
+
+---
+
+# ⚡ 17. TIME SCALE
+
+The Time System supports configurable time speed.
+
+Example:
+
+```text
+1x
+2x
+5x
+10x
+50x
+100x
+```
+
+Meaning:
+
+```text
+1x
+Normal game time
+
+2x
+Game time moves twice as fast
+
+10x
+Game time moves ten times as fast
+```
+
+This is especially useful for:
+
+```text
+World Simulation
+NPC Simulation
+Testing
+Development
+Idle Activities
+Long Travel
+Training
+Recovery
+```
+
+---
+
+# ⏸️ 18. TIME PAUSE
+
+The Time System can support a controlled pause state.
+
+```text
+TIME
+ │
+ ├── RUNNING
+ └── PAUSED
+```
+
+When paused:
+
+```text
+Game Time
+    ↓
+STOP
+```
+
+However, certain systems may optionally continue operating if designed as real-time services.
+
+---
+
+# ⏩ 19. TIME FAST FORWARD
+
+The system can support controlled fast-forward.
+
+Example:
+
+```text
+Current:
+Day 10 — 08:00
+```
+
+Player chooses:
+
+```text
+Rest Until Morning
+```
+
+System advances:
+
+```text
+Day 10 — 08:00
+        ↓
+Day 11 — 06:00
+```
+
+The Game State System processes relevant state changes during the skipped period.
+
+---
+
+# 💤 20. REST SYSTEM CONNECTION
+
+Resting can advance game time.
+
+Example:
+
+```text
+Master chooses:
+REST
+```
+
+Current:
+
+```text
+18:00
+```
+
+After rest:
+
+```text
+06:00
+```
+
+The Time System advances:
+
+```text
+TIME
+18:00
+ ↓
+19:00
+ ↓
+20:00
+ ↓
+...
+ ↓
+06:00
+```
+
+The Game State System can process:
+
+```text
+HP Recovery
+Status Recovery
+NPC Movement
+Quest Updates
+Faction Activity
+Events
+```
+
+---
+
+# 🧭 21. TRAVEL TIME
+
+Travel between locations consumes game time.
+
+Example:
+
+```text
+Elysium
+   ↓
+Travel
+   ↓
+Elaria
+```
+
+Travel duration:
+
+```text
+18 Hours
+```
+
+Current time:
+
+```text
+Day 25 — 08:00
+```
+
+Arrival:
+
+```text
+Day 26 — 02:00
+```
+
+The world state may change during the journey.
+
+---
+
+# 🎯 22. QUEST TIME
+
+Quests can use the Time System.
+
+Example:
+
+```text
+QUEST_000125
+```
+
+Quest condition:
+
+```text
+Available:
+06:00–18:00
+```
+
+If the Master arrives at:
+
+```text
+22:00
+```
+
+the quest may become unavailable until morning.
+
+Another example:
+
+```text
+Quest Deadline:
+Day 30
+```
+
+The Time System tracks the deadline.
+
+---
+
+# ⏳ 23. TIMED QUEST
+
+Example:
+
+```text
+QUEST_000200
+
+Start:
+Day 15 — 08:00
+
+Deadline:
+Day 17 — 08:00
+```
+
+The Game State System calculates:
+
+```text
+Remaining Time:
+48 Hours
+```
+
+If the deadline passes:
+
+```text
+QUEST
+   ↓
+EXPIRED
+```
+
+---
+
+# 🎉 24. EVENT SYSTEM CONNECTION
+
+Events can be triggered by time.
+
+Example:
+
+```text
+EVENT_000001
+```
+
+Condition:
+
+```text
+Day 30
+18:00
+```
+
+When the Time System reaches:
+
+```text
+Day 30 — 18:00
+```
+
+the Game State System evaluates the event.
+
+```text
+TIME SYSTEM
+     ↓
+EVENT CONDITION
+     ↓
+GAME STATE SYSTEM
+     ↓
+EVENT ACTIVATED
+```
+
+---
+
+# 🏛️ 25. FACTION ACTIVITY
+
+Factions can perform activities based on time.
+
+Example:
+
+```text
+CULT OF ETERNAL NIGHT
+```
+
+Activity:
+
+```text
+Night:
+Secret Ritual
+```
+
+During:
+
+```text
+22:00–03:00
+```
+
+the Cult may increase its activity.
+
+The Game State System can update:
+
+```text
+Cult Influence
+Cult Activity
+NPC Disappearances
+Enemy Spawn
+Quest Availability
+```
+
+---
+
+# 🩸 26. CULT TIME ACTIVITY
+
+The Cult of Eternal Night may become more active at night.
+
+Example:
+
+```text
+DAY
+
+Cult Activity:
+LOW
+```
+
+```text
+NIGHT
+
+Cult Activity:
+HIGH
+```
+
+This does not mean every night automatically creates an attack.
+
+Instead, the Game State System evaluates probability and conditions.
+
+```text
+TIME
+ ↓
+CULT STATE
+ ↓
+EVENT CONDITIONS
+ ↓
+RNG
+ ↓
+EVENT
+```
+
+---
+
+# 👹 27. ENEMY TIME BEHAVIOR
+
+Certain enemies can have time-based behavior.
+
+Example:
+
+```text
+Enemy:
+Night Stalker
+```
+
+Active:
+
+```text
+22:00–05:00
+```
+
+Another:
+
+```text
+Sun Guardian
+```
+
+Active:
+
+```text
+06:00–18:00
+```
+
+Enemy activity therefore becomes part of the world simulation.
+
+---
+
+# 🌑 28. DESTRUCTION LEVEL + TIME
+
+The Tower's Destruction Level can also interact with time.
+
+Example:
+
+```text
+Floor 20
+Destruction:
+65%
+```
+
+At night:
+
+```text
+Corruption Activity:
++20%
+```
+
+This may influence:
+
+```text
+Enemy Spawn
+Cult Activity
+Environmental Hazards
+Mana Instability
+NPC Behavior
+```
+
+The final calculation is handled by the Game State System.
+
+---
+
+# 💾 29. DATABASE SYSTEM CONNECTION
+
+The Time System's persistent world time can be stored in the Database System.
+
+Example:
+
+```text
+WORLD_TIME
+
+Year
+Month
+Day
+Hour
+Minute
+Second
+TimeOfDay
+Season
+DayOfWeek
+```
+
+Example data:
+
+```text
+Year:
+001
+
+Month:
+05
+
+Day:
+27
+
+Hour:
+21
+
+Minute:
+45
+
+TimeOfDay:
+EVENING
+
+Season:
+SUMMER
+```
+
+---
+
+# 🔄 30. GAME STATE SYSTEM UPDATE
+
+The Time System provides time information.
+
+The **Game State System** determines what that time means for the world.
+
+Architecture:
+
+```text
+TIME SYSTEM
+     │
+     ▼
+CURRENT TIME
+     │
+     ▼
+GAME STATE SYSTEM
+     │
+ ┌───┼────┬────┬────┬────┐
+ │   │    │    │    │    │
+NPC World Quest Event Faction
+ │   │    │    │    │
+ └───┴────┴────┴────┴────┘
+             │
+             ▼
+       STATE CHANGES
+             │
+             ▼
+       DATABASE SYSTEM
+```
+
+---
+
+# 🧠 31. IMPORTANT RULE
+
+The Time System should **not directly control every game system**.
+
+Instead:
+
+```text
+TIME SYSTEM
+```
+
+provides:
+
+```text
+"What time is it?"
+```
+
+while:
+
+```text
+GAME STATE SYSTEM
+```
+
+determines:
+
+```text
+"What happens because of that time?"
+```
+
+This keeps the architecture modular.
+
+---
+
+# 🧱 32. TIME SYSTEM MODULES
+
+Recommended structure:
+
+```text
+TIME SYSTEM
+│
+├── TimeManager
+├── Clock
+├── Calendar
+├── TimeScale
+├── TimeOfDay
+├── SeasonManager
+├── TimeEventScheduler
+├── TimeCondition
+└── TimePersistence
+```
+
+### TimeManager
+
+Main coordinator.
+
+### Clock
+
+Tracks hour, minute, and second.
+
+### Calendar
+
+Tracks day, month, and year.
+
+### TimeScale
+
+Controls game-time speed.
+
+### TimeOfDay
+
+Determines morning, afternoon, evening, and night.
+
+### SeasonManager
+
+Controls seasonal progression.
+
+### TimeEventScheduler
+
+Schedules time-based events.
+
+### TimeCondition
+
+Checks conditions such as:
+
+```text
+Before
+After
+Between
+Exact Time
+Exact Date
+```
+
+### TimePersistence
+
+Stores world time in the Database System.
+
+---
+
+# 📋 33. TIME CONDITION TYPES
+
+Systems can query time conditions.
+
+```text
+IS_DAY
+IS_NIGHT
+IS_MORNING
+IS_AFTERNOON
+IS_EVENING
+IS_BEFORE
+IS_AFTER
+IS_BETWEEN
+IS_DATE
+IS_SEASON
+```
+
+Example:
+
+```text
+Condition:
+IS_NIGHT
+```
+
+Result:
+
+```text
+TRUE
+```
+
+---
+
+# 🗓️ 34. TIME EVENT SCHEDULER
+
+The Time System can maintain scheduled events.
+
+Example:
+
+```text
+EVENT_000125
+
+Trigger:
+Day 50
+20:00
+```
+
+Scheduler:
+
+```text
+CURRENT TIME
+Day 50 — 19:59
+
+       ↓
+
+Day 50 — 20:00
+
+       ↓
+
+TRIGGER EVENT
+```
+
+The event itself is then processed by the Game State System.
+
+---
+
+# 🔄 35. TIME UPDATE LOOP
+
+```text
+GAME LOOP
+    │
+    ▼
+TIME SYSTEM
+    │
+    ▼
+ADVANCE TIME
+    │
+    ▼
+UPDATE CLOCK
+    │
+    ▼
+UPDATE CALENDAR
+    │
+    ▼
+CHECK TIME CONDITIONS
+    │
+    ▼
+GAME STATE SYSTEM
+    │
+    ▼
+PROCESS WORLD CHANGES
+    │
+    ▼
+DATABASE SAVE
+```
+
+---
+
+# 🌎 36. WORLD SIMULATION LOOP
+
+```text
+                 TIME PASSES
+                      │
+                      ▼
+                 TIME SYSTEM
+                      │
+                      ▼
+              GAME STATE SYSTEM
+                      │
+        ┌─────────────┼─────────────┐
+        │             │             │
+       NPC          FACTION        EVENT
+        │             │             │
+        └─────────────┼─────────────┘
+                      │
+                      ▼
+                 WORLD STATE
+                      │
+                      ▼
+                 DATABASE
+```
+
+This allows Aetheria to behave like a living simulation.
+
+---
+
+# 💀 37. TIME + CHARACTER HISTORY
+
+Character history can use timestamps.
+
+Example:
+
+```text
+CHAR_000125
+
+Created:
+Day 05
+
+Recruited:
+Day 12
+
+First Dungeon:
+Day 13
+
+Reached Star 4:
+Day 30
+
+Death:
+Day 72
+```
+
+This creates a persistent timeline for characters.
+
+---
+
+# 👑 38. TIME + MASTER PROGRESSION
+
+The Master can also have a progression timeline.
+
+Example:
+
+```text
+MASTER_000001
+
+Started:
+Day 01
+
+Floor 10:
+Day 12
+
+Floor 20:
+Day 28
+
+Floor 30:
+Day 51
+```
+
+This allows the game to track how long the Master took to progress.
+
+---
+
+# 🗼 39. TIME + FLOOR PROGRESSION
+
+Each Tower Floor can maintain timestamps.
+
+Example:
+
+```text
+FLOOR_020
+
+First Entered:
+Day 28
+
+Cleared:
+Day 31
+
+Clear Time:
+3 Days
+```
+
+This can later be used for:
+
+```text
+Ranking
+Achievements
+Statistics
+Events
+Difficulty
+World State
+```
+
+---
+
+# 🧬 40. TIME + WORLD HISTORY
+
+Aetheria can maintain a historical timeline.
+
+Example:
+
+```text
+DAY 000
+The Night of Ruin
+
+DAY 001
+Tower of Rebirth Appears
+
+DAY 005
+First Master Selected
+
+DAY 012
+First Floor Cleared
+
+DAY 050
+Cult Rebellion
+
+DAY 100
+Major Tower Event
+```
+
+This timeline can become part of the world's history.
+
+---
+
+# 📖 41. STORY SYSTEM CONNECTION
+
+Story events can use time conditions.
+
+Example:
+
+```text
+STORY_000125
+
+Requirement:
+
+Floor >= 20
+AND
+Day >= 30
+AND
+Night
+AND
+Cult Influence >= 50
+```
+
+The Game State System checks the conditions.
+
+If all conditions are satisfied:
+
+```text
+STORY EVENT
+ACTIVATED
+```
+
+---
+
+# 💡 42. TIME-BASED DECISIONS
+
+The Master may face decisions where timing matters.
+
+Example:
+
+```text
+Village Attack
+
+Available:
+Day 45
+18:00–22:00
+```
+
+If the Master arrives at:
+
+```text
+17:00
+```
+
+they may prepare.
+
+If they arrive at:
+
+```text
+21:30
+```
+
+the village may already be under attack.
+
+If they arrive at:
+
+```text
+23:00
+```
+
+the event may already be over.
+
+This makes time part of gameplay rather than merely decoration.
+
+---
+
+# 🔐 43. TIME DATA INTEGRITY
+
+The Time System must prevent invalid states.
+
+Examples:
+
+```text
+Hour = 27
+```
+
+Invalid.
+
+```text
+Minute = 75
+```
+
+Invalid.
+
+Correct:
+
+```text
+Hour = 23
+Minute = 45
+```
+
+Calendar transitions must also be handled automatically.
+
+Example:
+
+```text
+Day 30 — 23:59
+        ↓
+Day 31 — 00:00
+```
+
+---
+
+# 💾 44. SAVE / LOAD
+
+When the game is saved:
+
+```text
+TIME SYSTEM
+     ↓
+CURRENT WORLD TIME
+     ↓
+DATABASE SYSTEM
+```
+
+Example:
+
+```text
+SAVE_000001
+
+WorldTime:
+Year 001
+Month 05
+Day 27
+21:45
+```
+
+When loading:
+
+```text
+DATABASE
+   ↓
+WORLD TIME
+   ↓
+TIME SYSTEM
+   ↓
+GAME STATE SYSTEM
+   ↓
+WORLD RESTORED
+```
+
+---
+
+# 🔄 45. COMPLETE SYSTEM RELATIONSHIP
+
+```text
+                         AETHERIA
+                            │
+                            ▼
+                      GAME MANAGER
+                            │
+            ┌───────────────┼───────────────┐
+            │               │               │
+            ▼               ▼               ▼
+       TIME SYSTEM     GAME STATE       ID SYSTEM
+                            │               │
+                            ▼               │
+                     WORLD SIMULATION       │
+                            │               │
+              ┌─────────────┼─────────────┐ │
+              │             │             │ │
+             NPC         CHARACTER      FACTION
+              │             │             │ │
+              └─────────────┼─────────────┘ │
+                            │               │
+                            ▼               │
+                         EVENTS             │
+                            │               │
+                            └───────┬───────┘
+                                    ▼
+                              DATABASE SYSTEM
+```
+
+---
+
+# 🧱 46. SYSTEM RESPONSIBILITY
+
+The architecture follows this principle:
+
+### Time System
+
+> **"When is it?"**
+
+### Game State System
+
+> **"What happens because it is that time?"**
+
+### ID System
+
+> **"Which entity is affected?"**
+
+### Database System
+
+> **"What is the persistent state?"**
+
+### Game Manager
+
+> **"How do all systems operate together?"**
+
+---
+
+# ✨ 47. FINAL TIME SYSTEM PRINCIPLE
+
+Aetheria is not a static world.
+
+Time continues.
+
+```text
+Morning
+   ↓
+Afternoon
+   ↓
+Evening
+   ↓
+Night
+   ↓
+Next Day
+   ↓
+Next Week
+   ↓
+Next Month
+   ↓
+Next Season
+   ↓
+Next Year
+```
+
+Every passage of time can potentially change the world.
+
+```text
+TIME
+ ↓
+GAME STATE
+ ↓
+NPC
+ ↓
+CHARACTER
+ ↓
+FACTION
+ ↓
+QUEST
+ ↓
+EVENT
+ ↓
+WORLD
+ ↓
+DATABASE
+```
+
+> **The Master may stop playing.**
+>
+> **The world does not have to stop existing.**
+
+The **Time System** therefore becomes one of the fundamental simulation systems of Aetheria, providing the temporal foundation required for the **Game State System** to continuously update and evolve the world.
