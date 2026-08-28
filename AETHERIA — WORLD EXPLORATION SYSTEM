@@ -1,0 +1,1868 @@
+# 🌍 AETHERIA — WORLD EXPLORATION SYSTEM
+
+> **The world is gone.**
+>
+> But the Tower remembers it.
+>
+> Inside the Tower of Rebirth exist fragments of the world that was destroyed.
+>
+> The Master can enter these fragments to explore lost civilizations, discover forgotten history, find survivors, recover resources, and uncover the truth about Nythar.
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+**World Exploration System** adalah salah satu fitur utama dari:
+
+```text
+DUNGEON / TOWER SYSTEM
+```
+
+World Exploration memungkinkan Master menjelajahi **rekonstruksi wilayah Aetheria sebelum kehancuran**.
+
+Berbeda dengan Dungeon Combat biasa, World Exploration lebih berfokus pada:
+
+```text
+Exploration
+Discovery
+Story
+NPC
+Character
+Resource
+Ancient Knowledge
+Faction
+Hidden Location
+Quest
+Event
+Lore
+```
+
+Namun Combat tetap dapat terjadi apabila Master menemukan:
+
+```text
+Monster
+Cult
+Enemy
+Boss
+Guardian
+Hostile Faction
+```
+
+---
+
+# 2. WORLD EXPLORATION POSITION
+
+Struktur Dungeon System:
+
+```text
+TOWER OF REBIRTH
+│
+├── Floor Progression
+│
+├── Dungeon
+│   ├── Combat Dungeon
+│   ├── Boss Dungeon
+│   └── Raid Boss
+│
+├── World Exploration
+│   ├── Ruined City
+│   ├── Lost Kingdom
+│   ├── Ancient Civilization
+│   ├── Lost Dungeon
+│   ├── Ancient Battlefield
+│   ├── Ancient Academy
+│   ├── Forgotten Village
+│   └── Unknown Region
+│
+└── Special Floor Content
+```
+
+World Exploration tetap berada di dalam Tower.
+
+---
+
+# 3. CORE CONCEPT
+
+World Exploration bukan berarti Master benar-benar melakukan perjalanan kembali ke masa lalu.
+
+Yang ditemukan Master adalah:
+
+> **World Echo**
+
+World Echo adalah fragmen dunia lama yang tersimpan di dalam Tower.
+
+```text
+OLD AETHERIA
+      │
+      ▼
+WORLD DESTRUCTION
+      │
+      ▼
+WORLD FRAGMENT
+      │
+      ▼
+TOWER OF REBIRTH
+      │
+      ▼
+WORLD EXPLORATION
+```
+
+Karena itu, kondisi dunia yang ditemukan dapat berbeda dengan kondisi asli sebelum kehancuran.
+
+---
+
+# 4. WORLD ECHO
+
+Setiap Exploration Area memiliki:
+
+```text
+World Echo ID
+Location ID
+Original Civilization
+Original Faction
+Historical Period
+Destruction State
+Current State
+Discovery Progress
+```
+
+Contoh:
+
+```text
+WORLD ECHO
+
+ID:
+ECHO-000001
+
+Location:
+Elysium
+
+Original Civilization:
+Aurelian Empire
+
+State:
+Corrupted Fragment
+
+Discovery:
+35%
+```
+
+---
+
+# 5. EXPLORATION AREA
+
+Setiap area memiliki ukuran dan struktur berbeda.
+
+Contoh:
+
+```text
+ELYSIUM ECHO
+│
+├── Imperial Palace
+├── Adventurer Guild
+├── Magic Academy
+├── Grand Library
+├── Merchant District
+├── Temple District
+├── Arena
+├── Residential District
+└── Underground Ruins
+```
+
+Master tidak selalu langsung mengetahui seluruh lokasi.
+
+---
+
+# 6. FOG OF DISCOVERY
+
+Area awalnya tidak seluruhnya terbuka.
+
+```text
+UNKNOWN
+  ↓
+DISCOVERED
+  ↓
+EXPLORED
+  ↓
+FULLY EXPLORED
+```
+
+Contoh:
+
+```text
+Elysium
+     
+Palace          █████
+Guild           █████
+Library         ███░░
+Academy         ██░░░
+Underground     ░░░░░
+```
+
+Semakin banyak area dijelajahi, semakin banyak informasi yang ditemukan.
+
+---
+
+# 7. EXPLORATION PROGRESS
+
+Setiap World Exploration memiliki progress.
+
+```text
+0%
+ ↓
+25%
+ ↓
+50%
+ ↓
+75%
+ ↓
+100%
+```
+
+Progress dapat berasal dari:
+
+```text
+Discover Location
+Find NPC
+Complete Quest
+Find Artifact
+Defeat Guardian
+Read Ancient Record
+Find Hidden Area
+Solve Puzzle
+Discover Secret
+```
+
+---
+
+# 8. EXPLORATION OBJECTIVE
+
+World Exploration dapat memiliki objective.
+
+Contoh:
+
+```text
+EXPLORE ELYSIUM
+
+Objectives:
+
+[ ] Discover Imperial Palace
+[ ] Find Grand Library
+[ ] Investigate Cult Activity
+[ ] Find Ancient Record
+[ ] Discover Underground Ruins
+```
+
+Objective terhubung dengan:
+
+```text
+QUEST SYSTEM
+```
+
+---
+
+# 9. EXPLORATION + QUEST SYSTEM
+
+Flow:
+
+```text
+ENTER WORLD EXPLORATION
+          ↓
+DISCOVERY
+          ↓
+QUEST TRIGGER
+          ↓
+OBJECTIVE
+          ↓
+ACTION
+          ↓
+QUEST RESULT
+          ↓
+WORLD STATE
+```
+
+Contoh:
+
+```text
+Explore Elysium
+      ↓
+Discover Abandoned Library
+      ↓
+Quest Trigger
+      ↓
+Search Ancient Records
+      ↓
+Discover Cult Information
+```
+
+---
+
+# 10. EXPLORATION EVENT
+
+Saat menjelajah, sistem dapat menghasilkan Event.
+
+```text
+EXPLORATION
+     ↓
+RNG SYSTEM
+     ↓
+EVENT
+```
+
+Possible Event:
+
+```text
+Ancient Survivor
+Monster Ambush
+Cult Encounter
+Hidden Treasure
+Ancient Artifact
+Lost Knowledge
+Trap
+Secret Passage
+Rare NPC
+Boss Encounter
+Memory Fragment
+```
+
+---
+
+# 11. RNG EXPLORATION
+
+World Exploration menggunakan **RNG System** sebagai salah satu sumber hasil eksplorasi.
+
+RNG menentukan kemungkinan munculnya:
+
+```text
+NPC
+Enemy
+Loot
+Artifact
+Event
+Hidden Location
+Quest
+Resource
+Boss
+Rare Discovery
+```
+
+Namun RNG tetap mengikuti:
+
+```text
+GAME STATE
+FLOOR STATE
+EXPLORATION STATE
+DESTRUCTION LEVEL
+```
+
+---
+
+# 12. RNG EXAMPLE
+
+Contoh:
+
+```text
+Master explores Ancient Library
+             ↓
+       Exploration RNG
+             ↓
+      ┌──────┼──────┐
+      ↓      ↓      ↓
+   Nothing  Item   Event
+```
+
+Jika mendapatkan Event:
+
+```text
+EVENT RNG
+   ↓
+Ancient Scholar
+```
+
+Jika mendapatkan Item:
+
+```text
+LOOT RNG
+   ↓
+Ancient Manuscript
+```
+
+---
+
+# 13. DESTRUCTION LEVEL
+
+World Exploration mengikuti:
+
+```text
+CORE WORLD BUILDING
+        ↓
+DESTRUCTION LEVEL
+```
+
+Semakin tinggi Destruction Level:
+
+```text
+Environment
+Enemy
+Resource
+Event
+NPC Survival
+Exploration Difficulty
+```
+
+dapat berubah.
+
+Contoh:
+
+```text
+Floor 10
+Destruction:
+55%
+
+Elysium:
+Partially Stable
+```
+
+Sedangkan:
+
+```text
+Floor 70
+Destruction:
+90%
+
+Elysium:
+Severely Collapsed
+```
+
+---
+
+# 14. DESTRUCTION EFFECT
+
+Destruction dapat memengaruhi area.
+
+```text
+LOW DESTRUCTION
+│
+├── More NPC
+├── More Resources
+├── Stable Environment
+└── Easier Exploration
+
+HIGH DESTRUCTION
+│
+├── Fewer NPC
+├── Rare Resources
+├── Stronger Enemy
+├── Environmental Hazard
+└── Higher Death Risk
+```
+
+---
+
+# 15. EXPLORATION DIFFICULTY
+
+Difficulty ditentukan berdasarkan beberapa faktor.
+
+```text
+EXPLORATION DIFFICULTY
+=
+Floor Level
++
+Destruction Level
++
+World State
++
+Enemy State
++
+Event State
+```
+
+Master tidak memilih difficulty secara manual untuk setiap area.
+
+Difficulty terutama berasal dari kondisi dunia.
+
+---
+
+# 16. PARTY REQUIREMENT
+
+World Exploration dilakukan menggunakan Party.
+
+Party mengikuti:
+
+```text
+PARTY SYSTEM
+```
+
+Maximum:
+
+```text
+5 Heroes
+```
+
+Party dapat memiliki:
+
+```text
+Leader
+Tank
+Damage Dealer
+Support
+Healer
+Specialist
+```
+
+Komposisi memengaruhi kemampuan eksplorasi.
+
+---
+
+# 17. HERO EXPLORATION TRAITS
+
+Hero memiliki trait yang dapat memengaruhi Exploration.
+
+Contoh:
+
+```text
+ARCHER
+→ Detect distant threats
+
+ROGUE
+→ Detect traps
+
+MAGE
+→ Detect magical objects
+
+SCHOLAR
+→ Understand ancient records
+
+DWARF
+→ Detect mining resources
+
+ELF
+→ Detect nature-related locations
+
+BEASTFOLK
+→ Detect hidden enemies
+```
+
+Trait berasal dari:
+
+```text
+CHARACTER SYSTEM
+AI CHARACTER SYSTEM
+```
+
+---
+
+# 18. AI CHARACTER DURING EXPLORATION
+
+Hero tidak hanya menjadi unit pasif.
+
+AI Character menentukan reaksi mereka.
+
+Contoh:
+
+```text
+Hero discovers destroyed homeland
+        ↓
+EMOTIONAL SYSTEM
+        ↓
+Sadness ↑
+        ↓
+AI CHARACTER
+        ↓
+Dialogue / Behavior
+```
+
+Hero dapat:
+
+```text
+Comment
+Refuse
+Investigate
+Warn
+Suggest
+Become Emotional
+Recall Memory
+Interact with NPC
+```
+
+---
+
+# 19. EMOTIONAL EXPLORATION
+
+Emotional State dapat memengaruhi Exploration.
+
+Contoh:
+
+```text
+Hero:
+Anger HIGH
+
+Location:
+Cult Shrine
+
+Possible Behavior:
+Aggressive
+```
+
+atau:
+
+```text
+Hero:
+Fear HIGH
+
+Location:
+Dark Ruins
+
+Possible Behavior:
+Cautious
+```
+
+---
+
+# 20. AI FAIRY EXPLORATION
+
+AI Fairy bertugas mengamati kondisi Exploration.
+
+Fairy dapat memberikan:
+
+```text
+Location Report
+Enemy Report
+Resource Report
+Quest Report
+Hero Condition
+Emotional Observation
+Risk Warning
+Discovery Report
+```
+
+Contoh:
+
+> **Fairy:**
+> "Master, this area contains traces of an ancient civilization."
+
+> **Fairy:**
+> "I detect abnormal mana fluctuations ahead."
+
+> **Fairy:**
+> "One of the Heroes appears emotionally affected by this location."
+
+---
+
+# 21. EXPLORATION INTERACTION
+
+Master dapat melakukan interaksi dengan objek.
+
+```text
+OBJECT
+│
+├── Examine
+├── Open
+├── Search
+├── Collect
+├── Read
+├── Destroy
+├── Activate
+└── Ignore
+```
+
+Pilihan dapat menghasilkan konsekuensi berbeda.
+
+---
+
+# 22. EXPLORATION DECISION
+
+Contoh:
+
+```text
+Ancient Artifact Found
+        │
+   ┌────┼────┐
+   ▼    ▼    ▼
+Take  Study  Leave
+```
+
+Hasil:
+
+```text
+TAKE
+→ Item
+
+STUDY
+→ Knowledge
+
+LEAVE
+→ Future Event
+```
+
+Keputusan disimpan oleh Game State System.
+
+---
+
+# 23. NPC DISCOVERY
+
+World Exploration dapat menemukan NPC.
+
+```text
+EXPLORATION
+     ↓
+NPC DISCOVERY
+     ↓
+NPC ID GENERATED / LOADED
+     ↓
+DATABASE
+```
+
+NPC dapat menjadi:
+
+```text
+Quest Giver
+Merchant
+Survivor
+Enemy
+Potential Recruit
+Faction Member
+Leader Candidate
+Informant
+```
+
+---
+
+# 24. SURVIVOR DISCOVERY
+
+Salah satu fitur penting World Exploration adalah menemukan survivor.
+
+Contoh:
+
+```text
+Explore Ruined Village
+        ↓
+Survivor Detected
+        ↓
+Interaction
+        ↓
+Quest
+        ↓
+Save Survivor
+        ↓
+Town Square
+```
+
+Survivor kemudian dapat:
+
+```text
+Join Town
+Become NPC
+Become Recruitable Character
+Join Facility
+Provide Information
+```
+
+---
+
+# 25. RECRUITMENT CONNECTION
+
+Jika survivor memenuhi kondisi recruitment:
+
+```text
+SURVIVOR
+   ↓
+RECRUITMENT CONDITION
+   ↓
+RECRUITMENT SYSTEM
+   ↓
+RNG / CHARACTER SYSTEM
+   ↓
+HERO
+```
+
+Recruitment tetap mengikuti aturan:
+
+```text
+NO DUPLICATE HERO
+```
+
+---
+
+# 26. CULT DISCOVERY
+
+World Exploration dapat menemukan aktivitas:
+
+```text
+CULT OF ETERNAL NIGHT
+```
+
+Contoh:
+
+```text
+Ancient Temple
+      ↓
+Cult Symbol
+      ↓
+Investigation
+      ↓
+Cult Quest
+      ↓
+Cult Event
+```
+
+Master dapat menemukan:
+
+```text
+Cult Member
+Cult Cell
+Cult Artifact
+Dark Ritual
+Cult Leader
+Ancient Record
+```
+
+---
+
+# 27. FACTION DISCOVERY
+
+Exploration dapat menemukan jejak faction lama.
+
+```text
+VALERIA
+AURELIA
+AURELIAN EMPIRE
+ELARIA
+KARAK-DUR
+BEASTFOLK
+DRACONIS
+DEMON DOMINION
+ATLANTIA
+GUILDS
+CULT
+```
+
+Discovery dapat membuka:
+
+```text
+Faction Quest
+Faction Reputation
+Faction Story
+Faction NPC
+Faction Event
+```
+
+---
+
+# 28. ANCIENT KNOWLEDGE
+
+World Exploration merupakan sumber utama pengetahuan dunia lama.
+
+Contoh:
+
+```text
+Ancient History
+Magic
+Technology
+Religion
+Military
+Engineering
+Culture
+Geography
+Nythar
+Cult
+```
+
+Knowledge dapat disimpan sebagai:
+
+```text
+LORE DATA
+```
+
+---
+
+# 29. MEMORY FRAGMENT
+
+Beberapa lokasi memiliki Memory Fragment.
+
+```text
+LOCATION
+ ↓
+MEMORY FRAGMENT
+ ↓
+CHARACTER / WORLD STORY
+```
+
+Memory dapat memperlihatkan:
+
+```text
+Past Event
+Character History
+Kingdom History
+Cult History
+Nythar History
+World Destruction
+```
+
+Memory Fragment dapat membuka Hidden Quest.
+
+---
+
+# 30. EXPLORATION COMBAT
+
+Combat dapat terjadi secara dinamis.
+
+```text
+EXPLORATION
+     ↓
+ENCOUNTER
+     ↓
+COMBAT
+     ↓
+BASIC COMBAT SYSTEM
+```
+
+Combat menggunakan:
+
+```text
+Hero AI
+Emotional State
+Party Composition
+Enemy AI
+Floor Difficulty
+Destruction Level
+```
+
+AI Fairy tetap melakukan observasi terhadap pertempuran.
+
+---
+
+# 31. ENEMY ENCOUNTER
+
+Enemy dapat muncul berdasarkan:
+
+```text
+Floor
+Location
+Destruction Level
+World State
+RNG
+Event
+```
+
+Contoh:
+
+```text
+Ruined City
+ ↓
+RNG
+ ↓
+Cult Patrol
+```
+
+atau:
+
+```text
+Ancient Forest
+ ↓
+RNG
+ ↓
+Corrupted Beast
+```
+
+---
+
+# 32. BOSS DISCOVERY
+
+Exploration dapat menemukan Boss.
+
+```text
+EXPLORE
+ ↓
+HIDDEN LOCATION
+ ↓
+BOSS
+ ↓
+BOSS BATTLE
+```
+
+Boss dapat memberikan:
+
+```text
+RNG LOOT
+Quest Progress
+Exploration Progress
+Rare Item
+Ancient Artifact
+```
+
+---
+
+# 33. EXPLORATION LOOT
+
+Loot mengikuti:
+
+```text
+RNG SYSTEM
+```
+
+Sumber loot:
+
+```text
+Chest
+Enemy
+Boss
+Hidden Location
+Ancient Ruins
+NPC
+Quest
+Exploration Reward
+```
+
+Loot kemudian:
+
+```text
+RNG
+ ↓
+ITEM
+ ↓
+ITEM ID
+ ↓
+INVENTORY
+ ↓
+DATABASE
+```
+
+---
+
+# 34. EXPLORATION REWARD
+
+Saat Exploration mencapai milestone:
+
+```text
+25%
+50%
+75%
+100%
+```
+
+Master dapat menerima reward.
+
+Reward dapat berupa:
+
+```text
+Gold
+Gem
+Ticket
+Item
+Equipment
+Material
+Artifact
+Character
+Knowledge
+Special Reward
+```
+
+Reward diproses melalui:
+
+```text
+RNG SYSTEM
+```
+
+---
+
+# 35. FULL EXPLORATION
+
+Saat:
+
+```text
+Exploration Progress = 100%
+```
+
+maka area dianggap:
+
+```text
+FULLY EXPLORED
+```
+
+Tetapi area tidak harus menjadi tidak berguna.
+
+Area dapat berubah menjadi:
+
+```text
+Farming Area
+Resource Area
+Quest Area
+Event Area
+NPC Area
+Story Area
+```
+
+---
+
+# 36. RE-EXPLORATION
+
+Master dapat kembali ke area tertentu.
+
+Namun hasil dapat berbeda karena:
+
+```text
+Game State
+Time
+Event
+Destruction
+Faction Activity
+Enemy Activity
+Quest Progress
+```
+
+Contoh:
+
+```text
+FIRST VISIT
+→ Empty Village
+
+SECOND VISIT
+→ Survivors discovered
+
+THIRD VISIT
+→ Cult attack
+```
+
+---
+
+# 37. TIME SYSTEM
+
+World Exploration mengikuti Time System.
+
+Waktu dapat memengaruhi:
+
+```text
+NPC
+Enemy
+Event
+Quest
+Resource
+Environment
+Encounter
+```
+
+Contoh:
+
+```text
+DAY
+→ NPC active
+
+NIGHT
+→ Monsters active
+```
+
+---
+
+# 38. EXPLORATION COST
+
+World Exploration dapat menggunakan resource sesuai desain game.
+
+Namun biaya tidak harus selalu berupa Energy.
+
+Sistem dapat menggunakan:
+
+```text
+Time
+Party Availability
+Required Item
+Quest Requirement
+Floor Requirement
+```
+
+Karena Master System tidak menggunakan Energy sebagai mekanik utama.
+
+---
+
+# 39. EXPLORATION STATE
+
+Setiap area memiliki state:
+
+```text
+UNKNOWN
+DISCOVERED
+EXPLORING
+PARTIALLY_EXPLORED
+FULLY_EXPLORED
+LOCKED
+UNSTABLE
+DESTROYED
+```
+
+---
+
+# 40. EXPLORATION DATABASE
+
+Data Exploration disimpan dalam Database System.
+
+Contoh:
+
+```text
+EXPLORATION ID:
+EXP-000125
+
+WORLD ECHO ID:
+ECHO-000021
+
+FLOOR ID:
+FLOOR-010
+
+LOCATION:
+Elysium
+
+PARTY ID:
+PARTY-001
+
+PROGRESS:
+72%
+
+STATE:
+PARTIALLY_EXPLORED
+
+DISCOVERED LOCATIONS:
+12
+
+DISCOVERED NPC:
+5
+
+QUEST COMPLETED:
+4
+
+BOSS DEFEATED:
+1
+```
+
+---
+
+# 41. GAME STATE UPDATE
+
+World Exploration tidak boleh mengubah Database secara sembarangan.
+
+Flow:
+
+```text
+WORLD EXPLORATION
+       ↓
+ACTION
+       ↓
+GAME STATE SYSTEM
+       ↓
+VALIDATION
+       ↓
+STATE CHANGE
+       ↓
+DATABASE
+```
+
+---
+
+# 42. INVENTORY SYNCHRONIZATION
+
+Semua item yang ditemukan:
+
+```text
+Exploration
+ ↓
+Loot
+ ↓
+RNG
+ ↓
+Item ID
+ ↓
+Inventory
+ ↓
+Database
+```
+
+AI Fairy wajib memberikan laporan.
+
+> **Fairy:**
+> "Master, the exploration reward has been synchronized with the Inventory."
+
+---
+
+# 43. MASTER REPORT
+
+Setelah Exploration selesai:
+
+```text
+EXPLORATION REPORT
+
+Location:
+Elysium
+
+Progress:
+72%
+
+Discoveries:
+8
+
+NPC:
+3
+
+Enemies:
+14
+
+Boss:
+1
+
+Quest:
+2
+
+Items:
+5
+
+World State:
+Updated
+```
+
+---
+
+# 44. EXPLORATION HISTORY
+
+Semua aktivitas dicatat.
+
+```text
+EXPLORATION HISTORY
+
+EXP-000125
+
+Floor:
+10
+
+Location:
+Elysium
+
+Party:
+PARTY-001
+
+Start:
+Day 125
+
+End:
+Day 126
+
+Progress:
+72%
+
+Result:
+Successful
+```
+
+---
+
+# 45. EXPLORATION + WORLD STATE
+
+World Exploration dapat mengubah dunia.
+
+Contoh:
+
+```text
+Discover Survivor
+        ↓
+Save Survivor
+        ↓
+NPC joins Town
+        ↓
+Town Population +1
+        ↓
+Town State Updated
+```
+
+Atau:
+
+```text
+Cult Base Discovered
+        ↓
+Cult State Updated
+        ↓
+Cult Activity Increased
+        ↓
+Emergency Event
+```
+
+---
+
+# 46. EXPLORATION + TOWN SQUARE
+
+Survivor dan resource dari Exploration dapat digunakan Town.
+
+```text
+WORLD EXPLORATION
+       ↓
+SURVIVOR
+       ↓
+TOWN SQUARE
+       ↓
+FACILITY
+```
+
+Contoh:
+
+```text
+Dwarf Blacksmith Found
+       ↓
+Rescue
+       ↓
+Town
+       ↓
+Blacksmith Facility
+       ↓
+Leader Candidate
+```
+
+Namun fasilitas tetap mengikuti aturan:
+
+> **Tanpa Leader, fasilitas belum dapat berjalan normal.**
+
+---
+
+# 47. EXPLORATION + TRAINING GROUND
+
+Hero yang melakukan Exploration tetap terdaftar sebagai Party member.
+
+Setelah kembali:
+
+```text
+EXPLORATION COMPLETE
+        ↓
+PARTY RETURNS
+        ↓
+TRAINING GROUND
+```
+
+Training Ground dapat memberikan perkembangan sesuai sistem Training.
+
+AI Fairy melaporkan efek terhadap Hero.
+
+---
+
+# 48. EXPLORATION + CHARACTER DEVELOPMENT
+
+Exploration dapat memengaruhi Hero:
+
+```text
+EXP
+Stat
+Emotion
+Relationship
+Trait
+Memory
+Skill
+Character Story
+```
+
+Perubahan permanen:
+
+```text
+GAME STATE
+ ↓
+CHARACTER DATA
+ ↓
+DATABASE
+```
+
+Perubahan melekat pada:
+
+```text
+HERO ID
+```
+
+---
+
+# 49. EXPLORATION + STAR UP
+
+Exploration dapat menemukan:
+
+```text
+Star Up Material
+Rare Material
+Ancient Artifact
+Special Quest
+```
+
+yang dapat mendukung:
+
+```text
+STAR UP SYSTEM
+```
+
+Untuk Hero:
+
+```text
+STAR 6
+→ Rare Skill
+
+STAR 7
+→ Ultimate Skill
+```
+
+World Exploration dapat menjadi salah satu sumber material atau Quest untuk perkembangan tersebut.
+
+---
+
+# 50. EXPLORATION FAILURE
+
+Exploration dapat gagal.
+
+Penyebab:
+
+```text
+Party Defeated
+Time Expired
+Area Collapse
+Critical Event
+Party Forced Retreat
+```
+
+Tidak semua failure berarti Game Over.
+
+Master dapat:
+
+```text
+Retreat
+Retry
+Continue Later
+```
+
+Namun konsekuensi tertentu dapat tetap masuk ke Game State.
+
+---
+
+# 51. PERMANENT CONSEQUENCE
+
+Contoh:
+
+```text
+Master ignores survivor
+        ↓
+Survivor disappears
+        ↓
+Future Quest unavailable
+```
+
+atau:
+
+```text
+Master destroys Cult Base
+        ↓
+Cult loses influence
+        ↓
+Future Event changes
+```
+
+Dengan demikian Exploration dapat membentuk dunia.
+
+---
+
+# 52. EXPLORATION GENERATION
+
+World Exploration dapat dibuat dari:
+
+```text
+CORE WORLD BUILDING
+        ↓
+FLOOR DATA
+        ↓
+WORLD ECHO
+        ↓
+GAME STATE
+        ↓
+RNG
+        ↓
+EXPLORATION CONTENT
+```
+
+AI dapat membantu menghasilkan:
+
+```text
+Location Description
+NPC Situation
+Environmental Story
+Encounter
+Quest
+Dialogue
+Discovery
+```
+
+Tetapi hasil tetap harus divalidasi oleh Game State System.
+
+---
+
+# 53. AI EXPLORATION RULE
+
+AI tidak boleh langsung membuat:
+
+```text
+Hero
+Item
+NPC
+Reward
+World State
+Quest Result
+```
+
+tanpa melalui sistem resmi.
+
+Flow:
+
+```text
+AI
+ ↓
+PROPOSAL
+ ↓
+GAME STATE VALIDATION
+ ↓
+RNG / RULE
+ ↓
+EXECUTION
+ ↓
+DATABASE
+```
+
+---
+
+# 54. EXPLORATION LOOP
+
+```text
+                  ENTER FLOOR
+                       │
+                       ▼
+               WORLD EXPLORATION
+                       │
+                       ▼
+                  DISCOVERY
+                       │
+             ┌─────────┼─────────┐
+             ▼         ▼         ▼
+           AREA       NPC       EVENT
+             │         │         │
+             └─────────┼─────────┘
+                       ▼
+                      RNG
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+        COMBAT        QUEST        LOOT
+          │            │            │
+          └────────────┼────────────┘
+                       ▼
+                 GAME STATE
+                       │
+                       ▼
+                    RESULT
+                       │
+             ┌─────────┼─────────┐
+             ▼         ▼         ▼
+            HERO      WORLD      TOWN
+             │         │         │
+             └─────────┼─────────┘
+                       ▼
+                    DATABASE
+                       │
+                       ▼
+                   AI FAIRY
+                       │
+                       ▼
+                     MASTER
+```
+
+---
+
+# 55. COMPLETE SYSTEM CONNECTION
+
+```text
+                         AETHERIA
+                            │
+                            ▼
+                   CORE WORLD BUILDING
+                            │
+                            ▼
+                   TOWER OF REBIRTH
+                            │
+                            ▼
+                    DUNGEON SYSTEM
+                            │
+                 ┌──────────┴──────────┐
+                 │                     │
+                 ▼                     ▼
+             COMBAT               WORLD EXPLORATION
+                                       │
+                 ┌─────────────────────┼─────────────────────┐
+                 │                     │                     │
+                 ▼                     ▼                     ▼
+               QUEST                  NPC                  EVENT
+                 │                     │                     │
+                 ▼                     ▼                     ▼
+              FACTION               HERO                 DISCOVERY
+                 │                     │                     │
+                 └─────────────────────┼─────────────────────┘
+                                       ▼
+                                  RNG SYSTEM
+                                       │
+                              ┌────────┼────────┐
+                              ▼        ▼        ▼
+                             LOOT     NPC      EVENT
+                              │
+                              ▼
+                           INVENTORY
+                              │
+                              ▼
+                         GAME STATE
+                              │
+                    ┌─────────┼─────────┐
+                    ▼         ▼         ▼
+                  HERO       TOWN      WORLD
+                    │         │         │
+                    └─────────┼─────────┘
+                              ▼
+                           DATABASE
+                              │
+                              ▼
+                          AI FAIRY
+                              │
+                              ▼
+                            MASTER
+```
+
+---
+
+# 56. CORE RULES
+
+### RULE 01
+
+World Exploration adalah fitur dari **Dungeon / Tower System**.
+
+### RULE 02
+
+World Exploration menggunakan konsep **World Echo**, yaitu fragmen dunia Aetheria sebelum kehancuran.
+
+### RULE 03
+
+World Exploration mengikuti Floor dan Destruction Level.
+
+### RULE 04
+
+Exploration dapat menghasilkan NPC, Enemy, Quest, Event, Loot, Artifact, dan Lore.
+
+### RULE 05
+
+Reward dan random encounter dapat menggunakan RNG System.
+
+### RULE 06
+
+Semua hasil RNG harus melewati validasi Game State System.
+
+### RULE 07
+
+Hero menggunakan Party System saat melakukan Exploration.
+
+### RULE 08
+
+AI Character dan Emotional System memengaruhi reaksi Hero.
+
+### RULE 09
+
+AI Fairy memberikan laporan kepada Master mengenai kondisi Exploration.
+
+### RULE 10
+
+Semua Item yang diperoleh otomatis masuk ke Inventory.
+
+### RULE 11
+
+Semua perubahan permanen Hero disimpan berdasarkan Hero ID.
+
+### RULE 12
+
+NPC menggunakan NPC ID.
+
+### RULE 13
+
+Exploration menggunakan Exploration ID / World Echo ID untuk pencatatan.
+
+### RULE 14
+
+Perubahan dunia diproses oleh Game State System.
+
+### RULE 15
+
+Perubahan permanen disimpan oleh Database System.
+
+### RULE 16
+
+World Exploration dapat menghasilkan konsekuensi permanen.
+
+### RULE 17
+
+Area yang telah 100% explored dapat tetap digunakan kembali jika Game State mengizinkannya.
+
+### RULE 18
+
+AI tidak dapat melewati validasi Game State System.
+
+---
+
+# 57. FINAL CONCEPT
+
+World Exploration menjadi fitur yang membuat Tower bukan hanya kumpulan lantai untuk bertarung.
+
+```text
+TOWER
+ ↓
+WORLD FRAGMENTS
+ ↓
+EXPLORATION
+ ↓
+DISCOVERY
+ ↓
+STORY
+ ↓
+CHARACTER
+ ↓
+FACTION
+ ↓
+QUEST
+ ↓
+EVENT
+ ↓
+COMBAT
+ ↓
+LOOT
+ ↓
+WORLD CHANGE
+```
+
+Dengan sistem ini, Master tidak hanya:
+
+> **"Clear Floor."**
+
+Tetapi juga:
+
+> **"Discover what was lost."**
+
+Setiap lantai dapat menyimpan bagian dari Aetheria yang telah hancur.
+
+Sebuah kota yang ditemukan dapat memperkenalkan karakter baru.
+
+Sebuah reruntuhan dapat membuka Quest.
+
+Sebuah Quest dapat mengubah Faction.
+
+Sebuah Faction dapat memicu Event.
+
+Sebuah keputusan Master dapat mengubah World State.
+
+Dan seluruh perubahan tersebut disimpan melalui:
+
+```text
+GAME STATE SYSTEM
+        ↓
+DATABASE SYSTEM
+        ↓
+WORLD SIMULATION
+```
+
+> **The Tower does not only remember the world.**
+>
+> **It remembers the choices made by the Master.**
