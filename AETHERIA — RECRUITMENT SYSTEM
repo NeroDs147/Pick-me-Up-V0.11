@@ -1,0 +1,1566 @@
+# 🎲 AETHERIA — RECRUITMENT SYSTEM
+
+> **Recruitment is the process of discovering new Heroes from the remaining fragments of Aetheria.**
+>
+> Every recruitment result is generated through the **RNG System**, validated by the **Character / Hero System**, registered by the **Game State System**, and stored in the **Database System**.
+>
+> **Newly recruited Heroes are automatically registered into the Master's Inventory before they can be assigned to a Party.**
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+Recruitment System bertanggung jawab untuk menghasilkan Hero baru.
+
+Sistem terhubung dengan:
+
+```text
+RNG SYSTEM
+CHARACTER / HERO SYSTEM
+INVENTORY SYSTEM
+ID SYSTEM
+DATABASE SYSTEM
+GAME STATE SYSTEM
+AI FAIRY
+MASTER SYSTEM
+```
+
+Core flow:
+
+```text
+MASTER
+   ↓
+RECRUITMENT
+   ↓
+SELECT RECRUIT METHOD
+   ↓
+CHECK RESOURCE
+   ↓
+RNG SYSTEM
+   ↓
+CHARACTER GENERATION
+   ↓
+CHARACTER VALIDATION
+   ↓
+DUPLICATE CHECK
+   ↓
+HERO CREATED
+   ↓
+INVENTORY
+   ↓
+DATABASE
+   ↓
+GAME STATE UPDATE
+   ↓
+AI FAIRY REPORT
+```
+
+---
+
+# 2. CORE RECRUITMENT RULE
+
+Recruitment menggunakan RNG sebagai dasar hasil.
+
+Namun:
+
+> **RNG hanya menentukan hasil recruitment. Character System menentukan identitas dan data Hero.**
+
+Contoh:
+
+```text
+RNG
+ ↓
+STAR 3
+ ↓
+CHARACTER SYSTEM
+ ↓
+Generate Hero
+ ↓
+HERO-000125
+```
+
+---
+
+# 3. FOUR RECRUITMENT METHODS
+
+Aetheria memiliki empat metode recruitment utama:
+
+```text
+1. GOLD RECRUIT
+2. TICKET RECRUIT
+3. GEM RECRUIT
+4. SPECIAL STAR 5 RECRUIT
+```
+
+---
+
+# 4. GOLD RECRUIT
+
+Gold digunakan untuk recruitment standar.
+
+```text
+GOLD
+ ↓
+GOLD RECRUIT
+ ↓
+RNG
+ ↓
+STAR 1–3
+```
+
+Possible result:
+
+```text
+⭐
+⭐⭐
+⭐⭐⭐
+```
+
+### Star 3
+
+Star 3 memiliki probability yang lebih rendah dibandingkan Star 1 dan Star 2.
+
+```text
+STAR 1
+HIGHER RATE
+
+STAR 2
+MEDIUM RATE
+
+STAR 3
+LOW RATE
+```
+
+Nilai probability disimpan di konfigurasi RNG System.
+
+---
+
+# 5. TICKET RECRUIT
+
+Ticket digunakan untuk recruitment menggunakan Ticket.
+
+```text
+TICKET
+ ↓
+TICKET RECRUIT
+ ↓
+RNG
+ ↓
+STAR 2–3
+```
+
+Possible result:
+
+```text
+⭐⭐
+⭐⭐⭐
+```
+
+Star 3 memiliki probability lebih rendah.
+
+---
+
+# 6. GEM RECRUIT
+
+Gem digunakan untuk recruitment dengan kualitas lebih tinggi.
+
+```text
+GEM
+ ↓
+GEM RECRUIT
+ ↓
+RNG
+ ↓
+STAR 1–4
+```
+
+Possible result:
+
+```text
+⭐
+⭐⭐
+⭐⭐⭐
+⭐⭐⭐⭐
+```
+
+Star 4 memiliki probability rendah.
+
+---
+
+# 7. SPECIAL STAR 5 RECRUIT
+
+Special Ticket digunakan untuk mendapatkan Hero Star 5.
+
+```text
+SPECIAL TICKET
+ ↓
+SPECIAL RECRUIT
+ ↓
+RNG / SPECIAL POOL
+ ↓
+⭐⭐⭐⭐⭐
+```
+
+Result:
+
+```text
+⭐⭐⭐⭐⭐
+```
+
+Hero Star 5 berasal dari:
+
+```text
+SPECIAL CHARACTER POOL
+```
+
+Character System menentukan data lengkap Hero tersebut.
+
+---
+
+# 8. RECRUITMENT TABLE
+
+| Recruitment     | Resource       | Result |
+| --------------- | -------------- | ------ |
+| Gold Recruit    | Gold           | ⭐ 1–3  |
+| Ticket Recruit  | Ticket         | ⭐⭐ 2–3 |
+| Gem Recruit     | Gem            | ⭐ 1–4  |
+| Special Recruit | Special Ticket | ⭐⭐⭐⭐⭐  |
+
+---
+
+# 9. RNG SYSTEM INTEGRATION
+
+Recruitment tidak memiliki RNG sendiri.
+
+Recruitment menggunakan:
+
+# **RNG SYSTEM**
+
+Flow:
+
+```text
+RECRUITMENT SYSTEM
+       ↓
+REQUEST RNG
+       ↓
+RNG SYSTEM
+       ↓
+ROLL
+       ↓
+STAR RESULT
+       ↓
+CHARACTER POOL
+       ↓
+CHARACTER RESULT
+```
+
+Dengan demikian seluruh RNG dalam game menggunakan sistem yang konsisten.
+
+---
+
+# 10. CHARACTER POOL
+
+Setiap recruitment memiliki Character Pool.
+
+Contoh:
+
+```text
+GOLD POOL
+├── Star 1 Characters
+├── Star 2 Characters
+└── Star 3 Characters
+
+TICKET POOL
+├── Star 2 Characters
+└── Star 3 Characters
+
+GEM POOL
+├── Star 1 Characters
+├── Star 2 Characters
+├── Star 3 Characters
+└── Star 4 Characters
+
+SPECIAL POOL
+└── Star 5 Characters
+```
+
+Character Pool dikelola oleh:
+
+```text
+CHARACTER SYSTEM
+```
+
+---
+
+# 11. CHARACTER GENERATION
+
+Setelah RNG menentukan rarity / Star:
+
+```text
+RNG
+ ↓
+STAR
+ ↓
+CHARACTER POOL
+ ↓
+CHARACTER SELECTION
+ ↓
+CHARACTER DATA
+```
+
+Character System kemudian menentukan:
+
+```text
+Character ID
+Name
+Race
+Gender
+Age
+Origin
+Occupation
+Class
+Star
+Personality
+Traits
+Skills
+Stats
+Background
+Faction
+Relationship Data
+Emotional Baseline
+```
+
+---
+
+# 12. AI CHARACTER GENERATION
+
+Character System dapat menggunakan AI untuk membuat detail karakter.
+
+AI dapat membantu menghasilkan:
+
+```text
+Name
+Background
+Personality
+Traits
+Occupation
+Combat Style
+Motivation
+History
+Dialogue Characteristics
+```
+
+Namun AI tidak boleh mengabaikan aturan Character System.
+
+Struktur:
+
+```text
+RNG
+ ↓
+STAR
+ ↓
+CHARACTER SYSTEM
+ ↓
+AI CHARACTER GENERATION
+ ↓
+VALIDATION
+ ↓
+FINAL HERO
+```
+
+---
+
+# 13. AETHERIA WORLD CONNECTION
+
+Karakter hasil recruitment harus tetap berasal dari dunia Aetheria.
+
+Possible origins:
+
+```text
+Valeria
+Aurelia
+Aurelian Empire
+Elysium
+Elaria
+Karak-Dur
+Beastfolk Realms
+Draconis Dominion
+Demon Dominion
+Atlantia
+Ancient Civilizations
+Adventurer Guild
+Military
+Academy
+Merchant Guild
+Religious Organizations
+Former Cult
+Other Survivors
+```
+
+Character System memastikan karakter tetap sesuai dengan Core World Building.
+
+---
+
+# 14. RACE RANDOMIZATION
+
+Race dapat menjadi bagian dari Character Generation.
+
+Contoh:
+
+```text
+RNG
+ ↓
+Character Pool
+ ↓
+Race
+ ↓
+Class
+ ↓
+Background
+```
+
+Possible races:
+
+```text
+Human
+Elf
+High Elf
+Dark Elf
+Dwarf
+Beastfolk
+Orc
+Dragonkin
+Demon
+Halfling
+Gnome
+Fairy
+Merfolk
+Lizardfolk
+Giant
+Undead
+```
+
+Race tidak otomatis menentukan alignment.
+
+---
+
+# 15. ALIGNMENT RULE
+
+Recruitment tidak boleh menggunakan:
+
+```text
+Demon = Evil
+Orc = Evil
+Human = Good
+Elf = Good
+```
+
+Sebagai aturan otomatis.
+
+Character System menentukan karakter berdasarkan:
+
+```text
+Personality
+Beliefs
+Faction
+Background
+Experience
+Choices
+```
+
+---
+
+# 16. NO DUPLICATE HERO
+
+Recruitment memiliki aturan:
+
+# **NO DUPLICATE HERO**
+
+Jika Master sudah memiliki Hero tertentu:
+
+```text
+HERO-000125
+```
+
+maka sistem tidak boleh menghasilkan Hero yang sama sebagai duplicate.
+
+Flow:
+
+```text
+RNG RESULT
+ ↓
+CHARACTER RESULT
+ ↓
+DUPLICATE CHECK
+ ↓
+┌───────────────┐
+│               │
+NEW           DUPLICATE
+│               │
+↓               ↓
+ACCEPT        REROLL
+```
+
+---
+
+# 17. DUPLICATE CHECK
+
+Duplicate Check dilakukan menggunakan:
+
+```text
+Character ID
+Unique Character Key
+Database Record
+```
+
+ID System menjadi identitas utama.
+
+```text
+HERO-000125
+```
+
+tidak boleh digunakan kembali untuk Hero lain.
+
+---
+
+# 18. REROLL RULE
+
+Jika hasil RNG menghasilkan Hero yang sudah dimiliki:
+
+```text
+DUPLICATE
+   ↓
+RNG REROLL
+   ↓
+NEW RESULT
+```
+
+Reroll tetap mengikuti pool dan probability recruitment yang sama.
+
+Sistem tidak boleh diam-diam menaikkan rarity hanya karena terjadi duplicate.
+
+---
+
+# 19. RECRUITMENT RESULT
+
+Contoh:
+
+```text
+GEM RECRUIT
+
+RNG RESULT:
+⭐⭐⭐⭐
+
+Character:
+Elven Mage
+
+Character ID:
+HERO-000245
+```
+
+Character kemudian dibuat oleh Character System.
+
+---
+
+# 20. HERO CREATION
+
+Setelah hasil valid:
+
+```text
+CHARACTER SYSTEM
+       ↓
+CREATE HERO
+       ↓
+ASSIGN HERO ID
+       ↓
+GENERATE CHARACTER DATA
+       ↓
+VALIDATE
+       ↓
+REGISTER HERO
+```
+
+---
+
+# 21. INVENTORY DEFAULT REGISTRATION
+
+Setiap Hero hasil recruitment:
+
+# **SECARA DEFAULT MASUK KE INVENTORY**
+
+Hero belum otomatis masuk Party.
+
+Flow:
+
+```text
+RECRUIT
+ ↓
+HERO CREATED
+ ↓
+INVENTORY
+ ↓
+MASTER OWNS HERO
+```
+
+Status awal:
+
+```text
+Inventory Status:
+OWNED
+
+Party Status:
+NOT_ASSIGNED
+```
+
+---
+
+# 22. INVENTORY HERO STRUCTURE
+
+Inventory dapat menyimpan Hero sebagai Character Record.
+
+Contoh:
+
+```text
+INVENTORY
+
+Heroes
+├── HERO-000125
+├── HERO-000126
+├── HERO-000127
+└── HERO-000128
+```
+
+Hero ID digunakan sebagai reference.
+
+---
+
+# 23. HERO STATUS AFTER RECRUITMENT
+
+Hero baru memiliki status:
+
+```text
+OWNED
+NOT_ASSIGNED
+NOT_IN_PARTY
+TRAINING_REQUIRED
+```
+
+Flow:
+
+```text
+RECRUIT
+ ↓
+INVENTORY
+ ↓
+ASSIGN TO PARTY
+ ↓
+TRAINING REQUIRED
+ ↓
+TRAINING GROUND
+ ↓
+READY
+```
+
+---
+
+# 24. HERO CANNOT IMMEDIATELY ENTER DUNGEON
+
+Recruitment tidak langsung membuat Hero siap bertempur.
+
+```text
+NEW HERO
+ ↓
+INVENTORY
+ ↓
+PARTY
+ ↓
+TRAINING GROUND
+ ↓
+TRAINING COMPLETE
+ ↓
+READY
+ ↓
+DUNGEON
+```
+
+Hal ini mengikuti:
+
+# **PARTY TRAINING GROUND REQUIREMENT SYSTEM**
+
+---
+
+# 25. INVENTORY RESOURCE UPDATE
+
+Recruitment juga menggunakan resource.
+
+Contoh Gold Recruit:
+
+```text
+Before:
+
+Gold:
+10,000
+
+Recruit Cost:
+1,000
+```
+
+Setelah recruitment:
+
+```text
+Gold:
+9,000
+```
+
+Game State System kemudian melakukan synchronization.
+
+---
+
+# 26. RESOURCE TYPES
+
+Recruitment dapat menggunakan:
+
+```text
+Gold
+Ticket
+Gem
+Special Ticket
+```
+
+Resource tersebut merupakan bagian dari Inventory System.
+
+---
+
+# 27. TRANSACTION VALIDATION
+
+Sebelum recruitment:
+
+```text
+CHECK RESOURCE
+      ↓
+ENOUGH?
+```
+
+Jika tidak cukup:
+
+```text
+Recruitment:
+DENIED
+```
+
+Contoh:
+
+```text
+Required:
+100 Gems
+
+Available:
+75 Gems
+
+Result:
+INSUFFICIENT_RESOURCE
+```
+
+Tidak ada RNG yang dijalankan jika resource tidak mencukupi.
+
+---
+
+# 28. RECRUITMENT TRANSACTION
+
+Recruitment transaction harus dicatat.
+
+```text
+RECRUITMENT-000001
+```
+
+Data:
+
+```text
+Recruitment ID
+Master ID
+Recruitment Type
+Resource Used
+Resource Amount
+RNG Result
+Star Result
+Character ID
+Timestamp
+Result Status
+```
+
+---
+
+# 29. DATABASE STORAGE
+
+Setelah recruitment berhasil:
+
+```text
+RECRUITMENT
+      ↓
+GAME STATE SYSTEM
+      ↓
+DATABASE SYSTEM
+```
+
+Database menyimpan:
+
+```text
+Recruitment Record
+Hero Record
+Inventory Record
+Resource Transaction
+RNG Result
+```
+
+---
+
+# 30. ID SYSTEM
+
+Recruitment menggunakan ID unik.
+
+```text
+RECRUITMENT-000001
+RECRUITMENT-000002
+RECRUITMENT-000003
+```
+
+Hero:
+
+```text
+HERO-000001
+HERO-000002
+HERO-000003
+```
+
+Master:
+
+```text
+MASTER-000001
+```
+
+---
+
+# 31. RECRUITMENT DATABASE RELATION
+
+```text
+MASTER-000001
+       │
+       ▼
+RECRUITMENT-000125
+       │
+       ├── RNG RESULT
+       │
+       ├── RESOURCE TRANSACTION
+       │
+       ▼
+HERO-000245
+       │
+       ▼
+INVENTORY
+```
+
+---
+
+# 32. GAME STATE SYSTEM
+
+Game State System menjadi pengatur sinkronisasi.
+
+```text
+RECRUITMENT
+      ↓
+RNG
+      ↓
+CHARACTER
+      ↓
+INVENTORY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+```
+
+Game State System memastikan tidak ada data yang tertinggal.
+
+---
+
+# 33. ATOMIC RECRUITMENT TRANSACTION
+
+Recruitment harus diproses sebagai satu transaksi.
+
+```text
+BEGIN TRANSACTION
+      ↓
+CHECK RESOURCE
+      ↓
+CONSUME RESOURCE
+      ↓
+RNG
+      ↓
+GENERATE CHARACTER
+      ↓
+DUPLICATE CHECK
+      ↓
+CREATE HERO
+      ↓
+ADD TO INVENTORY
+      ↓
+DATABASE SAVE
+      ↓
+COMMIT
+```
+
+Jika terjadi error:
+
+```text
+ROLLBACK
+```
+
+Resource tidak boleh hilang tanpa Hero yang berhasil dibuat.
+
+---
+
+# 34. AI FAIRY REPORT
+
+Setiap recruitment berhasil, AI Fairy dapat memberikan laporan kepada Master.
+
+Contoh:
+
+> **"Master, recruitment completed."**
+
+> **"A new Hero has joined your roster."**
+
+```text
+⭐⭐⭐⭐
+
+Name:
+Aelira
+
+Race:
+High Elf
+
+Class:
+Arcane Mage
+
+Hero ID:
+HERO-000245
+
+Status:
+Added to Inventory
+```
+
+---
+
+# 35. RECRUITMENT REPORT
+
+AI Fairy juga melaporkan resource yang digunakan.
+
+```text
+════════════════════════════
+RECRUITMENT REPORT
+════════════════════════════
+
+Method:
+Gem Recruit
+
+Gem Used:
+100
+
+Result:
+⭐⭐⭐⭐
+
+Hero:
+Aelira
+
+Hero ID:
+HERO-000245
+
+Inventory:
+ADDED
+
+Party:
+NOT ASSIGNED
+
+Training:
+REQUIRED
+════════════════════════════
+```
+
+---
+
+# 36. SPECIAL RESULT
+
+Jika mendapatkan Hero dengan kondisi khusus:
+
+```text
+Star 5
+Rare Trait
+Unique Background
+Special Skill
+Special Faction
+```
+
+Fairy wajib memberikan laporan khusus.
+
+Contoh:
+
+> **"Master, this recruitment produced an exceptional Hero."**
+
+> **"The Hero possesses a unique background and rare combat trait."**
+
+---
+
+# 37. RECRUITMENT HISTORY
+
+Master dapat memiliki riwayat recruitment.
+
+```text
+RECRUITMENT HISTORY
+
+001
+Gold
+⭐
+
+002
+Gold
+⭐⭐
+
+003
+Gem
+⭐⭐⭐⭐
+
+004
+Special Ticket
+⭐⭐⭐⭐⭐
+```
+
+Data berasal dari Database System.
+
+---
+
+# 38. RECRUITMENT STATISTICS
+
+Sistem dapat mencatat:
+
+```text
+Total Recruitment
+Gold Recruitment
+Ticket Recruitment
+Gem Recruitment
+Special Recruitment
+
+Star 1 Results
+Star 2 Results
+Star 3 Results
+Star 4 Results
+Star 5 Results
+```
+
+Statistik tidak mengubah RNG probability kecuali sistem pity / modifier secara resmi diaktifkan.
+
+---
+
+# 39. PITY SYSTEM
+
+Pity System **tidak aktif secara default**.
+
+Jika suatu saat ditambahkan:
+
+```text
+RNG SYSTEM
++
+PITY SYSTEM
+```
+
+maka pity harus menjadi bagian dari RNG System, bukan Recruitment System.
+
+Contoh:
+
+```text
+Recruitment
+ ↓
+RNG System
+ ↓
+Pity Check
+ ↓
+Final Result
+```
+
+---
+
+# 40. RECRUITMENT EVENTS
+
+Event dapat mengubah recruitment pool.
+
+Contoh:
+
+```text
+EVENT
+ ↓
+SPECIAL RECRUITMENT POOL
+ ↓
+RNG
+```
+
+Event tidak boleh mengubah data Hero secara langsung.
+
+Event hanya memberikan konfigurasi kepada Recruitment / RNG System.
+
+---
+
+# 41. EVENT CHARACTER
+
+Event Character dapat memiliki:
+
+```text
+Event ID
+Character Pool
+Availability Period
+Recruitment Method
+RNG Configuration
+```
+
+Setelah event berakhir, karakter dapat:
+
+```text
+AVAILABLE
+LIMITED
+UNAVAILABLE
+```
+
+sesuai konfigurasi Event System.
+
+---
+
+# 42. RECRUITMENT + CHARACTER SYSTEM
+
+```text
+RECRUITMENT
+      ↓
+RNG
+      ↓
+CHARACTER POOL
+      ↓
+CHARACTER SYSTEM
+      ↓
+AI CHARACTER
+      ↓
+CHARACTER VALIDATION
+      ↓
+HERO
+```
+
+Character System tetap menjadi sumber utama data Hero.
+
+---
+
+# 43. RECRUITMENT + INVENTORY
+
+```text
+RESOURCE
+   ↓
+INVENTORY
+   ↓
+RECRUITMENT
+   ↓
+RESOURCE CONSUMED
+   ↓
+NEW HERO
+   ↓
+INVENTORY HERO LIST
+```
+
+---
+
+# 44. RECRUITMENT + PARTY
+
+Hero baru tidak otomatis dimasukkan ke Party.
+
+```text
+NEW HERO
+ ↓
+INVENTORY
+ ↓
+MASTER SELECTS HERO
+ ↓
+PARTY
+```
+
+Setelah masuk Party:
+
+```text
+PARTY
+ ↓
+TRAINING REQUIRED
+```
+
+---
+
+# 45. RECRUITMENT + TRAINING
+
+```text
+RECRUITMENT
+ ↓
+INVENTORY
+ ↓
+PARTY
+ ↓
+TRAINING GROUND
+ ↓
+TRAINING COMPLETE
+ ↓
+READY
+```
+
+---
+
+# 46. RECRUITMENT + AI FAIRY
+
+AI Fairy menjadi interface informasi.
+
+```text
+RECRUITMENT
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+AI FAIRY
+      ↓
+MASTER
+```
+
+Fairy dapat memberi informasi:
+
+```text
+Recruitment Result
+Hero Identity
+Star
+Race
+Class
+Resource Used
+Inventory Status
+Training Requirement
+Special Traits
+```
+
+---
+
+# 47. RECRUITMENT + GAME STATE
+
+Game State System menerima event:
+
+```text
+RECRUITMENT_STARTED
+RECRUITMENT_COMPLETED
+RECRUITMENT_FAILED
+HERO_CREATED
+HERO_ADDED_TO_INVENTORY
+RESOURCE_CONSUMED
+```
+
+---
+
+# 48. RECRUITMENT STATE MACHINE
+
+```text
+IDLE
+ ↓
+REQUEST
+ ↓
+RESOURCE_CHECK
+ ↓
+RESOURCE_VALID
+ ↓
+RNG_ROLL
+ ↓
+CHARACTER_GENERATION
+ ↓
+DUPLICATE_CHECK
+ ↓
+HERO_CREATED
+ ↓
+INVENTORY_REGISTERED
+ ↓
+DATABASE_SYNC
+ ↓
+COMPLETED
+```
+
+Failure:
+
+```text
+REQUEST
+ ↓
+RESOURCE_CHECK
+ ↓
+INVALID
+ ↓
+FAILED
+```
+
+---
+
+# 49. COMPLETE RECRUITMENT ARCHITECTURE
+
+```text
+                         MASTER
+                           │
+                           ▼
+                    RECRUITMENT MENU
+                           │
+             ┌─────────────┼─────────────┐
+             │             │             │
+            GOLD         TICKET         GEM
+             │             │             │
+             └─────────────┼─────────────┘
+                           │
+                    SPECIAL TICKET
+                           │
+                           ▼
+                      RNG SYSTEM
+                           │
+                           ▼
+                    STAR RESULT
+                           │
+                           ▼
+                  CHARACTER SYSTEM
+                           │
+                           ▼
+                 AI CHARACTER SYSTEM
+                           │
+                           ▼
+                   VALIDATION
+                           │
+                    ┌──────┴──────┐
+                    │             │
+                  NEW          DUPLICATE
+                    │             │
+                    │          REROLL
+                    │             │
+                    └──────┬──────┘
+                           ▼
+                      HERO CREATED
+                           │
+                           ▼
+                       INVENTORY
+                           │
+                           ▼
+                    GAME STATE SYSTEM
+                           │
+                           ▼
+                     DATABASE SYSTEM
+                           │
+                           ▼
+                       AI FAIRY
+                           │
+                           ▼
+                         MASTER
+```
+
+---
+
+# 50. HERO LIFECYCLE
+
+Recruitment menjadi awal perjalanan Hero.
+
+```text
+RNG RESULT
+     ↓
+CHARACTER CREATED
+     ↓
+HERO ID ASSIGNED
+     ↓
+INVENTORY
+     ↓
+PARTY
+     ↓
+TRAINING GROUND
+     ↓
+READY
+     ↓
+DUNGEON
+     ↓
+TOWER FLOOR
+```
+
+---
+
+# 51. IMPORTANT RULES
+
+### Rule 1
+
+> Recruitment wajib menggunakan RNG System.
+
+### Rule 2
+
+> Character / Hero System menentukan data final Hero.
+
+### Rule 3
+
+> Tidak boleh ada duplicate Hero.
+
+### Rule 4
+
+> Hero hasil recruitment secara default masuk Inventory.
+
+### Rule 5
+
+> Hero tidak otomatis masuk Party.
+
+### Rule 6
+
+> Hero yang masuk Party wajib menjalani Training Ground.
+
+### Rule 7
+
+> Hero yang belum selesai training tidak dianggap Mission Ready.
+
+### Rule 8
+
+> Semua perubahan recruitment harus melalui Game State System.
+
+### Rule 9
+
+> Semua data penting recruitment disimpan di Database System.
+
+### Rule 10
+
+> AI Fairy harus dapat melaporkan hasil recruitment kepada Master.
+
+---
+
+# 52. FINAL SYSTEM FLOW
+
+```text
+                    MASTER
+                       │
+                       ▼
+                 RECRUITMENT
+                       │
+              ┌────────┼────────┐
+              │        │        │
+             GOLD    TICKET    GEM
+              │        │        │
+              └────────┼────────┘
+                       │
+                SPECIAL TICKET
+                       │
+                       ▼
+                   RNG SYSTEM
+                       │
+                       ▼
+                   STAR ROLL
+                       │
+                       ▼
+              CHARACTER SYSTEM
+                       │
+                       ▼
+                  AI GENERATION
+                       │
+                       ▼
+                 DUPLICATE CHECK
+                       │
+              ┌────────┴────────┐
+              │                 │
+             NEW            DUPLICATE
+              │                 │
+              │               REROLL
+              │                 │
+              └────────┬────────┘
+                       ▼
+                  HERO CREATED
+                       │
+                       ▼
+                   INVENTORY
+                       │
+                       ▼
+                GAME STATE SYSTEM
+                       │
+             ┌─────────┼─────────┐
+             │         │         │
+          DATABASE   ID SYSTEM  FAIRY
+             │                   │
+             └─────────┬─────────┘
+                       ▼
+                     MASTER
+                       │
+                       ▼
+                     PARTY
+                       │
+                       ▼
+               TRAINING GROUND
+                       │
+                       ▼
+                     READY
+                       │
+                       ▼
+                    DUNGEON
+```
+
+---
+
+# 53. DESIGN PHILOSOPHY
+
+Recruitment bukan sekadar tombol untuk mendapatkan karakter.
+
+Recruitment adalah mekanisme untuk menemukan **survivor baru dari Aetheria**.
+
+Setiap Hero yang diperoleh memiliki:
+
+```text
+Identity
+History
+Race
+Origin
+Personality
+Emotion
+Skills
+Relationships
+Faction
+```
+
+dan seluruh data tersebut kemudian menjadi bagian dari dunia yang dikelola oleh:
+
+```text
+GAME STATE SYSTEM
+```
+
+Sedangkan:
+
+```text
+RNG SYSTEM
+```
+
+menentukan ketidakpastian recruitment.
+
+```text
+CHARACTER SYSTEM
+```
+
+membentuk identitas Hero.
+
+```text
+INVENTORY SYSTEM
+```
+
+menyimpan Hero yang diperoleh.
+
+```text
+DATABASE SYSTEM
+```
+
+menyimpan data permanen.
+
+```text
+AI FAIRY
+```
+
+menyampaikan hasil kepada Master.
+
+Dengan demikian:
+
+# **RNG → CHARACTER → INVENTORY → GAME STATE → DATABASE → FAIRY → MASTER**
+
+dan setelah Hero dipilih:
+
+# **INVENTORY → PARTY → TRAINING GROUND → READY → TOWER**
