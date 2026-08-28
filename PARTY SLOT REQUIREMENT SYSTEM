@@ -1,0 +1,2154 @@
+# 🏰 PARTY SLOT REQUIREMENT SYSTEM
+
+## Overview
+
+**Party Slot Requirement System** menentukan jumlah Party yang wajib masuk ke Dungeon pada setiap Floor.
+
+Sistem ini terintegrasi dengan:
+
+```text
+Dungeon System
+Party System
+Game State System
+Master System
+Basic Combat System
+Enemy System
+Quest System
+Event System
+RNG System
+AI Fairy
+Database System
+```
+
+Aturan utama:
+
+> **Semakin tinggi Floor, semakin banyak Party yang dibutuhkan untuk menyelesaikan Dungeon.**
+
+Namun, tidak semua Floor membutuhkan banyak Party.
+
+Mulai dari Floor 10, sistem menggunakan pola berikut:
+
+```text
+Floor dengan digit kedua 5 atau 0
+→ membutuhkan Party tambahan sesuai milestone
+
+Floor lainnya
+→ hanya membutuhkan 1 Party
+```
+
+Digit kedua adalah angka pada posisi puluhan.
+
+Contoh:
+
+```text
+Floor 10 → digit kedua adalah 1
+Floor 25 → digit kedua adalah 2
+Floor 50 → digit kedua adalah 5
+Floor 80 → digit kedua adalah 8
+```
+
+Dalam sistem ini, Floor yang memiliki angka **5 atau 0 pada digit kedua** menjadi Floor Multi-Party.
+
+Contoh:
+
+```text
+Floor 50
+Floor 60
+Floor 70
+Floor 80
+Floor 90
+Floor 100
+```
+
+Floor lainnya hanya membutuhkan:
+
+```text
+1 PARTY
+```
+
+Jumlah Party maksimum:
+
+```text
+5 PARTY
+```
+
+---
+
+# 1. PARTY SLOT PROGRESSION
+
+| Floor | Digit Kedua | Required Party | Keterangan              |
+| ----: | ----------: | -------------: | ----------------------- |
+|   1–9 |           - |        1 Party | Floor awal              |
+| 10–19 |           1 |        1 Party | Floor biasa             |
+| 20–29 |           2 |        1 Party | Floor biasa             |
+| 30–39 |           3 |        1 Party | Floor biasa             |
+| 40–49 |           4 |        1 Party | Floor biasa             |
+|    50 |           5 |        2 Party | Milestone Multi-Party   |
+| 51–59 |           5 |        1 Party | Floor biasa             |
+|    60 |           6 |        3 Party | Milestone Multi-Party   |
+| 61–69 |           6 |        1 Party | Floor biasa             |
+|    70 |           7 |        3 Party | Milestone Multi-Party   |
+| 71–79 |           7 |        1 Party | Floor biasa             |
+|    80 |           8 |        4 Party | Milestone Multi-Party   |
+| 81–89 |           8 |        1 Party | Floor biasa             |
+|    90 |           9 |        4 Party | Milestone Multi-Party   |
+| 91–99 |           9 |        1 Party | Floor biasa             |
+|   100 |           0 |        5 Party | Final Multi-Party Floor |
+
+Aturan ringkas:
+
+```text
+Floor 1–49
+    ↓
+1 PARTY
+
+Floor 50
+    ↓
+2 PARTY
+
+Floor 51–59
+    ↓
+1 PARTY
+
+Floor 60
+    ↓
+3 PARTY
+
+Floor 61–69
+    ↓
+1 PARTY
+
+Floor 70
+    ↓
+3 PARTY
+
+Floor 71–79
+    ↓
+1 PARTY
+
+Floor 80
+    ↓
+4 PARTY
+
+Floor 81–89
+    ↓
+1 PARTY
+
+Floor 90
+    ↓
+4 PARTY
+
+Floor 91–99
+    ↓
+1 PARTY
+
+Floor 100
+    ↓
+5 PARTY
+```
+
+---
+
+# 2. PARTY REQUIREMENT TABLE
+
+```text
+┌───────────────┬────────────────┬────────────────────────────┐
+│ FLOOR         │ REQUIRED PARTY │ KETERANGAN                 │
+├───────────────┼────────────────┼────────────────────────────┤
+│ 1 – 49        │ 1              │ Floor biasa                │
+│ 50            │ 2              │ Milestone Multi-Party      │
+│ 51 – 59       │ 1              │ Floor biasa                │
+│ 60            │ 3              │ Milestone Multi-Party      │
+│ 61 – 69       │ 1              │ Floor biasa                │
+│ 70            │ 3              │ Milestone Multi-Party      │
+│ 71 – 79       │ 1              │ Floor biasa                │
+│ 80            │ 4              │ Milestone Multi-Party      │
+│ 81 – 89       │ 1              │ Floor biasa                │
+│ 90            │ 4              │ Milestone Multi-Party      │
+│ 91 – 99       │ 1              │ Floor biasa                │
+│ 100           │ 5              │ Final Multi-Party Floor    │
+└───────────────┴────────────────┴────────────────────────────┘
+```
+
+**Catatan penting:**
+
+Floor yang tidak termasuk dalam daftar milestone hanya membutuhkan:
+
+```text
+1 PARTY
+```
+
+Contoh:
+
+```text
+Floor 51 = 1 Party
+Floor 52 = 1 Party
+Floor 53 = 1 Party
+Floor 54 = 1 Party
+Floor 55 = 1 Party
+Floor 56 = 1 Party
+Floor 57 = 1 Party
+Floor 58 = 1 Party
+Floor 59 = 1 Party
+```
+
+Kemudian:
+
+```text
+Floor 60 = 3 Party
+```
+
+Contoh lainnya:
+
+```text
+Floor 81 = 1 Party
+Floor 82 = 1 Party
+Floor 83 = 1 Party
+Floor 84 = 1 Party
+Floor 85 = 1 Party
+Floor 86 = 1 Party
+Floor 87 = 1 Party
+Floor 88 = 1 Party
+Floor 89 = 1 Party
+```
+
+Kemudian:
+
+```text
+Floor 90 = 4 Party
+```
+
+---
+
+# 3. MILESTONE FLOOR
+
+Milestone Floor adalah Floor khusus yang membutuhkan lebih dari 1 Party.
+
+```text
+┌───────────────┬────────────────┐
+│ MILESTONE     │ REQUIRED PARTY │
+├───────────────┼────────────────┤
+│ FLOOR 50      │ 2 PARTY        │
+│ FLOOR 60      │ 3 PARTY        │
+│ FLOOR 70      │ 3 PARTY        │
+│ FLOOR 80      │ 4 PARTY        │
+│ FLOOR 90      │ 4 PARTY        │
+│ FLOOR 100     │ 5 PARTY        │
+└───────────────┴────────────────┘
+```
+
+Milestone ini berfungsi sebagai:
+
+```text
+Party Requirement Checkpoint
+Dungeon Difficulty Checkpoint
+Quest Checkpoint
+Event Checkpoint
+Master Progression Checkpoint
+```
+
+---
+
+# 4. FLOOR BIASA
+
+Floor biasa hanya membutuhkan 1 Party.
+
+Contoh:
+
+```text
+Floor 10 = 1 Party
+Floor 11 = 1 Party
+Floor 12 = 1 Party
+Floor 13 = 1 Party
+Floor 14 = 1 Party
+Floor 15 = 1 Party
+Floor 16 = 1 Party
+Floor 17 = 1 Party
+Floor 18 = 1 Party
+Floor 19 = 1 Party
+```
+
+Kemudian:
+
+```text
+Floor 20 = 1 Party
+```
+
+Floor biasa tidak membuat slot Multi-Party.
+
+Contoh Floor 55:
+
+```text
+FLOOR 55
+
+Party Slot:
+[ PARTY 1 ]
+```
+
+Contoh Floor 85:
+
+```text
+FLOOR 85
+
+Party Slot:
+[ PARTY 1 ]
+```
+
+Walaupun Floor 85 berada di antara Floor 80 dan Floor 90, Floor 85 tetap hanya membutuhkan 1 Party.
+
+---
+
+# 5. FLOOR MULTI-PARTY
+
+Floor Multi-Party hanya berlaku pada milestone yang telah ditentukan.
+
+## FLOOR 50
+
+```text
+FLOOR 50
+
+Required:
+2 PARTY
+
+Party Slot:
+[ PARTY 1 ]
+[ PARTY 2 ]
+```
+
+## FLOOR 60
+
+```text
+FLOOR 60
+
+Required:
+3 PARTY
+
+Party Slot:
+[ PARTY 1 ]
+[ PARTY 2 ]
+[ PARTY 3 ]
+```
+
+## FLOOR 70
+
+```text
+FLOOR 70
+
+Required:
+3 PARTY
+
+Party Slot:
+[ PARTY 1 ]
+[ PARTY 2 ]
+[ PARTY 3 ]
+```
+
+## FLOOR 80
+
+```text
+FLOOR 80
+
+Required:
+4 PARTY
+
+Party Slot:
+[ PARTY 1 ]
+[ PARTY 2 ]
+[ PARTY 3 ]
+[ PARTY 4 ]
+```
+
+## FLOOR 90
+
+```text
+FLOOR 90
+
+Required:
+4 PARTY
+
+Party Slot:
+[ PARTY 1 ]
+[ PARTY 2 ]
+[ PARTY 3 ]
+[ PARTY 4 ]
+```
+
+## FLOOR 100
+
+```text
+FLOOR 100
+
+Required:
+5 PARTY
+
+Party Slot:
+[ PARTY 1 ]
+[ PARTY 2 ]
+[ PARTY 3 ]
+[ PARTY 4 ]
+[ PARTY 5 ]
+```
+
+---
+
+# 6. PARTY REQUIREMENT LOGIC
+
+Sistem menggunakan pengecekan Floor secara langsung.
+
+```text
+READ FLOOR NUMBER
+        ↓
+CHECK MILESTONE FLOOR
+        ↓
+MILESTONE?
+   ┌────┴────┐
+  YES        NO
+   │          │
+   ▼          ▼
+REQUIRED    1 PARTY
+PARTY
+```
+
+Aturan logika:
+
+```text
+IF Floor = 50
+THEN Required Party = 2
+
+IF Floor = 60
+THEN Required Party = 3
+
+IF Floor = 70
+THEN Required Party = 3
+
+IF Floor = 80
+THEN Required Party = 4
+
+IF Floor = 90
+THEN Required Party = 4
+
+IF Floor = 100
+THEN Required Party = 5
+
+ELSE
+Required Party = 1
+```
+
+---
+
+# 7. PARTY SLOT VALIDATION
+
+Sebelum Dungeon dimulai, sistem melakukan pengecekan:
+
+```text
+ENTER FLOOR
+     ↓
+READ FLOOR NUMBER
+     ↓
+CHECK MILESTONE
+     ↓
+CALCULATE PARTY REQUIREMENT
+     ↓
+CREATE PARTY SLOTS
+     ↓
+CHECK PARTY AVAILABILITY
+     ↓
+CHECK PARTY COMPOSITION
+     ↓
+VALIDATION
+```
+
+Jika Floor bukan milestone:
+
+```text
+Floor 55
+Required:
+1 Party
+```
+
+Maka hanya satu Party yang harus disiapkan.
+
+Jika Floor adalah milestone:
+
+```text
+Floor 80
+Required:
+4 Party
+```
+
+Maka empat Party harus disiapkan.
+
+---
+
+# 8. PARTY SLOT MUST BE FILLED
+
+Semua slot yang diwajibkan harus terisi sebelum misi dimulai.
+
+Contoh Floor biasa:
+
+```text
+FLOOR 55
+
+Required:
+1 Party
+
+Current:
+
+Party 1 = READY
+```
+
+Result:
+
+```text
+MISSION READY
+```
+
+Contoh Floor 80:
+
+```text
+FLOOR 80
+
+Required:
+4 Party
+
+Current:
+
+Party 1 = READY
+Party 2 = READY
+Party 3 = READY
+Party 4 = EMPTY
+```
+
+Result:
+
+```text
+MISSION LOCKED
+```
+
+Dungeon tidak dapat dimulai sampai:
+
+```text
+Party 4 = READY
+```
+
+---
+
+# 9. PARTY SLOT VALIDATION EXAMPLE
+
+## FLOOR 55
+
+```text
+Floor:
+55
+
+Required:
+1 Party
+
+Available:
+1 Party
+
+Result:
+VALIDATION SUCCESS
+```
+
+## FLOOR 60
+
+```text
+Floor:
+60
+
+Required:
+3 Party
+
+Available:
+2 Party
+
+Result:
+FAILED VALIDATION
+```
+
+AI Fairy melaporkan:
+
+> **"Master, Floor 60 adalah Milestone Floor dan membutuhkan 3 Party. Saat ini hanya 2 Party yang siap digunakan."**
+
+## FLOOR 85
+
+```text
+Floor:
+85
+
+Required:
+1 Party
+
+Available:
+1 Party
+
+Result:
+VALIDATION SUCCESS
+```
+
+Walaupun Floor 85 berada setelah Floor 80, Floor 85 tidak membutuhkan 4 Party.
+
+---
+
+# 10. PARTY COMPOSITION
+
+Setiap Party mengikuti aturan dari **Party System**.
+
+Maximum Hero per Party:
+
+```text
+5 HERO
+```
+
+Jumlah maksimum Hero berdasarkan Floor:
+
+```text
+Floor biasa:
+1 Party × 5 Hero = 5 Hero Maximum
+```
+
+```text
+Floor 50:
+2 Party × 5 Hero = 10 Hero Maximum
+```
+
+```text
+Floor 60:
+3 Party × 5 Hero = 15 Hero Maximum
+```
+
+```text
+Floor 70:
+3 Party × 5 Hero = 15 Hero Maximum
+```
+
+```text
+Floor 80:
+4 Party × 5 Hero = 20 Hero Maximum
+```
+
+```text
+Floor 90:
+4 Party × 5 Hero = 20 Hero Maximum
+```
+
+```text
+Floor 100:
+5 Party × 5 Hero = 25 Hero Maximum
+```
+
+---
+
+# 11. PARTY AVAILABILITY
+
+Party yang sudah digunakan untuk Dungeon akan berstatus:
+
+```text
+DEPLOYED
+```
+
+Selama Dungeon berlangsung:
+
+```text
+Party
+  ↓
+Dungeon Deployment
+  ↓
+DEPLOYED
+```
+
+Party tidak dapat digunakan untuk Dungeon lain secara bersamaan.
+
+Pada Floor biasa:
+
+```text
+Floor 55
+    ↓
+1 Party Deployed
+```
+
+Pada Floor 80:
+
+```text
+Floor 80
+    ↓
+4 Party Deployed
+```
+
+Pada Floor 100:
+
+```text
+Floor 100
+    ↓
+5 Party Deployed
+```
+
+---
+
+# 12. PARTY LOCK
+
+Setelah Party memasuki Dungeon:
+
+```text
+PARTY
+  ↓
+ENTER DUNGEON
+  ↓
+PARTY LOCK
+```
+
+Status:
+
+```text
+AVAILABLE
+    ↓
+DEPLOYED
+    ↓
+IN MISSION
+```
+
+Party tidak dapat:
+
+```text
+Keluar dari Dungeon
+Diganti sembarangan
+Dipakai di Dungeon lain
+Dihapus dari Mission
+```
+
+sampai aturan Dungeon mengizinkan perubahan tersebut.
+
+---
+
+# 13. PARTY 1 AND PARTY 2
+
+Pada Floor biasa, hanya Party 1 yang digunakan.
+
+```text
+FLOOR 55
+
+PARTY 1
+```
+
+Pada Floor 50, dua Party digunakan.
+
+```text
+FLOOR 50
+
+PARTY 1
+PARTY 2
+```
+
+Master dapat menentukan:
+
+```text
+Leader
+Hero
+Formation
+Role
+Equipment
+```
+
+untuk setiap Party sesuai aturan Party System.
+
+---
+
+# 14. PARTY 3+
+
+Party tambahan hanya digunakan pada milestone yang membutuhkan lebih dari 2 Party.
+
+```text
+FLOOR 60
+PARTY 1
+PARTY 2
+PARTY 3
+```
+
+```text
+FLOOR 80
+PARTY 1
+PARTY 2
+PARTY 3
+PARTY 4
+```
+
+```text
+FLOOR 100
+PARTY 1
+PARTY 2
+PARTY 3
+PARTY 4
+PARTY 5
+```
+
+Floor biasa tidak menggunakan Party tambahan.
+
+Contoh:
+
+```text
+FLOOR 85
+
+PARTY 1
+```
+
+Party 2, Party 3, Party 4, dan Party 5 tetap kosong atau tidak digunakan.
+
+---
+
+# 15. PARTY SLOT AND DUNGEON DIFFICULTY
+
+Jumlah Party bukan berarti Dungeon menjadi mudah.
+
+Namun, hanya Milestone Floor yang menggunakan Multi-Party.
+
+```text
+FLOOR NUMBER
+     ↓
+MILESTONE CHECK
+     ↓
+PARTY REQUIREMENT
+     ↓
+ENEMY SYSTEM
+     ↓
+DIFFICULTY
+     ↓
+MISSION COMPLEXITY
+```
+
+Floor biasa:
+
+```text
+Floor 55
+     ↓
+1 Party
+     ↓
+Standard Dungeon Operation
+```
+
+Milestone Floor:
+
+```text
+Floor 80
+     ↓
+4 Party
+     ↓
+Multi-Party Dungeon Operation
+```
+
+Enemy tetap ditentukan oleh:
+
+# ENEMY SYSTEM
+
+Dungeon System hanya menentukan:
+
+```text
+Enemy Slot
+Enemy Environment
+Mission Context
+Floor Context
+```
+
+Enemy System menentukan:
+
+```text
+Enemy Type
+Enemy Quantity
+Enemy Level
+Enemy Stats
+Enemy Behavior
+Enemy Formation
+Enemy Difficulty
+Enemy Special Ability
+```
+
+---
+
+# 16. PARTY DISTRIBUTION
+
+Multi-Party Dungeon hanya digunakan pada Milestone Floor.
+
+Contoh:
+
+## FLOOR 60
+
+Required:
+
+```text
+3 PARTY
+```
+
+Mission:
+
+```text
+Party 1
+↓
+Protect Main Gate
+
+Party 2
+↓
+Destroy Enemy Core
+
+Party 3
+↓
+Search Ancient Chamber
+```
+
+Floor 61 tidak menggunakan pembagian tersebut secara otomatis.
+
+```text
+FLOOR 61
+
+Required:
+1 PARTY
+```
+
+---
+
+# 17. PARTY OBJECTIVE
+
+Setiap Party dapat memiliki objective berbeda pada Milestone Floor.
+
+```text
+Party 1
+→ Defense
+
+Party 2
+→ Attack
+
+Party 3
+→ Exploration
+
+Party 4
+→ Rescue
+
+Party 5
+→ Boss / Final Objective
+```
+
+Namun, jumlah objective aktif harus disesuaikan dengan jumlah Party yang diwajibkan.
+
+Contoh:
+
+```text
+Floor 50:
+Party 1 → Attack
+Party 2 → Defense
+```
+
+```text
+Floor 80:
+Party 1 → Main Assault
+Party 2 → Defense
+Party 3 → Exploration
+Party 4 → Objective
+```
+
+```text
+Floor 100:
+Party 1 → Main Assault
+Party 2 → Defense
+Party 3 → Destroy Dark Core
+Party 4 → Protect Rebirth Core
+Party 5 → Final Objective
+```
+
+Objective ditentukan oleh:
+
+```text
+Dungeon System
+Quest System
+Event System
+```
+
+---
+
+# 18. PARTY SYNCHRONIZATION
+
+Semua Party pada Milestone Floor berada dalam satu:
+
+```text
+DUNGEON SESSION
+```
+
+Contoh Floor 80:
+
+```text
+Dungeon Session
+       │
+       ├── Party 1
+       ├── Party 2
+       ├── Party 3
+       └── Party 4
+```
+
+Contoh Floor 100:
+
+```text
+Dungeon Session
+       │
+       ├── Party 1
+       ├── Party 2
+       ├── Party 3
+       ├── Party 4
+       └── Party 5
+```
+
+Floor biasa hanya memiliki satu Party aktif:
+
+```text
+Dungeon Session
+       │
+       └── Party 1
+```
+
+Semua perubahan penting disinkronkan melalui:
+
+# GAME STATE SYSTEM
+
+---
+
+# 19. SHARED FLOOR STATE
+
+Shared Floor State hanya membutuhkan Multi-Party Controller pada Milestone Floor.
+
+```text
+PARTY 1 STATE
+      │
+PARTY 2 STATE
+      │
+PARTY 3 STATE
+      │
+PARTY 4 STATE
+      │
+PARTY 5 STATE
+      │
+      ▼
+SHARED FLOOR STATE
+      │
+      ▼
+GAME STATE SYSTEM
+```
+
+Pada Floor biasa:
+
+```text
+PARTY 1 STATE
+      │
+      ▼
+FLOOR STATE
+      │
+      ▼
+GAME STATE SYSTEM
+```
+
+Contoh:
+
+```text
+Floor 80:
+Party 1 destroys bridge
+       ↓
+Shared Floor State updated
+       ↓
+Party 2 cannot use bridge
+```
+
+---
+
+# 20. PARTY FAILURE
+
+Jika satu Party gagal, Dungeon tidak otomatis selalu gagal.
+
+Dungeon System membaca aturan Mission.
+
+Kemungkinan:
+
+```text
+Party Failed
+     ↓
+Objective Failed
+     ↓
+Event Trigger
+     ↓
+Difficulty Change
+     ↓
+Other Party Affected
+```
+
+atau:
+
+```text
+Party Failed
+     ↓
+Dungeon Failed
+```
+
+tergantung aturan Floor.
+
+Pada Floor biasa:
+
+```text
+1 Party Failed
+     ↓
+Dungeon dapat langsung gagal
+```
+
+Pada Multi-Party Floor:
+
+```text
+1 Party Failed
+     ↓
+Party lain masih dapat melanjutkan
+```
+
+Namun, jika Party tersebut memegang objective utama:
+
+```text
+Main Objective Failed
+     ↓
+Dungeon Failed
+```
+
+---
+
+# 21. COMPLETE PARTY DEFEAT
+
+Jika semua Party yang diwajibkan mengalami kondisi gagal sesuai aturan Mission:
+
+```text
+ALL REQUIRED PARTIES FAILED
+        ↓
+DUNGEON FAILED
+```
+
+Pada Floor biasa:
+
+```text
+Party 1 Defeated
+        ↓
+Dungeon Failed
+```
+
+Pada Floor 80:
+
+```text
+Party 1 Defeated
+Party 2 Defeated
+Party 3 Defeated
+Party 4 Defeated
+        ↓
+Dungeon Failed
+```
+
+Quest yang terkait dengan Dungeon:
+
+```text
+QUEST
+  ↓
+MISSION FAILED
+```
+
+akan diperbarui oleh:
+
+```text
+Quest System
+Game State System
+```
+
+---
+
+# 22. PARTY DEATH
+
+Status Hero dan Party diproses oleh:
+
+```text
+Character System
+AI Character System
+Basic Combat System
+Party System
+Game State System
+```
+
+Dungeon System hanya menerima hasil:
+
+```text
+ALIVE
+INJURED
+DOWN
+DEFEATED
+```
+
+untuk menentukan kondisi Dungeon.
+
+---
+
+# 23. FLOOR 50 — FIRST MULTI-PARTY FLOOR
+
+Floor 50 menjadi awal sistem Multi-Party.
+
+```text
+FLOOR 49
+     ↓
+1 PARTY
+
+FLOOR 50
+     ↓
+2 PARTY
+```
+
+Tujuannya adalah memperkenalkan Master kepada:
+
+```text
+Multi-Party Management
+Party Distribution
+Resource Management
+Objective Distribution
+Party Synchronization
+```
+
+Setelah Floor 50:
+
+```text
+FLOOR 51–59
+     ↓
+1 PARTY
+```
+
+Dengan demikian, Multi-Party tidak aktif secara permanen pada semua Floor setelah Floor 50.
+
+---
+
+# 24. FLOOR 60 — THREE PARTY
+
+Pada Floor 60:
+
+```text
+3 PARTY
+```
+
+Master mulai menghadapi Dungeon yang membutuhkan pembagian strategi lebih besar.
+
+Contoh:
+
+```text
+Party 1
+→ Frontline
+
+Party 2
+→ Secondary Route
+
+Party 3
+→ Objective / Boss
+```
+
+Floor 61 sampai Floor 69 kembali menggunakan:
+
+```text
+1 PARTY
+```
+
+---
+
+# 25. FLOOR 70 — THREE PARTY
+
+Pada Floor 70:
+
+```text
+3 PARTY
+```
+
+Floor ini dapat menggunakan:
+
+```text
+Three Route Dungeon
+Three Objective Dungeon
+Defense Dungeon
+Multi-Target Dungeon
+```
+
+Contoh:
+
+```text
+Party 1
+→ Main Gate
+
+Party 2
+→ Enemy Route
+
+Party 3
+→ Boss Objective
+```
+
+Floor 71 sampai Floor 79 kembali menggunakan:
+
+```text
+1 PARTY
+```
+
+---
+
+# 26. FLOOR 80 — FOUR PARTY
+
+Pada Floor 80:
+
+```text
+4 PARTY
+```
+
+Ini menjadi Milestone Floor dengan empat Party.
+
+```text
+                FLOOR 80
+                    │
+        ┌───────────┼───────────┐
+        │           │           │
+     PARTY 1     PARTY 2     PARTY 3
+        │           │           │
+        └───────────┼───────────┘
+                    │
+              PARTY 4
+                    │
+                    ▼
+             SHARED MISSION
+```
+
+Maximum:
+
+```text
+4 PARTY
+×
+5 HERO
+=
+20 HERO MAXIMUM
+```
+
+Floor 81 sampai Floor 89 hanya membutuhkan:
+
+```text
+1 PARTY
+```
+
+---
+
+# 27. FLOOR 90 — FOUR PARTY
+
+Pada Floor 90:
+
+```text
+4 PARTY
+```
+
+Floor ini dapat digunakan untuk:
+
+```text
+Four Route Dungeon
+Four Objective Dungeon
+Multi-Boss Dungeon
+Defense Dungeon
+Raid Preparation
+```
+
+Master harus mengatur:
+
+```text
+Hero
+Leader
+Formation
+Equipment
+Party Role
+Objective
+```
+
+Floor 91 sampai Floor 99 kembali menggunakan:
+
+```text
+1 PARTY
+```
+
+---
+
+# 28. FLOOR 100
+
+Floor 100 menggunakan:
+
+```text
+5 PARTY
+```
+
+sebagai jumlah maksimum Party.
+
+```text
+FLOOR 100
+     ↓
+5 PARTY
+     ↓
+FINAL DUNGEON
+     ↓
+FINAL BATTLE
+```
+
+Kelima Party dapat digunakan untuk menghadapi berbagai objective dalam Final Dungeon.
+
+Contoh:
+
+```text
+PARTY 1
+→ Main Assault
+
+PARTY 2
+→ Defense
+
+PARTY 3
+→ Destroy Dark Core
+
+PARTY 4
+→ Protect Rebirth Core
+
+PARTY 5
+→ Final Objective
+```
+
+Floor 100 adalah satu-satunya Floor yang menggunakan lima Party.
+
+---
+
+# 29. PARTY SLOT AND QUEST SYSTEM
+
+Quest dapat menentukan jumlah Party yang dibutuhkan berdasarkan Floor.
+
+Contoh Floor biasa:
+
+```text
+Quest:
+Conquer Floor 55
+
+Required:
+1 Party
+```
+
+Contoh Milestone Floor:
+
+```text
+Quest:
+Conquer Floor 80
+
+Required:
+4 Party
+```
+
+Quest validation:
+
+```text
+Quest Active
+    ↓
+Dungeon Enter
+    ↓
+Check Floor Number
+    ↓
+Check Milestone
+    ↓
+Calculate Required Party
+    ↓
+Party Ready?
+    │
+ ┌──┴──┐
+YES    NO
+ ↓      ↓
+START  LOCK
+```
+
+---
+
+# 30. PARTY SLOT AND EVENT SYSTEM
+
+Jumlah Party dapat menjadi trigger Event pada Milestone Floor.
+
+Contoh:
+
+```text
+Floor 50
+Required:
+2 Party
+```
+
+Saat semua Party berhasil masuk:
+
+```text
+2 PARTY READY
+      ↓
+EVENT TRIGGER
+      ↓
+"THE TWO GATES OPEN"
+```
+
+Contoh Floor 80:
+
+```text
+Floor 80
+Required:
+4 Party
+```
+
+Saat semua Party berhasil masuk:
+
+```text
+4 PARTY READY
+      ↓
+EVENT TRIGGER
+      ↓
+"THE FOUR GATES OPEN"
+```
+
+Floor biasa dapat menggunakan Event normal tanpa Multi-Party.
+
+```text
+Floor 55
+Required:
+1 Party
+```
+
+---
+
+# 31. PARTY SLOT AND RAID BOSS
+
+Raid Boss dapat menggunakan Party Requirement dari Milestone Floor.
+
+Contoh:
+
+```text
+Floor 80
+     ↓
+4 Party
+     ↓
+Raid Boss
+```
+
+Struktur:
+
+```text
+PARTY 1 → MAIN ATTACK
+PARTY 2 → SUPPORT
+PARTY 3 → DEFENSE
+PARTY 4 → BOSS MECHANIC
+```
+
+Floor 85 tidak otomatis menggunakan Raid Formation tersebut.
+
+```text
+Floor 85
+     ↓
+1 Party
+```
+
+Floor 100 menggunakan konfigurasi Raid maksimum:
+
+```text
+PARTY 1 → MAIN ATTACK
+PARTY 2 → SUPPORT
+PARTY 3 → DEFENSE
+PARTY 4 → OBJECTIVE
+PARTY 5 → FINAL BOSS MECHANIC
+```
+
+Raid Boss sendiri tetap dikontrol oleh:
+
+```text
+Raid Boss System
+Enemy System
+Basic Combat System
+AI System
+```
+
+---
+
+# 32. PARTY SLOT AND RNG
+
+Party Slot Requirement tidak menggunakan RNG.
+
+Jumlah Party ditentukan secara tetap berdasarkan Floor.
+
+```text
+MILESTONE FLOOR
+=
+FIXED PARTY REQUIREMENT
+
+NON-MILESTONE FLOOR
+=
+1 PARTY
+```
+
+RNG digunakan pada:
+
+```text
+Enemy Quantity
+Enemy Selection
+Loot
+Floor Reward
+Exploration Reward
+Raid Reward
+Quest Reward
+Event Random Result
+```
+
+Dengan demikian:
+
+```text
+PARTY REQUIREMENT
+=
+FIXED
+
+REWARD / LOOT / ENEMY RANDOMIZATION
+=
+RNG
+```
+
+---
+
+# 33. AI FAIRY REPORT
+
+AI Fairy wajib memberitahu Master mengenai Party Requirement sebelum Dungeon dimulai.
+
+Contoh Floor biasa:
+
+### Floor 55
+
+> **"Master, Floor 55 bukan Milestone Floor. Dungeon ini hanya membutuhkan 1 Party."**
+
+Contoh Milestone:
+
+### Floor 50
+
+> **"Master, Floor 50 adalah Milestone Floor dan membutuhkan 2 Party untuk memulai misi."**
+
+### Floor 60
+
+> **"Master, Floor 60 membutuhkan 3 Party. Semua slot Party harus siap sebelum misi dapat dimulai."**
+
+### Floor 80
+
+> **"Master, Floor 80 membutuhkan 4 Party. Party 3 masih belum siap."**
+
+### Floor 100
+
+> **"Master, Floor 100 membutuhkan seluruh 5 Party. Semua Party harus berada dalam kondisi siap sebelum Final Dungeon dapat dimulai."**
+
+---
+
+# 34. AI FAIRY — PARTY STATUS REPORT
+
+Fairy dapat melaporkan:
+
+```text
+Floor Number
+Milestone Status
+Required Party
+Ready Party
+Empty Slot
+Party Condition
+Hero Condition
+Party Leader
+Mission Objective
+Party Status
+```
+
+Contoh Floor biasa:
+
+> **"Master, Floor 85 bukan Milestone Floor. Dibutuhkan 1 Party dan Party 1 sudah siap."**
+
+Contoh Multi-Party:
+
+> **"Master, laporan Party. Floor 90 membutuhkan 4 Party. Party 1, 2, dan 3 siap. Party 4 belum memenuhi persyaratan."**
+
+---
+
+# 35. PARTY SLOT DATABASE
+
+Party Slot Requirement disimpan dalam Database System.
+
+Contoh data:
+
+```text
+Floor_ID
+Floor_Number
+Is_Milestone_Floor
+Milestone_Type
+Required_Party
+Maximum_Party
+Party_Slot_Status
+Dungeon_Session_ID
+```
+
+Contoh Floor biasa:
+
+```text
+FLOOR-000055
+
+Floor_Number:
+55
+
+Is_Milestone_Floor:
+FALSE
+
+Required_Party:
+1
+
+Maximum_Party:
+1
+```
+
+Contoh Milestone Floor:
+
+```text
+FLOOR-000080
+
+Floor_Number:
+80
+
+Is_Milestone_Floor:
+TRUE
+
+Milestone_Type:
+FOUR_PARTY
+
+Required_Party:
+4
+
+Maximum_Party:
+4
+```
+
+---
+
+# 36. DUNGEON SESSION DATA
+
+Saat Dungeon dimulai:
+
+```text
+Dungeon_Session_ID
+Master_ID
+Floor_ID
+Floor_Number
+Is_Milestone_Floor
+Required_Party
+Active_Party
+Party_1_ID
+Party_2_ID
+Party_3_ID
+Party_4_ID
+Party_5_ID
+Mission_State
+Shared_Floor_State
+```
+
+Pada Floor biasa:
+
+```text
+Floor 55
+
+Party_1_ID = ACTIVE
+Party_2_ID = NULL
+Party_3_ID = NULL
+Party_4_ID = NULL
+Party_5_ID = NULL
+```
+
+Pada Floor 80:
+
+```text
+Floor 80
+
+Party_1_ID = ACTIVE
+Party_2_ID = ACTIVE
+Party_3_ID = ACTIVE
+Party_4_ID = ACTIVE
+Party_5_ID = NULL
+```
+
+Pada Floor 100:
+
+```text
+Floor 100
+
+Party_1_ID = ACTIVE
+Party_2_ID = ACTIVE
+Party_3_ID = ACTIVE
+Party_4_ID = ACTIVE
+Party_5_ID = ACTIVE
+```
+
+---
+
+# 37. PARTY SLOT STATE
+
+Setiap slot memiliki state:
+
+```text
+EMPTY
+SELECTED
+READY
+DEPLOYED
+IN MISSION
+COMPLETED
+FAILED
+DEFEATED
+```
+
+Contoh Floor biasa:
+
+```text
+Floor 55
+
+Party 1 → IN MISSION
+Party 2 → EMPTY
+Party 3 → EMPTY
+Party 4 → EMPTY
+Party 5 → EMPTY
+```
+
+Contoh Floor 80:
+
+```text
+Floor 80
+
+Party 1 → IN MISSION
+Party 2 → IN MISSION
+Party 3 → IN MISSION
+Party 4 → IN MISSION
+Party 5 → EMPTY
+```
+
+Contoh Floor 100:
+
+```text
+Floor 100
+
+Party 1 → IN MISSION
+Party 2 → IN MISSION
+Party 3 → IN MISSION
+Party 4 → IN MISSION
+Party 5 → IN MISSION
+```
+
+---
+
+# 38. COMPLETE PARTY SLOT FLOW
+
+```text
+MASTER SELECT FLOOR
+        ↓
+DUNGEON SYSTEM
+        ↓
+READ FLOOR NUMBER
+        ↓
+CHECK MILESTONE FLOOR
+        ↓
+MILESTONE?
+   ┌────┴────┐
+  YES        NO
+   │          │
+   ▼          ▼
+CALCULATE   REQUIRED
+REQUIRED    PARTY = 1
+PARTY
+   │          │
+   └────┬─────┘
+        ↓
+CREATE PARTY SLOTS
+        ↓
+MASTER ASSIGNS PARTY
+        ↓
+PARTY VALIDATION
+        ↓
+ALL REQUIRED SLOTS READY?
+        │
+     ┌──┴──┐
+    YES    NO
+     │      │
+     ▼      ▼
+ DEPLOY    LOCK
+     │
+     ▼
+DUNGEON START
+```
+
+---
+
+# 39. PARTY SLOT PROGRESSION
+
+```text
+FLOOR 1–49
+   │
+   └── 1 PARTY
+
+FLOOR 50
+   │
+   └── 2 PARTY
+
+FLOOR 51–59
+   │
+   └── 1 PARTY
+
+FLOOR 60
+   │
+   └── 3 PARTY
+
+FLOOR 61–69
+   │
+   └── 1 PARTY
+
+FLOOR 70
+   │
+   └── 3 PARTY
+
+FLOOR 71–79
+   │
+   └── 1 PARTY
+
+FLOOR 80
+   │
+   └── 4 PARTY
+
+FLOOR 81–89
+   │
+   └── 1 PARTY
+
+FLOOR 90
+   │
+   └── 4 PARTY
+
+FLOOR 91–99
+   │
+   └── 1 PARTY
+
+FLOOR 100
+   │
+   └── 5 PARTY MAX
+```
+
+---
+
+# 40. FINAL PARTY SLOT ARCHITECTURE
+
+```text
+                         DUNGEON SYSTEM
+                                │
+                                ▼
+                           FLOOR NUMBER
+                                │
+                                ▼
+                       MILESTONE CHECK
+                                │
+                 ┌──────────────┴──────────────┐
+                 │                             │
+              MILESTONE                    NON-MILESTONE
+                 │                             │
+                 ▼                             ▼
+       FIXED PARTY REQUIREMENT              1 PARTY
+                 │                             │
+        ┌────────┼────────┬────────┬─────────┐
+        │        │        │        │         │
+     FLOOR 50 FLOOR 60 FLOOR 70 FLOOR 80 FLOOR 90 FLOOR 100
+        │        │        │        │         │        │
+     2 PARTY  3 PARTY  3 PARTY  4 PARTY   4 PARTY  5 PARTY
+        │        │        │        │         │        │
+        └────────┴────────┴────────┴─────────┴────────┘
+                                │
+                                ▼
+                      PARTY SLOT VALIDATION
+                                │
+                                ▼
+                         DUNGEON SESSION
+                                │
+                                ▼
+                     MULTI-PARTY CONTROLLER
+                                │
+                                ▼
+                       SHARED FLOOR STATE
+                                │
+                                ▼
+                       GAME STATE SYSTEM
+                                │
+             ┌──────────────────┼──────────────────┐
+             │                  │                  │
+             ▼                  ▼                  ▼
+         CHARACTER           QUEST              EVENT
+             │                  │                  │
+             └──────────────────┼──────────────────┘
+                                ▼
+                         COMBAT / EXPLORATION
+                                │
+                                ▼
+                           BOSS / RAID
+                                │
+                                ▼
+                            RNG SYSTEM
+                                │
+                                ▼
+                        INVENTORY SYSTEM
+                                │
+                                ▼
+                         DATABASE SYSTEM
+                                │
+                                ▼
+                            AI FAIRY
+                                │
+                                ▼
+                             MASTER
+```
+
+---
+
+# 41. CORE RULE
+
+```text
+┌────────────────────────────────────────────────────┐
+│              PARTY SLOT CORE RULE                  │
+├────────────────────────────────────────────────────┤
+│                                                    │
+│ Floor biasa              → 1 Party                 │
+│ Floor 50                 → 2 Party                 │
+│ Floor 60                 → 3 Party                 │
+│ Floor 70                 → 3 Party                 │
+│ Floor 80                 → 4 Party                 │
+│ Floor 90                 → 4 Party                 │
+│ Floor 100                → 5 Party                 │
+│                                                    │
+│ Floor selain milestone   → 1 Party                 │
+│                                                    │
+│ Maximum Party            = 5                       │
+│ Maximum Hero per Party   = 5                       │
+│ Maximum Hero at Floor 100 = 25                    │
+│                                                    │
+└────────────────────────────────────────────────────┘
+```
+
+---
+
+# 42. DESIGN PRINCIPLE
+
+Party Slot Requirement dibuat untuk meningkatkan kompleksitas pengelolaan Master secara bertahap, tetapi hanya pada Floor Milestone.
+
+```text
+EARLY GAME
+
+Floor 1–49
+   ↓
+1 PARTY
+   ↓
+Master belajar mengelola satu Party
+```
+
+```text
+FIRST MILESTONE
+
+Floor 50
+   ↓
+2 PARTY
+   ↓
+Master mulai belajar mengelola Multi-Party
+```
+
+```text
+MID GAME
+
+Floor 51–59
+   ↓
+1 PARTY
+   ↓
+Master kembali menghadapi operasi normal
+```
+
+```text
+SECOND MILESTONE
+
+Floor 60
+   ↓
+3 PARTY
+   ↓
+Master mulai membagi objective ke beberapa Party
+```
+
+```text
+THIRD MILESTONE
+
+Floor 70
+   ↓
+3 PARTY
+   ↓
+Master menghadapi Dungeon dengan beberapa jalur
+```
+
+```text
+LATE GAME MILESTONE
+
+Floor 80
+   ↓
+4 PARTY
+   ↓
+Master mengelola beberapa medan sekaligus
+```
+
+```text
+FINAL PREPARATION
+
+Floor 90
+   ↓
+4 PARTY
+   ↓
+Master mempersiapkan operasi Final Dungeon
+```
+
+```text
+END GAME
+
+Floor 100
+   ↓
+5 PARTY
+   ↓
+Master mengendalikan seluruh operasi Dungeon terakhir
+```
+
+Dengan sistem ini, perkembangan Master tidak hanya ditentukan oleh kekuatan Hero.
+
+Master juga harus semakin baik dalam:
+
+```text
+Party Management
+Resource Management
+Hero Distribution
+Leader Selection
+Formation
+Objective Assignment
+Risk Management
+Multi-Party Coordination
+Dungeon Strategy
+```
+
+Sehingga pada Floor 100:
+
+```text
+MASTER
+  │
+  ├── PARTY 1
+  ├── PARTY 2
+  ├── PARTY 3
+  ├── PARTY 4
+  └── PARTY 5
+       │
+       ▼
+   25 HERO MAX
+       │
+       ▼
+   FINAL DUNGEON
+       │
+       ▼
+    NYTHAR
+```
+
+> **Floor biasa hanya membutuhkan 1 Party.**
+
+> **Multi-Party hanya aktif pada Floor Milestone yang telah ditentukan.**
+
+> **Semakin tinggi Tower yang dicapai, semakin besar tanggung jawab Master.**
+
+> **Pada Floor 100, seluruh lima Party menjadi bagian dari operasi terakhir Tower.**
