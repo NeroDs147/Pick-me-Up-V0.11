@@ -1,0 +1,2784 @@
+# ⚔️ AETHERIA — BASIC COMBAT SYSTEM
+
+> **A battle is not only a calculation of strength.**
+>
+> **A Hero fights with their body, mind, emotions, memories, and will to survive.**
+>
+> **The Master commands.**
+>
+> **The Heroes act.**
+>
+> **The Fairy observes.**
+>
+> **The World reacts.**
+>
+> **When a Hero dies, that death is permanent.**
+
+The **Basic Combat System** is the foundational battle framework of Aetheria.
+
+The system controls combat between:
+
+```text
+Hero
+Enemy
+Boss
+NPC
+Faction
+Monster
+Cult
+World Entity
+```
+
+Combat is not completely deterministic.
+
+Hero behavior, decision-making, performance, and reactions can be influenced by:
+
+```text
+AI
+Character Personality
+Emotional State
+Morale
+Stress
+Fear
+Trust
+Relationships
+Health
+Stamina
+Skills
+Equipment
+Enemy Strength
+Floor Condition
+Destruction Level
+Game State
+Battle Events
+```
+
+The **AI Fairy** continuously observes the battlefield and reports important combat conditions to the Master.
+
+---
+
+# 1. SYSTEM POSITION
+
+The Basic Combat System operates between the Character System, Enemy System, AI Character System, and Game State System.
+
+```text
+                         GAME MANAGER
+                              │
+                              ▼
+                       GAME STATE SYSTEM
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+          ▼                   ▼                   ▼
+     CHARACTER SYSTEM     ENEMY SYSTEM        FLOOR SYSTEM
+          │                   │                   │
+          ▼                   ▼                   ▼
+     HERO AI + EMOTION       ENEMY AI         DESTRUCTION
+          │                   │                   │
+          └───────────────────┼───────────────────┘
+                              ▼
+                     BASIC COMBAT SYSTEM
+                              │
+              ┌───────────────┼───────────────┐
+              │               │               │
+              ▼               ▼               ▼
+             AI           BATTLE STATE       RNG
+              │               │               │
+              └───────────────┼───────────────┘
+                              ▼
+                         AI FAIRY
+                              │
+                              ▼
+                           MASTER
+```
+
+---
+
+# 2. CORE COMBAT PHILOSOPHY
+
+The combat system is designed around one principle:
+
+> **The Master controls the battle, but the Heroes are living characters.**
+
+Therefore, a Hero does not behave like a simple game piece.
+
+A Hero can:
+
+```text
+Attack
+Defend
+Retreat
+Protect Ally
+Use Skill
+Use Item
+Change Target
+Assist Ally
+React to Danger
+Panic
+Hesitate
+Become Aggressive
+Take Risks
+Follow Orders
+Ignore Orders
+Die Permanently
+```
+
+Their behavior depends on their current state.
+
+A Hero's death is not a temporary combat condition. Once a Hero dies, that Hero is permanently removed from the active world state unless the story explicitly defines a non-revival exception. Standard revival items, healing, skills, and combat effects cannot restore a permanently dead Hero.
+
+---
+
+# 3. BASIC COMBAT LOOP
+
+```text
+BATTLE START
+     ↓
+ANALYZE BATTLEFIELD
+     ↓
+CHECK HERO STATE
+     ↓
+CHECK ENEMY STATE
+     ↓
+AI DECISION
+     ↓
+ACTION
+     ↓
+CALCULATE RESULT
+     ↓
+UPDATE HP / STATUS
+     ↓
+CHECK DEATH
+     ↓
+UPDATE EMOTIONAL STATE
+     ↓
+UPDATE BATTLE STATE
+     ↓
+FAIRY OBSERVATION
+     ↓
+NEXT ACTION
+     ↓
+BATTLE END
+```
+
+---
+
+# 4. BATTLE PARTICIPANTS
+
+A battle can contain:
+
+```text
+Master
+Hero
+Enemy
+Boss
+NPC
+Summoned Entity
+Environmental Entity
+```
+
+The Master does not necessarily fight directly.
+
+The Master primarily:
+
+```text
+Selects Party
+Issues Commands
+Uses Strategy
+Uses Items
+Makes Decisions
+```
+
+The Heroes perform the actual combat actions.
+
+---
+
+# 5. PARTY STRUCTURE
+
+The basic party system can support:
+
+```text
+Frontline
+Backline
+Support
+Reserve
+```
+
+Example:
+
+```text
+              ENEMY
+                │
+        ┌───────┴───────┐
+        ▼               ▼
+     FRONTLINE       BACKLINE
+        │               │
+   Tank / Fighter    Mage / Archer
+        │               │
+        └───────┬───────┘
+                ▼
+             SUPPORT
+```
+
+The exact party size can be configured by the Game System.
+
+A dead Hero cannot be moved to the Reserve, returned to the party, or deployed in a later battle.
+
+---
+
+# 6. HERO COMBAT DATA
+
+Every living Hero entering combat carries their current state.
+
+```text
+Hero ID
+Current HP
+Maximum HP
+Stamina
+Mana
+Attack
+Defense
+Magic Power
+Magic Defense
+Speed
+Critical Rate
+Skills
+Equipment
+Buffs
+Debuffs
+Morale
+Stress
+Fear
+Trust
+Emotional State
+Relationship State
+AI State
+Life State
+Death Timestamp
+```
+
+`Life State` can be:
+
+```text
+Alive
+Injured
+Unconscious
+Dead Permanently
+```
+
+A permanently dead Hero cannot enter combat again.
+
+---
+
+# 7. ENEMY COMBAT DATA
+
+Enemies have similar combat information.
+
+```text
+Enemy ID
+Enemy Type
+Level
+HP
+Attack
+Defense
+Magic Power
+Magic Defense
+Speed
+Skills
+Status
+AI Behavior
+Aggression
+Target Priority
+Destruction Influence
+Life State
+```
+
+---
+
+# 8. COMBAT AI
+
+AI controls combat decision-making.
+
+The AI evaluates:
+
+```text
+Current HP
+Enemy HP
+Distance
+Threat
+Allies
+Enemy Position
+Available Skills
+Cooldown
+Stamina
+Mana
+Emotional State
+Morale
+Fear
+Personality
+Orders
+Battle Objective
+Environment
+Destruction Level
+Permanent Death Risk
+```
+
+The AI then selects an action.
+
+Because death is permanent, survival evaluation is a core part of Hero AI. A Hero may choose defense, retreat, protection, or support actions when the risk of death becomes too high.
+
+---
+
+# 9. AI DECISION MODEL
+
+Basic structure:
+
+```text
+BATTLE STATE
+      ↓
+CHARACTER STATE
+      ↓
+LIFE STATE
+      ↓
+EMOTIONAL STATE
+      ↓
+PERSONALITY
+      ↓
+TACTICAL ANALYSIS
+      ↓
+MASTER ORDER
+      ↓
+AI DECISION
+      ↓
+ACTION
+```
+
+The Master can issue commands, but AI determines how the Hero executes the action.
+
+A dead Hero has no AI decision and cannot perform any action.
+
+---
+
+# 10. MASTER COMMANDS
+
+Basic commands:
+
+```text
+Attack
+Defend
+Focus Target
+Protect
+Use Skill
+Use Item
+Retreat
+Hold Position
+Support
+Target Boss
+Target Weak Enemy
+```
+
+These are tactical instructions rather than absolute animation commands.
+
+The Master cannot command a permanently dead Hero.
+
+---
+
+# 11. COMMAND PRIORITY
+
+Recommended decision priority:
+
+```text
+1. Permanent Survival
+2. Critical Threat
+3. Master Order
+4. Party Protection
+5. Objective
+6. Tactical Advantage
+7. Personal AI Preference
+```
+
+However, emotional conditions can modify these priorities.
+
+A Hero may still take a lethal risk because of personality, emotional state, relationships, or story events. If the Hero dies as a result, the death is permanent.
+
+---
+
+# 12. EMOTIONAL COMBAT SYSTEM
+
+Combat is directly connected to the:
+
+**AI Character / Hero + Emotional System**
+
+A Hero's emotional state can affect their behavior.
+
+Possible emotions:
+
+```text
+Calm
+Focused
+Confident
+Happy
+Angry
+Afraid
+Panicked
+Sad
+Desperate
+Determined
+Frustrated
+Confused
+Exhausted
+Traumatized
+Hopeful
+```
+
+The permanent death of an ally can cause severe emotional consequences for surviving Heroes.
+
+---
+
+# 13. EMOTIONAL STATE EFFECT
+
+Example:
+
+```text
+HERO
+HP = 20%
+
+Enemy approaches
+
+Emotional State:
+FEAR
+
+AI Evaluation:
+High danger
+
+Possible behavior:
+Retreat
+Defend
+Seek ally
+Ignore aggressive command
+```
+
+Another Hero:
+
+```text
+HP = 20%
+
+Emotional State:
+DETERMINED
+
+AI Evaluation:
+Critical situation
+
+Possible behavior:
+Risk attack
+Protect ally
+Use strongest skill
+Refuse retreat
+```
+
+A Hero who dies during the battle is permanently removed from all future combat states.
+
+---
+
+# 14. PERSONALITY EFFECT
+
+Two Heroes with the same statistics may behave differently.
+
+Example:
+
+```text
+Hero A
+Personality:
+Brave
+
+Reaction:
+Attack the enemy.
+
+
+Hero B
+Personality:
+Cautious
+
+Reaction:
+Maintain distance.
+
+
+Hero C
+Personality:
+Protective
+
+Reaction:
+Protect injured ally.
+```
+
+This creates different combat experiences.
+
+Personality can influence whether a Hero avoids or accepts lethal risks, but it cannot undo permanent death.
+
+---
+
+# 15. MORALE
+
+Morale represents the Hero's willingness to continue fighting.
+
+Morale can be influenced by:
+
+```text
+Victory
+Defeat
+Ally Death
+Boss Appearance
+Master Orders
+Successful Attack
+Critical Hit
+Receiving Healing
+Fear
+Trauma
+Relationship
+Character Story
+Environment
+Destruction Level
+Permanent Loss
+```
+
+The death of an ally is a permanent loss and may have a stronger effect than ordinary defeat or temporary incapacitation.
+
+---
+
+# 16. MORALE STATES
+
+```text
+VERY HIGH
+HIGH
+NORMAL
+LOW
+CRITICAL
+BROKEN
+```
+
+Possible effects:
+
+### Very High
+
+```text
+Higher confidence
+More aggressive decisions
+Better cooperation
+```
+
+### Low
+
+```text
+Hesitation
+Defensive behavior
+Reduced cooperation
+```
+
+### Critical
+
+```text
+Panic
+Retreat
+Disobedience
+```
+
+### Broken
+
+```text
+Severe emotional collapse
+Loss of combat effectiveness
+Refusal to continue
+Possible permanent relationship changes
+```
+
+---
+
+# 17. STRESS
+
+Stress increases when:
+
+```text
+HP becomes low
+Allies die permanently
+Boss appears
+Character is surrounded
+Enemy is overwhelming
+Master makes risky decisions
+Destruction Level is high
+```
+
+Stress can reduce combat consistency.
+
+---
+
+# 18. FEAR
+
+Fear can be triggered by:
+
+```text
+Powerful Enemy
+Boss
+Unknown Entity
+Permanent Death of Ally
+Dark Magic
+Cult Ritual
+Extreme Destruction
+Character Trauma
+```
+
+Fear does not always mean weakness.
+
+A brave Hero may experience fear but continue fighting.
+
+---
+
+# 19. AI EMOTIONAL DECISION
+
+```text
+             BATTLE EVENT
+                  ↓
+            EMOTIONAL INPUT
+                  ↓
+          PERMANENT LOSS CHECK
+                  ↓
+          PERSONALITY CHECK
+                  ↓
+            AI EVALUATION
+                  ↓
+         TACTICAL DECISION
+                  ↓
+               ACTION
+```
+
+---
+
+# 20. BASIC COMBAT ACTIONS
+
+The initial combat system supports:
+
+```text
+Basic Attack
+Heavy Attack
+Defend
+Move
+Dodge
+Block
+Skill
+Item
+Assist
+Protect
+Retreat
+```
+
+Additional actions can be added later.
+
+No action can restore a permanently dead Hero.
+
+---
+
+# 21. BASIC ATTACK
+
+Basic attack calculation:
+
+```text
+ATTACK POWER
+      ↓
+TARGET DEFENSE
+      ↓
+DAMAGE CALCULATION
+      ↓
+CRITICAL CHECK
+      ↓
+FINAL DAMAGE
+      ↓
+TARGET HP UPDATE
+      ↓
+DEATH CHECK
+```
+
+---
+
+# 22. DAMAGE
+
+Basic conceptual formula:
+
+```text
+Final Damage =
+Attack Power
+× Skill Modifier
+× Critical Modifier
+× Condition Modifier
+− Defense Reduction
+```
+
+The exact formula should remain configurable.
+
+---
+
+# 23. CRITICAL HIT
+
+Critical attacks are influenced by:
+
+```text
+Critical Rate
+Character Skill
+Equipment
+Buff
+Debuff
+AI Decision
+RNG
+```
+
+The RNG System handles the random component.
+
+A critical hit that reduces a Hero's HP to zero triggers permanent death.
+
+---
+
+# 24. DEFENSE
+
+A Hero can choose:
+
+```text
+Defend
+Block
+Dodge
+Counter
+```
+
+based on their available abilities.
+
+AI chooses the appropriate response.
+
+Defensive actions reduce the risk of death but do not guarantee survival.
+
+---
+
+# 25. SKILL SYSTEM
+
+Skills are controlled by the Character/Hero System.
+
+Combat checks:
+
+```text
+Skill Available?
+       ↓
+Cooldown Ready?
+       ↓
+Mana/Stamina Available?
+       ↓
+Target Valid?
+       ↓
+AI Decision
+       ↓
+Execute Skill
+```
+
+Skills cannot revive permanently dead Heroes.
+
+---
+
+# 26. SKILL + EMOTION
+
+Emotional conditions can influence skill selection.
+
+Example:
+
+```text
+Hero:
+Angry
+
+Enemy:
+Killed Ally Permanently
+
+AI:
+Prioritizes offensive skill.
+```
+
+Another:
+
+```text
+Hero:
+Fear
+
+Enemy:
+Boss
+
+AI:
+Prioritizes defensive skill.
+```
+
+---
+
+# 27. ITEM + COMBAT
+
+Items come from the Item + Inventory System.
+
+Examples:
+
+```text
+Health Potion
+Mana Potion
+Buff Item
+Protection Item
+Revival Item
+Special Artifact
+```
+
+AI can recommend or use items depending on combat rules.
+
+`Revival Item` does not restore a permanently dead Hero. It may only be used for temporary incapacitation or other non-death conditions if explicitly supported by the game rules.
+
+---
+
+# 28. ITEM USAGE FLOW
+
+```text
+AI DECISION
+     ↓
+ITEM CHECK
+     ↓
+INVENTORY
+     ↓
+ITEM VALIDATION
+     ↓
+ITEM EFFECT
+     ↓
+COMBAT STATE UPDATE
+     ↓
+GAME STATE
+```
+
+Any item that attempts to target a permanently dead Hero must fail validation unless it is a non-revival item such as a memorial, quest, or story item.
+
+---
+
+# 29. ENEMY AI
+
+Enemies also use AI.
+
+Enemy behavior can include:
+
+```text
+Aggressive
+Defensive
+Cautious
+Ambush
+Support
+Protective
+Strategic
+Berserk
+Retreat
+Boss Behavior
+Cult Tactics
+```
+
+---
+
+# 30. ENEMY TARGET SELECTION
+
+Enemy AI evaluates:
+
+```text
+Closest Hero
+Lowest HP
+Highest Threat
+Healer
+Mage
+Master
+Objective Target
+Protected Target
+```
+
+This prevents enemies from behaving identically.
+
+Enemies may prioritize weakened Heroes, but the system must clearly distinguish between:
+
+```text
+Injured
+Unconscious
+Dead Permanently
+```
+
+A permanently dead Hero is no longer a valid combat target.
+
+---
+
+# 31. BOSS AI
+
+Bosses can have advanced behavior.
+
+Example:
+
+```text
+PHASE 1
+Normal attacks
+
+PHASE 2
+HP < 70%
+
+Behavior changes
+
+PHASE 3
+HP < 30%
+
+Enraged
+```
+
+Boss behavior can also be influenced by Destruction Level.
+
+A boss may intentionally target a specific Hero, creating a permanent death threat and emotional consequences for the party.
+
+---
+
+# 32. BATTLE ENVIRONMENT
+
+The battlefield can affect combat.
+
+Examples:
+
+```text
+Forest
+Ruins
+Dungeon
+Castle
+Cave
+Desert
+Frozen Area
+Corrupted Area
+Ancient Civilization
+Cult Ritual Site
+```
+
+Environmental conditions can affect:
+
+```text
+Movement
+Visibility
+Magic
+Status Effects
+Enemy Behavior
+AI Decisions
+```
+
+Environmental hazards can cause permanent Hero death.
+
+---
+
+# 33. DESTRUCTION LEVEL
+
+The difficulty of the world is directly connected to the **Destruction Level** established by the Core World Building.
+
+Destruction Level represents the degree of Nythar's corruption.
+
+```text
+Destruction Level
+        ↓
+World Condition
+        ↓
+Floor Condition
+        ↓
+Enemy Condition
+        ↓
+Combat Difficulty
+        ↓
+Permanent Death Risk
+```
+
+---
+
+# 34. DESTRUCTION LEVEL ≠ ONLY ENEMY STATS
+
+Higher destruction does not simply mean:
+
+```text
+Enemy HP +100%
+Enemy ATK +100%
+```
+
+It can influence the entire combat environment.
+
+For example:
+
+```text
+Enemy Behavior
+Environment
+Visibility
+Mana Stability
+Enemy Spawn
+Resources
+Character Stress
+Character Fear
+Battle Events
+Permanent Death Risk
+```
+
+---
+
+# 35. DESTRUCTION TIERS
+
+The basic world scale:
+
+```text
+50%  → High Destruction
+60%  → Severe Ruin
+70%  → Extreme Corruption
+80%  → Critical Destruction
+90%  → Near Collapse
+95%  → Almost Complete
+99%  → Maximum Ruin
+100% → Nythar Domain
+```
+
+The exact values are controlled by the Game State System.
+
+---
+
+# 36. DESTRUCTION + COMBAT
+
+Example:
+
+```text
+Floor 10
+Destruction:
+55%
+
+Combat:
+Difficult
+```
+
+The environment may contain:
+
+```text
+Unstable Mana
+Corrupted Monsters
+Limited Resources
+Higher Enemy Aggression
+Higher Risk of Permanent Death
+```
+
+---
+
+# 37. HIGH DESTRUCTION COMBAT
+
+At:
+
+```text
+Destruction:
+90%
+```
+
+the battlefield may experience:
+
+```text
+Extreme Monster Aggression
+Environmental Hazards
+Mana Distortion
+Reduced Visibility
+Corruption Effects
+Unstable Terrain
+Higher Character Stress
+More Frequent Battle Events
+Higher Permanent Death Risk
+```
+
+The combat becomes difficult because the world itself is hostile.
+
+---
+
+# 38. DESTRUCTION + EMOTIONAL STATE
+
+This is an important connection.
+
+```text
+HIGH DESTRUCTION
+       ↓
+DARK ENVIRONMENT
+       ↓
+CHARACTER STRESS
+       ↓
+FEAR / ANXIETY
+       ↓
+AI BEHAVIOR CHANGE
+       ↓
+HIGHER DEATH RISK
+```
+
+Therefore, a high-destruction floor can psychologically affect Heroes and increase the chance of permanent loss.
+
+---
+
+# 39. DESTRUCTION + ENEMY AI
+
+Higher destruction can cause enemies to become:
+
+```text
+More aggressive
+Less predictable
+More corrupted
+More resistant
+More desperate
+```
+
+Certain enemies may also mutate or unlock new behaviors.
+
+---
+
+# 40. COMBAT DIFFICULTY
+
+Combat difficulty is calculated from multiple variables.
+
+```text
+Combat Difficulty =
+Enemy Strength
++
+Enemy AI
++
+Floor Difficulty
++
+Destruction Level
++
+Environmental Hazard
++
+Character Condition
++
+Resource Availability
++
+Battle Event
++
+Permanent Death Risk
+```
+
+---
+
+# 41. DIFFICULTY SHOULD NOT BE PURE STAT SCALING
+
+The system should avoid simply increasing enemy HP.
+
+Instead:
+
+```text
+LOWER FLOOR
+→ Simple enemy behavior
+
+MID FLOOR
+→ Tactical enemies
+
+HIGH FLOOR
+→ Coordinated enemies
+
+EXTREME DESTRUCTION
+→ Unpredictable enemies
+→ Severe permanent death risk
+```
+
+This creates more meaningful difficulty.
+
+---
+
+# 42. BATTLE EVENTS
+
+Combat can trigger events.
+
+Examples:
+
+```text
+Enemy Reinforcement
+Character Panic
+Character Awakening
+Weapon Break
+Environmental Collapse
+Cult Ritual
+Boss Phase
+Hidden Enemy
+Character Memory
+Character Emotional Event
+Hero Death
+Permanent Loss
+```
+
+These events connect directly to the Event System.
+
+---
+
+# 43. CHARACTER EMOTIONAL EVENT
+
+Example:
+
+```text
+Hero enters ruined hometown.
+
+Battle begins.
+
+AI detects:
+Memory Trigger.
+
+Emotional State:
+Sad → Angry
+
+Combat Behavior:
+Aggressive
+
+Possible Event:
+Character Awakening
+```
+
+If another Hero dies permanently during the battle, the emotional event may escalate.
+
+---
+
+# 44. CHARACTER AWAKENING
+
+A Hero may experience an emotional breakthrough during battle.
+
+Possible triggers:
+
+```text
+Critical HP
+Protecting Ally
+Defeating Enemy
+Seeing Old Symbol
+Remembering Family
+Master Command
+Near Death
+High Morale
+Extreme Fear
+Witnessing Permanent Hero Death
+```
+
+The Event System determines whether an awakening event occurs.
+
+---
+
+# 45. COMBAT RNG
+
+RNG can determine:
+
+```text
+Critical Hit
+Dodge
+Block
+Status Effect
+Enemy Drop
+Battle Event Chance
+Rare Skill Trigger
+Special Reaction
+```
+
+The RNG System remains the central randomization system.
+
+RNG may determine whether an attack hits, but it cannot reverse a confirmed permanent death.
+
+---
+
+# 46. RNG RULE
+
+Combat should not create a completely separate RNG system.
+
+Instead:
+
+```text
+BASIC COMBAT
+      ↓
+REQUEST RNG
+      ↓
+RNG SYSTEM
+      ↓
+RESULT
+      ↓
+COMBAT
+```
+
+This keeps all random systems centralized.
+
+---
+
+# 47. FAIRY OBSERVATION SYSTEM
+
+The AI Fairy acts as the battlefield observer.
+
+The Fairy monitors:
+
+```text
+Hero HP
+Enemy HP
+Battle Position
+Emotional State
+Morale
+Stress
+Enemy Behavior
+Important Skills
+Critical Events
+Destruction Level
+Environmental Hazards
+Battle Outcome Probability
+Permanent Death Risk
+```
+
+---
+
+# 48. FAIRY DOES NOT CONTROL THE BATTLE
+
+The Fairy is primarily:
+
+```text
+Observer
+Analyst
+Reporter
+Advisor
+```
+
+The Master remains responsible for decisions.
+
+The Fairy may say:
+
+> "Master, the frontline is under significant pressure."
+
+But the Master decides what to do.
+
+---
+
+# 49. FAIRY OBSERVATION PRIORITY
+
+The Fairy prioritizes:
+
+```text
+CRITICAL
+    ↓
+DANGER
+    ↓
+IMPORTANT
+    ↓
+TACTICAL
+    ↓
+NORMAL
+```
+
+Permanent death threats are always treated as critical information.
+
+---
+
+# 50. CRITICAL REPORT
+
+Example:
+
+> **"Master, Hero Aria's HP has fallen below 20%. Her stress level is rising rapidly."**
+
+Another:
+
+> **"Master, the enemy has changed its target. It is now targeting the rearline."**
+
+Another:
+
+> **"Master, the battlefield is becoming unstable. The destruction level is affecting mana flow."**
+
+Another:
+
+> **"Master, Aria is in immediate danger. If she falls, her death will be permanent."**
+
+---
+
+# 51. TACTICAL REPORT
+
+The Fairy can provide observations such as:
+
+> "Master, the enemy's defense appears weaker from the left side."
+
+> "The enemy is preparing a powerful attack."
+
+> "Hero Leon is becoming increasingly aggressive."
+
+> "Hero Mira appears reluctant to engage."
+
+> "The current formation exposes Aria to a high risk of permanent death."
+
+---
+
+# 52. EMOTIONAL REPORT
+
+The Fairy can report emotional changes:
+
+> "Master, Aria's fear is increasing."
+
+> "Leon appears to be entering an enraged state."
+
+> "Mira's morale has improved after the successful attack."
+
+> "The permanent loss of the ally has significantly affected the party."
+
+---
+
+# 53. FAIRY + DESTRUCTION REPORT
+
+Example:
+
+> **"Master, this floor's destruction level is considerably higher than the previous floor."**
+
+> **"The corruption appears to be affecting enemy behavior."**
+
+> **"I recommend caution. The environment itself may become a threat."**
+
+> **"Master, the current destruction level significantly increases the risk of permanent Hero death."**
+
+---
+
+# 54. FAIRY BATTLE SUMMARY
+
+At the end of combat:
+
+```text
+BATTLE COMPLETE
+
+Duration
+Heroes Survived
+Heroes Injured
+Heroes Dead Permanently
+Enemies Defeated
+Skills Used
+Items Used
+Important Events
+Emotional Changes
+Permanent Losses
+Loot
+Experience
+Floor Progress
+```
+
+Example:
+
+> **"Master, the battle is over. Three Heroes survived, although two sustained serious injuries. Hero Aria was killed during the battle. Her death is permanent, and she will not return to the party."**
+
+---
+
+# 55. BATTLE STATE
+
+The Game State System maintains:
+
+```text
+Battle ID
+Floor ID
+Battle Type
+Participants
+Current Turn
+Current Phase
+Hero States
+Enemy States
+Environmental State
+Destruction Level
+Active Effects
+Battle Events
+Battle Result
+Permanent Death Records
+```
+
+---
+
+# 56. COMBAT STATE UPDATE
+
+Every important action updates Game State.
+
+```text
+ATTACK
+ ↓
+DAMAGE
+ ↓
+HP CHANGE
+ ↓
+DEATH CHECK
+ ↓
+PERMANENT DEATH CONFIRMATION
+ ↓
+EMOTION CHANGE
+ ↓
+STATUS CHANGE
+ ↓
+BATTLE STATE
+ ↓
+GAME STATE
+```
+
+---
+
+# 57. DATABASE RECORD
+
+After combat, important combat information is persisted.
+
+```text
+Battle ID
+Floor ID
+Master ID
+Hero IDs
+Enemy IDs
+Battle Duration
+Battle Result
+Damage
+Deaths
+Permanent Deaths
+Items Used
+Skills Used
+Rewards
+Emotional Changes
+Events
+Timestamp
+```
+
+Permanent death records must be stored permanently and must not be overwritten by ordinary healing, revival, save updates, or inventory actions.
+
+---
+
+# 58. COMBAT + DATABASE
+
+The flow:
+
+```text
+BATTLE
+ ↓
+BATTLE STATE
+ ↓
+PERMANENT DEATH CHECK
+ ↓
+GAME STATE SYSTEM
+ ↓
+DATABASE SYSTEM
+```
+
+This ensures battle history and permanent Hero deaths are not lost.
+
+---
+
+# 59. COMBAT + INVENTORY
+
+When an item is consumed:
+
+```text
+COMBAT
+ ↓
+ITEM SYSTEM
+ ↓
+INVENTORY
+ ↓
+GAME STATE
+ ↓
+DATABASE
+```
+
+When an enemy dies:
+
+```text
+COMBAT
+ ↓
+LOOT SYSTEM
+ ↓
+RNG
+ ↓
+ITEM + INVENTORY
+ ↓
+GAME STATE
+ ↓
+DATABASE
+ ↓
+FAIRY
+```
+
+When a Hero dies permanently:
+
+```text
+COMBAT
+ ↓
+PERMANENT DEATH
+ ↓
+CHARACTER STATE
+ ↓
+PARTY UPDATE
+ ↓
+INVENTORY / EQUIPMENT UPDATE
+ ↓
+GAME STATE
+ ↓
+DATABASE
+ ↓
+FAIRY
+```
+
+The dead Hero's equipment and inventory ownership must be handled according to the Item System rules. The Hero cannot use or receive combat items after death.
+
+---
+
+# 60. COMBAT + CHARACTER SYSTEM
+
+Combat modifies Hero state.
+
+```text
+COMBAT
+ ↓
+HP
+ ↓
+DEATH CHECK
+ ↓
+EXP
+ ↓
+EMOTION
+ ↓
+MORALE
+ ↓
+RELATIONSHIP
+ ↓
+CHARACTER STATE
+ ↓
+GAME STATE
+```
+
+If the Hero dies, the Character System changes their life state to:
+
+```text
+Dead Permanently
+```
+
+---
+
+# 61. COMBAT + HERO PROGRESSION
+
+After combat, a living Hero may receive:
+
+```text
+EXP
+Skill Progress
+Relationship Changes
+Emotional Changes
+Event Progress
+Star Progress
+Item Acquisition
+```
+
+A permanently dead Hero receives no future EXP, skill progress, relationship progression, or combat rewards.
+
+---
+
+# 62. COMBAT + STAR SYSTEM
+
+The Basic Combat System does not directly increase Hero Stars.
+
+Instead:
+
+```text
+COMBAT EVENT
+      ↓
+EVENT SYSTEM
+      ↓
+STAR PROGRESSION CONDITION
+      ↓
+CHARACTER SYSTEM
+```
+
+A permanently dead Hero cannot continue normal Star progression unless a specific posthumous story system is created.
+
+---
+
+# 63. COMBAT + EVENT SYSTEM
+
+Combat can trigger:
+
+```text
+Battle Event
+Character Event
+Floor Event
+Story Event
+Emotional Event
+Boss Event
+Hidden Event
+Permanent Death Event
+Memorial Event
+```
+
+The Event System manages these events.
+
+---
+
+# 64. BATTLE VICTORY
+
+After all enemies are defeated:
+
+```text
+ENEMIES DEFEATED
+      ↓
+BATTLE VICTORY
+      ↓
+PERMANENT DEATHS CONFIRMED
+      ↓
+EXP FOR SURVIVING HEROES
+      ↓
+LOOT RNG
+      ↓
+REWARDS
+      ↓
+INVENTORY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY REPORT
+```
+
+A battle can be victorious even if one or more Heroes die permanently.
+
+---
+
+# 65. BATTLE DEFEAT
+
+If the party fails:
+
+```text
+PARTY DEFEATED
+      ↓
+BATTLE DEFEAT
+      ↓
+PERMANENT DEATHS CONFIRMED
+      ↓
+GAME STATE
+      ↓
+EVENT CHECK
+      ↓
+CONSEQUENCE
+      ↓
+DATABASE
+      ↓
+FAIRY REPORT
+```
+
+Possible consequences:
+
+```text
+Injury
+Permanent Hero Death
+Item Loss
+Resource Loss
+Quest Failure
+Floor Failure
+Emotional Trauma
+Relationship Change
+Event Trigger
+```
+
+The exact consequences depend on the game rules.
+
+---
+
+# 66. HERO DEATH
+
+Hero death is permanent and must be treated as a major Game State event.
+
+```text
+HERO HP = 0
+      ↓
+DEATH CHECK
+      ↓
+PERMANENT DEATH CONFIRMED
+      ↓
+CHARACTER STATE = DEAD PERMANENTLY
+      ↓
+REMOVE FROM ACTIVE PARTY
+      ↓
+DISABLE AI
+      ↓
+DISABLE COMBAT ACTIONS
+      ↓
+EMOTIONAL IMPACT
+      ↓
+PARTY RELATIONSHIP IMPACT
+      ↓
+GAME STATE
+      ↓
+EVENT SYSTEM
+      ↓
+DATABASE
+```
+
+There is no standard revival path.
+
+The following cannot restore a permanently dead Hero:
+
+```text
+Health Potion
+Healing Skill
+Revival Item
+Revival Skill
+Rest
+Save Reload
+Ordinary Event
+```
+
+Any exception must be explicitly defined as a separate story rule and must not be part of the standard combat system.
+
+---
+
+# 67. HERO INJURY
+
+A Hero may survive but become injured.
+
+Example:
+
+```text
+HP:
+5%
+
+Condition:
+Severe Injury
+```
+
+Possible effects:
+
+```text
+Reduced Combat Performance
+Higher Stress
+Reduced Morale
+Temporary Skill Restriction
+Recovery Requirement
+```
+
+Injury is different from death.
+
+```text
+Injured:
+Can Recover
+
+Dead Permanently:
+Cannot Return
+```
+
+---
+
+# 68. RETREAT
+
+Retreat can be a valid combat action.
+
+The AI may recommend retreat when:
+
+```text
+Party HP Critical
+Enemy Overwhelming
+Destruction Extreme
+Resources Low
+Boss Too Strong
+Objective Already Completed
+Permanent Death Risk High
+```
+
+The Master decides whether to retreat.
+
+Retreat can prevent future deaths, but it cannot restore a Hero who has already died permanently.
+
+---
+
+# 69. MASTER DECISION VS AI
+
+The relationship is:
+
+```text
+MASTER
+  │
+  │ Command
+  ▼
+HERO AI
+  │
+  │ Evaluate
+  ▼
+EMOTIONAL STATE
+  │
+  │ Modify
+  ▼
+PERMANENT DEATH RISK
+  │
+  │ Evaluate
+  ▼
+TACTICAL DECISION
+  │
+  ▼
+ACTION
+```
+
+Therefore:
+
+> **The Master gives direction. The Hero decides how to act within their personality and emotional condition.**
+
+The Master can reduce the risk of death through strategy, but cannot guarantee survival.
+
+---
+
+# 70. FAIRY DECISION SUPPORT
+
+Before major decisions, the Fairy can provide analysis.
+
+Example:
+
+> "Master, I estimate a low probability of victory if we continue with the current formation."
+
+Or:
+
+> "Master, the enemy's offensive capability has dropped significantly. Continuing the battle may be advantageous."
+
+Or:
+
+> "Master, continuing this battle may result in permanent Hero loss."
+
+The Fairy provides information rather than forcing the decision.
+
+---
+
+# 71. COMBAT DIFFICULTY BY DESTRUCTION
+
+Example baseline:
+
+```text
+50–59%
+High Difficulty
+
+60–69%
+Severe Difficulty
+
+70–79%
+Extreme Difficulty
+
+80–89%
+Critical Difficulty
+
+90–94%
+Near Collapse
+
+95–99%
+Almost Impossible
+
+100%
+Nythar Domain
+```
+
+These are **world difficulty tiers**, not absolute combat outcomes.
+
+Hero strength, equipment, strategy, and AI behavior can still change the result.
+
+---
+
+# 72. DESTRUCTION 50%
+
+Typical conditions:
+
+```text
+Strong Enemies
+Damaged Environment
+Unstable Mana
+Moderate Corruption
+High Battle Risk
+Moderate Permanent Death Risk
+```
+
+---
+
+# 73. DESTRUCTION 70%
+
+Typical conditions:
+
+```text
+More Aggressive Enemies
+Corrupted Variants
+Environmental Hazards
+Higher Character Stress
+Reduced Resource Availability
+More Complex Enemy AI
+High Permanent Death Risk
+```
+
+---
+
+# 74. DESTRUCTION 90%
+
+Typical conditions:
+
+```text
+Extreme Enemy Aggression
+Severe Environmental Hazards
+High Corruption
+Unstable Mana
+High Character Fear
+Frequent Battle Events
+Rare Safe Areas
+Severe Permanent Death Risk
+```
+
+---
+
+# 75. DESTRUCTION 99%
+
+The battlefield approaches total collapse.
+
+Possible conditions:
+
+```text
+Extreme Enemy Mutations
+Reality Distortion
+Massive Environmental Hazards
+Severe Emotional Pressure
+Unpredictable Battle Events
+Almost No Safe Resources
+Extreme Permanent Death Risk
+```
+
+---
+
+# 76. FLOOR 100
+
+Floor 100 represents:
+
+> **Nythar's Domain**
+
+Combat rules may fundamentally change.
+
+```text
+Destruction:
+Maximum
+
+Enemy:
+Divine / God-Level
+
+Environment:
+Reality Distortion
+
+AI:
+Maximum Complexity
+
+Battle:
+Final Confrontation
+
+Hero Death:
+Permanent
+```
+
+The exact final combat system can be developed separately.
+
+---
+
+# 77. COMBAT LOG
+
+Every important action can generate a battle log.
+
+Example:
+
+```text
+[BATTLE-000152]
+
+Hero Aria attacks Cult Knight.
+Damage: 245.
+
+Cult Knight attacks Aria.
+Damage: 180.
+
+Aria HP: 42%.
+
+Aria emotional state:
+Focused → Fear.
+
+Fairy Observation:
+"Aria is showing signs of increasing fear."
+
+Cult Knight begins charging skill.
+
+Fairy Warning:
+"Master, incoming high-power attack."
+
+Cult Knight attacks Aria.
+Damage: 500.
+
+Aria HP: 0%.
+
+Death Check:
+Confirmed.
+
+Aria Life State:
+Dead Permanently.
+
+Fairy Report:
+"Master, Aria has fallen. Her death is permanent."
+```
+
+---
+
+# 78. AI COMBAT LOGIC
+
+Simplified model:
+
+```text
+FOR EACH COMBATANT
+
+    READ STATE
+
+    CHECK:
+    HP
+    STATUS
+    LIFE STATE
+    POSITION
+    ENEMY
+    ALLIES
+    SKILLS
+    ITEMS
+    EMOTION
+    PERSONALITY
+    MASTER COMMAND
+    DESTRUCTION LEVEL
+    PERMANENT DEATH RISK
+
+    IF LIFE STATE = DEAD PERMANENTLY
+        REMOVE FROM COMBAT
+        DISABLE AI
+        CONTINUE
+
+    GENERATE POSSIBLE ACTIONS
+
+    SCORE ACTIONS
+
+    SELECT ACTION
+
+    EXECUTE
+
+    UPDATE STATE
+
+    CHECK DEATH
+
+END
+```
+
+---
+
+# 79. ACTION SCORING
+
+Example:
+
+```text
+Attack:
++30
+
+Protect Ally:
++40
+
+Use Healing:
++70 if HP critical
+
+Retreat:
++80 if survival probability low
+
+Aggressive Skill:
++50 if enemy vulnerable
+
+Defend:
++60 if incoming damage high
+
+Avoid Lethal Risk:
++100 if permanent death probability is critical
+```
+
+Emotional state modifies these scores.
+
+---
+
+# 80. EMOTIONAL MODIFIER
+
+Example:
+
+```text
+ANGRY
+
+Attack:
++25
+
+Defend:
+-10
+
+Retreat:
+-30
+```
+
+Fear:
+
+```text
+Attack:
+-20
+
+Defend:
++20
+
+Retreat:
++40
+```
+
+Determination:
+
+```text
+Attack:
++20
+
+Protect:
++30
+
+Retreat:
+-20
+```
+
+These values should be configurable.
+
+Emotional modifiers can cause a Hero to accept a lethal risk, but the resulting death remains permanent.
+
+---
+
+# 81. FAIRY INTERNAL OBSERVATION
+
+The Fairy can continuously process:
+
+```text
+Battlefield
+      ↓
+Hero State
+      ↓
+Enemy State
+      ↓
+Emotional State
+      ↓
+Destruction
+      ↓
+Threat Analysis
+      ↓
+Permanent Death Risk
+      ↓
+Observation
+```
+
+Only meaningful observations should be communicated to the Master.
+
+---
+
+# 82. FAIRY COMMUNICATION RULE
+
+The Fairy should avoid overwhelming the Master with information.
+
+Instead of:
+
+```text
+Hero HP changed.
+Enemy HP changed.
+Position changed.
+Attack occurred.
+Damage occurred.
+```
+
+the Fairy summarizes:
+
+> **"Master, the frontline is gradually losing ground. Our defensive formation is becoming unstable, and Aria is at serious risk of permanent death."**
+
+---
+
+# 83. FAIRY CRITICAL INTERRUPTION
+
+The Fairy may interrupt the Master when:
+
+```text
+Hero Near Death
+Permanent Death Risk Critical
+Master Objective Threatened
+Boss Ultimate
+Environmental Collapse
+Unexpected Enemy
+Major Emotional Breakdown
+Important Event
+```
+
+Example:
+
+> **"Master! Immediate danger. The enemy is preparing an attack capable of killing the frontline permanently."**
+
+---
+
+# 84. BATTLE END REPORT
+
+The Fairy summarizes:
+
+```text
+Battle Result
+Survivors
+Injuries
+Permanent Deaths
+Enemies Defeated
+Loot
+EXP
+Items Used
+Emotional Changes
+Important Events
+Floor Condition
+```
+
+Example:
+
+> **"Battle complete, Master. We survived with three Heroes standing. Two are injured. Aria was killed during the battle. Her death is permanent, and she will not return."**
+
+---
+
+# 85. CORE COMBAT DATA STRUCTURE
+
+```text
+BATTLE_DATA
+
+Battle ID
+Master ID
+Floor ID
+
+Battle Type
+
+Heroes[]
+Enemies[]
+
+Battle State
+Battle Phase
+Turn
+
+Environment State
+Destruction Level
+
+Active Effects[]
+Battle Events[]
+
+Start Time
+End Time
+
+Result
+
+Damage Statistics
+Healing Statistics
+
+Item Usage
+Skill Usage
+
+Emotional Changes
+
+Permanent Death Records[]
+
+Loot Reference
+Reward Reference
+```
+
+---
+
+# 86. SYSTEM RESPONSIBILITIES
+
+## Basic Combat System
+
+Responsible for:
+
+```text
+✓ Combat Flow
+✓ Combat State
+✓ Actions
+✓ Damage
+✓ Defense
+✓ Targeting
+✓ Skill Execution
+✓ Death Check
+✓ Permanent Death Confirmation
+✓ Battle Result
+✓ Combat Events
+```
+
+---
+
+## Character / Hero AI
+
+Responsible for:
+
+```text
+✓ Decision Making
+✓ Tactical Behavior
+✓ Personality
+✓ Emotional Influence
+✓ Combat Preferences
+✓ Reactions
+✓ Survival Evaluation
+```
+
+---
+
+## Enemy AI
+
+Responsible for:
+
+```text
+✓ Enemy Decisions
+✓ Target Selection
+✓ Enemy Tactics
+✓ Boss Behavior
+✓ Aggression
+✓ Lethal Threat Evaluation
+```
+
+---
+
+## RNG System
+
+Responsible for:
+
+```text
+✓ Critical
+✓ Dodge
+✓ Random Effects
+✓ Battle Event Probability
+✓ Loot
+```
+
+---
+
+## Game State System
+
+Responsible for:
+
+```text
+✓ Persistent Battle State
+✓ Character State
+✓ Life State
+✓ Permanent Death State
+✓ Floor State
+✓ Destruction Level
+✓ World Consequences
+```
+
+---
+
+## Database System
+
+Responsible for:
+
+```text
+✓ Battle History
+✓ Character State
+✓ Permanent Death Records
+✓ Rewards
+✓ Loot
+✓ Transactions
+✓ Important Events
+```
+
+---
+
+## AI Fairy
+
+Responsible for:
+
+```text
+✓ Battlefield Observation
+✓ Threat Detection
+✓ Permanent Death Risk Detection
+✓ Emotional Observation
+✓ Destruction Observation
+✓ Tactical Advice
+✓ Critical Warning
+✓ Battle Summary
+```
+
+---
+
+# 87. COMPLETE COMBAT ARCHITECTURE
+
+```text
+                              MASTER
+                                │
+                         COMMAND / DECISION
+                                │
+                                ▼
+                         BASIC COMBAT SYSTEM
+                                │
+               ┌────────────────┼────────────────┐
+               │                │                │
+               ▼                ▼                ▼
+           HERO AI          ENEMY AI           RNG
+               │                │                │
+               ▼                ▼                ▼
+          EMOTIONAL         ENEMY STATE       RANDOM
+             STATE              │             RESULT
+               │                │                │
+               └────────────────┼────────────────┘
+                                ▼
+                         BATTLE CALCULATION
+                                │
+                                ▼
+                          DEATH CHECK
+                                │
+                                ▼
+                    PERMANENT DEATH CONFIRMATION
+                                │
+                                ▼
+                          BATTLE STATE
+                                │
+                 ┌──────────────┼──────────────┐
+                 │              │              │
+                 ▼              ▼              ▼
+              CHARACTER       FLOOR         DESTRUCTION
+                 │              │              │
+                 └──────────────┼──────────────┘
+                                ▼
+                         GAME STATE SYSTEM
+                                │
+                     ┌──────────┴──────────┐
+                     │                     │
+                     ▼                     ▼
+                 DATABASE              AI FAIRY
+                                           │
+                                           ▼
+                                        MASTER
+```
+
+---
+
+# 88. COMPLETE BATTLE FLOW
+
+```text
+FLOOR ENTERED
+      ↓
+DESTRUCTION LEVEL READ
+      ↓
+BATTLEFIELD GENERATED
+      ↓
+ENEMIES GENERATED
+      ↓
+PARTY DEPLOYED
+      ↓
+HERO EMOTIONAL STATE READ
+      ↓
+ENEMY AI INITIALIZED
+      ↓
+BATTLE START
+      ↓
+AI ANALYSIS
+      ↓
+ACTION DECISION
+      ↓
+RNG
+      ↓
+ACTION RESULT
+      ↓
+HP / STATUS UPDATE
+      ↓
+DEATH CHECK
+      ↓
+PERMANENT DEATH CONFIRMATION IF HP = 0
+      ↓
+EMOTIONAL UPDATE
+      ↓
+BATTLE EVENT CHECK
+      ↓
+DESTRUCTION EFFECT CHECK
+      ↓
+GAME STATE UPDATE
+      ↓
+FAIRY OBSERVATION
+      ↓
+NEXT ACTION
+      ↓
+BATTLE END
+      ↓
+REWARD / LOOT FOR SURVIVING HEROES
+      ↓
+INVENTORY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY REPORT
+```
+
+---
+
+# 89. CORE RULES
+
+### Rule 1
+
+> **Combat is controlled by AI, not by fixed scripts alone.**
+
+### Rule 2
+
+> **Hero emotional state can change combat behavior.**
+
+### Rule 3
+
+> **Personality affects tactical decisions.**
+
+### Rule 4
+
+> **Master commands influence Heroes but do not completely erase their individuality.**
+
+### Rule 5
+
+> **Destruction Level affects the difficulty and condition of the battlefield.**
+
+### Rule 6
+
+> **High difficulty should come from behavior and environment, not only inflated enemy statistics.**
+
+### Rule 7
+
+> **RNG remains centralized in the RNG System.**
+
+### Rule 8
+
+> **Important battle changes are synchronized through the Game State System.**
+
+### Rule 9
+
+> **Persistent battle information is stored in the Database System.**
+
+### Rule 10
+
+> **The AI Fairy observes and reports important events to the Master.**
+
+### Rule 11
+
+> **A Hero who dies is dead permanently.**
+
+### Rule 12
+
+> **Standard healing, revival, rest, save reload, and ordinary events cannot restore a permanently dead Hero.**
+
+### Rule 13
+
+> **A permanently dead Hero cannot return to combat, receive progression, or be controlled by AI.**
+
+### Rule 14
+
+> **Permanent death must be recorded in the Game State System and Database System.**
+
+---
+
+# 🌑 90. FINAL COMBAT PHILOSOPHY
+
+The Basic Combat System is not designed to make Heroes behave like static units.
+
+A Hero can:
+
+```text
+Become afraid.
+Become angry.
+Become determined.
+Protect a friend.
+Disobey an order.
+Make a mistake.
+Take a risk.
+Remember their past.
+Lose hope.
+Find courage.
+Die permanently.
+```
+
+The battlefield is also not static.
+
+As the Master climbs the Tower:
+
+```text
+FLOOR
+ ↓
+DESTRUCTION
+ ↓
+ENVIRONMENT
+ ↓
+ENEMY
+ ↓
+HERO EMOTION
+ ↓
+AI BEHAVIOR
+ ↓
+BATTLE
+ ↓
+DEATH CHECK
+ ↓
+PERMANENT LOSS
+ ↓
+CONSEQUENCE
+ ↓
+GAME STATE
+```
+
+The result is that two battles against the same type of enemy do not necessarily have the same outcome.
+
+A victory may still carry a permanent loss.
+
+A retreat may save the remaining party.
+
+A single tactical mistake may permanently remove a beloved Hero from the world.
+
+---
+
+# ⚔️ FINAL SYSTEM LOOP
+
+```text
+                    MASTER
+                       │
+                  COMMAND
+                       ▼
+                     HERO
+                       │
+                PERSONALITY
+                       │
+                EMOTIONAL STATE
+                       │
+                       ▼
+                      AI
+                       │
+                       ▼
+                    ACTION
+                       │
+                       ▼
+                    BATTLE
+                       │
+          ┌────────────┼────────────┐
+          │            │            │
+          ▼            ▼            ▼
+        ENEMY       DESTRUCTION     RNG
+          │            │            │
+          └────────────┼────────────┘
+                       ▼
+                 BATTLE RESULT
+                       │
+                       ▼
+                  DEATH CHECK
+                       │
+              ┌────────┴────────┐
+              │                 │
+              ▼                 ▼
+          SURVIVES        DIES PERMANENTLY
+              │                 │
+              ▼                 ▼
+          PROGRESSION       PERMANENT LOSS
+              │                 │
+              └────────┬────────┘
+                       ▼
+                  GAME STATE
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+          DATABASE           AI FAIRY
+                                 │
+                                 ▼
+                              MASTER
+```
+
+> **The Master chooses the path.**
+>
+> **The Heroes choose how they fight.**
+>
+> **Their emotions shape their decisions.**
+>
+> **The AI determines their actions.**
+>
+> **The Tower determines the pressure.**
+>
+> **The Destruction Level determines how hostile the world becomes.**
+>
+> **The Fairy watches it all.**
+>
+> **And the Game State remembers everything.**
+>
+> **When a Hero dies, the loss is permanent.**
+>
+> **There is no return.**
