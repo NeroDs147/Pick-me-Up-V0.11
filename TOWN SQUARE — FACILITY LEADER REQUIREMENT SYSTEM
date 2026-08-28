@@ -1,0 +1,1204 @@
+# 🔒 TOWN SQUARE — FACILITY LEADER REQUIREMENT SYSTEM
+
+> **No Leader, No Operation.**
+>
+> Setiap fasilitas di Town Square membutuhkan seorang **Leader** yang ditunjuk oleh Master sebelum sistem otomatis fasilitas tersebut dapat berjalan.
+
+---
+
+# 1. CORE RULE
+
+Setiap Facility memiliki:
+
+```text
+Leader Slot
+```
+
+Leader Slot harus terisi sebelum fasilitas dapat menjalankan fungsi utamanya.
+
+```text
+FACILITY
+   │
+   ▼
+CHECK LEADER
+   │
+   ├── NO LEADER
+   │      ↓
+   │   FACILITY LOCKED
+   │      ↓
+   │   AI STOPPED
+   │      ↓
+   │   NO AUTOMATIC ACTIVITY
+   │
+   └── LEADER EXISTS
+          ↓
+       FACILITY ACTIVE
+          ↓
+        AI ACTIVE
+```
+
+---
+
+# 2. FACILITY STATE
+
+Setiap Facility memiliki status operasi.
+
+```text
+LOCKED
+NO_LEADER
+ACTIVE
+PAUSED
+DISABLED
+UPGRADING
+```
+
+Status utama:
+
+### NO_LEADER
+
+Facility belum memiliki Leader.
+
+```text
+Leader:
+NONE
+
+Status:
+NO_LEADER
+
+Automation:
+DISABLED
+```
+
+### ACTIVE
+
+Facility memiliki Leader yang valid.
+
+```text
+Leader:
+HERO-XXXXXX
+
+Status:
+ACTIVE
+
+Automation:
+ENABLED
+```
+
+---
+
+# 3. NO LEADER = NO AUTOMATION
+
+Jika Facility belum memiliki Leader:
+
+```text
+Crafting
+Production
+Worker Management
+Automatic Recruitment
+Automatic Processing
+Facility Events
+Facility AI
+```
+
+tidak dapat berjalan secara normal.
+
+Contoh:
+
+```text
+BLACKSMITH
+│
+├── Leader: NONE
+│
+├── Workers: 0/4
+│
+├── Crafting: LOCKED
+│
+└── Automation: OFF
+```
+
+---
+
+# 4. FACILITY INITIAL STATE
+
+Ketika Facility pertama kali dibuat:
+
+```text
+Facility Created
+       ↓
+Leader = NULL
+       ↓
+Status = NO_LEADER
+       ↓
+Automation = FALSE
+```
+
+Contoh:
+
+```text
+FACILITY-000001
+
+Name:
+Blacksmith
+
+Level:
+1
+
+Leader:
+NULL
+
+Status:
+NO_LEADER
+
+Automation:
+FALSE
+```
+
+---
+
+# 5. MASTER MUST ASSIGN LEADER
+
+Only the Master can initially assign the Facility Leader.
+
+```text
+MASTER
+   ↓
+SELECT FACILITY
+   ↓
+ASSIGN LEADER
+   ↓
+SELECT HERO
+   ↓
+SYSTEM VALIDATION
+   ↓
+LEADER ASSIGNED
+```
+
+Setelah berhasil:
+
+```text
+Leader:
+HERO-000125
+
+Status:
+ACTIVE
+
+Automation:
+TRUE
+```
+
+---
+
+# 6. LEADER VALIDATION
+
+Sebelum Hero menjadi Leader, sistem harus melakukan validasi.
+
+```text
+SELECT HERO
+      ↓
+CHECK HERO EXISTENCE
+      ↓
+CHECK HERO AVAILABILITY
+      ↓
+CHECK CURRENT ASSIGNMENT
+      ↓
+CHECK RESTRICTION
+      ↓
+CHECK FACILITY COMPATIBILITY
+      ↓
+APPROVE
+```
+
+Contoh:
+
+Hero yang sedang menjalankan misi:
+
+```text
+HERO-000125
+Status:
+ACTIVE MISSION
+```
+
+Tidak dapat langsung menjadi Facility Leader.
+
+---
+
+# 7. LEADER CANNOT BE DOUBLE ASSIGNED
+
+Satu Hero tidak boleh menjadi Leader pada beberapa fasilitas pada waktu yang sama kecuali sistem khusus di masa depan mengizinkannya.
+
+Contoh:
+
+```text
+BLACKSMITH
+Leader:
+HERO-000125
+```
+
+Maka:
+
+```text
+ALCHEMY LAB
+Leader:
+HERO-000125
+```
+
+ditolak.
+
+Reason:
+
+```text
+HERO_ALREADY_ASSIGNED
+```
+
+---
+
+# 8. LEADER REMOVAL
+
+Jika Master mencopot Leader:
+
+```text
+MASTER
+   ↓
+REMOVE LEADER
+   ↓
+LEADER = NULL
+   ↓
+FACILITY STATUS = NO_LEADER
+   ↓
+AUTOMATION = FALSE
+```
+
+Contoh:
+
+```text
+BLACKSMITH
+
+Before:
+Leader = HERO-000125
+Status = ACTIVE
+
+After:
+Leader = NULL
+Status = NO_LEADER
+```
+
+---
+
+# 9. AUTOMATIC SYSTEM SHUTDOWN
+
+Ketika Leader dicopot, sistem otomatis harus berhenti.
+
+```text
+LEADER REMOVED
+      ↓
+FACILITY AI STOP
+      ↓
+NEW TASK CREATION STOP
+      ↓
+AUTOMATIC WORKER ASSIGNMENT STOP
+      ↓
+AUTOMATIC CRAFTING STOP
+```
+
+Namun, sistem harus menentukan bagaimana menangani task yang sedang berjalan.
+
+---
+
+# 10. ACTIVE TASK
+
+Jika sebuah aktivitas sedang berjalan ketika Leader dicopot:
+
+```text
+FACILITY
+    ↓
+ACTIVE TASK
+    ↓
+LEADER REMOVED
+    ↓
+TASK STATUS
+```
+
+Task dapat memiliki:
+
+```text
+PAUSED
+CANCELLED
+COMPLETED
+```
+
+Default:
+
+```text
+ACTIVE TASK
+      ↓
+LEADER REMOVED
+      ↓
+TASK = PAUSED
+```
+
+Task tidak langsung hilang.
+
+---
+
+# 11. CRAFTING BEHAVIOR
+
+Contoh:
+
+```text
+BLACKSMITH
+Leader:
+Dwarf Smith
+
+Crafting:
+Iron Sword
+Progress:
+60%
+```
+
+Kemudian Leader dicopot.
+
+Maka:
+
+```text
+Crafting:
+PAUSED
+
+New Crafting:
+LOCKED
+```
+
+Setelah Leader baru ditunjuk:
+
+```text
+NEW LEADER
+     ↓
+FACILITY ACTIVE
+     ↓
+CRAFTING RESUMES
+```
+
+---
+
+# 12. WORKER BEHAVIOR
+
+Worker juga bergantung pada Facility Leader.
+
+Jika:
+
+```text
+Leader = NONE
+```
+
+maka Worker tidak dapat menerima pekerjaan baru dari Facility AI.
+
+```text
+FACILITY
+   │
+   ├── Leader = NONE
+   │
+   └── Workers
+         ↓
+    WAIT / IDLE
+```
+
+Worker tidak otomatis melakukan aktivitas Facility.
+
+---
+
+# 13. WORKER ASSIGNMENT
+
+Worker hanya dapat dikelola setelah Leader aktif.
+
+```text
+NO LEADER
+    ↓
+Worker Management
+    ↓
+LOCKED
+```
+
+Setelah Leader aktif:
+
+```text
+LEADER
+   ↓
+AI
+   ↓
+AVAILABLE HERO POOL
+   ↓
+SELECT WORKERS
+```
+
+---
+
+# 14. FACILITY AI ACTIVATION
+
+Facility AI hanya aktif jika:
+
+```text
+Leader != NULL
+AND
+Leader is Valid
+AND
+Facility State != DISABLED
+```
+
+Formula sederhana:
+
+```text
+FacilityAI =
+    LeaderValid
+    AND
+    FacilityEnabled
+```
+
+Jika:
+
+```text
+LeaderValid = FALSE
+```
+
+maka:
+
+```text
+FacilityAI = OFF
+```
+
+---
+
+# 15. AI FAIRY MONITORING
+
+AI Fairy tetap dapat memonitor Facility yang belum memiliki Leader.
+
+Namun Fairy tidak menjalankan Facility tersebut.
+
+Contoh laporan:
+
+> **"Master, Blacksmith saat ini belum memiliki Leader."**
+
+> **"Automatic crafting is unavailable."**
+
+> **"Please assign a Hero as Blacksmith Leader to activate the facility."**
+
+---
+
+# 16. FACILITY STATUS REPORT
+
+AI Fairy dapat memberikan laporan:
+
+```text
+TOWN SQUARE STATUS
+
+Blacksmith:
+NO LEADER
+Automation: OFF
+
+Alchemy Laboratory:
+ACTIVE
+Leader: HERO-000231
+
+Workshop:
+ACTIVE
+Leader: HERO-000154
+
+Training Ground:
+NO LEADER
+Automation: OFF
+```
+
+---
+
+# 17. FACILITY UNLOCK VS FACILITY ACTIVE
+
+Facility dapat sudah **unlocked**, tetapi belum aktif.
+
+Contoh:
+
+```text
+BLACKSMITH
+
+Unlocked:
+YES
+
+Leader:
+NONE
+
+Status:
+NO_LEADER
+
+Automation:
+OFF
+```
+
+Jadi:
+
+> **Unlocking a Facility does not automatically activate it.**
+
+Master tetap harus menunjuk Leader.
+
+---
+
+# 18. FACILITY ACTIVATION FLOW
+
+```text
+FACILITY UNLOCKED
+       ↓
+LEADER SLOT EMPTY
+       ↓
+NO_LEADER
+       ↓
+AUTOMATION OFF
+       ↓
+MASTER ASSIGNS HERO
+       ↓
+VALIDATION
+       ↓
+LEADER APPROVED
+       ↓
+FACILITY ACTIVE
+       ↓
+FACILITY AI ENABLED
+       ↓
+WORKERS AVAILABLE
+       ↓
+CRAFTING / PRODUCTION AVAILABLE
+```
+
+---
+
+# 19. LEADER DEATH / UNAVAILABLE
+
+Jika Leader menjadi tidak tersedia:
+
+```text
+Leader
+   ↓
+Dead / Missing / Mission Restricted / Event Restricted
+```
+
+Game State System melakukan validasi.
+
+Jika Leader tidak lagi valid:
+
+```text
+LeaderValid = FALSE
+       ↓
+Facility = NO_LEADER
+       ↓
+Automation = OFF
+```
+
+Master kemudian harus menunjuk Leader baru.
+
+---
+
+# 20. LEADER ON MISSION
+
+Jika Leader masuk Party dan pergi ke Dungeon:
+
+```text
+FACILITY LEADER
+       ↓
+JOIN PARTY
+       ↓
+ENTER DUNGEON
+       ↓
+LEADER UNAVAILABLE
+       ↓
+FACILITY AUTOMATION
+       ↓
+PAUSED
+```
+
+Default rule:
+
+> **A Facility Leader cannot simultaneously manage a Facility and participate in an active Dungeon mission.**
+
+---
+
+# 21. RETURN FROM MISSION
+
+Ketika Leader kembali:
+
+```text
+DUNGEON
+   ↓
+MISSION COMPLETE
+   ↓
+HERO RETURNS
+   ↓
+LEADER AVAILABLE
+   ↓
+FACILITY VALIDATION
+   ↓
+FACILITY ACTIVE
+   ↓
+AI RESUMES
+```
+
+AI Fairy dapat melaporkan:
+
+> **"Master, the Blacksmith Leader has returned. Facility automation has resumed."**
+
+---
+
+# 22. LEADER REPLACEMENT
+
+Master dapat mengganti Leader.
+
+```text
+OLD LEADER
+    ↓
+REMOVE
+    ↓
+FACILITY PAUSED
+    ↓
+SELECT NEW HERO
+    ↓
+VALIDATION
+    ↓
+NEW LEADER
+    ↓
+FACILITY ACTIVE
+```
+
+---
+
+# 23. FACILITY LEADER REQUIREMENT
+
+Setiap Facility dapat memiliki requirement berbeda.
+
+Contoh:
+
+### Blacksmith
+
+```text
+Recommended:
+Blacksmith
+Smith
+Engineer
+Dwarf
+Weapon Crafter
+```
+
+### Alchemy Laboratory
+
+```text
+Recommended:
+Alchemist
+Mage
+Healer
+Herbalist
+```
+
+### Training Ground
+
+```text
+Recommended:
+Warrior
+Knight
+Instructor
+Veteran
+```
+
+Recommendation tidak selalu menjadi requirement wajib.
+
+Master tetap memiliki keputusan akhir.
+
+---
+
+# 24. LEADER COMPATIBILITY
+
+Sistem dapat menghitung:
+
+```text
+Leadership
+Skill
+Occupation
+Experience
+Personality
+Facility Compatibility
+```
+
+Contoh:
+
+```text
+Hero A
+
+Leadership: 70
+Blacksmith Skill: 95
+
+Compatibility:
+VERY HIGH
+```
+
+Sedangkan:
+
+```text
+Hero B
+
+Leadership: 80
+Blacksmith Skill: 10
+
+Compatibility:
+LOW
+```
+
+Hero B masih dapat ditunjuk jika Master menginginkannya, kecuali Facility memiliki requirement wajib.
+
+---
+
+# 25. LEADER BONUS
+
+Leader dapat memberikan bonus terhadap Facility.
+
+Contoh:
+
+```text
+Blacksmith Leader
+      ↓
+Smithing Skill
+      ↓
+Crafting Efficiency
+      ↓
+Quality Bonus
+```
+
+Bonus dihitung oleh:
+
+```text
+CHARACTER SYSTEM
++
+AI CHARACTER
++
+RNG SYSTEM
+```
+
+---
+
+# 26. FACILITY AI + LEADER
+
+AI Facility tidak menggantikan Leader.
+
+Strukturnya:
+
+```text
+MASTER
+   ↓
+FACILITY LEADER
+   ↓
+FACILITY AI
+   ↓
+WORKERS
+```
+
+Master menentukan arah.
+
+Leader mengelola.
+
+AI membantu pengambilan keputusan rutin.
+
+Workers melaksanakan aktivitas.
+
+---
+
+# 27. MASTER OVERRIDE
+
+Master tetap memiliki kontrol penuh.
+
+Master dapat:
+
+```text
+Assign Leader
+Remove Leader
+Replace Leader
+Pause Facility
+Resume Facility
+Set Priority
+Cancel Task
+Set Resource Restrictions
+```
+
+---
+
+# 28. GAME STATE SYSTEM
+
+Game State System bertanggung jawab memonitor status Leader.
+
+```text
+GAME STATE SYSTEM
+        ↓
+CHECK FACILITY
+        ↓
+CHECK LEADER
+        ↓
+CHECK HERO STATE
+        ↓
+CHECK AVAILABILITY
+        ↓
+UPDATE FACILITY STATE
+```
+
+---
+
+# 29. GAME STATE VALIDATION LOOP
+
+```text
+              GAME STATE SYSTEM
+                       │
+                       ▼
+                FACILITY CHECK
+                       │
+                       ▼
+                  LEADER CHECK
+                       │
+             ┌─────────┴─────────┐
+             │                   │
+          INVALID              VALID
+             │                   │
+             ▼                   ▼
+        NO_LEADER              ACTIVE
+             │                   │
+             ▼                   ▼
+       AI = OFF               AI = ON
+             │                   │
+             ▼                   ▼
+       TASK PAUSED          TASK ACTIVE
+```
+
+---
+
+# 30. DATABASE DATA
+
+Database menyimpan:
+
+```text
+Facility ID
+Facility Level
+Facility State
+Leader ID
+Leader Status
+Worker IDs
+Automation State
+Current Task
+Task State
+Crafting Queue
+Last State Update
+```
+
+Contoh:
+
+```text
+FACILITY-000001
+
+Name:
+Blacksmith
+
+LeaderID:
+HERO-000125
+
+Status:
+ACTIVE
+
+Automation:
+TRUE
+```
+
+Jika Leader dicopot:
+
+```text
+FACILITY-000001
+
+LeaderID:
+NULL
+
+Status:
+NO_LEADER
+
+Automation:
+FALSE
+```
+
+---
+
+# 31. ID SYSTEM
+
+Semua Facility menggunakan Facility ID.
+
+```text
+FACILITY-000001
+FACILITY-000002
+FACILITY-000003
+```
+
+Leader menggunakan Hero ID.
+
+```text
+HERO-000001
+HERO-000002
+HERO-000003
+```
+
+Relationship:
+
+```text
+FACILITY-000001
+       │
+       └── LeaderID
+             ↓
+       HERO-000125
+```
+
+---
+
+# 32. DATABASE SYNCHRONIZATION
+
+Setiap perubahan Leader harus langsung disinkronkan.
+
+```text
+MASTER ACTION
+      ↓
+LEADER CHANGE
+      ↓
+GAME STATE SYSTEM
+      ↓
+FACILITY STATE UPDATE
+      ↓
+DATABASE UPDATE
+      ↓
+AI FAIRY REPORT
+```
+
+---
+
+# 33. RNG DOES NOT BYPASS LEADER REQUIREMENT
+
+RNG tidak boleh mengaktifkan Facility yang belum memiliki Leader.
+
+Contoh:
+
+```text
+Facility:
+NO_LEADER
+
+RNG:
+ROLL SUCCESS
+
+RESULT:
+NO EFFECT
+```
+
+RNG hanya berjalan setelah Facility memenuhi requirement sistem.
+
+---
+
+# 34. AI DOES NOT BYPASS LEADER REQUIREMENT
+
+AI juga tidak boleh secara otomatis membuat Facility berjalan jika Leader belum tersedia.
+
+```text
+NO LEADER
+     ↓
+AI REQUEST
+     ↓
+DENIED
+```
+
+AI dapat:
+
+```text
+Recommend Leader
+```
+
+tetapi tidak otomatis menetapkan Hero sebagai Leader tanpa izin Master, kecuali fitur **Auto Management** dibuat sebagai sistem terpisah di masa depan.
+
+---
+
+# 35. AI FAIRY RECOMMENDATION
+
+Fairy dapat membantu Master mencari kandidat.
+
+Contoh:
+
+> **"Master, the Alchemy Laboratory has no Leader."**
+
+> **"I found three available Heroes with suitable Alchemy skills."**
+
+```text
+Candidate A
+Alchemy: 92
+
+Candidate B
+Alchemy: 81
+
+Candidate C
+Alchemy: 76
+```
+
+Master kemudian memilih.
+
+---
+
+# 36. FACILITY AUTOMATION CONDITIONS
+
+Automatic Facility System hanya dapat berjalan jika seluruh kondisi terpenuhi:
+
+```text
+Facility Unlocked
+        AND
+Leader Assigned
+        AND
+Leader Valid
+        AND
+Facility Enabled
+        AND
+Required Resources Available
+```
+
+Jika salah satu kondisi gagal:
+
+```text
+AUTOMATION PAUSED
+```
+
+---
+
+# 37. FINAL RULE
+
+### FACILITY RULE
+
+```text
+IF
+Leader == NULL
+
+THEN
+Facility Status = NO_LEADER
+Facility AI = OFF
+Automatic Crafting = OFF
+Automatic Production = OFF
+Worker Management = OFF
+Automatic Facility Events = OFF
+```
+
+Jika:
+
+```text
+Leader != NULL
+AND
+Leader Valid
+```
+
+maka:
+
+```text
+Facility Status = ACTIVE
+Facility AI = ON
+Automatic Systems = ENABLED
+```
+
+---
+
+# 38. COMPLETE SYSTEM FLOW
+
+```text
+                    TOWN SQUARE
+                         │
+                         ▼
+                     FACILITY
+                         │
+                         ▼
+                  LEADER CHECK
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+          NO LEADER              LEADER
+              │                     │
+              ▼                     ▼
+         FACILITY LOCKED       VALIDATION
+              │                     │
+              ▼                     ▼
+           AI OFF              LEADER VALID?
+                                    │
+                              ┌─────┴─────┐
+                              │           │
+                             NO          YES
+                              │           │
+                              ▼           ▼
+                           AI OFF      FACILITY
+                                       ACTIVE
+                                          │
+                                          ▼
+                                     FACILITY AI
+                                          │
+                              ┌───────────┼───────────┐
+                              │           │           │
+                           WORKERS     CRAFTING    PRODUCTION
+                              │           │           │
+                              └───────────┼───────────┘
+                                          ▼
+                                         RNG
+                                          │
+                                          ▼
+                                     GAME STATE
+                                          │
+                                          ▼
+                                      DATABASE
+                                          │
+                                          ▼
+                                      AI FAIRY
+                                          │
+                                          ▼
+                                       MASTER
+```
+
+---
+
+# 39. DESIGN PHILOSOPHY
+
+> **A Facility is only a building until someone takes responsibility for it.**
+
+The Master does not simply unlock a building and immediately receive automatic benefits.
+
+The Master must first choose a Hero to take responsibility.
+
+That Hero becomes the **Leader**.
+
+The Leader activates the Facility.
+
+The Facility AI then manages routine activities.
+
+Workers assist the Leader.
+
+RNG determines uncertain outcomes.
+
+Game State System monitors everything.
+
+Database System stores the persistent state.
+
+AI Fairy reports important changes to the Master.
+
+Therefore:
+
+```text
+UNLOCK FACILITY
+      ↓
+ASSIGN LEADER
+      ↓
+ACTIVATE FACILITY
+      ↓
+AI MANAGEMENT
+      ↓
+WORKERS
+      ↓
+CRAFT / PRODUCTION
+      ↓
+RNG
+      ↓
+GAME STATE
+      ↓
+DATABASE
+```
+
+### Core Principle:
+
+# **NO LEADER → NO AUTOMATION → NO FACILITY OPERATION**
