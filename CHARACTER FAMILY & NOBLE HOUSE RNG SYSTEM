@@ -1,0 +1,1435 @@
+# CHARACTER FAMILY & NOBLE HOUSE RNG SYSTEM
+
+## Overview
+
+Character Family & Noble House System adalah bagian dari **Character RNG System** yang menentukan identitas keluarga karakter berdasarkan:
+
+```text
+Character
+    ↓
+Race
+    ↓
+Background
+    ↓
+Family Status
+    ↓
+Family RNG
+    ↓
+Noble House / Royal House
+```
+
+Sistem ini hanya memberikan **Family Name** kepada karakter yang memiliki latar belakang:
+
+```text
+Noble
+Royal
+Aristocrat
+Ducal Family
+Marquis Family
+Count Family
+Baron Family
+Imperial Family
+Ancient House
+```
+
+Karakter dengan latar belakang rakyat biasa tidak menggunakan sistem nama keluarga bangsawan.
+
+---
+
+# 1. SYSTEM OBJECTIVE
+
+Sistem ini dibuat untuk:
+
+* Memberikan identitas keluarga kepada karakter.
+* Membuat karakter bangsawan terasa berbeda dari rakyat biasa.
+* Menghubungkan karakter dengan keluarga yang sama.
+* Mendukung sistem bloodline.
+* Mendukung sistem keluarga kerajaan.
+* Mendukung sistem politik antar keluarga.
+* Mendukung sistem inheritance.
+* Mendukung genealogy.
+* Mendukung NPC generation.
+* Mendukung Character RNG.
+* Menyediakan data keluarga untuk database.
+
+---
+
+# 2. BASIC CHARACTER STRUCTURE
+
+Struktur karakter:
+
+```text
+CHARACTER
+│
+├── Character_ID
+├── First_Name
+├── Gender
+├── Race
+├── Background
+│
+├── Family Status
+│
+└── IF Noble / Royal
+       │
+       ├── Family_ID
+       ├── Family_Name
+       ├── House_Type
+       └── House_Rank
+```
+
+---
+
+# 3. CHARACTER ID
+
+Setiap karakter harus memiliki `Character_ID` yang unik.
+
+Contoh:
+
+```text
+CHR-000001
+CHR-000002
+CHR-000003
+CHR-000004
+```
+
+`Character_ID` tidak boleh diduplikasi.
+
+Contoh:
+
+```text
+CHR-000001
+Kael Ravencrest
+
+CHR-000827
+Elira Ravencrest
+```
+
+Walaupun mempunyai nama keluarga yang sama, mereka tetap merupakan karakter berbeda.
+
+---
+
+# 4. FAMILY ID
+
+Setiap keluarga memiliki `Family_ID`.
+
+Contoh:
+
+```text
+FAM-000001
+FAM-000002
+FAM-000003
+```
+
+Family ID digunakan untuk menghubungkan karakter dengan keluarga.
+
+Contoh:
+
+```text
+Character_ID: CHR-000001
+Name: Kael Ravencrest
+Family_ID: FAM-000421
+```
+
+Karakter lain:
+
+```text
+Character_ID: CHR-000827
+Name: Elira Ravencrest
+Family_ID: FAM-000421
+```
+
+Artinya:
+
+```text
+Kael Ravencrest
+        │
+        └── Family_ID FAM-000421
+                    │
+                    ├── Kael
+                    ├── Elira
+                    └── Darian
+```
+
+Mereka berasal dari keluarga yang sama.
+
+---
+
+# 5. FAMILY NAME DUPLICATION
+
+Family Name **boleh muncul berulang**.
+
+Contoh:
+
+```text
+Ravencrest
+Ravencrest
+Ravencrest
+```
+
+Namun terdapat perbedaan antara:
+
+```text
+Family Name
+```
+
+dan:
+
+```text
+Family ID
+```
+
+Contoh:
+
+```text
+Family Name:
+Ravencrest
+
+Family ID:
+FAM-000421
+```
+
+Jika diperlukan untuk dunia yang lebih besar, nama keluarga yang sama juga dapat digunakan oleh keluarga berbeda.
+
+Contoh:
+
+```text
+FAM-000421
+Ravencrest
+Human Noble
+
+FAM-009821
+Ravencrest
+Dark Elf Noble
+```
+
+Keduanya mempunyai nama keluarga yang sama tetapi merupakan family entity berbeda.
+
+---
+
+# 6. BACKGROUND CLASSIFICATION
+
+Character Background menentukan apakah karakter mendapatkan Family Name.
+
+```text
+BACKGROUND
+│
+├── Commoner
+├── Farmer
+├── Worker
+├── Merchant
+├── Craftsman
+├── Soldier
+├── Adventurer
+├── Mage
+├── Priest
+├── Noble
+├── Aristocrat
+├── Royal
+└── Imperial
+```
+
+Rule:
+
+```text
+Commoner
+    ↓
+No Noble Family
+
+Merchant
+    ↓
+Normally No Noble Family
+
+Soldier
+    ↓
+Normally No Noble Family
+
+Noble
+    ↓
+Family RNG
+
+Royal
+    ↓
+Royal Family RNG
+
+Imperial
+    ↓
+Imperial Family RNG
+```
+
+---
+
+# 7. FAMILY GENERATION RULE
+
+Family generation hanya dilakukan jika:
+
+```text
+Background = Noble
+OR
+Background = Royal
+OR
+Background = Imperial
+```
+
+Contoh:
+
+```text
+Race
+ ↓
+Human
+ ↓
+Background
+ ↓
+Noble
+ ↓
+Family RNG
+ ↓
+Ravencrest
+```
+
+Hasil:
+
+```text
+Kael Ravencrest
+```
+
+---
+
+# 8. RACE-BASED FAMILY POOL
+
+Family Name harus disesuaikan dengan ras.
+
+Contoh:
+
+```text
+Human
+    ↓
+Ravencrest
+Valmont
+Ashbourne
+Lancaster
+Montclair
+```
+
+High Elf:
+
+```text
+Aeltharion
+Caelvane
+Elendris
+Sylvarion
+Vaelorian
+```
+
+Dwarf:
+
+```text
+Ironforge
+Stonehammer
+Goldbeard
+Thunderforge
+Grimstone
+```
+
+Dragonkin:
+
+```text
+Dragonscale
+Stormscale
+Goldscale
+Emberfang
+Dragonspire
+```
+
+Vampire:
+
+```text
+Bloodcrest
+Nightborne
+Ravencourt
+Crimsonvale
+Sablecourt
+```
+
+Demon:
+
+```text
+Bloodthorn
+Voidborn
+Blackhorn
+Dreadborne
+Shadowthorn
+```
+
+---
+
+# 9. FAMILY RNG
+
+Family RNG menggunakan pool berdasarkan ras dan background.
+
+```text
+Race
+ ↓
+Background
+ ↓
+Family Pool
+ ↓
+RNG
+ ↓
+Family Name
+```
+
+Contoh:
+
+```text
+Race:
+Human
+
+Background:
+Noble
+
+Human Noble Pool:
+200 Family Names
+
+RNG:
+157
+
+Result:
+Ravencrest
+```
+
+---
+
+# 10. HOUSE TYPE
+
+Family Name dapat memiliki House Type.
+
+```text
+House
+Clan
+Dynasty
+Bloodline
+Noble House
+Royal House
+Imperial House
+Ancient House
+High House
+Grand House
+Ducal House
+Marquis House
+Count House
+Baronial House
+Sacred House
+Elder House
+First House
+Great House
+Fallen House
+Exiled House
+```
+
+---
+
+# 11. HOUSE RANK
+
+Noble Family memiliki ranking.
+
+```text
+HOUSE RANK
+│
+├── Baron
+├── Viscount
+├── Count
+├── Marquis
+├── Duke
+├── Grand Duke
+├── Prince
+├── Royal Family
+└── Imperial Family
+```
+
+Contoh:
+
+```text
+House Ravencrest
+Rank: Duke
+Type: Ducal House
+```
+
+---
+
+# 12. ROYAL FAMILY
+
+Royal character menggunakan pool khusus.
+
+Contoh:
+
+```text
+Royal House
+├── Aurelius
+├── Caelorian
+├── Valerian
+├── Aurelian
+└── Celestian
+```
+
+Contoh karakter:
+
+```text
+Seraphine Aurelius
+Race: Human
+Background: Royal
+House: Royal House
+Rank: Princess
+```
+
+---
+
+# 13. IMPERIAL FAMILY
+
+Imperial Family memiliki status tertinggi.
+
+```text
+Imperial Family
+        ↓
+Imperial House
+        ↓
+Royal Bloodline
+        ↓
+Imperial Bloodline
+```
+
+Contoh:
+
+```text
+Emperor:
+Darian Aurelius
+
+Family_ID:
+FAM-000001
+
+House_Type:
+Imperial House
+
+Rank:
+Emperor
+```
+
+---
+
+# 14. NOBLE FAMILY STRUCTURE
+
+Satu Family dapat memiliki banyak karakter.
+
+```text
+FAM-000421
+Ravencrest
+│
+├── Head of Family
+├── Spouse
+├── Heir
+├── Children
+├── Siblings
+├── Cousins
+├── Uncle
+├── Aunt
+└── Extended Family
+```
+
+Contoh:
+
+```text
+House Ravencrest
+
+Head:
+Aldric Ravencrest
+
+Spouse:
+Elena Ravencrest
+
+Heir:
+Kael Ravencrest
+
+Daughter:
+Elira Ravencrest
+
+Second Son:
+Darian Ravencrest
+```
+
+---
+
+# 15. FAMILY RELATIONSHIP
+
+Family System dapat menyimpan hubungan antar karakter.
+
+```text
+Relationship
+│
+├── Father
+├── Mother
+├── Son
+├── Daughter
+├── Brother
+├── Sister
+├── Grandfather
+├── Grandmother
+├── Uncle
+├── Aunt
+├── Cousin
+├── Nephew
+└── Niece
+```
+
+Database:
+
+```text
+Character_ID
+Family_ID
+Parent_ID
+Relationship_Type
+```
+
+Contoh:
+
+```text
+CHR-000001
+FAM-000421
+Parent: CHR-000010
+Relationship: Son
+```
+
+---
+
+# 16. FAMILY BLOODLINE
+
+Family dapat mempunyai Bloodline.
+
+```text
+Family
+ ↓
+Bloodline
+ ↓
+Generation
+ ↓
+Character
+```
+
+Contoh:
+
+```text
+Ravencrest
+    ↓
+Ancient Human Bloodline
+    ↓
+Generation 12
+    ↓
+Kael Ravencrest
+```
+
+Bloodline dapat digunakan untuk sistem:
+
+* Magic inheritance
+* Trait inheritance
+* Genetic traits
+* Special skills
+* Royal blood
+* Ancient blood
+* Dragon blood
+* Divine blood
+* Demon blood
+
+---
+
+# 17. FAMILY REPUTATION
+
+Setiap keluarga dapat memiliki reputation.
+
+```text
+Family Reputation
+│
+├── Unknown
+├── Poor
+├── Neutral
+├── Respected
+├── Famous
+├── Prestigious
+├── Legendary
+└── Royal
+```
+
+Contoh:
+
+```text
+House Ravencrest
+Reputation: Prestigious
+```
+
+---
+
+# 18. FAMILY STATUS
+
+Family dapat memiliki status:
+
+```text
+Active
+Fallen
+Exiled
+Disgraced
+Extinct
+Hidden
+Royal
+Imperial
+Ancient
+```
+
+Contoh:
+
+```text
+House Ravencrest
+Status: Active
+```
+
+atau:
+
+```text
+House Blackthorn
+Status: Fallen
+```
+
+---
+
+# 19. FALLEN NOBLE FAMILY
+
+Tidak semua Noble Family harus aktif.
+
+Family dapat menjadi:
+
+```text
+Fallen House
+```
+
+Contoh:
+
+```text
+House Valmont
+
+Status:
+Fallen
+
+Reason:
+Political Betrayal
+```
+
+Karakter dari keluarga tersebut tetap dapat muncul.
+
+Contoh:
+
+```text
+Kael Valmont
+Background:
+Noble
+
+Family Status:
+Fallen House
+```
+
+Hal ini memungkinkan karakter memiliki background yang berbeda walaupun berasal dari keluarga bangsawan.
+
+---
+
+# 20. EXILED FAMILY
+
+Family juga dapat memiliki status:
+
+```text
+Exiled House
+```
+
+Contoh:
+
+```text
+House Ravenhart
+
+Status:
+Exiled
+
+Origin:
+Kingdom A
+
+Current Location:
+Kingdom B
+```
+
+Karakter:
+
+```text
+Elira Ravenhart
+Race: Human
+Background: Noble
+Family Status: Exiled
+```
+
+---
+
+# 21. FAMILY RNG DATA
+
+Setiap Family Entity minimal memiliki:
+
+```text
+Family_ID
+Family_Name
+Race
+House_Type
+House_Rank
+Family_Status
+Bloodline_ID
+Reputation
+Origin
+```
+
+Contoh:
+
+```text
+Family_ID:
+FAM-000421
+
+Family_Name:
+Ravencrest
+
+Race:
+Human
+
+House_Type:
+Ducal House
+
+House_Rank:
+Duke
+
+Family_Status:
+Active
+
+Bloodline_ID:
+BL-00121
+
+Reputation:
+Prestigious
+
+Origin:
+Kingdom A
+```
+
+---
+
+# 22. CHARACTER DATABASE
+
+Character dapat menggunakan struktur:
+
+```text
+Character_ID
+First_Name
+Gender
+Race
+Background
+Family_ID
+House_Type
+House_Rank
+Bloodline_ID
+Generation
+```
+
+Contoh:
+
+```text
+Character_ID:
+CHR-000827
+
+First_Name:
+Elira
+
+Gender:
+Female
+
+Race:
+Human
+
+Background:
+Noble
+
+Family_ID:
+FAM-000421
+
+House_Type:
+Ducal House
+
+House_Rank:
+Duke
+
+Bloodline_ID:
+BL-00121
+
+Generation:
+12
+```
+
+---
+
+# 23. RNG FLOW
+
+Full Character RNG:
+
+```text
+CHARACTER RNG
+      │
+      ↓
+Race RNG
+      │
+      ↓
+Gender RNG
+      │
+      ↓
+First Name RNG
+      │
+      ↓
+Background RNG
+      │
+      ├───────────────┐
+      │               │
+ Commoner          Noble/Royal
+      │               │
+      ↓               ↓
+No Family       Family RNG
+                      │
+                      ↓
+                 Family_ID
+                      │
+                      ↓
+                 Family Name
+                      │
+                      ↓
+                  House Type
+                      │
+                      ↓
+                  House Rank
+                      │
+                      ↓
+                  Bloodline
+                      │
+                      ↓
+              Final Character
+```
+
+---
+
+# 24. EXAMPLE COMMONER
+
+```text
+Character_ID:
+CHR-001001
+
+Name:
+Lina
+
+Race:
+Human
+
+Background:
+Commoner
+
+Family_ID:
+NULL
+
+Family_Name:
+NULL
+```
+
+Result:
+
+```text
+Lina
+```
+
+Tidak mendapatkan nama keluarga bangsawan.
+
+---
+
+# 25. EXAMPLE NOBLE
+
+```text
+Character_ID:
+CHR-001002
+
+Name:
+Kael Ravencrest
+
+Race:
+Human
+
+Background:
+Noble
+
+Family_ID:
+FAM-000421
+
+Family_Name:
+Ravencrest
+
+House_Type:
+Ducal House
+
+Rank:
+Duke
+
+Bloodline:
+Ancient Human
+```
+
+---
+
+# 26. EXAMPLE HIGH ELF NOBLE
+
+```text
+Character_ID:
+CHR-001003
+
+Name:
+Vaelion Aeltharion
+
+Race:
+High Elf
+
+Background:
+Noble
+
+Family_ID:
+FAM-000728
+
+Family_Name:
+Aeltharion
+
+House_Type:
+Ancient House
+
+Rank:
+Grand Duke
+
+Bloodline:
+Ancient High Elf
+```
+
+---
+
+# 27. EXAMPLE ROYAL
+
+```text
+Character_ID:
+CHR-001004
+
+Name:
+Seraphine Aurelius
+
+Race:
+Human
+
+Background:
+Royal
+
+Family_ID:
+FAM-000001
+
+Family_Name:
+Aurelius
+
+House_Type:
+Royal House
+
+Rank:
+Princess
+
+Bloodline:
+Royal Human
+```
+
+---
+
+# 28. EXAMPLE IMPERIAL
+
+```text
+Character_ID:
+CHR-001005
+
+Name:
+Darian Caelorian
+
+Race:
+Human
+
+Background:
+Imperial
+
+Family_ID:
+FAM-000002
+
+Family_Name:
+Caelorian
+
+House_Type:
+Imperial House
+
+Rank:
+Prince
+
+Bloodline:
+Imperial Bloodline
+```
+
+---
+
+# 29. DUPLICATE NAME EXAMPLE
+
+Duplicate First Name:
+
+```text
+Kael Ravencrest
+Kael Ironforge
+Kael Bloodcrest
+```
+
+Duplicate Family Name:
+
+```text
+Kael Ravencrest
+Elira Ravencrest
+Darian Ravencrest
+```
+
+Semua valid.
+
+Database membedakannya menggunakan:
+
+```text
+Character_ID
+Family_ID
+```
+
+---
+
+# 30. FAMILY SHARED BY MULTIPLE CHARACTERS
+
+Contoh:
+
+```text
+Family_ID: FAM-000421
+
+Ravencrest
+│
+├── CHR-000001
+│   Kael Ravencrest
+│
+├── CHR-000002
+│   Elira Ravencrest
+│
+├── CHR-000003
+│   Darian Ravencrest
+│
+├── CHR-000004
+│   Lyra Ravencrest
+│
+└── CHR-000005
+    Aric Ravencrest
+```
+
+Satu Family ID dapat digunakan oleh banyak karakter.
+
+---
+
+# 31. FAMILY NAME GENERATION RULE
+
+Family Name tidak di-RNG secara universal.
+
+Gunakan:
+
+```text
+Race
++
+Background
++
+Region
++
+House Rank
+```
+
+Contoh:
+
+```text
+Human
++
+Noble
++
+Northern Kingdom
++
+Duke
+```
+
+menghasilkan pool:
+
+```text
+Frostvale
+Wintermere
+Northmere
+Ravencrest
+Stormvale
+```
+
+Sedangkan:
+
+```text
+High Elf
++
+Noble
++
+Ancient Forest
++
+Grand Duke
+```
+
+menghasilkan:
+
+```text
+Aeltharion
+Elendris
+Sylvarion
+Vaelorian
+Caelvane
+```
+
+---
+
+# 32. FAMILY NAME DOES NOT DETERMINE POWER
+
+Family Name tidak otomatis menentukan combat power.
+
+Contoh:
+
+```text
+Ravencrest
+```
+
+tidak berarti semua karakter Ravencrest kuat.
+
+Power tetap ditentukan oleh:
+
+```text
+Level
+Star
+Class
+Stats
+Skills
+Equipment
+Traits
+Talent
+Experience
+```
+
+Family hanya mempengaruhi:
+
+```text
+Background
+Social Status
+Bloodline
+Relationships
+Political Connections
+Potential Traits
+```
+
+---
+
+# 33. FAMILY SYSTEM FUTURE EXPANSION
+
+System ini dirancang agar dapat dikembangkan menjadi:
+
+```text
+Family System
+│
+├── Family Tree
+├── Bloodline
+├── Marriage
+├── Adoption
+├── Succession
+├── Inheritance
+├── Noble Politics
+├── Family Reputation
+├── Family Territory
+├── Family Wealth
+├── Family Military
+├── Family Alliance
+├── Family Rivalry
+├── Family War
+└── Royal Succession
+```
+
+---
+
+# 34. DATABASE RELATIONSHIP
+
+Recommended database relationship:
+
+```text
+CHARACTER
+    │
+    │ Family_ID
+    ↓
+FAMILY
+    │
+    ├── Bloodline_ID
+    │
+    ↓
+BLOODLINE
+    │
+    ↓
+HOUSE
+    │
+    ↓
+KINGDOM
+```
+
+Contoh:
+
+```text
+Character
+Kael Ravencrest
+      │
+      ↓
+Family
+Ravencrest
+      │
+      ↓
+Bloodline
+Ancient Human
+      │
+      ↓
+House
+Ducal House
+      │
+      ↓
+Kingdom
+Kingdom of Arvellan
+```
+
+---
+
+# 35. FINAL RNG RESULT
+
+Contoh final generation:
+
+```text
+================================
+CHARACTER GENERATED
+================================
+
+Character ID:
+CHR-000827
+
+Name:
+Elira Ravencrest
+
+Race:
+Human
+
+Gender:
+Female
+
+Background:
+Noble
+
+Family ID:
+FAM-000421
+
+Family:
+Ravencrest
+
+House:
+Ducal House
+
+Rank:
+Duke Family
+
+Bloodline:
+Ancient Human
+
+Generation:
+12
+
+Family Status:
+Active
+
+Reputation:
+Prestigious
+
+================================
+```
+
+---
+
+# 36. CORE RULES
+
+```text
+RULE 01
+Every character must have a unique Character_ID.
+
+RULE 02
+Family_ID represents the actual family entity.
+
+RULE 03
+Family Name may be duplicated.
+
+RULE 04
+Character with Commoner background does not receive Noble Family.
+
+RULE 05
+Noble characters use Race-based Family RNG.
+
+RULE 06
+Royal characters use Royal Family RNG.
+
+RULE 07
+Imperial characters use Imperial Family RNG.
+
+RULE 08
+One Family_ID may contain multiple characters.
+
+RULE 09
+Family Name does not determine combat power.
+
+RULE 10
+Family system may later connect to Bloodline,
+Inheritance, Marriage, Politics, Territory,
+and Royal Succession.
+```
+
+---
+
+# 37. SYSTEM CONNECTION
+
+Character Family System terhubung dengan:
+
+```text
+Character System
+        │
+        ├── Race System
+        ├── Gender System
+        ├── Background System
+        ├── Class System
+        ├── Trait System
+        ├── Talent System
+        │
+        ↓
+Family System
+        │
+        ├── Noble House
+        ├── Royal House
+        ├── Bloodline
+        ├── Family Tree
+        ├── Reputation
+        └── Political Relationship
+```
+
+Dengan struktur ini, **Family Name bukan sekadar nama tambahan**, tetapi menjadi entity yang bisa digunakan game untuk membangun **Noble House, Royal Family, Bloodline, hubungan antar-karakter, dan perkembangan dunia** di kemudian hari.
