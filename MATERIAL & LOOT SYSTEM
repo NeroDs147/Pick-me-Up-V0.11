@@ -1,0 +1,2192 @@
+# MATERIAL & LOOT SYSTEM
+
+## Overview
+
+Material & Loot System mengatur seluruh material yang diperoleh Hero dari:
+
+```text
+Floor Mission
+Dungeon
+Boss Raid
+World Exploration
+Quest
+Town Activity
+Monster Drop
+Gathering
+Event
+Treasure
+```
+
+Material digunakan untuk:
+
+```text
+Crafting
+Equipment
+Weapon
+Armor
+Accessory
+Building
+Town Facility
+Upgrade
+Repair
+Quest
+Trade
+Economy
+```
+
+---
+
+# 1. SYSTEM FLOW
+
+```text
+MISSION
+   │
+   ↓
+LOOT TABLE
+   │
+   ↓
+MATERIAL RNG
+   │
+   ↓
+MATERIAL
+   │
+   ├── Inventory
+   │
+   ├── Crafting
+   │
+   ├── Equipment
+   │
+   ├── Town
+   │
+   ├── Quest
+   │
+   └── Economy
+```
+
+---
+
+# 2. MATERIAL DATABASE
+
+Setiap material harus memiliki ID.
+
+```text
+Material_ID
+Material_Name
+Category
+Grade
+Rarity
+Source
+Floor_Min
+Floor_Max
+Base_Value
+Weight
+Crafting_Use
+Storage_Type
+```
+
+Contoh:
+
+```text
+Material_ID:
+MAT-000001
+
+Material_Name:
+Iron Ore
+
+Category:
+Metal
+
+Grade:
+1
+
+Rarity:
+Common
+
+Source:
+Mining / Monster Loot
+
+Base_Value:
+10 Gold
+```
+
+---
+
+# 3. MATERIAL CATEGORY
+
+```text
+MATERIAL
+│
+├── Metal
+├── Ore
+├── Stone
+├── Wood
+├── Plant
+├── Fiber
+├── Leather
+├── Bone
+├── Monster Part
+├── Crystal
+├── Gem
+├── Magic Material
+├── Elemental Material
+├── Alchemy Material
+├── Food Material
+├── Cloth
+├── Rune Material
+├── Boss Material
+└── Special Material
+```
+
+---
+
+# 4. METAL MATERIAL
+
+### MAT-000001 — Iron Ore
+
+```text
+Grade:
+1
+
+Rarity:
+Common
+
+Source:
+Mine
+Monster
+Dungeon
+
+Use:
+Basic Weapon
+Basic Armor
+Tools
+Building
+```
+
+### MAT-000002 — Copper Ore
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Tools
+Accessories
+Mechanical Parts
+```
+
+### MAT-000003 — Tin Ore
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Alloy
+Crafting
+Tools
+```
+
+### MAT-000004 — Bronze Ingot
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Weapons
+Armor
+Town Equipment
+```
+
+### MAT-000005 — Steel Ingot
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Weapons
+Armor
+Tools
+Building
+```
+
+### MAT-000006 — Refined Iron
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Equipment
+Weapon
+Armor
+```
+
+### MAT-000007 — Silver Ore
+
+```text
+Grade:
+2
+Rarity:
+Rare
+
+Use:
+Accessory
+Magic Equipment
+```
+
+### MAT-000008 — Gold Ore
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Accessory
+Magic Equipment
+Economy
+```
+
+### MAT-000009 — Mithril Ore
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+High Tier Equipment
+```
+
+### MAT-000010 — Adamantite Ore
+
+```text
+Grade:
+5
+Rarity:
+Legendary
+
+Use:
+Endgame Equipment
+```
+
+---
+
+# 5. STONE MATERIAL
+
+### MAT-000011 — Stone
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Building
+Town
+Walls
+Roads
+```
+
+### MAT-000012 — Granite
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Building
+Defense
+Town Facility
+```
+
+### MAT-000013 — Marble
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Town Decoration
+Noble Building
+Facility
+```
+
+### MAT-000014 — Obsidian
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Weapons
+Magic Crafting
+```
+
+### MAT-000015 — Mana Stone
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Magic Equipment
+Mana Storage
+Magic Facility
+```
+
+### MAT-000016 — Ancient Stone
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+Ancient Equipment
+Dungeon Facility
+```
+
+---
+
+# 6. WOOD MATERIAL
+
+### MAT-000017 — Basic Wood
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Building
+Weapon
+Furniture
+```
+
+### MAT-000018 — Hard Wood
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Weapon
+Shield
+Building
+```
+
+### MAT-000019 — Oak Wood
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Furniture
+Weapon
+Building
+```
+
+### MAT-000020 — Dark Wood
+
+```text
+Grade:
+2
+Rarity:
+Rare
+
+Use:
+Magic Equipment
+Weapon
+```
+
+### MAT-000021 — Ancient Wood
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+High Tier Equipment
+Magic Crafting
+```
+
+### MAT-000022 — World Tree Branch
+
+```text
+Grade:
+5
+Rarity:
+Legendary
+
+Use:
+Legendary Equipment
+Special Crafting
+```
+
+---
+
+# 7. PLANT MATERIAL
+
+### MAT-000023 — Green Herb
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Potion
+Healing Item
+```
+
+### MAT-000024 — Red Herb
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Health Potion
+```
+
+### MAT-000025 — Blue Herb
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Mana Potion
+```
+
+### MAT-000026 — Healing Flower
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Healing Potion
+Recovery Item
+```
+
+### MAT-000027 — Moon Flower
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Advanced Potion
+Magic Crafting
+```
+
+### MAT-000028 — Sun Flower
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Fire Potion
+Light Item
+```
+
+### MAT-000029 — Dream Leaf
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+Advanced Alchemy
+```
+
+---
+
+# 8. FIBER MATERIAL
+
+### MAT-000030 — Plant Fiber
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Cloth
+Rope
+Basic Armor
+```
+
+### MAT-000031 — Strong Fiber
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Armor
+Rope
+Equipment
+```
+
+### MAT-000032 — Spider Silk
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Cloth
+Bow String
+Light Armor
+```
+
+### MAT-000033 — Magic Thread
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Magic Clothing
+Magic Equipment
+```
+
+### MAT-000034 — Dragon Thread
+
+```text
+Grade:
+5
+Rarity:
+Legendary
+
+Use:
+Legendary Equipment
+```
+
+---
+
+# 9. LEATHER MATERIAL
+
+### MAT-000035 — Animal Hide
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Leather
+Armor
+Bag
+```
+
+### MAT-000036 — Thick Hide
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Heavy Leather Armor
+Shield
+```
+
+### MAT-000037 — Wolf Leather
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Light Armor
+Gloves
+Boots
+```
+
+### MAT-000038 — Dire Beast Hide
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+High Tier Armor
+```
+
+### MAT-000039 — Dragon Leather
+
+```text
+Grade:
+5
+Rarity:
+Legendary
+
+Use:
+Dragon Armor
+Legendary Equipment
+```
+
+---
+
+# 10. BONE MATERIAL
+
+### MAT-000040 — Small Bone
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Tool
+Accessory
+Crafting
+```
+
+### MAT-000041 — Beast Bone
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Weapon
+Accessory
+```
+
+### MAT-000042 — Monster Bone
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Weapon
+Armor
+```
+
+### MAT-000043 — Giant Bone
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+Heavy Weapon
+Heavy Armor
+```
+
+### MAT-000044 — Dragon Bone
+
+```text
+Grade:
+5
+Rarity:
+Legendary
+
+Use:
+Dragon Equipment
+Legendary Weapon
+```
+
+---
+
+# 11. MONSTER PARTS
+
+### MAT-000045 — Monster Claw
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Weapon
+Accessory
+```
+
+### MAT-000046 — Monster Fang
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Weapon
+Potion
+```
+
+### MAT-000047 — Monster Horn
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Weapon
+Helmet
+Accessory
+```
+
+### MAT-000048 — Monster Scale
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Armor
+Shield
+```
+
+### MAT-000049 — Monster Eye
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Magic Item
+Accessory
+```
+
+### MAT-000050 — Monster Heart
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Potion
+Magic Equipment
+```
+
+---
+
+# 12. CRYSTAL MATERIAL
+
+### MAT-000051 — Small Crystal
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Magic Crafting
+```
+
+### MAT-000052 — Mana Crystal
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Magic Weapon
+Magic Armor
+```
+
+### MAT-000053 — Fire Crystal
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Fire Equipment
+Fire Potion
+```
+
+### MAT-000054 — Ice Crystal
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Ice Equipment
+Ice Potion
+```
+
+### MAT-000055 — Wind Crystal
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Wind Equipment
+```
+
+### MAT-000056 — Earth Crystal
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Earth Equipment
+```
+
+### MAT-000057 — Dark Crystal
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+Dark Equipment
+```
+
+### MAT-000058 — Light Crystal
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+Holy Equipment
+```
+
+---
+
+# 13. GEM MATERIAL
+
+### MAT-000059 — Rough Gem
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Accessory
+Trade
+```
+
+### MAT-000060 — Ruby
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Fire Equipment
+Accessory
+```
+
+### MAT-000061 — Sapphire
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Ice/Mana Equipment
+```
+
+### MAT-000062 — Emerald
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Nature Equipment
+```
+
+### MAT-000063 — Amethyst
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Magic Equipment
+```
+
+### MAT-000064 — Diamond
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+High Tier Equipment
+```
+
+---
+
+# 14. ALCHEMY MATERIAL
+
+### MAT-000065 — Slime Gel
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Potion
+Alchemy
+```
+
+### MAT-000066 — Poison Sac
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Poison Potion
+Trap
+```
+
+### MAT-000067 — Venom
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Advanced Poison
+Weapon Coating
+```
+
+### MAT-000068 — Monster Blood
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Alchemy
+Magic Crafting
+```
+
+### MAT-000069 — Essence
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Advanced Potion
+Magic Crafting
+```
+
+---
+
+# 15. RUNE MATERIAL
+
+### MAT-000070 — Rune Fragment
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Rune Crafting
+```
+
+### MAT-000071 — Fire Rune
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Fire Equipment
+```
+
+### MAT-000072 — Ice Rune
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Ice Equipment
+```
+
+### MAT-000073 — Protection Rune
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Armor
+Shield
+```
+
+### MAT-000074 — Ancient Rune
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+High Tier Equipment
+```
+
+---
+
+# 16. MAGIC MATERIAL
+
+### MAT-000075 — Mana Dust
+
+```text
+Grade:
+1
+Rarity:
+Common
+
+Use:
+Magic Crafting
+```
+
+### MAT-000076 — Mana Essence
+
+```text
+Grade:
+2
+Rarity:
+Uncommon
+
+Use:
+Magic Equipment
+Potion
+```
+
+### MAT-000077 — Arcane Essence
+
+```text
+Grade:
+3
+Rarity:
+Rare
+
+Use:
+Advanced Magic Crafting
+```
+
+### MAT-000078 — Ancient Magic Core
+
+```text
+Grade:
+5
+Rarity:
+Legendary
+
+Use:
+Legendary Magic Equipment
+```
+
+---
+
+# 17. BOSS MATERIAL
+
+Boss material memiliki drop rate rendah.
+
+### MAT-000079 — Boss Core
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Source:
+Boss
+
+Use:
+High Tier Equipment
+```
+
+### MAT-000080 — Ancient Boss Core
+
+```text
+Grade:
+5
+Rarity:
+Legendary
+
+Source:
+High Floor Boss
+
+Use:
+Legendary Equipment
+```
+
+### MAT-000081 — Boss Horn
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+Weapon
+Armor
+```
+
+### MAT-000082 — Boss Scale
+
+```text
+Grade:
+4
+Rarity:
+Epic
+
+Use:
+Armor
+Shield
+```
+
+### MAT-000083 — Boss Heart
+
+```text
+Grade:
+5
+Rarity:
+Legendary
+
+Use:
+Special Equipment
+```
+
+---
+
+# 18. SPECIAL FLOOR MATERIAL
+
+Material tertentu hanya tersedia di Floor tertentu.
+
+```text
+Floor 1–10
+→ Basic Material
+
+Floor 11–20
+→ Improved Material
+
+Floor 21–50
+→ Rare Material
+
+Floor 51–100
+→ Epic Material
+
+Floor 100+
+→ Legendary / Special Material
+```
+
+Contoh:
+
+```text
+Forest Floor
+→ Ancient Wood
+→ Healing Flower
+→ Beast Hide
+
+Volcanic Floor
+→ Fire Crystal
+→ Obsidian
+→ Dragon Scale
+
+Frozen Floor
+→ Ice Crystal
+→ Frost Core
+→ Frozen Gem
+
+Dark Dungeon
+→ Dark Crystal
+→ Shadow Essence
+→ Ancient Rune
+```
+
+---
+
+# 19. LOOT SOURCE
+
+Setiap material mempunyai sumber.
+
+```text
+Source
+│
+├── Monster Drop
+├── Boss Drop
+├── Mining
+├── Gathering
+├── Woodcutting
+├── Hunting
+├── Exploration
+├── Treasure Chest
+├── Quest Reward
+├── Dungeon Reward
+├── Event Reward
+└── Town Production
+```
+
+---
+
+# 20. MONSTER LOOT
+
+Monster dapat mempunyai Loot Table.
+
+Contoh:
+
+```text
+Goblin
+│
+├── Small Bone
+├── Monster Fang
+├── Animal Hide
+└── Copper Ore
+```
+
+Orc:
+
+```text
+Orc
+│
+├── Monster Bone
+├── Monster Horn
+├── Thick Hide
+└── Iron Ore
+```
+
+Dragon:
+
+```text
+Dragon
+│
+├── Dragon Scale
+├── Dragon Bone
+├── Dragon Leather
+├── Fire Crystal
+└── Dragon Core
+```
+
+---
+
+# 21. BOSS LOOT
+
+Boss mempunyai Loot Table khusus.
+
+```text
+BOSS
+│
+├── Guaranteed Drop
+├── Common Drop
+├── Rare Drop
+├── Epic Drop
+└── Legendary Drop
+```
+
+Contoh:
+
+```text
+Floor 20 Boss
+
+Guaranteed:
+Monster Bone
+
+Common:
+Monster Scale
+
+Rare:
+Boss Core
+
+Epic:
+Boss Heart
+
+Legendary:
+Ancient Boss Core
+```
+
+---
+
+# 22. LOOT RARITY
+
+```text
+Common
+Uncommon
+Rare
+Epic
+Legendary
+Mythic
+```
+
+Recommended drop multiplier:
+
+```text
+Common:
+1.00
+
+Uncommon:
+0.50
+
+Rare:
+0.15
+
+Epic:
+0.04
+
+Legendary:
+0.01
+
+Mythic:
+0.001
+```
+
+Nilai tersebut hanya contoh dan harus dapat diubah melalui Economy Configuration.
+
+---
+
+# 23. MATERIAL GRADE
+
+Material Grade menentukan kualitas dasar.
+
+```text
+Grade 1
+Basic
+
+Grade 2
+Improved
+
+Grade 3
+Advanced
+
+Grade 4
+Superior
+
+Grade 5
+Legendary
+```
+
+Contoh:
+
+```text
+Iron Ore
+Grade 1
+
+Steel Ingot
+Grade 2
+
+Mithril
+Grade 4
+
+Adamantite
+Grade 5
+```
+
+---
+
+# 24. CRAFTING CONNECTION
+
+Material digunakan oleh Crafting System.
+
+```text
+Material
+   ↓
+Recipe
+   ↓
+Crafting
+   ↓
+Item
+```
+
+Contoh:
+
+```text
+Iron Ore
++
+Coal
++
+Leather
+ ↓
+Iron Sword
+```
+
+---
+
+# 25. CRAFTING RECIPE EXAMPLE
+
+```text
+RECIPE-000001
+
+Item:
+Iron Sword
+
+Required Material:
+
+Iron Ingot × 3
+Wood × 1
+Leather × 1
+
+Gold Cost:
+50
+```
+
+---
+
+# 26. EQUIPMENT CONNECTION
+
+```text
+Material
+ ↓
+Crafting
+ ↓
+Equipment
+ ↓
+Hero
+```
+
+Contoh:
+
+```text
+Mithril Ore
++
+Magic Crystal
++
+Monster Leather
+ ↓
+Mithril Armor
+ ↓
+Hero
+```
+
+---
+
+# 27. TOWN CONNECTION
+
+Material juga digunakan untuk Town.
+
+```text
+Stone
+Wood
+Iron
+Cloth
+Glass
+Crystal
+```
+
+Contoh:
+
+```text
+Town Blacksmith
+Required:
+
+Stone × 100
+Wood × 50
+Iron × 50
+Gold × 500
+```
+
+---
+
+# 28. WORLD EXPLORATION CONNECTION
+
+World Exploration dapat memberikan material:
+
+```text
+Forest
+→ Wood
+→ Herb
+→ Fiber
+
+Mountain
+→ Ore
+→ Stone
+→ Crystal
+
+Desert
+→ Sand
+→ Gem
+→ Monster Bone
+
+Ancient Ruins
+→ Ancient Rune
+→ Mana Crystal
+→ Ancient Stone
+```
+
+---
+
+# 29. FLOOR CONNECTION
+
+Setiap Floor mempunyai Loot Table.
+
+```text
+FLOOR 1
+Basic Material
+
+FLOOR 10
+Improved Material
+
+FLOOR 20
+Rare Material
+
+FLOOR 30
+Rare + Boss Material
+
+FLOOR 50
+Epic Material
+
+FLOOR 100
+Legendary Material
+```
+
+---
+
+# 30. QUEST CONNECTION
+
+Quest dapat meminta material.
+
+Contoh:
+
+```text
+Quest:
+Blacksmith Request
+
+Required:
+
+Iron Ore × 10
+Wood × 5
+Monster Fang × 3
+
+Reward:
+
+Gold
+EXP
+Crafting Material
+```
+
+---
+
+# 31. INVENTORY CONNECTION
+
+Setiap material masuk ke Inventory.
+
+```text
+Inventory
+│
+├── Material
+├── Equipment
+├── Consumable
+├── Quest Item
+└── Special Item
+```
+
+Contoh:
+
+```text
+MAT-000001
+Iron Ore
+Quantity: 125
+```
+
+---
+
+# 32. MATERIAL STACK
+
+Material dapat ditumpuk.
+
+```text
+Iron Ore × 999
+Wood × 999
+Stone × 999
+```
+
+Maximum Stack harus dapat dikonfigurasi.
+
+```text
+Max_Stack:
+100
+999
+9999
+```
+
+---
+
+# 33. MATERIAL VALUE
+
+Material memiliki Base Value.
+
+```text
+Iron Ore
+10 Gold
+
+Steel Ingot
+50 Gold
+
+Mithril Ore
+500 Gold
+
+Adamantite
+5000 Gold
+```
+
+Harga aktual dapat berubah melalui:
+
+```text
+Economy System
+Supply
+Demand
+Town
+Market
+Event
+Floor Availability
+```
+
+---
+
+# 34. MATERIAL ECONOMY
+
+```text
+Loot
+ ↓
+Inventory
+ ↓
+Crafting OR Selling
+ ↓
+Supply/Demand
+ ↓
+Market Price
+```
+
+Material yang terlalu sering didapat:
+
+```text
+Supply ↑
+Price ↓
+```
+
+Material langka:
+
+```text
+Supply ↓
+Price ↑
+```
+
+---
+
+# 35. LOOT RNG
+
+Loot RNG:
+
+```text
+MISSION
+   ↓
+MISSION TYPE
+   ↓
+FLOOR
+   ↓
+ENEMY
+   ↓
+LOOT TABLE
+   ↓
+RARITY RNG
+   ↓
+MATERIAL RNG
+   ↓
+QUANTITY RNG
+   ↓
+INVENTORY
+```
+
+---
+
+# 36. HERO INFLUENCE
+
+Mission Potential Skill dapat mempengaruhi loot.
+
+Contoh:
+
+```text
+Hero Skill:
+Resource Hunter
+
+Effect:
++5% Resource Gain
+```
+
+atau:
+
+```text
+Hero Skill:
+Treasure Hunter
+
+Effect:
++5% Treasure Reward
+```
+
+Dengan demikian:
+
+```text
+Hero
++
+Mission Skill
++
+Floor
++
+Loot Table
+=
+Mission Loot
+```
+
+---
+
+# 37. LOOT QUANTITY
+
+Quantity dapat menggunakan RNG.
+
+Contoh:
+
+```text
+Iron Ore
+
+Minimum:
+1
+
+Maximum:
+5
+```
+
+RNG:
+
+```text
+1
+2
+3
+4
+5
+```
+
+Skill dapat memberikan bonus:
+
+```text
+Resource Hunter
+→ +5% Resource Gain
+```
+
+---
+
+# 38. MATERIAL PROCESSING
+
+Material mentah dapat diproses menjadi material refined.
+
+```text
+Iron Ore
+ ↓
+Smelting
+ ↓
+Iron Ingot
+```
+
+```text
+Wood
+ ↓
+Processing
+ ↓
+Processed Wood
+```
+
+```text
+Crystal
+ ↓
+Refining
+ ↓
+Refined Crystal
+```
+
+---
+
+# 39. MATERIAL TREE
+
+```text
+RAW MATERIAL
+│
+├── Ore
+│    ↓
+│   Ingot
+│    ↓
+│   Equipment
+│
+├── Wood
+│    ↓
+│   Processed Wood
+│    ↓
+│   Equipment
+│
+├── Hide
+│    ↓
+│   Leather
+│    ↓
+│   Armor
+│
+├── Herb
+│    ↓
+│   Extract
+│    ↓
+│   Potion
+│
+└── Crystal
+     ↓
+   Refined Crystal
+     ↓
+   Magic Equipment
+```
+
+---
+
+# 40. SPECIAL MATERIAL
+
+Special Material tidak selalu digunakan untuk crafting biasa.
+
+Contoh:
+
+```text
+Ancient Core
+Dragon Heart
+World Tree Branch
+Ancient Rune
+Boss Heart
+```
+
+Penggunaan:
+
+```text
+Unique Equipment
+Hero Awakening
+Special Quest
+Town Upgrade
+Advanced Crafting
+```
+
+---
+
+# 41. MATERIAL ID RULE
+
+Material ID tidak boleh berubah.
+
+```text
+MAT-000001
+MAT-000002
+MAT-000003
+```
+
+Walaupun:
+
+```text
+Name
+Value
+Drop Rate
+Crafting Use
+```
+
+berubah, `Material_ID` tetap sama.
+
+---
+
+# 42. DATABASE RELATION
+
+```text
+MATERIAL
+    │
+    ├──────── LOOT_TABLE
+    │
+    ├──────── CRAFTING_RECIPE
+    │
+    ├──────── INVENTORY
+    │
+    ├──────── QUEST
+    │
+    ├──────── TOWN
+    │
+    ├──────── ECONOMY
+    │
+    └──────── WORLD_EXPLORATION
+```
+
+---
+
+# 43. COMPLETE GAME CONNECTION
+
+```text
+                       FLOOR
+                         │
+                         ↓
+                       MISSION
+                         │
+                         ↓
+                     LOOT RNG
+                         │
+                         ↓
+                      MATERIAL
+                         │
+        ┌────────────────┼────────────────┐
+        ↓                ↓                ↓
+    INVENTORY         CRAFTING         SELLING
+        │                │                │
+        │                ↓                ↓
+        │            EQUIPMENT         ECONOMY
+        │                │
+        ↓                ↓
+      QUEST             HERO
+        │
+        ↓
+      REWARD
+
+```
+
+---
+
+# 44. MASTER DATABASE
+
+Recommended database:
+
+```text
+MATERIAL
+MATERIAL_LOOT_TABLE
+MATERIAL_SOURCE
+CRAFTING_RECIPE
+CRAFTING_RECIPE_MATERIAL
+INVENTORY_ITEM
+MATERIAL_PRICE
+MATERIAL_PROCESSING
+```
+
+---
+
+# 45. FINAL MATERIAL SYSTEM
+
+```text
+MATERIAL SYSTEM
+│
+├── Raw Material
+│   ├── Ore
+│   ├── Wood
+│   ├── Stone
+│   ├── Plant
+│   ├── Fiber
+│   └── Hide
+│
+├── Monster Material
+│   ├── Bone
+│   ├── Fang
+│   ├── Claw
+│   ├── Horn
+│   ├── Scale
+│   └── Organ
+│
+├── Magic Material
+│   ├── Crystal
+│   ├── Mana
+│   ├── Rune
+│   └── Essence
+│
+├── Refined Material
+│   ├── Ingot
+│   ├── Leather
+│   ├── Processed Wood
+│   └── Refined Crystal
+│
+└── Special Material
+    ├── Boss Material
+    ├── Ancient Material
+    ├── Legendary Material
+    └── Unique Material
+```
+
+---
+
+# 46. CORE DESIGN RULES
+
+```text
+RULE 01
+Every material must have a unique Material_ID.
+
+RULE 02
+Material_ID must never change after creation.
+
+RULE 03
+Materials can be obtained from Missions,
+Dungeons, Bosses, Exploration, Quests,
+Events, and Town activities.
+
+RULE 04
+Material quantity is determined by Loot RNG.
+
+RULE 05
+Material rarity affects drop probability.
+
+RULE 06
+Floor level affects available material pools.
+
+RULE 07
+Bosses have exclusive Boss Material.
+
+RULE 08
+Materials can be used by Crafting System.
+
+RULE 09
+Materials can be processed into refined materials.
+
+RULE 10
+Materials can be stored in Inventory.
+
+RULE 11
+Materials can be used by Town Facilities.
+
+RULE 12
+Materials can be requested by Quest System.
+
+RULE 13
+Materials can be sold through Economy System.
+
+RULE 14
+Material price can change dynamically.
+
+RULE 15
+Mission Potential Skills may affect material acquisition.
+
+RULE 16
+Special materials can be reserved for
+high-level progression and unique crafting.
+
+RULE 17
+All material values, drop rates, stack limits,
+and crafting requirements must be configurable.
+
+RULE 18
+New materials can be added without changing
+existing Material_ID values.
+```
