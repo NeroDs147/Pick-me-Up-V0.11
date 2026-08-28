@@ -2,37 +2,42 @@
 
 ## Overview
 
-Character Family & Noble House System adalah bagian dari **Character RNG System** yang menentukan identitas keluarga karakter berdasarkan:
+Character Family & Noble House System adalah bagian dari **Character RNG System** yang menentukan apakah seorang Hero berasal dari keluarga biasa atau keluarga bangsawan berdasarkan:
 
 ```text
 Character
     ↓
 Race
     ↓
-Background
+Star
     ↓
-Family Status
+Background RNG
+    ↓
+Noble Chance
     ↓
 Family RNG
     ↓
 Noble House / Royal House
+    ↓
+Noble Second Name
+    ↓
+Noble Skill
 ```
 
-Sistem ini hanya memberikan **Family Name** kepada karakter yang memiliki latar belakang:
+Sistem ini menggunakan **Star Character sebagai salah satu parameter utama dalam menentukan peluang munculnya karakter bangsawan**.
 
-```text
-Noble
-Royal
-Aristocrat
-Ducal Family
-Marquis Family
-Count Family
-Baron Family
-Imperial Family
-Ancient House
-```
+Semakin tinggi Star awal karakter, semakin besar kemungkinan karakter tersebut memiliki latar belakang Noble.
 
-Karakter dengan latar belakang rakyat biasa tidak menggunakan sistem nama keluarga bangsawan.
+Hero yang berhasil mendapatkan status Noble, Aristocrat, Royal, atau Imperial akan memperoleh:
+
+* Family Entity.
+* Family Name.
+* Noble Second Name.
+* Noble Skill.
+* Bloodline.
+* House Rank.
+* Family Reputation.
+* Family-based passive effect.
 
 ---
 
@@ -41,22 +46,29 @@ Karakter dengan latar belakang rakyat biasa tidak menggunakan sistem nama keluar
 Sistem ini dibuat untuk:
 
 * Memberikan identitas keluarga kepada karakter.
-* Membuat karakter bangsawan terasa berbeda dari rakyat biasa.
-* Menghubungkan karakter dengan keluarga yang sama.
-* Mendukung sistem bloodline.
-* Mendukung sistem keluarga kerajaan.
-* Mendukung sistem politik antar keluarga.
-* Mendukung sistem inheritance.
+* Menentukan kemungkinan karakter berasal dari keluarga bangsawan.
+* Membuat karakter ⭐3–⭐5 memiliki peluang Noble lebih tinggi.
+* Menghubungkan karakter dengan Family Entity.
+* Memberikan nama kedua khusus kepada Hero bangsawan.
+* Memberikan Noble Skill kepada Hero bangsawan.
+* Menyesuaikan Noble Skill dengan Core World Build.
+* Mendukung Noble House.
+* Mendukung Royal Family.
+* Mendukung Imperial Family.
+* Mendukung Bloodline.
+* Mendukung Family Tree.
+* Mendukung hubungan antar-karakter.
+* Mendukung sistem politik keluarga.
+* Mendukung inheritance.
 * Mendukung genealogy.
-* Mendukung NPC generation.
 * Mendukung Character RNG.
-* Menyediakan data keluarga untuk database.
+* Menyediakan data keluarga untuk Database System.
 
 ---
 
 # 2. BASIC CHARACTER STRUCTURE
 
-Struktur karakter:
+Struktur dasar karakter:
 
 ```text
 CHARACTER
@@ -65,16 +77,23 @@ CHARACTER
 ├── First_Name
 ├── Gender
 ├── Race
+├── Star
 ├── Background
 │
-├── Family Status
-│
-└── IF Noble / Royal
+└── Family Status
        │
-       ├── Family_ID
-       ├── Family_Name
-       ├── House_Type
-       └── House_Rank
+       ├── Commoner
+       │      └── No Noble Second Name
+       │
+       └── Noble / Royal
+              │
+              ├── Family_ID
+              ├── Family_Name
+              ├── Noble_Second_Name
+              ├── House_Type
+              ├── House_Rank
+              ├── Bloodline_ID
+              └── Noble_Skill
 ```
 
 ---
@@ -104,111 +123,274 @@ CHR-000827
 Elira Ravencrest
 ```
 
-Walaupun mempunyai nama keluarga yang sama, mereka tetap merupakan karakter berbeda.
+Walaupun mempunyai nama keluarga yang sama, mereka tetap merupakan karakter yang berbeda.
 
 ---
 
-# 4. FAMILY ID
+# 4. STAR AS NOBLE RNG PARAMETER
 
-Setiap keluarga memiliki `Family_ID`.
-
-Contoh:
+Star karakter digunakan sebagai parameter untuk menentukan peluang karakter mendapatkan status Noble.
 
 ```text
-FAM-000001
-FAM-000002
-FAM-000003
+STAR
+│
+├── ⭐
+├── ⭐⭐
+├── ⭐⭐⭐
+├── ⭐⭐⭐⭐
+└── ⭐⭐⭐⭐⭐
 ```
 
-Family ID digunakan untuk menghubungkan karakter dengan keluarga.
+Noble Chance:
 
-Contoh:
+| Star  | Noble Chance | Non-Noble Chance |
+| ----- | -----------: | ---------------: |
+| ⭐     |          10% |              90% |
+| ⭐⭐    |          10% |              90% |
+| ⭐⭐⭐   |          40% |              60% |
+| ⭐⭐⭐⭐  |          40% |              60% |
+| ⭐⭐⭐⭐⭐ |          40% |              60% |
+
+Rule:
 
 ```text
-Character_ID: CHR-000001
-Name: Kael Ravencrest
-Family_ID: FAM-000421
+⭐ 1–2
+    ↓
+10% Noble
+90% Non-Noble
 ```
 
-Karakter lain:
-
 ```text
-Character_ID: CHR-000827
-Name: Elira Ravencrest
-Family_ID: FAM-000421
+⭐ 3–5
+    ↓
+40% Noble
+60% Non-Noble
 ```
 
-Artinya:
+Rate tersebut berlaku pada **setiap karakter secara individual**.
+
+---
+
+# 5. NOBLE RNG FLOW
+
+Setiap karakter menjalani proses:
 
 ```text
-Kael Ravencrest
+CHARACTER GENERATED
+        ↓
+STAR GENERATED
+        ↓
+CHECK STAR
+        ↓
+NOBLE RNG
         │
-        └── Family_ID FAM-000421
-                    │
-                    ├── Kael
-                    ├── Elira
-                    └── Darian
+        ├── SUCCESS
+        │      ↓
+        │    NOBLE
+        │      ↓
+        │   FAMILY RNG
+        │      ↓
+        │   SECOND NAME RNG
+        │      ↓
+        │   NOBLE SKILL RNG
+        │
+        └── FAILED
+               ↓
+           NON-NOBLE
 ```
 
-Mereka berasal dari keluarga yang sama.
+Contoh:
+
+```text
+Character:
+Kael
+
+Star:
+⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+27
+
+Result:
+NOBLE
+```
+
+Karena:
+
+```text
+27 ≤ 40
+```
+
+maka karakter menjadi Noble.
 
 ---
 
-# 5. FAMILY NAME DUPLICATION
+# 6. ⭐1–⭐2 NOBLE RATE
 
-Family Name **boleh muncul berulang**.
-
-Contoh:
+Karakter dengan Star 1 dan 2 memiliki peluang Noble sebesar:
 
 ```text
-Ravencrest
-Ravencrest
-Ravencrest
-```
-
-Namun terdapat perbedaan antara:
-
-```text
-Family Name
-```
-
-dan:
-
-```text
-Family ID
+10%
 ```
 
 Contoh:
 
 ```text
-Family Name:
-Ravencrest
+Character:
+Lina
 
-Family ID:
-FAM-000421
+Star:
+⭐
+
+Noble Rate:
+10%
+
+RNG:
+73
+
+Result:
+NON-NOBLE
 ```
 
-Jika diperlukan untuk dunia yang lebih besar, nama keluarga yang sama juga dapat digunakan oleh keluarga berbeda.
-
-Contoh:
+Contoh lain:
 
 ```text
-FAM-000421
-Ravencrest
-Human Noble
+Character:
+Aric
 
-FAM-009821
-Ravencrest
-Dark Elf Noble
+Star:
+⭐⭐
+
+Noble Rate:
+10%
+
+RNG:
+04
+
+Result:
+NOBLE
 ```
 
-Keduanya mempunyai nama keluarga yang sama tetapi merupakan family entity berbeda.
+Dengan demikian, karakter Noble tetap dapat muncul pada Star rendah, tetapi jauh lebih jarang.
+
+Jika karakter ⭐1–⭐2 berhasil menjadi Noble, karakter tersebut tetap mendapatkan:
+
+* Family_ID.
+* Noble Second Name.
+* Noble Skill.
+* Bloodline.
+* House Rank.
 
 ---
 
-# 6. BACKGROUND CLASSIFICATION
+# 7. ⭐3–⭐5 NOBLE RATE
 
-Character Background menentukan apakah karakter mendapatkan Family Name.
+Karakter dengan Star 3 sampai 5 memiliki:
+
+```text
+40% Noble Chance
+```
+
+Contoh:
+
+```text
+Character:
+Elira
+
+Star:
+⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+18
+
+Result:
+NOBLE
+```
+
+Contoh:
+
+```text
+Character:
+Darian
+
+Star:
+⭐⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+67
+
+Result:
+NON-NOBLE
+```
+
+Star tinggi **tidak menjamin** karakter menjadi Noble.
+
+Star hanya meningkatkan peluang.
+
+---
+
+# 8. NOBLE DOES NOT EQUAL POWER
+
+Status Noble tidak otomatis berarti karakter lebih kuat.
+
+Contoh:
+
+```text
+⭐⭐⭐⭐ Commoner
+```
+
+dapat lebih kuat daripada:
+
+```text
+⭐⭐⭐⭐ Noble
+```
+
+Combat Power tetap ditentukan oleh:
+
+```text
+Level
+Star
+Class
+Stats
+Skills
+Traits
+Talent
+Equipment
+Experience
+AI Behavior
+Character Potential
+```
+
+Noble Skill memberikan identitas dan keunggulan tematik, tetapi tidak boleh menghapus peran sistem Combat Power.
+
+Family Status hanya mempengaruhi aspek seperti:
+
+```text
+Background
+Social Status
+Bloodline
+Relationships
+Political Connections
+Family History
+Potential Traits
+World Interaction
+Noble Skill
+```
+
+---
+
+# 9. BACKGROUND CLASSIFICATION
+
+Background Character dibagi menjadi:
 
 ```text
 BACKGROUND
@@ -228,62 +410,198 @@ BACKGROUND
 └── Imperial
 ```
 
-Rule:
+Namun Background Noble tidak diberikan secara otomatis hanya karena Star tinggi.
+
+Background harus melewati:
 
 ```text
-Commoner
-    ↓
-No Noble Family
+STAR
+ ↓
+NOBLE RNG
+ ↓
+BACKGROUND CLASSIFICATION
+```
 
-Merchant
-    ↓
-Normally No Noble Family
+Jika hasilnya Noble, Aristocrat, Royal, atau Imperial, karakter akan mendapatkan Noble Identity Package.
 
-Soldier
-    ↓
-Normally No Noble Family
-
-Noble
-    ↓
-Family RNG
-
-Royal
-    ↓
-Royal Family RNG
-
-Imperial
-    ↓
-Imperial Family RNG
+```text
+NOBLE IDENTITY PACKAGE
+│
+├── Family_ID
+├── Family_Name
+├── Noble_Second_Name
+├── House_Type
+├── House_Rank
+├── Bloodline_ID
+└── Noble_Skill
 ```
 
 ---
 
-# 7. FAMILY GENERATION RULE
+# 10. NON-NOBLE RESULT
 
-Family generation hanya dilakukan jika:
+Jika Noble RNG gagal:
 
 ```text
-Background = Noble
-OR
-Background = Royal
-OR
-Background = Imperial
+Noble RNG
+    ↓
+FAILED
+    ↓
+Non-Noble Background
+```
+
+Karakter dapat memperoleh:
+
+```text
+Commoner
+Farmer
+Worker
+Merchant
+Craftsman
+Soldier
+Adventurer
+Mage
+Priest
 ```
 
 Contoh:
 
 ```text
+Character_ID:
+CHR-001001
+
+Name:
+Lina
+
+Star:
+⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+82
+
+Result:
+NON-NOBLE
+```
+
+Database:
+
+```text
+Family_ID:
+NULL
+
+Family_Name:
+NULL
+
+Noble_Second_Name:
+NULL
+
+Noble_Skill:
+NULL
+
+Family_Status:
+Commoner
+```
+
+Karakter non-Noble tidak mendapatkan Noble Second Name dan Noble Skill.
+
+---
+
+# 11. NOBLE RESULT
+
+Jika Noble RNG berhasil:
+
+```text
+Noble RNG
+    ↓
+SUCCESS
+    ↓
+Noble Background
+    ↓
+Family RNG
+    ↓
+Noble Second Name RNG
+    ↓
+Noble Skill RNG
+```
+
+Contoh:
+
+```text
+Character:
+Kael
+
+Star:
+⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+12
+
+Result:
+NOBLE
+```
+
+Kemudian:
+
+```text
 Race
  ↓
-Human
+Region
  ↓
-Background
- ↓
-Noble
+Noble Pool
  ↓
 Family RNG
  ↓
+Family_ID
+ ↓
+Family Name
+ ↓
+Noble Second Name
+ ↓
+Noble Skill
+```
+
+---
+
+# 12. FAMILY GENERATION RULE
+
+Family generation hanya dilakukan jika karakter mendapatkan status:
+
+```text
+Noble
+OR
+Aristocrat
+OR
+Royal
+OR
+Imperial
+```
+
+Contoh:
+
+```text
+Human
+   ↓
+⭐⭐⭐⭐
+   ↓
+Noble RNG
+   ↓
+SUCCESS
+   ↓
+Noble
+   ↓
+Family RNG
+   ↓
 Ravencrest
+   ↓
+Noble Second Name
+   ↓
+Noble Skill
 ```
 
 Hasil:
@@ -294,23 +612,131 @@ Kael Ravencrest
 
 ---
 
-# 8. RACE-BASED FAMILY POOL
+# 13. FAMILY ID
 
-Family Name harus disesuaikan dengan ras.
+Setiap Family Entity memiliki `Family_ID`.
 
 Contoh:
 
 ```text
-Human
-    ↓
+FAM-000001
+FAM-000002
+FAM-000003
+```
+
+Family ID digunakan untuk menghubungkan karakter dengan keluarga.
+
+Contoh:
+
+```text
+Character_ID:
+CHR-000001
+
+Name:
+Kael Ravencrest
+
+Family_ID:
+FAM-000421
+```
+
+Karakter lain:
+
+```text
+Character_ID:
+CHR-000827
+
+Name:
+Elira Ravencrest
+
+Family_ID:
+FAM-000421
+```
+
+Artinya:
+
+```text
+FAM-000421
+Ravencrest
+│
+├── Kael
+├── Elira
+└── Darian
+```
+
+Mereka berasal dari Family Entity yang sama.
+
+---
+
+# 14. FAMILY NAME DUPLICATION
+
+Family Name **boleh muncul berulang**.
+
+Contoh:
+
+```text
+Ravencrest
+Ravencrest
+Ravencrest
+```
+
+Namun:
+
+```text
+Family Name
+```
+
+berbeda dengan:
+
+```text
+Family_ID
+```
+
+Contoh:
+
+```text
+FAM-000421
+Ravencrest
+Human Noble
+```
+
+dan:
+
+```text
+FAM-009821
+Ravencrest
+Dark Elf Noble
+```
+
+Keduanya mempunyai nama:
+
+```text
+Ravencrest
+```
+
+tetapi merupakan Family Entity berbeda.
+
+Noble Second Name harus mengikuti Family Entity yang dipilih.
+
+---
+
+# 15. RACE-BASED FAMILY POOL
+
+Family Name harus disesuaikan dengan ras.
+
+### Human
+
+```text
 Ravencrest
 Valmont
 Ashbourne
 Lancaster
 Montclair
+Aurelius
+Caelorian
+Valerian
 ```
 
-High Elf:
+### High Elf
 
 ```text
 Aeltharion
@@ -320,7 +746,7 @@ Sylvarion
 Vaelorian
 ```
 
-Dwarf:
+### Dwarf
 
 ```text
 Ironforge
@@ -330,7 +756,7 @@ Thunderforge
 Grimstone
 ```
 
-Dragonkin:
+### Dragonkin
 
 ```text
 Dragonscale
@@ -340,7 +766,7 @@ Emberfang
 Dragonspire
 ```
 
-Vampire:
+### Vampire
 
 ```text
 Bloodcrest
@@ -350,7 +776,7 @@ Crimsonvale
 Sablecourt
 ```
 
-Demon:
+### Demon
 
 ```text
 Bloodthorn
@@ -362,44 +788,51 @@ Shadowthorn
 
 ---
 
-# 9. FAMILY RNG
+# 16. FAMILY RNG
 
-Family RNG menggunakan pool berdasarkan ras dan background.
+Family RNG menggunakan:
 
 ```text
 Race
- ↓
++
 Background
- ↓
-Family Pool
- ↓
-RNG
- ↓
-Family Name
++
+Region
++
+House Rank
++
+House Type
 ```
 
-Contoh:
+Flow:
 
 ```text
-Race:
-Human
-
-Background:
+Character
+   ↓
+Race
+   ↓
+Star
+   ↓
+Noble RNG
+   ↓
 Noble
-
-Human Noble Pool:
-200 Family Names
-
-RNG:
-157
-
-Result:
-Ravencrest
+   ↓
+Family Pool
+   ↓
+RNG
+   ↓
+Family_ID
+   ↓
+Family Name
+   ↓
+Noble Second Name
+   ↓
+Noble Skill Pool
 ```
 
 ---
 
-# 10. HOUSE TYPE
+# 17. HOUSE TYPE
 
 Family Name dapat memiliki House Type.
 
@@ -426,64 +859,111 @@ Fallen House
 Exiled House
 ```
 
+House Type digunakan untuk menentukan:
+
+* Gaya Noble Skill.
+* Sumber kekuatan keluarga.
+* Status sosial.
+* Hubungan politik.
+* Jenis Bloodline.
+* Pool Noble Second Name.
+
 ---
 
-# 11. HOUSE RANK
+# 18. HOUSE RANK
 
-Noble Family memiliki ranking.
+Noble Family memiliki ranking:
 
 ```text
-HOUSE RANK
-│
-├── Baron
-├── Viscount
-├── Count
-├── Marquis
-├── Duke
-├── Grand Duke
-├── Prince
-├── Royal Family
-└── Imperial Family
+Baron
+Viscount
+Count
+Marquis
+Duke
+Grand Duke
+Prince
+Royal Family
+Imperial Family
 ```
 
 Contoh:
 
 ```text
 House Ravencrest
-Rank: Duke
-Type: Ducal House
+
+Rank:
+Duke
+
+Type:
+Ducal House
 ```
+
+House Rank dapat mempengaruhi:
+
+```text
+Noble Skill Tier
+Noble Second Name Pool
+Political Influence
+Family Reputation
+Starting Resources
+Family Authority
+```
+
+House Rank tidak mengubah Noble Chance.
 
 ---
 
-# 12. ROYAL FAMILY
+# 19. ROYAL FAMILY
 
-Royal character menggunakan pool khusus.
+Royal Family adalah bagian khusus dari Noble Family.
+
+Flow:
+
+```text
+Noble RNG
+     ↓
+Royal RNG
+     ↓
+Royal
+     ↓
+Royal Family Pool
+     ↓
+Royal Noble Skill
+```
 
 Contoh:
 
 ```text
-Royal House
-├── Aurelius
-├── Caelorian
-├── Valerian
-├── Aurelian
-└── Celestian
-```
-
-Contoh karakter:
-
-```text
 Seraphine Aurelius
-Race: Human
-Background: Royal
-House: Royal House
-Rank: Princess
+
+Race:
+Human
+
+Star:
+⭐⭐⭐⭐⭐
+
+Background:
+Royal
+
+Family_ID:
+FAM-000001
+
+House_Type:
+Royal House
+
+Rank:
+Princess
+
+Noble_Second_Name:
+Aurelius
+
+Noble_Skill:
+Royal Decree
 ```
 
 ---
 
-# 13. IMPERIAL FAMILY
+# 20. IMPERIAL FAMILY
 
 Imperial Family memiliki status tertinggi.
 
@@ -495,27 +975,124 @@ Imperial House
 Royal Bloodline
         ↓
 Imperial Bloodline
+        ↓
+Imperial Noble Skill
 ```
 
 Contoh:
 
 ```text
-Emperor:
-Darian Aurelius
+Darian Caelorian
+
+Background:
+Imperial
 
 Family_ID:
-FAM-000001
+FAM-000002
 
 House_Type:
 Imperial House
 
 Rank:
-Emperor
+Prince
+
+Noble_Second_Name:
+Caelorian
+
+Noble_Skill:
+Imperial Mandate
 ```
 
 ---
 
-# 14. NOBLE FAMILY STRUCTURE
+# 21. NOBLE RNG DAN ROYAL RNG
+
+Noble Chance utama:
+
+```text
+⭐1–2 = 10%
+⭐3–5 = 40%
+```
+
+Setelah karakter berhasil masuk kategori Noble, sistem dapat menentukan subkategori:
+
+```text
+NOBLE
+│
+├── Common Noble
+├── Aristocrat
+├── Royal
+└── Imperial
+```
+
+Contoh:
+
+```text
+⭐⭐⭐⭐⭐
+   ↓
+40% Noble
+   ↓
+SUCCESS
+   ↓
+Noble Classification RNG
+   ↓
+Royal
+   ↓
+Royal Noble Skill
+```
+
+---
+
+# 22. NOBLE CLASSIFICATION
+
+Contoh pool:
+
+```text
+Noble
+Aristocrat
+Royal
+Imperial
+```
+
+Namun Royal dan Imperial harus memiliki batasan world-building.
+
+Contoh:
+
+```text
+Royal Family
+    ↓
+Only available in kingdoms with active monarchy
+
+Imperial Family
+    ↓
+Only available in civilizations with an Empire
+```
+
+Dengan demikian, tidak semua karakter Noble dapat menjadi Royal atau Imperial.
+
+Noble Classification juga menentukan kategori Noble Skill:
+
+```text
+Noble
+    ↓
+House Skill
+
+Aristocrat
+    ↓
+Aristocratic Skill
+
+Royal
+    ↓
+Royal Skill
+
+Imperial
+    ↓
+Imperial Skill
+```
+
+---
+
+# 23. NOBLE FAMILY STRUCTURE
 
 Satu Family dapat memiliki banyak karakter.
 
@@ -534,49 +1111,41 @@ Ravencrest
 └── Extended Family
 ```
 
-Contoh:
+Semua anggota keluarga dapat memiliki Noble Skill yang berasal dari Family Skill Pool yang sama.
+
+Namun, bentuk skill dapat berbeda berdasarkan:
 
 ```text
-House Ravencrest
-
-Head:
-Aldric Ravencrest
-
-Spouse:
-Elena Ravencrest
-
-Heir:
-Kael Ravencrest
-
-Daughter:
-Elira Ravencrest
-
-Second Son:
-Darian Ravencrest
+Character Class
+Race
+Bloodline
+House Rank
+Generation
+Personal Trait
 ```
 
 ---
 
-# 15. FAMILY RELATIONSHIP
+# 24. FAMILY RELATIONSHIP
 
-Family System dapat menyimpan hubungan antar karakter.
+Family System dapat menyimpan:
 
 ```text
-Relationship
-│
-├── Father
-├── Mother
-├── Son
-├── Daughter
-├── Brother
-├── Sister
-├── Grandfather
-├── Grandmother
-├── Uncle
-├── Aunt
-├── Cousin
-├── Nephew
-└── Niece
+Father
+Mother
+Son
+Daughter
+Brother
+Sister
+Grandfather
+Grandmother
+Uncle
+Aunt
+Cousin
+Nephew
+Niece
+Spouse
+Heir
 ```
 
 Database:
@@ -588,18 +1157,29 @@ Parent_ID
 Relationship_Type
 ```
 
-Contoh:
+Hubungan keluarga dapat mempengaruhi Noble Skill:
 
 ```text
-CHR-000001
-FAM-000421
-Parent: CHR-000010
-Relationship: Son
+Heir
+    ↓
+Higher Noble Skill Potential
+
+Fallen Branch
+    ↓
+Fallen House Skill
+
+Royal Blood
+    ↓
+Royal Noble Skill Pool
+
+Imperial Blood
+    ↓
+Imperial Noble Skill Pool
 ```
 
 ---
 
-# 16. FAMILY BLOODLINE
+# 25. FAMILY BLOODLINE
 
 Family dapat mempunyai Bloodline.
 
@@ -611,6 +1191,8 @@ Bloodline
 Generation
  ↓
 Character
+ ↓
+Noble Skill
 ```
 
 Contoh:
@@ -623,49 +1205,65 @@ Ancient Human Bloodline
 Generation 12
     ↓
 Kael Ravencrest
+    ↓
+Ravencrest Command
 ```
 
-Bloodline dapat digunakan untuk sistem:
+Bloodline dapat digunakan untuk:
 
-* Magic inheritance
-* Trait inheritance
-* Genetic traits
-* Special skills
-* Royal blood
-* Ancient blood
-* Dragon blood
-* Divine blood
-* Demon blood
+```text
+Magic Inheritance
+Trait Inheritance
+Genetic Traits
+Special Skills
+Royal Blood
+Ancient Blood
+Dragon Blood
+Divine Blood
+Demon Blood
+Noble Skill Inheritance
+```
 
 ---
 
-# 17. FAMILY REPUTATION
+# 26. FAMILY REPUTATION
 
-Setiap keluarga dapat memiliki reputation.
+Family memiliki reputation:
 
 ```text
-Family Reputation
-│
-├── Unknown
-├── Poor
-├── Neutral
-├── Respected
-├── Famous
-├── Prestigious
-├── Legendary
-└── Royal
+Unknown
+Poor
+Neutral
+Respected
+Famous
+Prestigious
+Legendary
+Royal
 ```
 
 Contoh:
 
 ```text
 House Ravencrest
-Reputation: Prestigious
+Reputation:
+Prestigious
+```
+
+Reputation dapat mempengaruhi:
+
+```text
+Noble Skill Effect
+Political Access
+Starting Relationship
+Family Quest
+Social Interaction
+Recruitment
+Trade Access
 ```
 
 ---
 
-# 18. FAMILY STATUS
+# 27. FAMILY STATUS
 
 Family dapat memiliki status:
 
@@ -681,31 +1279,33 @@ Imperial
 Ancient
 ```
 
+Family Status dapat mempengaruhi Noble Skill.
+
 Contoh:
 
 ```text
-House Ravencrest
-Status: Active
-```
+Active House
+    ↓
+Standard Noble Skill
 
-atau:
+Fallen House
+    ↓
+Fallen Legacy Skill
 
-```text
-House Blackthorn
-Status: Fallen
+Exiled House
+    ↓
+Exiled Blood Skill
+
+Imperial House
+    ↓
+Imperial Authority Skill
 ```
 
 ---
 
-# 19. FALLEN NOBLE FAMILY
+# 28. FALLEN NOBLE FAMILY
 
-Tidak semua Noble Family harus aktif.
-
-Family dapat menjadi:
-
-```text
-Fallen House
-```
+Noble Family tidak selalu aktif.
 
 Contoh:
 
@@ -714,31 +1314,44 @@ House Valmont
 
 Status:
 Fallen
-
-Reason:
-Political Betrayal
 ```
 
-Karakter dari keluarga tersebut tetap dapat muncul.
-
-Contoh:
+Karakter tetap dapat muncul:
 
 ```text
 Kael Valmont
+
+Star:
+⭐⭐⭐⭐
+
 Background:
 Noble
 
 Family Status:
-Fallen House
+Fallen
+
+Noble_Second_Name:
+Valmont
+
+Noble_Skill:
+Fallen House Legacy
 ```
 
-Hal ini memungkinkan karakter memiliki background yang berbeda walaupun berasal dari keluarga bangsawan.
+Fallen Noble Skill dapat memberikan efek seperti:
+
+```text
+Bonus saat melawan keluarga rival
+Bonus saat merebut kembali wilayah
+Bonus terhadap reputasi negatif
+Bonus terhadap survival
+Bonus terhadap hidden resources
+```
 
 ---
 
-# 20. EXILED FAMILY
+# 29. EXILED FAMILY
 
-Family juga dapat memiliki status:
+Family juga dapat menjadi:
 
 ```text
 Exiled House
@@ -757,20 +1370,27 @@ Kingdom A
 
 Current Location:
 Kingdom B
+
+Noble_Second_Name:
+Ravenhart
+
+Noble_Skill:
+Exiled Bloodline
 ```
 
-Karakter:
+Exiled Noble Skill dapat memberikan:
 
 ```text
-Elira Ravenhart
-Race: Human
-Background: Noble
-Family Status: Exiled
+Bonus perjalanan
+Bonus diplomasi dengan kelompok asing
+Bonus survival
+Bonus infiltrasi
+Bonus hubungan dengan diaspora
 ```
 
 ---
 
-# 21. FAMILY RNG DATA
+# 30. FAMILY RNG DATA
 
 Setiap Family Entity minimal memiliki:
 
@@ -784,6 +1404,8 @@ Family_Status
 Bloodline_ID
 Reputation
 Origin
+Noble_Skill_Pool_ID
+Noble_Second_Name_Pool_ID
 ```
 
 Contoh:
@@ -815,66 +1437,85 @@ Prestigious
 
 Origin:
 Kingdom A
+
+Noble_Skill_Pool_ID:
+NSP-HUMAN-DUCAL-001
+
+Noble_Second_Name_Pool_ID:
+NSN-HUMAN-NOBLE-001
 ```
 
 ---
 
-# 22. CHARACTER DATABASE
+# 31. CHARACTER DATABASE
 
-Character dapat menggunakan struktur:
+Character dapat menggunakan:
 
 ```text
 Character_ID
 First_Name
 Gender
 Race
+Star
 Background
 Family_ID
+Family_Name
+Noble_Second_Name
 House_Type
 House_Rank
 Bloodline_ID
 Generation
+Family_Status
+Noble_Skill_ID
+Noble_Skill_Name
+Noble_Skill_Type
+Noble_Skill_Source
 ```
 
-Contoh:
+Untuk karakter non-Noble:
 
 ```text
-Character_ID:
-CHR-000827
-
-First_Name:
-Elira
-
-Gender:
-Female
-
-Race:
-Human
-
-Background:
-Noble
-
 Family_ID:
-FAM-000421
+NULL
 
-House_Type:
-Ducal House
+Family_Name:
+NULL
 
-House_Rank:
-Duke
+Noble_Second_Name:
+NULL
 
 Bloodline_ID:
-BL-00121
+NULL
 
-Generation:
-12
+Noble_Skill_ID:
+NULL
+
+Noble_Skill_Name:
+NULL
+```
+
+Untuk karakter Noble:
+
+```text
+Family_ID:
+FAM-XXXXXX
+
+Family_Name:
+Ravencrest
+
+Noble_Second_Name:
+Ravencrest
+
+Bloodline_ID:
+BL-XXXXXX
+
+Noble_Skill_ID:
+NS-XXXXXX
 ```
 
 ---
 
-# 23. RNG FLOW
-
-Full Character RNG:
+# 32. COMPLETE CHARACTER RNG FLOW
 
 ```text
 CHARACTER RNG
@@ -889,37 +1530,1438 @@ Gender RNG
 First Name RNG
       │
       ↓
-Background RNG
+Star RNG
+      │
+      ↓
+Noble RNG
       │
       ├───────────────┐
       │               │
- Commoner          Noble/Royal
+      │ SUCCESS       │ FAILED
+      ↓               ↓
+    NOBLE          NON-NOBLE
       │               │
       ↓               ↓
-No Family       Family RNG
-                      │
-                      ↓
-                 Family_ID
-                      │
-                      ↓
-                 Family Name
-                      │
-                      ↓
-                  House Type
-                      │
-                      ↓
-                  House Rank
-                      │
-                      ↓
-                  Bloodline
-                      │
-                      ↓
-              Final Character
+Family RNG       Normal Background
+      │
+      ↓
+Family_ID
+      │
+      ↓
+Family Name
+      │
+      ↓
+Noble Second Name
+      │
+      ↓
+House Type
+      │
+      ↓
+House Rank
+      │
+      ↓
+Bloodline
+      │
+      ↓
+Noble Classification
+      │
+      ↓
+Noble Skill Pool
+      │
+      ↓
+Noble Skill RNG
+      │
+      ↓
+Final Character
 ```
 
 ---
 
-# 24. EXAMPLE COMMONER
+# 33. NOBLE RATE TABLE
+
+Master configuration:
+
+```text
+NOBLE_RNG_CONFIG
+```
+
+| Parameter     | Value |
+| ------------- | ----: |
+| ⭐1 Noble Rate |   10% |
+| ⭐2 Noble Rate |   10% |
+| ⭐3 Noble Rate |   40% |
+| ⭐4 Noble Rate |   40% |
+| ⭐5 Noble Rate |   40% |
+
+Contoh database configuration:
+
+```text
+NOBLE_STAR_1_RATE = 0.10
+NOBLE_STAR_2_RATE = 0.10
+NOBLE_STAR_3_RATE = 0.40
+NOBLE_STAR_4_RATE = 0.40
+NOBLE_STAR_5_RATE = 0.40
+```
+
+Rate harus disimpan sebagai configuration sehingga dapat diubah tanpa mengubah struktur Character System.
+
+---
+
+# 34. NOBLE SECOND NAME SYSTEM
+
+Noble Second Name adalah nama kedua yang diberikan kepada Hero setelah karakter berhasil mendapatkan status Noble.
+
+Format nama:
+
+```text
+First_Name + Noble_Second_Name
+```
+
+Contoh:
+
+```text
+Kael Ravencrest
+Elira Ravencrest
+Seraphine Aurelius
+Darian Caelorian
+```
+
+Noble Second Name biasanya berasal dari:
+
+```text
+Family_Name
+House_Name
+Dynasty_Name
+Royal_Lineage
+Imperial_Lineage
+Ancient_Bloodline
+```
+
+Rule:
+
+```text
+Non-Noble
+    ↓
+Tidak memiliki Noble Second Name
+
+Noble
+    ↓
+Mendapatkan Noble Second Name
+
+Royal
+    ↓
+Mendapatkan Royal Second Name
+
+Imperial
+    ↓
+Mendapatkan Imperial Second Name
+```
+
+---
+
+# 35. NOBLE SECOND NAME GENERATION
+
+Noble Second Name ditentukan setelah Family RNG.
+
+```text
+Noble RNG
+    ↓
+Family RNG
+    ↓
+Family Name
+    ↓
+Noble Second Name RNG
+```
+
+Dalam sistem dasar:
+
+```text
+Noble_Second_Name = Family_Name
+```
+
+Contoh:
+
+```text
+Family_Name:
+Ravencrest
+
+Noble_Second_Name:
+Ravencrest
+```
+
+Namun, untuk Royal dan Imperial, nama kedua dapat menggunakan nama dinasti atau garis darah.
+
+Contoh:
+
+```text
+Family_Name:
+Aurelius
+
+Noble_Second_Name:
+Aurelius
+```
+
+atau:
+
+```text
+Family_Name:
+Caelorian
+
+Noble_Second_Name:
+Caelorian
+```
+
+---
+
+# 36. NOBLE SECOND NAME RULES
+
+```text
+RULE 01
+Noble Second Name hanya diberikan kepada
+karakter Noble, Aristocrat, Royal, atau Imperial.
+
+RULE 02
+Karakter Commoner tidak mendapatkan
+Noble Second Name.
+
+RULE 03
+Noble Second Name harus berasal dari
+Family Entity atau Bloodline yang valid.
+
+RULE 04
+Noble Second Name tidak boleh mengubah
+First Name karakter.
+
+RULE 05
+Noble Second Name tetap melekat pada
+Character_ID.
+
+RULE 06
+Star Up tidak melakukan reroll
+Noble Second Name.
+
+RULE 07
+Family Name boleh sama pada beberapa
+Family Entity, tetapi Family_ID tetap berbeda.
+
+RULE 08
+Noble Second Name dapat digunakan untuk
+identifikasi sosial, politik, dan genealogy.
+```
+
+---
+
+# 37. NOBLE SKILL SYSTEM
+
+Noble Skill adalah skill tambahan yang hanya diberikan kepada karakter dengan status:
+
+```text
+Noble
+Aristocrat
+Royal
+Imperial
+```
+
+Flow:
+
+```text
+Noble RNG
+    ↓
+SUCCESS
+    ↓
+Family RNG
+    ↓
+Noble Second Name
+    ↓
+Core World Build Check
+    ↓
+Noble Skill Pool
+    ↓
+Noble Skill RNG
+    ↓
+Noble Skill Assigned
+```
+
+Noble Skill harus mencerminkan:
+
+```text
+Race
+Family
+House Type
+House Rank
+Bloodline
+Region
+Core World Build
+Family Reputation
+Family Status
+Character Class
+```
+
+---
+
+# 38. CORE WORLD BUILD INTEGRATION
+
+Noble Skill harus disesuaikan dengan **Core World Build** agar skill tidak terasa terpisah dari dunia.
+
+Core World Build dapat mencakup:
+
+```text
+World
+Region
+Kingdom
+Empire
+Race
+Magic System
+Religion
+Political System
+Technology Level
+Ancient History
+Bloodline
+Element
+Faction
+```
+
+Contoh:
+
+```text
+Core World Build:
+Aetheria
+
+World Energy:
+Aether
+
+Political Structure:
+Kingdom and Noble Houses
+
+Magic System:
+Elemental and Bloodline Magic
+
+Noble Skill Theme:
+Authority, Bloodline, Aether, House Legacy
+```
+
+Dengan demikian, Noble Skill tidak hanya bernama umum seperti:
+
+```text
+Leadership
+```
+
+tetapi dapat menggunakan nama yang sesuai dengan dunia:
+
+```text
+Aetherial House Command
+```
+
+---
+
+# 39. NOBLE SKILL NAMING RULE
+
+Nama Noble Skill harus menggunakan istilah yang berasal dari Core World Build.
+
+Format dasar:
+
+```text
+[Core World Term] + [House Function]
+```
+
+Contoh:
+
+```text
+Aetherial House Command
+Ravencrest Blood Oath
+Royal Aether Decree
+Imperial Mandate of Caeloria
+Dragon Crown Authority
+Moonveil Noble Rite
+```
+
+Nama skill dapat menggunakan:
+
+```text
+Aether
+Bloodline
+Crown
+Throne
+House
+Dynasty
+Oath
+Legacy
+Mandate
+Decree
+Dominion
+Ascension
+Sigil
+Court
+Realm
+```
+
+---
+
+# 40. NOBLE SKILL CATEGORIES
+
+Noble Skill dibagi menjadi:
+
+```text
+NOBLE SKILL
+│
+├── House Authority
+├── Bloodline Skill
+├── Royal Command
+├── Imperial Mandate
+├── Political Influence
+├── Noble Combat Skill
+├── Family Legacy
+├── Social Dominion
+├── Aetheric Heritage
+└── Ancient House Rite
+```
+
+---
+
+# 41. HOUSE AUTHORITY SKILL
+
+House Authority Skill berasal dari status keluarga dan House Rank.
+
+Contoh:
+
+```text
+Ravencrest House Command
+```
+
+Efek:
+
+```text
+Memberikan bonus kecil kepada anggota party
+yang berasal dari Family_ID yang sama.
+
+Meningkatkan efektivitas saat berada
+di wilayah yang dikuasai keluarga.
+
+Meningkatkan hubungan dengan faction
+yang menghormati House Rank.
+```
+
+Contoh data:
+
+```text
+Noble_Skill_ID:
+NS-000421
+
+Noble_Skill_Name:
+Ravencrest House Command
+
+Noble_Skill_Type:
+House Authority
+
+Source:
+FAM-000421
+
+Core_World_Term:
+Aether
+```
+
+---
+
+# 42. BLOODLINE SKILL
+
+Bloodline Skill berasal dari Bloodline keluarga.
+
+Contoh:
+
+```text
+Ancient Aether Blood
+```
+
+Efek:
+
+```text
+Meningkatkan kompatibilitas dengan Aether.
+Meningkatkan peluang mengaktifkan Bloodline Trait.
+Memberikan resistensi terhadap efek yang
+bertentangan dengan Bloodline.
+```
+
+Bloodline Skill dapat diwariskan melalui:
+
+```text
+Parent
+Child
+Heir
+Royal Blood
+Imperial Blood
+```
+
+---
+
+# 43. ROYAL COMMAND SKILL
+
+Royal Character dapat memperoleh Royal Skill.
+
+Contoh:
+
+```text
+Royal Aether Decree
+```
+
+Efek:
+
+```text
+Memberikan bonus terhadap unit yang
+mengakui otoritas kerajaan.
+
+Meningkatkan efektivitas diplomasi.
+
+Mengurangi penalti saat memberikan perintah
+kepada faction kerajaan.
+
+Meningkatkan morale anggota party.
+```
+
+Royal Skill hanya dapat diberikan jika:
+
+```text
+Background:
+Royal
+
+Kingdom:
+Active Monarchy
+
+Family Status:
+Royal
+```
+
+---
+
+# 44. IMPERIAL MANDATE SKILL
+
+Imperial Character dapat memperoleh Imperial Skill.
+
+Contoh:
+
+```text
+Imperial Mandate of Caeloria
+```
+
+Efek:
+
+```text
+Memberikan bonus authority yang lebih tinggi.
+
+Meningkatkan pengaruh terhadap faction
+yang berada di bawah struktur Imperial.
+
+Meningkatkan kontrol terhadap wilayah
+yang memiliki hubungan dengan Empire.
+
+Memberikan bonus terhadap unit elite
+atau pasukan Imperial.
+```
+
+Imperial Skill hanya dapat diberikan jika:
+
+```text
+Background:
+Imperial
+
+Civilization:
+Active Empire
+
+Family Status:
+Imperial
+```
+
+---
+
+# 45. NOBLE SKILL BY HOUSE RANK
+
+House Rank dapat menentukan tier Noble Skill.
+
+| House Rank      | Noble Skill Tier |
+| --------------- | ---------------- |
+| Baron           | Tier I           |
+| Viscount        | Tier I           |
+| Count           | Tier II          |
+| Marquis         | Tier II          |
+| Duke            | Tier III         |
+| Grand Duke      | Tier III         |
+| Prince          | Tier IV          |
+| Royal Family    | Tier IV          |
+| Imperial Family | Tier V           |
+
+Contoh:
+
+```text
+Baron
+    ↓
+Minor House Oath
+
+Count
+    ↓
+Count's Aether Authority
+
+Duke
+    ↓
+Ducal House Dominion
+
+Royal Family
+    ↓
+Royal Aether Decree
+
+Imperial Family
+    ↓
+Imperial Mandate
+```
+
+House Rank meningkatkan skala skill, tetapi tidak otomatis menentukan Combat Power keseluruhan.
+
+---
+
+# 46. NOBLE SKILL BY RACE
+
+### Human Noble
+
+```text
+Aetherial House Command
+Royal Aether Decree
+Crown-Bound Authority
+Ancient Human Legacy
+```
+
+### High Elf Noble
+
+```text
+Moonveil Court Rite
+Elderwood Blood Oath
+Sylvan Aether Dominion
+Ancient Elven Grace
+```
+
+### Dwarf Noble
+
+```text
+Forgeblood Authority
+Stone Crown Oath
+Deepforge Legacy
+Runic House Command
+```
+
+### Dragonkin Noble
+
+```text
+Dragon Crown Authority
+Stormscale Bloodright
+Ember Throne Command
+Ancient Dragon Dominion
+```
+
+### Vampire Noble
+
+```text
+Crimson Court Decree
+Bloodmoon House Rite
+Nightborne Dominion
+Sable Blood Authority
+```
+
+### Demon Noble
+
+```text
+Void Throne Mandate
+Blackhorn Bloodright
+Dread Court Dominion
+Abyssal House Command
+```
+
+---
+
+# 47. NOBLE SKILL BY FAMILY STATUS
+
+### Active Family
+
+```text
+Active House Authority
+```
+
+### Fallen Family
+
+```text
+Fallen House Legacy
+```
+
+### Exiled Family
+
+```text
+Exiled Bloodline
+```
+
+### Disgraced Family
+
+```text
+Broken Crest
+```
+
+### Hidden Family
+
+```text
+Veiled Noble Line
+```
+
+### Royal Family
+
+```text
+Royal Aether Decree
+```
+
+### Imperial Family
+
+```text
+Imperial Mandate
+```
+
+---
+
+# 48. NOBLE SKILL BY CORE WORLD BUILD
+
+Contoh Core World Build:
+
+```text
+World:
+Aetheria
+
+Core Energy:
+Aether
+
+Major Factions:
+Kingdom
+Empire
+Noble House
+Ancient Bloodline
+
+Magic Theme:
+Elemental, Bloodline, and Aether Magic
+```
+
+Noble Skill yang sesuai:
+
+```text
+Aetherial House Command
+Aether Blood Oath
+Royal Aether Decree
+Imperial Aether Mandate
+Aether Crown Dominion
+```
+
+Contoh Core World Build lain:
+
+```text
+World:
+Eldoria
+
+Core Energy:
+Lumen
+
+Major Factions:
+Sacred Kingdom
+Moon Courts
+Ancient Clans
+
+Magic Theme:
+Lumen, Spirit, and Divine Blood
+```
+
+Noble Skill yang sesuai:
+
+```text
+Lumen Court Authority
+Sacred Bloodline Rite
+Moon Crown Decree
+Divine House Legacy
+```
+
+---
+
+# 49. NOBLE SKILL RNG POOL
+
+Contoh Noble Skill Pool:
+
+```text
+NOBLE_SKILL_POOL
+│
+├── House Authority
+├── Bloodline Skill
+├── Regional Noble Skill
+├── Race Noble Skill
+├── House Rank Skill
+├── Family Status Skill
+├── Royal Skill
+└── Imperial Skill
+```
+
+Contoh pool untuk Human Ducal House:
+
+```text
+NSP-HUMAN-DUCAL-001
+│
+├── Aetherial House Command
+├── Ravencrest Blood Oath
+├── Ducal Aether Dominion
+├── Noble Crest Authority
+└── Ancient House Legacy
+```
+
+---
+
+# 50. NOBLE SKILL ASSIGNMENT RULE
+
+Setiap karakter Noble mendapatkan minimal satu Noble Skill.
+
+```text
+Noble
+    ↓
+1 Noble Skill
+```
+
+Karakter Royal dapat memperoleh:
+
+```text
+1 Royal Skill
++
+1 Family Skill
+```
+
+Karakter Imperial dapat memperoleh:
+
+```text
+1 Imperial Skill
++
+1 Royal Skill
++
+1 Family Skill
+```
+
+Contoh:
+
+```text
+Noble:
+Ravencrest House Command
+
+Royal:
+Royal Aether Decree
++
+Aurelius Bloodline
+
+Imperial:
+Imperial Mandate
++
+Royal Blood Authority
++
+Caelorian Dynasty Legacy
+```
+
+Jumlah skill dapat disesuaikan dengan sistem progression.
+
+---
+
+# 51. NOBLE SKILL DOES NOT REROLL ON STAR UP
+
+Star Up tidak melakukan ulang Noble Skill.
+
+Contoh:
+
+```text
+Initial:
+
+Kael Ravencrest
+⭐⭐⭐
+Noble Skill:
+Ravencrest House Command
+```
+
+Kemudian:
+
+```text
+Star Up
+
+⭐⭐⭐
+ ↓
+⭐⭐⭐⭐
+ ↓
+⭐⭐⭐⭐⭐
+```
+
+Data tetap:
+
+```text
+Noble
+Ravencrest
+Ravencrest House Command
+```
+
+Sistem tidak boleh mengubah:
+
+```text
+Ravencrest House Command
+```
+
+menjadi skill lain hanya karena Star Up.
+
+---
+
+# 52. NOBLE SKILL INHERITANCE
+
+Noble Skill dapat diwariskan melalui Family Tree.
+
+```text
+Parent
+   ↓
+Bloodline
+   ↓
+Child
+   ↓
+Noble Skill Potential
+```
+
+Namun inheritance tidak harus selalu 100%.
+
+Contoh:
+
+```text
+Parent Noble Skill:
+Ravencrest Blood Oath
+
+Child:
+30% chance to inherit Bloodline Skill
+40% chance to receive House Skill
+30% chance to receive Personal Noble Skill
+```
+
+Inheritance dapat dipengaruhi oleh:
+
+```text
+Bloodline Strength
+Family Status
+Parent Relationship
+Generation
+Race
+Character Potential
+House Rank
+Core World Build
+```
+
+---
+
+# 53. NOBLE SKILL AND CHARACTER CLASS
+
+Noble Skill dapat menyesuaikan Class karakter.
+
+### Noble Warrior
+
+```text
+Houseblade Authority
+```
+
+### Noble Mage
+
+```text
+Aether Bloodline Invocation
+```
+
+### Noble Archer
+
+```text
+Crested Royal Hunt
+```
+
+### Noble Assassin
+
+```text
+Veiled House Mandate
+```
+
+### Noble Priest
+
+```text
+Sacred Dynasty Benediction
+```
+
+### Noble Commander
+
+```text
+Ducal War Command
+```
+
+Class tidak mengubah status Noble, tetapi menentukan bentuk skill yang paling sesuai.
+
+---
+
+# 54. NOBLE SKILL EFFECT TYPES
+
+Noble Skill dapat memiliki tipe efek:
+
+```text
+Passive
+Active
+Aura
+Command
+Bloodline
+Political
+Social
+Defensive
+Offensive
+Utility
+Inheritance
+```
+
+Contoh:
+
+```text
+Noble_Skill_Name:
+Ravencrest House Command
+
+Type:
+Aura
+
+Effect:
+Party members gain +5% Morale
+when fighting in Ravencrest territory.
+```
+
+---
+
+# 55. NOBLE SKILL DATA
+
+Setiap Noble Skill minimal memiliki:
+
+```text
+Noble_Skill_ID
+Noble_Skill_Name
+Noble_Skill_Type
+Noble_Skill_Tier
+Core_World_Term
+Source_Family_ID
+Source_Bloodline_ID
+Required_Background
+Required_House_Rank
+Effect
+Inheritance_Rate
+```
+
+Contoh:
+
+```text
+Noble_Skill_ID:
+NS-000421
+
+Noble_Skill_Name:
+Ravencrest House Command
+
+Noble_Skill_Type:
+House Authority
+
+Noble_Skill_Tier:
+III
+
+Core_World_Term:
+Aether
+
+Source_Family_ID:
+FAM-000421
+
+Source_Bloodline_ID:
+BL-00121
+
+Required_Background:
+Noble
+
+Required_House_Rank:
+Duke
+
+Effect:
++5% Morale to allied units in family territory
+
+Inheritance_Rate:
+0.35
+```
+
+---
+
+# 56. COMPLETE NOBLE CHARACTER DATABASE
+
+### Character Table
+
+```text
+Character_ID:
+CHR-000827
+
+First_Name:
+Elira
+
+Race:
+Human
+
+Star:
+5
+
+Background:
+Noble
+
+Family_ID:
+FAM-000421
+
+Family_Name:
+Ravencrest
+
+Noble_Second_Name:
+Ravencrest
+
+House_Type:
+Ducal House
+
+House_Rank:
+Duke
+
+Bloodline_ID:
+BL-00121
+
+Noble_Skill_ID:
+NS-000421
+
+Noble_Skill_Name:
+Ravencrest House Command
+
+Noble_Skill_Type:
+House Authority
+```
+
+### Family Table
+
+```text
+Family_ID:
+FAM-000421
+
+Family_Name:
+Ravencrest
+
+Race:
+Human
+
+House_Type:
+Ducal House
+
+House_Rank:
+Duke
+
+Family_Status:
+Active
+
+Bloodline_ID:
+BL-00121
+
+Reputation:
+Prestigious
+
+Origin:
+Kingdom A
+
+Noble_Skill_Pool_ID:
+NSP-HUMAN-DUCAL-001
+```
+
+### Noble Skill Table
+
+```text
+Noble_Skill_ID:
+NS-000421
+
+Noble_Skill_Name:
+Ravencrest House Command
+
+Noble_Skill_Type:
+House Authority
+
+Noble_Skill_Tier:
+III
+
+Core_World_Term:
+Aether
+
+Source_Family_ID:
+FAM-000421
+
+Effect:
++5% Morale to allied units in family territory
+```
+
+---
+
+# 57. COMPLETE CHARACTER RNG FLOW WITH NOBLE SKILL
+
+```text
+CHARACTER GENERATION
+        │
+        ▼
+Character_ID
+        │
+        ▼
+Race RNG
+        │
+        ▼
+Gender RNG
+        │
+        ▼
+Name RNG
+        │
+        ▼
+Star RNG
+        │
+        ▼
+Noble RNG
+        │
+        ├── FAILED
+        │      ↓
+        │   Commoner /
+        │   Non-Noble
+        │      ↓
+        │   No Family_ID
+        │   No Noble Second Name
+        │   No Noble Skill
+        │
+        └── SUCCESS
+               ↓
+             Noble
+               ↓
+       Noble Classification
+               │
+       ┌───────┼────────┐
+       ↓       ↓        ↓
+     Noble   Royal   Imperial
+       │       │        │
+       └───────┼────────┘
+               ↓
+          Family RNG
+               ↓
+           Family_ID
+               ↓
+          Family Name
+               ↓
+       Noble Second Name
+               ↓
+          House Type
+               ↓
+          House Rank
+               ↓
+           Bloodline
+               ↓
+      Core World Build Check
+               ↓
+        Noble Skill Pool
+               ↓
+         Noble Skill RNG
+               ↓
+        Noble Skill Assigned
+               ↓
+        Final Character
+```
+
+---
+
+# 58. NOBLE RATE TABLE
+
+Master configuration:
+
+```text
+NOBLE_RNG_CONFIG
+```
+
+| Parameter     | Value |
+| ------------- | ----: |
+| ⭐1 Noble Rate |   10% |
+| ⭐2 Noble Rate |   10% |
+| ⭐3 Noble Rate |   40% |
+| ⭐4 Noble Rate |   40% |
+| ⭐5 Noble Rate |   40% |
+
+Contoh database configuration:
+
+```text
+NOBLE_STAR_1_RATE = 0.10
+NOBLE_STAR_2_RATE = 0.10
+NOBLE_STAR_3_RATE = 0.40
+NOBLE_STAR_4_RATE = 0.40
+NOBLE_STAR_5_RATE = 0.40
+```
+
+Rate harus disimpan sebagai configuration sehingga dapat diubah tanpa mengubah struktur Character System.
+
+---
+
+# 59. NOBLE SKILL CONFIGURATION
+
+```text
+NOBLE_SKILL_CONFIG
+```
+
+| Parameter                 | Rule                                               |
+| ------------------------- | -------------------------------------------------- |
+| Non-Noble Noble Skill     | Tidak mendapatkan                                  |
+| Noble Noble Skill         | Minimal 1                                          |
+| Royal Noble Skill         | Minimal 1 Royal Skill                              |
+| Imperial Noble Skill      | Minimal 1 Imperial Skill                           |
+| Skill Source              | Family, Bloodline, House, Region, Core World Build |
+| Skill Reroll saat Star Up | Tidak                                              |
+| Skill Inheritance         | Dapat diwariskan                                   |
+| Skill Name                | Harus sesuai Core World Build                      |
+
+Contoh:
+
+```text
+NOBLE_MIN_SKILL_COUNT = 1
+ROYAL_MIN_SKILL_COUNT = 1
+IMPERIAL_MIN_SKILL_COUNT = 1
+NOBLE_SKILL_REROLL_ON_STAR_UP = FALSE
+NOBLE_SKILL_INHERITANCE_ENABLED = TRUE
+```
+
+---
+
+# 60. RNG ROLL EXAMPLE
+
+### ⭐1
+
+```text
+Star:
+⭐
+
+Noble Rate:
+10%
+
+RNG:
+08
+
+Result:
+NOBLE
+
+Family:
+Ravencrest
+
+Noble Second Name:
+Ravencrest
+
+Noble Skill:
+Ravencrest House Oath
+```
+
+---
+
+### ⭐2
+
+```text
+Star:
+⭐⭐
+
+Noble Rate:
+10%
+
+RNG:
+72
+
+Result:
+NON-NOBLE
+
+Family:
+NULL
+
+Noble Second Name:
+NULL
+
+Noble Skill:
+NULL
+```
+
+---
+
+### ⭐3
+
+```text
+Star:
+⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+32
+
+Result:
+NOBLE
+
+Family:
+Valmont
+
+Noble Second Name:
+Valmont
+
+Noble Skill:
+Valmont Aether Legacy
+```
+
+---
+
+### ⭐4
+
+```text
+Star:
+⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+61
+
+Result:
+NON-NOBLE
+
+Family:
+NULL
+
+Noble Second Name:
+NULL
+
+Noble Skill:
+NULL
+```
+
+---
+
+### ⭐5
+
+```text
+Star:
+⭐⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+21
+
+Result:
+NOBLE
+
+Family:
+Aurelius
+
+Noble Second Name:
+Aurelius
+
+Noble Skill:
+Royal Aether Decree
+```
+
+---
+
+# 61. EXAMPLE COMMONER
 
 ```text
 Character_ID:
@@ -931,6 +2973,18 @@ Lina
 Race:
 Human
 
+Star:
+⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+82
+
+Result:
+NON-NOBLE
+
 Background:
 Commoner
 
@@ -939,23 +2993,77 @@ NULL
 
 Family_Name:
 NULL
+
+Noble_Second_Name:
+NULL
+
+Noble_Skill:
+NULL
 ```
 
-Result:
+Final:
 
 ```text
 Lina
+⭐⭐⭐⭐
+Human
+Commoner
 ```
-
-Tidak mendapatkan nama keluarga bangsawan.
 
 ---
 
-# 25. EXAMPLE NOBLE
+# 62. EXAMPLE ⭐1 NOBLE
 
 ```text
 Character_ID:
 CHR-001002
+
+Name:
+Aric Ravencrest
+
+Race:
+Human
+
+Star:
+⭐
+
+Noble Rate:
+10%
+
+RNG:
+04
+
+Result:
+NOBLE
+
+Family_ID:
+FAM-000421
+
+Family_Name:
+Ravencrest
+
+Noble_Second_Name:
+Ravencrest
+
+House_Type:
+Baronial House
+
+Rank:
+Baron
+
+Noble_Skill:
+Ravencrest House Oath
+```
+
+Hal ini menunjukkan bahwa **Noble dapat muncul bahkan pada Star 1**, tetapi hanya dengan peluang 10%.
+
+---
+
+# 63. EXAMPLE ⭐3 NOBLE
+
+```text
+Character_ID:
+CHR-001003
 
 Name:
 Kael Ravencrest
@@ -963,13 +3071,70 @@ Kael Ravencrest
 Race:
 Human
 
-Background:
-Noble
+Star:
+⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+18
+
+Result:
+NOBLE
 
 Family_ID:
 FAM-000421
 
 Family_Name:
+Ravencrest
+
+Noble_Second_Name:
+Ravencrest
+
+House_Type:
+Count House
+
+Rank:
+Count
+
+Noble_Skill:
+Ravencrest Blood Oath
+```
+
+---
+
+# 64. EXAMPLE ⭐5 NOBLE
+
+```text
+Character_ID:
+CHR-001004
+
+Name:
+Elira Ravencrest
+
+Race:
+Human
+
+Star:
+⭐⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+11
+
+Result:
+NOBLE
+
+Family_ID:
+FAM-000421
+
+Family_Name:
+Ravencrest
+
+Noble_Second_Name:
 Ravencrest
 
 House_Type:
@@ -978,50 +3143,17 @@ Ducal House
 Rank:
 Duke
 
-Bloodline:
-Ancient Human
+Noble_Skill:
+Ducal Aether Dominion
 ```
 
 ---
 
-# 26. EXAMPLE HIGH ELF NOBLE
+# 65. EXAMPLE ROYAL
 
 ```text
 Character_ID:
-CHR-001003
-
-Name:
-Vaelion Aeltharion
-
-Race:
-High Elf
-
-Background:
-Noble
-
-Family_ID:
-FAM-000728
-
-Family_Name:
-Aeltharion
-
-House_Type:
-Ancient House
-
-Rank:
-Grand Duke
-
-Bloodline:
-Ancient High Elf
-```
-
----
-
-# 27. EXAMPLE ROYAL
-
-```text
-Character_ID:
-CHR-001004
+CHR-001005
 
 Name:
 Seraphine Aurelius
@@ -1029,13 +3161,28 @@ Seraphine Aurelius
 Race:
 Human
 
-Background:
+Star:
+⭐⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+09
+
+Result:
+NOBLE
+
+Classification:
 Royal
 
 Family_ID:
 FAM-000001
 
 Family_Name:
+Aurelius
+
+Noble_Second_Name:
 Aurelius
 
 House_Type:
@@ -1046,15 +3193,18 @@ Princess
 
 Bloodline:
 Royal Human
+
+Noble_Skill:
+Royal Aether Decree
 ```
 
 ---
 
-# 28. EXAMPLE IMPERIAL
+# 66. EXAMPLE IMPERIAL
 
 ```text
 Character_ID:
-CHR-001005
+CHR-001006
 
 Name:
 Darian Caelorian
@@ -1062,13 +3212,28 @@ Darian Caelorian
 Race:
 Human
 
-Background:
+Star:
+⭐⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG:
+17
+
+Result:
+NOBLE
+
+Classification:
 Imperial
 
 Family_ID:
 FAM-000002
 
 Family_Name:
+Caelorian
+
+Noble_Second_Name:
 Caelorian
 
 House_Type:
@@ -1079,11 +3244,14 @@ Prince
 
 Bloodline:
 Imperial Bloodline
+
+Noble_Skill:
+Imperial Mandate of Caeloria
 ```
 
 ---
 
-# 29. DUPLICATE NAME EXAMPLE
+# 67. DUPLICATE NAME EXAMPLE
 
 Duplicate First Name:
 
@@ -1103,45 +3271,74 @@ Darian Ravencrest
 
 Semua valid.
 
-Database membedakannya menggunakan:
+Database membedakan karakter menggunakan:
 
 ```text
 Character_ID
+```
+
+dan keluarga menggunakan:
+
+```text
 Family_ID
 ```
 
+Noble Skill dapat memiliki nama yang sama jika berasal dari Family Entity yang sama, tetapi setiap skill tetap memiliki `Noble_Skill_ID` yang unik.
+
 ---
 
-# 30. FAMILY SHARED BY MULTIPLE CHARACTERS
+# 68. FAMILY SHARED BY MULTIPLE CHARACTERS
 
 Contoh:
 
 ```text
-Family_ID: FAM-000421
+Family_ID:
+FAM-000421
 
 Ravencrest
 │
 ├── CHR-000001
 │   Kael Ravencrest
+│   Noble Skill:
+│   Ravencrest Blood Oath
 │
 ├── CHR-000002
 │   Elira Ravencrest
+│   Noble Skill:
+│   Ducal Aether Dominion
 │
 ├── CHR-000003
 │   Darian Ravencrest
+│   Noble Skill:
+│   Ravencrest House Command
 │
 ├── CHR-000004
 │   Lyra Ravencrest
+│   Noble Skill:
+│   Ravencrest Noble Grace
 │
 └── CHR-000005
     Aric Ravencrest
+    Noble Skill:
+    Ravencrest House Oath
 ```
 
-Satu Family ID dapat digunakan oleh banyak karakter.
+Satu `Family_ID` dapat digunakan oleh banyak karakter.
+
+Noble Skill dapat berasal dari Family Skill Pool yang sama, tetapi dipilih berdasarkan:
+
+```text
+Character Class
+Star
+House Rank
+Bloodline
+Generation
+Personal Trait
+```
 
 ---
 
-# 31. FAMILY NAME GENERATION RULE
+# 69. FAMILY NAME GENERATION RULE
 
 Family Name tidak di-RNG secara universal.
 
@@ -1169,7 +3366,7 @@ Northern Kingdom
 Duke
 ```
 
-menghasilkan pool:
+Pool:
 
 ```text
 Frostvale
@@ -1191,7 +3388,7 @@ Ancient Forest
 Grand Duke
 ```
 
-menghasilkan:
+Pool:
 
 ```text
 Aeltharion
@@ -1201,124 +3398,523 @@ Vaelorian
 Caelvane
 ```
 
+Setelah Family Name dipilih, sistem memilih Noble Skill berdasarkan:
+
+```text
+Family Name
++
+House Type
++
+House Rank
++
+Bloodline
++
+Core World Build
+```
+
 ---
 
-# 32. FAMILY NAME DOES NOT DETERMINE POWER
+# 70. NOBLE CHANCE DOES NOT DETERMINE HOUSE RANK
 
-Family Name tidak otomatis menentukan combat power.
+Penting:
+
+```text
+40% Noble
+```
+
+tidak berarti:
+
+```text
+40% Duke
+```
+
+Noble Chance hanya menentukan apakah karakter mendapatkan status Noble.
+
+Setelah itu sistem lain menentukan:
+
+```text
+Noble Classification
+       ↓
+House Type
+       ↓
+House Rank
+       ↓
+Noble Skill Tier
+```
 
 Contoh:
 
 ```text
+⭐⭐⭐⭐
+   ↓
+40% Noble
+   ↓
+SUCCESS
+   ↓
+Noble
+   ↓
+House Rank RNG
+   ↓
+Count
+   ↓
+Count Noble Skill
+```
+
+---
+
+# 71. FAMILY SYSTEM AND STAR
+
+Star dapat mempengaruhi **probabilitas mendapatkan Noble Background**, tetapi tidak menentukan kekuatan keluarga.
+
+```text
+STAR
+ ↓
+NOBLE PROBABILITY
+ ↓
+BACKGROUND
+```
+
+Sedangkan:
+
+```text
+FAMILY
+ ↓
+BLOODLINE
+ ↓
+TRAITS
+ ↓
+POTENTIAL
+ ↓
+NOBLE SKILL
+```
+
+dapat digunakan oleh Character System untuk menentukan kemungkinan trait, skill, atau inheritance tertentu.
+
+---
+
+# 72. CHARACTER IDENTITY DATA
+
+Setiap Hero menyimpan identitas keluarganya secara permanen.
+
+Contoh:
+
+```text
+Character_ID:
+CHR-000827
+
+Star:
+⭐⭐⭐⭐
+
+Background:
+Noble
+
+Family_ID:
+FAM-000421
+
+Family_Name:
 Ravencrest
+
+Noble_Second_Name:
+Ravencrest
+
+House_Type:
+Ducal House
+
+House_Rank:
+Duke
+
+Bloodline_ID:
+BL-00121
+
+Noble_Skill_ID:
+NS-000421
+
+Noble_Skill_Name:
+Ravencrest House Command
 ```
 
-tidak berarti semua karakter Ravencrest kuat.
-
-Power tetap ditentukan oleh:
+Jika Hero berubah Star melalui Star Up:
 
 ```text
-Level
-Star
-Class
-Stats
-Skills
-Equipment
-Traits
-Talent
-Experience
+⭐⭐⭐⭐
+   ↓
+⭐⭐⭐⭐⭐
 ```
 
-Family hanya mempengaruhi:
+`Family_ID`, `Noble_Second_Name`, dan `Noble_Skill_ID` **tidak berubah**.
 
-```text
-Background
-Social Status
-Bloodline
-Relationships
-Political Connections
-Potential Traits
-```
+Family identity melekat pada `Character_ID`.
 
 ---
 
-# 33. FAMILY SYSTEM FUTURE EXPANSION
+# 73. STAR UP DOES NOT REROLL FAMILY OR NOBLE SKILL
 
-System ini dirancang agar dapat dikembangkan menjadi:
+Star Up tidak melakukan ulang Noble RNG.
+
+Contoh:
 
 ```text
-Family System
-│
-├── Family Tree
-├── Bloodline
-├── Marriage
-├── Adoption
-├── Succession
-├── Inheritance
-├── Noble Politics
-├── Family Reputation
-├── Family Territory
-├── Family Wealth
-├── Family Military
-├── Family Alliance
-├── Family Rivalry
-├── Family War
-└── Royal Succession
+Initial:
+
+Kael
+⭐⭐⭐
+Noble
+Ravencrest
+FAM-000421
+Ravencrest Blood Oath
 ```
+
+Kemudian:
+
+```text
+Star Up
+
+⭐⭐⭐
+ ↓
+⭐⭐⭐⭐
+ ↓
+⭐⭐⭐⭐⭐
+```
+
+Data tetap:
+
+```text
+Noble
+Ravencrest
+FAM-000421
+Ravencrest Blood Oath
+```
+
+Sistem tidak boleh mengubah:
+
+```text
+Noble → Commoner
+```
+
+atau:
+
+```text
+Ravencrest → Valmont
+```
+
+atau:
+
+```text
+Ravencrest Blood Oath → Imperial Mandate
+```
+
+hanya karena Star Up.
 
 ---
 
-# 34. DATABASE RELATIONSHIP
+# 74. FAMILY DATA PERSISTENCE
 
-Recommended database relationship:
+Family data harus disimpan secara permanen.
+
+```text
+Character_ID
+      │
+      ▼
+Family_ID
+      │
+      ▼
+Family Entity
+      │
+      ├── Family Name
+      ├── Noble Second Name
+      ├── House Type
+      ├── House Rank
+      ├── Bloodline
+      ├── Reputation
+      ├── Family Status
+      └── Noble Skill Pool
+```
+
+Data tersebut melekat pada Character Entity.
+
+---
+
+# 75. DATABASE RELATIONSHIP
+
+Recommended structure:
 
 ```text
 CHARACTER
     │
     │ Family_ID
-    ↓
+    ▼
 FAMILY
     │
     ├── Bloodline_ID
     │
-    ↓
+    ▼
 BLOODLINE
     │
-    ↓
+    ▼
 HOUSE
     │
-    ↓
+    ├── Noble_Skill_Pool_ID
+    │
+    ▼
+NOBLE_SKILL
+    │
+    ▼
 KINGDOM
-```
-
-Contoh:
-
-```text
-Character
-Kael Ravencrest
-      │
-      ↓
-Family
-Ravencrest
-      │
-      ↓
-Bloodline
-Ancient Human
-      │
-      ↓
-House
-Ducal House
-      │
-      ↓
-Kingdom
-Kingdom of Arvellan
 ```
 
 ---
 
-# 35. FINAL RNG RESULT
+# 76. COMPLETE DATABASE EXAMPLE
 
-Contoh final generation:
+### Character Table
+
+```text
+Character_ID:
+CHR-000827
+
+First_Name:
+Elira
+
+Race:
+Human
+
+Star:
+5
+
+Background:
+Noble
+
+Family_ID:
+FAM-000421
+
+Family_Name:
+Ravencrest
+
+Noble_Second_Name:
+Ravencrest
+
+Bloodline_ID:
+BL-00121
+
+Noble_Skill_ID:
+NS-000421
+
+Noble_Skill_Name:
+Ravencrest House Command
+```
+
+### Family Table
+
+```text
+Family_ID:
+FAM-000421
+
+Family_Name:
+Ravencrest
+
+Race:
+Human
+
+House_Type:
+Ducal House
+
+House_Rank:
+Duke
+
+Family_Status:
+Active
+
+Reputation:
+Prestigious
+
+Noble_Skill_Pool_ID:
+NSP-HUMAN-DUCAL-001
+```
+
+### Noble Skill Table
+
+```text
+Noble_Skill_ID:
+NS-000421
+
+Noble_Skill_Name:
+Ravencrest House Command
+
+Noble_Skill_Type:
+House Authority
+
+Noble_Skill_Tier:
+III
+
+Core_World_Term:
+Aether
+
+Source_Family_ID:
+FAM-000421
+
+Source_Bloodline_ID:
+BL-00121
+
+Effect:
++5% Morale to allied units in family territory
+```
+
+---
+
+# 77. COMPLETE NOBLE RNG CONFIGURATION
+
+```text
+====================================
+NOBLE RNG CONFIGURATION
+====================================
+
+STAR 1
+Noble Rate:
+10%
+
+STAR 2
+Noble Rate:
+10%
+
+STAR 3
+Noble Rate:
+40%
+
+STAR 4
+Noble Rate:
+40%
+
+STAR 5
+Noble Rate:
+40%
+
+====================================
+```
+
+---
+
+# 78. COMPLETE NOBLE SKILL CONFIGURATION
+
+```text
+====================================
+NOBLE SKILL CONFIGURATION
+====================================
+
+NON-NOBLE
+Noble Skill:
+NONE
+
+NOBLE
+Minimum Noble Skill:
+1
+
+ARISTOCRAT
+Minimum Noble Skill:
+1
+
+ROYAL
+Minimum Noble Skill:
+1 Royal Skill
+Optional:
+1 Family Skill
+
+IMPERIAL
+Minimum Noble Skill:
+1 Imperial Skill
+Optional:
+1 Royal Skill
+Optional:
+1 Family Skill
+
+STAR UP
+Noble Skill Reroll:
+FALSE
+
+FAMILY CHANGE
+Noble Skill Recalculation:
+Only if story event changes Family Entity
+
+CORE WORLD BUILD
+Required:
+TRUE
+
+====================================
+```
+
+---
+
+# 79. COMPLETE RNG EXAMPLE
+
+```text
+CHARACTER GENERATION
+        │
+        ▼
+Character_ID
+        │
+        ▼
+Race RNG
+        │
+        ▼
+Gender RNG
+        │
+        ▼
+Name RNG
+        │
+        ▼
+Star RNG
+        │
+        ▼
+Noble RNG
+        │
+        ├── FAILED
+        │      ↓
+        │   Commoner /
+        │   Non-Noble
+        │      ↓
+        │   No Family_ID
+        │   No Noble Second Name
+        │   No Noble Skill
+        │
+        └── SUCCESS
+               ↓
+             Noble
+               ↓
+       Noble Classification
+               │
+       ┌───────┼────────┐
+       ↓       ↓        ↓
+     Noble   Royal   Imperial
+       │       │        │
+       └───────┼────────┘
+               ↓
+          Family RNG
+               ↓
+           Family_ID
+               ↓
+          Family Name
+               ↓
+       Noble Second Name
+               ↓
+          House Type
+               ↓
+          House Rank
+               ↓
+           Bloodline
+               ↓
+      Core World Build Check
+               ↓
+        Noble Skill Pool
+               ↓
+         Noble Skill RNG
+               ↓
+        Noble Skill Assigned
+               ↓
+        Final Character
+```
+
+---
+
+# 80. FINAL CHARACTER EXAMPLE
 
 ```text
 ================================
@@ -1337,6 +3933,15 @@ Human
 Gender:
 Female
 
+Star:
+⭐⭐⭐⭐⭐
+
+Noble Rate:
+40%
+
+RNG Result:
+NOBLE
+
 Background:
 Noble
 
@@ -1344,6 +3949,9 @@ Family ID:
 FAM-000421
 
 Family:
+Ravencrest
+
+Noble Second Name:
 Ravencrest
 
 House:
@@ -1364,50 +3972,139 @@ Active
 Reputation:
 Prestigious
 
+Core World:
+Aetheria
+
+Core Energy:
+Aether
+
+Noble Skill:
+Ravencrest House Command
+
+Noble Skill Type:
+House Authority
+
+Noble Skill Tier:
+III
+
+Noble Skill Effect:
++5% Morale to allied units
+when fighting in Ravencrest territory.
+
 ================================
 ```
 
 ---
 
-# 36. CORE RULES
+# 81. CORE RULES
 
 ```text
 RULE 01
 Every character must have a unique Character_ID.
 
 RULE 02
-Family_ID represents the actual family entity.
+Family_ID represents the actual Family Entity.
 
 RULE 03
 Family Name may be duplicated.
 
 RULE 04
-Character with Commoner background does not receive Noble Family.
+⭐1 has 10% Noble Chance.
 
 RULE 05
-Noble characters use Race-based Family RNG.
+⭐2 has 10% Noble Chance.
 
 RULE 06
-Royal characters use Royal Family RNG.
+⭐3 has 40% Noble Chance.
 
 RULE 07
-Imperial characters use Imperial Family RNG.
+⭐4 has 40% Noble Chance.
 
 RULE 08
-One Family_ID may contain multiple characters.
+⭐5 has 40% Noble Chance.
 
 RULE 09
-Family Name does not determine combat power.
+Noble Chance is calculated independently
+for every generated character.
 
 RULE 10
-Family system may later connect to Bloodline,
-Inheritance, Marriage, Politics, Territory,
-and Royal Succession.
+Noble Chance does not guarantee a Noble result.
+
+RULE 11
+Failed Noble RNG produces a Non-Noble background.
+
+RULE 12
+Successful Noble RNG creates a Family Entity.
+
+RULE 13
+Royal and Imperial characters require
+appropriate world-building conditions.
+
+RULE 14
+Family_ID remains attached to the Character_ID.
+
+RULE 15
+Star Up does not reroll Family.
+
+RULE 16
+Star Up does not reroll Noble Second Name.
+
+RULE 17
+Star Up does not reroll Noble Skill.
+
+RULE 18
+Family Name does not determine combat power.
+
+RULE 19
+One Family_ID may contain multiple characters.
+
+RULE 20
+Family Entity may contain Bloodline data.
+
+RULE 21
+Every Noble character receives at least
+one Noble Skill.
+
+RULE 22
+Noble Skill must be selected according to
+Family, Bloodline, House Rank, Race, and Core World Build.
+
+RULE 23
+Non-Noble characters do not receive
+Noble Second Name or Noble Skill.
+
+RULE 24
+Noble Skill may be inherited through
+Family Tree and Bloodline.
+
+RULE 25
+Noble Skill must have a unique Noble_Skill_ID.
+
+RULE 26
+Family data must be stored persistently
+in the Database System.
+
+RULE 27
+Noble RNG configuration must be adjustable
+through the Economy/Global Configuration System
+without changing Character Entity structure.
+
+RULE 28
+Noble Skill configuration must be adjustable
+without changing Character_ID or Family_ID.
+
+RULE 29
+Noble Second Name must remain connected
+to a valid Family_ID or Bloodline_ID.
+
+RULE 30
+Core World Build is the primary reference
+for Noble Skill naming and design.
 ```
 
 ---
 
-# 37. SYSTEM CONNECTION
+# 82. SYSTEM CONNECTION
 
 Character Family System terhubung dengan:
 
@@ -1416,20 +4113,190 @@ Character System
         │
         ├── Race System
         ├── Gender System
+        ├── Star System
         ├── Background System
         ├── Class System
         ├── Trait System
         ├── Talent System
         │
-        ↓
-Family System
+        ▼
+NOBLE RNG SYSTEM
+        │
+        ├── ⭐1 → 10%
+        ├── ⭐2 → 10%
+        ├── ⭐3 → 40%
+        ├── ⭐4 → 40%
+        └── ⭐5 → 40%
+        │
+        ▼
+FAMILY SYSTEM
         │
         ├── Noble House
         ├── Royal House
+        ├── Imperial House
         ├── Bloodline
         ├── Family Tree
         ├── Reputation
-        └── Political Relationship
+        ├── Political Relationship
+        └── Noble Second Name
+        │
+        ▼
+CORE WORLD BUILD SYSTEM
+        │
+        ├── World Energy
+        ├── Magic System
+        ├── Race Lore
+        ├── Kingdom
+        ├── Empire
+        ├── Religion
+        ├── Ancient History
+        └── Faction
+        │
+        ▼
+NOBLE SKILL SYSTEM
+        │
+        ├── House Authority
+        ├── Bloodline Skill
+        ├── Royal Command
+        ├── Imperial Mandate
+        ├── Political Influence
+        ├── Noble Combat Skill
+        ├── Family Legacy
+        ├── Social Dominion
+        ├── Aetheric Heritage
+        └── Ancient House Rite
 ```
 
-Dengan struktur ini, **Family Name bukan sekadar nama tambahan**, tetapi menjadi entity yang bisa digunakan game untuk membangun **Noble House, Royal Family, Bloodline, hubungan antar-karakter, dan perkembangan dunia** di kemudian hari.
+---
+
+# 83. FINAL DESIGN PRINCIPLE
+
+Sistem ini membuat **Star bukan hanya menentukan rarity**, tetapi juga memberikan pengaruh terhadap kemungkinan latar belakang sosial karakter.
+
+```text
+LOW STAR
+⭐
+⭐⭐
+   ↓
+10% NOBLE
+   ↓
+Mayoritas Commoner
+```
+
+```text
+MID/HIGH STAR
+⭐⭐⭐
+⭐⭐⭐⭐
+⭐⭐⭐⭐⭐
+   ↓
+40% NOBLE
+   ↓
+Lebih banyak karakter Noble
+```
+
+Namun:
+
+```text
+HIGH STAR ≠ GUARANTEED NOBLE
+```
+
+dan:
+
+```text
+NOBLE ≠ GUARANTEED STRONG
+```
+
+Hero yang berhasil menjadi Noble mendapatkan identitas tambahan:
+
+```text
+NOBLE
+   ↓
+Family_ID
+   ↓
+Family_Name
+   ↓
+Noble_Second_Name
+   ↓
+House_Type
+   ↓
+House_Rank
+   ↓
+Bloodline
+   ↓
+Core World Build Check
+   ↓
+Noble_Skill
+```
+
+Struktur akhirnya:
+
+```text
+                    CHARACTER RNG
+                          │
+                          ▼
+                         STAR
+                          │
+              ┌───────────┴───────────┐
+              │                       │
+           ⭐1–2                    ⭐3–5
+              │                       │
+            10%                     40%
+              │                       │
+              └───────────┬───────────┘
+                          ▼
+                     NOBLE RNG
+                          │
+             ┌────────────┴────────────┐
+             │                         │
+          FAILED                    SUCCESS
+             │                         │
+             ▼                         ▼
+        NON-NOBLE                    NOBLE
+             │                         │
+             ├── No Family_ID          │
+             ├── No Noble Second Name  │
+             └── No Noble Skill        │
+                                       ▼
+                                  FAMILY RNG
+                                       │
+                                       ▼
+                                  FAMILY_ID
+                                       │
+                                       ▼
+                                  FAMILY NAME
+                                       │
+                                       ▼
+                              NOBLE SECOND NAME
+                                       │
+                                       ▼
+                                  HOUSE TYPE
+                                       │
+                                       ▼
+                                  HOUSE RANK
+                                       │
+                                       ▼
+                                   BLOODLINE
+                                       │
+                                       ▼
+                              CORE WORLD BUILD
+                                       │
+                                       ▼
+                                NOBLE SKILL RNG
+                                       │
+                                       ▼
+                                NOBLE SKILL
+                                       │
+                                       ▼
+                                FINAL CHARACTER
+                                       │
+                                       ▼
+                                DATABASE SYSTEM
+```
+
+> **Setiap karakter memiliki kesempatan untuk lahir sebagai seseorang yang biasa, atau menjadi bagian dari keluarga yang memiliki sejarah, darah, kekuasaan, dan hubungan dengan dunia Aetheria.**
+
+> **⭐1–⭐2 memiliki peluang Noble sebesar 10%, sedangkan ⭐3–⭐5 memiliki peluang Noble sebesar 40%.**
+
+> **Hero yang berhasil mendapatkan status Noble, Aristocrat, Royal, atau Imperial akan memperoleh Noble Second Name dan Noble Skill yang disesuaikan dengan Family, Bloodline, House Rank, Race, serta Core World Build.**
+
+> **Setelah karakter mendapatkan identitas keluarga, Family_ID, Noble Second Name, dan Noble Skill menjadi bagian permanen dari identitas karakter dan tidak berubah ketika Hero melakukan Star Up.**
