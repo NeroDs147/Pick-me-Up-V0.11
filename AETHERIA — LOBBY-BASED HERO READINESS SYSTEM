@@ -1,0 +1,1818 @@
+# 🏋️ AETHERIA — LOBBY-BASED HERO READINESS SYSTEM
+
+> **Every Hero is available from the Lobby.**
+>
+> A Hero does not need to be assigned to a Party or complete Training Ground preparation before being used.
+>
+> When the Master calls a Hero from the Lobby, that Hero must be immediately available to enter the Tower.
+>
+> Training Ground is an optional preparation facility that may improve a Hero, but it must never lock the Hero from missions.
+
+---
+
+# 1. CORE RULE
+
+Semua Hero berada di **Lobby** sebagai tempat utama sebelum dipanggil oleh Master.
+
+Jika Master memanggil Hero dari Lobby, Hero tersebut harus dapat langsung digunakan untuk masuk Tower.
+
+```text
+HERO
+ ↓
+LOBBY
+ ↓
+MASTER CALLS HERO
+ ↓
+HERO AVAILABLE
+ ↓
+PARTY / TOWER
+```
+
+### Core Rule:
+
+```text
+HERO IN LOBBY
+    ↓
+MASTER CALLS HERO
+    ↓
+HERO READY
+    ↓
+CAN ENTER TOWER
+```
+
+Training Ground tidak menjadi syarat wajib untuk menggunakan Hero.
+
+```text
+Training:
+OPTIONAL
+
+Mission:
+AVAILABLE
+```
+
+---
+
+# 2. LOBBY AS THE MAIN HERO HUB
+
+Lobby adalah tempat seluruh Hero berada ketika tidak sedang menjalankan aktivitas tertentu.
+
+```text
+LOBBY
+
+Available Heroes:
+HERO-000001
+HERO-000002
+HERO-000003
+HERO-000004
+HERO-000005
+```
+
+Hero dapat berada di Lobby dalam kondisi:
+
+```text
+AVAILABLE
+RESTING
+WAITING
+RECOVERING
+TRAINING
+ASSIGNED
+```
+
+Namun, status Lobby tetap menjadi sumber utama untuk memanggil Hero.
+
+---
+
+# 3. HERO CALL SYSTEM
+
+Ketika Master membutuhkan Hero:
+
+```text
+MASTER
+ ↓
+OPEN LOBBY
+ ↓
+SELECT HERO
+ ↓
+CALL HERO
+ ↓
+CHECK HERO STATUS
+ ↓
+HERO AVAILABLE
+```
+
+Jika Hero berada dalam kondisi normal:
+
+```text
+Hero Status:
+AVAILABLE
+
+Mission Status:
+READY
+```
+
+Hero dapat langsung dimasukkan ke Party atau digunakan untuk Tower.
+
+---
+
+# 4. HERO AVAILABILITY RULE
+
+Hero yang berada di Lobby dapat digunakan tanpa harus:
+
+```text
+Complete Training
+Join Party Previously
+Have Party Synergy
+Have Training History
+Have Training Ground Leader
+```
+
+Syarat utama hanya:
+
+```text
+Hero Status:
+AVAILABLE
+```
+
+---
+
+# 5. HERO STATUS CHECK
+
+Saat Master memanggil Hero, sistem memeriksa status Hero.
+
+```text
+LOBBY
+ ↓
+HERO STATUS CHECK
+ ↓
+┌───────────────┴───────────────┐
+│                               │
+AVAILABLE                    UNAVAILABLE
+│                               │
+Can Use                       Check Reason
+```
+
+Hero dapat digunakan jika:
+
+```text
+AVAILABLE
+RESTED
+READY
+```
+
+Hero tidak dapat digunakan sementara jika:
+
+```text
+DEAD
+MISSING
+SEVERELY INJURED
+LOCKED BY STORY
+ALREADY IN ACTIVE MISSION
+```
+
+Training bukan alasan untuk mengunci Hero dari Tower.
+
+---
+
+# 6. PARTY ASSIGNMENT
+
+Party hanya berfungsi sebagai susunan tim untuk misi.
+
+```text
+MASTER
+ ↓
+CALL HERO FROM LOBBY
+ ↓
+ADD HERO TO PARTY
+ ↓
+PARTY READY
+ ↓
+ENTER TOWER
+```
+
+Tidak ada kewajiban Training Ground setelah Hero masuk Party.
+
+```text
+Party:
+ASSIGNED
+
+Training:
+OPTIONAL
+
+Mission:
+AVAILABLE
+```
+
+---
+
+# 7. PARTY STATUS
+
+Contoh:
+
+```text
+PARTY 1
+
+Leader:
+HERO-000001
+
+Members:
+HERO-000002
+HERO-000003
+HERO-000004
+HERO-000005
+```
+
+Status Hero:
+
+```text
+HERO-000001 → READY
+HERO-000002 → READY
+HERO-000003 → READY
+HERO-000004 → READY
+HERO-000005 → READY
+```
+
+Party dapat langsung memulai misi selama semua Hero berstatus valid untuk digunakan.
+
+---
+
+# 8. TRAINING GROUND ROLE
+
+Training Ground bukan gerbang wajib menuju Tower.
+
+Training Ground berfungsi sebagai fasilitas tambahan untuk meningkatkan kesiapan Hero.
+
+```text
+LOBBY
+ ├── MASTER CALL
+ │    └── PARTY / TOWER
+ │
+ └── TRAINING GROUND
+      └── OPTIONAL IMPROVEMENT
+```
+
+Training dapat memberikan efek seperti:
+
+```text
+Combat Readiness
+Skill Familiarity
+Physical Condition
+Mental Condition
+Team Coordination
+Combat Experience
+AI Behavior
+Emotional State
+```
+
+Namun, Hero tetap dapat digunakan meskipun belum pernah mengikuti Training.
+
+---
+
+# 9. OPTIONAL TRAINING FLOW
+
+```text
+HERO
+ ↓
+LOBBY
+ ↓
+OPTIONAL TRAINING
+ ↓
+TRAINING RESULT
+ ↓
+HERO RETURNS TO LOBBY
+ ↓
+MASTER CALLS HERO
+ ↓
+TOWER
+```
+
+Training dapat dilakukan sebelum atau sesudah Hero digunakan dalam Party, sesuai aturan waktu dan aktivitas sistem.
+
+---
+
+# 10. TRAINING STATUS
+
+Training status tidak boleh mengubah Hero menjadi tidak dapat digunakan secara otomatis.
+
+```text
+NOT_TRAINED
+TRAINING_AVAILABLE
+IN_TRAINING
+TRAINING_COMPLETE
+TRAINING_EFFECT_APPLIED
+```
+
+Semua status tersebut tetap memungkinkan Hero dipanggil dari Lobby, kecuali ada kondisi lain yang benar-benar membuat Hero tidak tersedia.
+
+---
+
+# 11. TRAINING GROUND CHECK
+
+Sistem tidak melakukan pengecekan Training sebagai syarat masuk Tower.
+
+Sistem hanya melakukan pengecekan apakah Hero sedang berada dalam kondisi yang benar-benar tidak dapat digunakan.
+
+```text
+MASTER CALLS HERO
+        ↓
+CHECK HERO STATUS
+        ↓
+┌───────┴────────┐
+│                │
+AVAILABLE      UNAVAILABLE
+│                │
+Can Use         Show Reason
+```
+
+Tidak ada status:
+
+```text
+TRAINING_REQUIRED
+MISSION_LOCKED
+```
+
+hanya karena Hero belum mengikuti Training.
+
+---
+
+# 12. TRAINING GROUND QUEUE
+
+Hero dapat masuk Training Queue secara sukarela atau berdasarkan kebijakan otomatis.
+
+```text
+TRAINING QUEUE
+
+1. HERO-000003
+2. HERO-000004
+3. HERO-000008
+4. HERO-000012
+```
+
+Jika Master memanggil Hero yang masih berada dalam Training Queue:
+
+```text
+Hero:
+AVAILABLE
+
+Training:
+QUEUED
+
+Mission:
+AVAILABLE
+```
+
+Hero dapat dipanggil dan digunakan tanpa menunggu Training selesai.
+
+---
+
+# 13. TRAINING SLOT
+
+Training Ground memiliki slot.
+
+Contoh:
+
+```text
+TRAINING GROUND LV.1
+
+Training Slots:
+5
+
+Current:
+5 / 5
+```
+
+Jika slot penuh:
+
+```text
+Training:
+QUEUED
+```
+
+Namun:
+
+```text
+Lobby:
+AVAILABLE
+
+Tower:
+AVAILABLE
+```
+
+Keterbatasan slot hanya memengaruhi proses Training, bukan akses Hero ke Tower.
+
+---
+
+# 14. TRAINING GROUND LEADER
+
+Training Ground dapat memiliki Leader untuk mengatur proses Training otomatis.
+
+```text
+TRAINING GROUND
+Leader:
+HERO-000001
+```
+
+Jika tidak ada Leader:
+
+```text
+TRAINING GROUND
+Leader:
+NONE
+
+Status:
+NO_LEADER
+
+Automation:
+OFF
+```
+
+Namun, ketiadaan Training Ground Leader tidak memengaruhi kemampuan Master untuk memanggil Hero dari Lobby.
+
+```text
+Hero Access:
+AVAILABLE
+```
+
+---
+
+# 15. TRAINING GROUND LEADER AI
+
+Jika Training Ground memiliki Leader, Leader dapat menentukan metode Training.
+
+AI mempertimbangkan:
+
+```text
+Leader Skill
+Leader Experience
+Training Type
+Hero Condition
+Hero Personality
+Party Composition
+Current Mission
+Training Objective
+```
+
+Training hanya memberikan efek tambahan dan tidak menjadi syarat penggunaan Hero.
+
+---
+
+# 16. TRAINING TYPES
+
+Training dapat memiliki beberapa tipe.
+
+```text
+Combat Training
+Physical Training
+Skill Training
+Weapon Training
+Defense Training
+Team Training
+Tactical Training
+Mental Training
+Endurance Training
+Party Coordination
+```
+
+Jenis Training dapat diperluas oleh sistem di masa depan.
+
+---
+
+# 17. COMBAT TRAINING
+
+Combat Training meningkatkan kesiapan pertempuran.
+
+Dapat memengaruhi:
+
+```text
+Combat Familiarity
+Attack Practice
+Defense Practice
+Reaction
+Combat AI
+```
+
+Hero tetap dapat bertarung tanpa Combat Training.
+
+Training hanya memberikan kemungkinan peningkatan tambahan.
+
+---
+
+# 18. SKILL TRAINING
+
+Hero dapat berlatih menggunakan skill.
+
+```text
+Skill
+ ↓
+Practice
+ ↓
+Familiarity
+ ↓
+Combat Usage
+```
+
+Training tidak otomatis membuat Hero mendapatkan skill baru kecuali sistem Character / Skill System mengizinkannya.
+
+Hero tetap dapat menggunakan skill yang sudah dimiliki meskipun belum mengikuti Skill Training.
+
+---
+
+# 19. WEAPON TRAINING
+
+Hero dapat berlatih menggunakan equipment tertentu.
+
+Contoh:
+
+```text
+Sword
+Bow
+Spear
+Axe
+Staff
+Shield
+Dagger
+```
+
+Training dapat meningkatkan familiarity dengan equipment tersebut.
+
+Equipment yang valid tetap dapat digunakan oleh Hero dari Lobby.
+
+---
+
+# 20. TEAM TRAINING
+
+Party Training berfokus pada kerja sama.
+
+```text
+5 HEROES
+   ↓
+TEAM TRAINING
+   ↓
+COMBINATION PRACTICE
+   ↓
+COORDINATION
+```
+
+Training dapat mempertimbangkan:
+
+```text
+Party Leader
+Role Distribution
+Personality
+Relationship
+Skill Combination
+Combat Style
+```
+
+Namun, Party tetap dapat masuk Tower tanpa Team Training.
+
+---
+
+# 21. PARTY SYNERGY
+
+Hero yang sering berlatih bersama dapat mengembangkan:
+
+```text
+Team Coordination
+Trust
+Combat Familiarity
+Reaction Compatibility
+```
+
+Hubungan tersebut dapat disimpan oleh Relationship System.
+
+Party Synergy adalah bonus tambahan, bukan syarat wajib untuk memulai misi.
+
+---
+
+# 22. EMOTIONAL EFFECT
+
+Training juga dipengaruhi oleh Emotional System.
+
+Contoh:
+
+```text
+Hero:
+Highly Motivated
+
+Training Result:
+Positive
+```
+
+Sedangkan:
+
+```text
+Hero:
+Exhausted
+
+Training Result:
+Reduced Efficiency
+```
+
+Emotional state tidak boleh diabaikan oleh Training AI.
+
+Namun, efek emosional dari Training tidak boleh otomatis membuat Hero tidak dapat dipanggil, kecuali kondisi tersebut benar-benar menghasilkan status seperti:
+
+```text
+SEVERELY_INJURED
+UNCONSCIOUS
+UNAVAILABLE
+```
+
+---
+
+# 23. TRAINING AI
+
+Training berjalan melalui:
+
+```text
+TRAINING GROUND
+      ↓
+AI
+      ↓
+ANALYZE HERO
+      ↓
+ANALYZE PARTY
+      ↓
+ANALYZE EMOTION
+      ↓
+SELECT TRAINING
+      ↓
+TRAINING
+      ↓
+RESULT
+```
+
+Training AI hanya memproses Hero yang mengikuti Training.
+
+Hero lain tetap berada di Lobby dan dapat dipanggil oleh Master.
+
+---
+
+# 24. AI + RNG
+
+Training menggunakan AI untuk menentukan aktivitas yang sesuai.
+
+RNG digunakan untuk menentukan variasi hasil yang memang bersifat probabilistik.
+
+```text
+AI
+ ↓
+Training Decision
+ ↓
+Training
+ ↓
+RNG
+ ↓
+Training Result
+```
+
+RNG dapat memengaruhi:
+
+```text
+Training Efficiency
+Bonus Progress
+Unexpected Improvement
+Minor Setback
+Special Training Event
+```
+
+RNG tidak boleh secara acak mengubah Hero Lobby menjadi tidak dapat digunakan tanpa alasan sistem yang valid.
+
+---
+
+# 25. TRAINING EFFECT
+
+Setelah Training selesai, sistem mencatat efek.
+
+Contoh:
+
+```text
+HERO-000125
+
+Training:
+Combat Training
+
+Effects:
+Combat Familiarity +X
+Defense Practice +X
+Stress +X
+```
+
+Efek aktual ditentukan oleh konfigurasi sistem.
+
+Hero tetap dapat dipanggil dari Lobby setelah efek diterapkan.
+
+---
+
+# 26. POSITIVE EFFECT
+
+Contoh efek positif:
+
+```text
+Combat Familiarity ↑
+Skill Familiarity ↑
+Team Coordination ↑
+Confidence ↑
+Motivation ↑
+Relationship ↑
+```
+
+---
+
+# 27. NEGATIVE EFFECT
+
+Training tidak selalu menghasilkan efek positif.
+
+Possible effects:
+
+```text
+Fatigue ↑
+Stress ↑
+Minor Injury
+Frustration
+Emotional Exhaustion
+Temporary Performance Reduction
+```
+
+Negative effects tidak otomatis mengunci Hero dari Tower.
+
+Jika efek tersebut cukup berat, sistem dapat mengubah status Hero berdasarkan kondisi aktual.
+
+```text
+Minor Injury:
+Can Still Be Used
+
+Severe Injury:
+Unavailable
+```
+
+---
+
+# 28. TRAINING INTENSITY
+
+Training dapat memiliki tingkat intensitas.
+
+```text
+LIGHT
+NORMAL
+HARD
+EXTREME
+```
+
+Contoh:
+
+```text
+LIGHT
+→ Low fatigue
+→ Low progress
+
+NORMAL
+→ Balanced
+
+HARD
+→ Higher progress
+→ Higher fatigue
+
+EXTREME
+→ High progress potential
+→ High risk
+```
+
+Master dapat menentukan kebijakan Training.
+
+---
+
+# 29. TRAINING POLICY
+
+Master dapat memberikan perintah:
+
+```text
+Balanced Training
+Aggressive Training
+Defensive Training
+Skill Focus
+Party Coordination
+Recovery Focus
+```
+
+Training Policy hanya memengaruhi Hero yang sedang mengikuti Training.
+
+Hero yang berada di Lobby tetap dapat dipanggil kapan saja selama statusnya tersedia.
+
+---
+
+# 30. AUTO TRAINING
+
+Setelah Training Ground memiliki Leader, Training dapat berjalan otomatis.
+
+```text
+HERO IN LOBBY
+ ↓
+OPTIONAL TRAINING ASSIGNMENT
+ ↓
+TRAINING QUEUE
+ ↓
+TRAINING GROUND
+ ↓
+LEADER AI
+ ↓
+AUTOMATIC TRAINING
+```
+
+Master tidak perlu mengatur setiap sesi secara manual.
+
+Jika Master memanggil Hero yang sedang menjalani Auto Training:
+
+```text
+Master Call:
+VALID
+
+Hero:
+CAN BE USED
+```
+
+Sistem dapat menghentikan, menjeda, atau menyelesaikan Training sesuai aturan waktu.
+
+---
+
+# 31. RESET SYSTEM
+
+Training memiliki hubungan dengan **Time System / Game Reset**.
+
+Pada setiap reset:
+
+```text
+SYSTEM RESET
+      ↓
+GAME STATE UPDATE
+      ↓
+TRAINING STATE CHECK
+      ↓
+TRAINING EFFECT CALCULATION
+      ↓
+HERO STATE UPDATE
+      ↓
+AI FAIRY REPORT
+```
+
+Reset hanya memproses Hero yang mengikuti Training atau memiliki efek Training yang belum dilaporkan.
+
+---
+
+# 32. RESET EFFECT PROCESSING
+
+Setelah reset, sistem memeriksa semua Hero yang mengikuti Training.
+
+```text
+RESET
+ ↓
+FIND TRAINING PARTICIPANTS
+ ↓
+CHECK TRAINING RESULT
+ ↓
+APPLY EFFECT
+ ↓
+UPDATE HERO
+ ↓
+UPDATE EMOTION
+ ↓
+UPDATE RELATIONSHIP
+ ↓
+DATABASE SAVE
+```
+
+Hero yang tidak mengikuti Training tetap berada di Lobby tanpa perubahan Training.
+
+---
+
+# 33. FAIRY MUST REPORT
+
+Setiap reset, AI Fairy wajib memberikan laporan mengenai efek Training.
+
+Ini merupakan:
+
+# **MANDATORY FAIRY REPORT**
+
+Fairy harus melaporkan perubahan penting yang terjadi pada Hero yang mengikuti Training.
+
+Fairy tidak perlu melaporkan bahwa Hero belum Training sebagai masalah, karena Training bukan kewajiban.
+
+---
+
+# 34. FAIRY TRAINING REPORT
+
+Contoh:
+
+> **"Master, Training Ground processing has completed."**
+
+> **"Five Heroes participated in today's training."**
+
+> **"HERO-000125 showed improved combat familiarity."**
+
+> **"HERO-000126 experienced increased fatigue."**
+
+> **"HERO-000127 showed significant improvement in team coordination."**
+
+> **"HERO-000128 suffered a minor training injury but remains available from the Lobby."**
+
+---
+
+# 35. FAIRY REPORT FORMAT
+
+```text
+════════════════════════════
+TRAINING GROUND REPORT
+════════════════════════════
+
+Training Participants:
+5
+
+Completed:
+5
+
+Positive Effects:
+3
+
+Negative Effects:
+2
+
+Special Events:
+1
+
+════════════════════════════
+HERO EFFECTS
+════════════════════════════
+```
+
+---
+
+# 36. HERO EFFECT REPORT
+
+Contoh:
+
+```text
+HERO-000125
+Combat Familiarity:
++5
+
+Team Coordination:
++3
+
+Fatigue:
++2
+
+Lobby Availability:
+AVAILABLE
+```
+
+```text
+HERO-000126
+Skill Familiarity:
++4
+
+Confidence:
++2
+
+Lobby Availability:
+AVAILABLE
+```
+
+```text
+HERO-000127
+Training Fatigue:
++5
+
+Minor Injury:
+YES
+
+Lobby Availability:
+AVAILABLE
+```
+
+---
+
+# 37. FAIRY PRIORITY REPORT
+
+Fairy tidak harus membaca semua data teknis kepada Master.
+
+Priority:
+
+```text
+Critical Effect
+     ↓
+Major Effect
+     ↓
+Positive Development
+     ↓
+Negative Development
+     ↓
+Normal Training Result
+```
+
+Contoh:
+
+> **"Master, one Hero received a minor injury during training but remains available to be called from the Lobby."**
+
+Jika Hero benar-benar tidak dapat digunakan:
+
+> **"Master, HERO-000128 is temporarily unavailable due to severe injury."**
+
+Informasi penting harus selalu disampaikan.
+
+---
+
+# 38. NO SILENT EFFECT
+
+Training tidak boleh memberikan perubahan penting tanpa tercatat dan dilaporkan.
+
+```text
+TRAINING EFFECT
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY REPORT
+```
+
+Contoh:
+
+Jika Hero mendapat:
+
+```text
+Injury
+Major Stress
+Special Skill Progress
+Major Relationship Change
+```
+
+Fairy wajib melaporkannya.
+
+---
+
+# 39. TRAINING HISTORY
+
+Setiap Hero memiliki Training History.
+
+```text
+HERO-000125
+
+Training History
+
+Session 001
+Combat Training
+
+Session 002
+Weapon Training
+
+Session 003
+Team Training
+```
+
+Data disimpan dalam Database System.
+
+Training History tidak menentukan apakah Hero dapat dipanggil dari Lobby.
+
+---
+
+# 40. TRAINING SESSION ID
+
+Setiap sesi Training mendapatkan ID.
+
+```text
+TRAINING-000001
+TRAINING-000002
+TRAINING-000003
+```
+
+Data:
+
+```text
+Training ID
+Hero ID
+Party ID
+Training Type
+Training Intensity
+Start Time
+End Time
+Result
+Effects
+Leader ID
+```
+
+---
+
+# 41. DATABASE FLOW
+
+```text
+TRAINING GROUND
+       ↓
+TRAINING SESSION
+       ↓
+AI
+       ↓
+RNG
+       ↓
+TRAINING RESULT
+       ↓
+GAME STATE SYSTEM
+       ↓
+HERO STATE
+       ↓
+DATABASE SYSTEM
+       ↓
+AI FAIRY
+       ↓
+MASTER
+```
+
+---
+
+# 42. GAME STATE INTEGRATION
+
+Game State System memantau:
+
+```text
+Lobby State
+Party State
+Hero State
+Training State
+Training Queue
+Training Result
+Emotional State
+Injury State
+Relationship State
+Time State
+Mission State
+```
+
+Jika terjadi perubahan:
+
+```text
+TRAINING
+ ↓
+GAME STATE
+ ↓
+HERO STATE UPDATE
+```
+
+Game State System juga memastikan bahwa Hero yang berada di Lobby dapat dipanggil oleh Master selama statusnya valid.
+
+---
+
+# 43. INVENTORY INTEGRATION
+
+Training dapat menggunakan item tertentu.
+
+Contoh:
+
+```text
+Training Potion
+Training Equipment
+Food
+Medicine
+Practice Weapon
+```
+
+Jika digunakan:
+
+```text
+TRAINING
+ ↓
+ITEM CONSUMPTION
+ ↓
+INVENTORY UPDATE
+ ↓
+DATABASE
+```
+
+AI Fairy melaporkan penggunaan resource penting.
+
+---
+
+# 44. TRAINING + MEDICAL CENTER
+
+Jika Training menghasilkan injury:
+
+```text
+TRAINING
+ ↓
+INJURY
+ ↓
+GAME STATE
+ ↓
+MEDICAL CENTER
+ ↓
+RECOVERY
+```
+
+Aturan penggunaan:
+
+```text
+Minor Injury:
+Hero May Still Be Called
+
+Severe Injury:
+Hero Temporarily Unavailable
+```
+
+Hero hanya tidak dapat masuk Tower jika status medisnya benar-benar melarang aktivitas.
+
+---
+
+# 45. TRAINING + PARTY
+
+Training dapat mengetahui Party asal Hero jika Hero sedang mengikuti Party Training.
+
+```text
+HERO
+ ↓
+PARTY ID
+ ↓
+OPTIONAL TRAINING
+```
+
+Hal ini memungkinkan sistem mengetahui:
+
+```text
+Party 1
+Party 2
+Party 3+
+```
+
+dan menerapkan Party Training bila diperlukan.
+
+Party ID tidak mengubah hak Hero untuk dipanggil dari Lobby.
+
+---
+
+# 46. PARTY 1 & PARTY 2
+
+Karena Party 1 dan Party 2 memiliki Leader yang dapat mengatur komposisi anggota, Training Ground dapat menggunakan informasi Party Leader.
+
+```text
+PARTY LEADER
+      ↓
+PARTY COMPOSITION
+      ↓
+OPTIONAL TRAINING GROUND
+      ↓
+TEAM TRAINING
+```
+
+Party tetap dapat masuk Tower tanpa mengikuti Team Training.
+
+---
+
+# 47. PARTY 3+
+
+Untuk Party 3 dan seterusnya, Master menentukan komposisi.
+
+Training Ground hanya mengikuti komposisi yang telah ditentukan Master.
+
+```text
+MASTER
+ ↓
+PARTY COMPOSITION
+ ↓
+OPTIONAL TRAINING
+```
+
+---
+
+# 48. HERO REMOVED FROM PARTY
+
+Jika Hero dikeluarkan dari Party sebelum Training selesai:
+
+```text
+PARTY
+ ↓
+REMOVE HERO
+ ↓
+GAME STATE
+ ↓
+OPTIONAL TRAINING STATUS
+ ↓
+CANCEL / PAUSE
+```
+
+Hero kembali menjadi bagian dari Lobby dan dapat dipanggil oleh Master selama statusnya tersedia.
+
+---
+
+# 49. HERO MOVED TO ANOTHER PARTY
+
+Jika Hero dipindahkan:
+
+```text
+PARTY 1
+ ↓
+REMOVE HERO
+ ↓
+LOBBY
+ ↓
+PARTY 2
+ ↓
+CHECK HERO STATUS
+```
+
+Jika Training sebelumnya masih valid:
+
+```text
+Training:
+VALID
+
+Lobby:
+AVAILABLE
+```
+
+Jika Party Training baru diperlukan:
+
+```text
+Training:
+OPTIONAL PARTY TRAINING
+
+Mission:
+AVAILABLE
+```
+
+---
+
+# 50. HERO AVAILABILITY STATES
+
+Hero status dapat memiliki:
+
+```text
+AVAILABLE
+RESTING
+TRAINING
+ASSIGNED
+IN_MISSION
+RECOVERING
+UNAVAILABLE
+```
+
+Status yang memungkinkan Hero dipanggil:
+
+```text
+AVAILABLE
+RESTING
+TRAINING
+ASSIGNED
+```
+
+Status yang tidak memungkinkan Hero dipanggil:
+
+```text
+IN_MISSION
+SEVERELY_INJURED
+UNCONSCIOUS
+DEAD
+STORY_LOCKED
+```
+
+---
+
+# 51. BASIC LOBBY STATE
+
+```text
+HERO IN LOBBY
+      ↓
+MASTER CALLS HERO
+      ↓
+CHECK AVAILABILITY
+      ↓
+AVAILABLE
+      ↓
+ADD TO PARTY
+      ↓
+ENTER TOWER
+```
+
+Tidak ada tahap wajib:
+
+```text
+TRAINING_REQUIRED
+```
+
+---
+
+# 52. TRAINING EXPIRATION
+
+Jika sistem nantinya menggunakan Training Cycle:
+
+```text
+TRAINING EFFECT ACTIVE
+ ↓
+TIME PASSES
+ ↓
+TRAINING EFFECT EXPIRES
+```
+
+Jika efek Training berakhir:
+
+```text
+Training:
+OPTIONAL AGAIN
+
+Lobby:
+AVAILABLE
+
+Tower:
+AVAILABLE
+```
+
+Training ulang hanya diperlukan untuk mendapatkan kembali bonus, bukan untuk membuka akses Tower.
+
+---
+
+# 53. FAIRY RESET LOOP
+
+```text
+                  SYSTEM RESET
+                       │
+                       ▼
+                GAME STATE SYSTEM
+                       │
+                       ▼
+               TRAINING PARTICIPANTS
+                       │
+                       ▼
+                 TRAINING RESULTS
+                       │
+                       ▼
+                  APPLY EFFECTS
+                       │
+          ┌────────────┼────────────┐
+          │            │            │
+        HERO        EMOTION      PARTY
+        STATE        STATE       STATE
+          │            │            │
+          └────────────┼────────────┘
+                       ▼
+                    DATABASE
+                       │
+                       ▼
+                   AI FAIRY
+                       │
+                       ▼
+                    MASTER
+```
+
+Hero yang tidak mengikuti Training tidak diblokir dari Lobby atau Tower.
+
+---
+
+# 54. FAIRY REPORT PRIORITY
+
+AI Fairy harus melaporkan:
+
+### Critical
+
+```text
+Major Injury
+Hero Unavailable
+Major Emotional Change
+Training Failure
+Special Event
+```
+
+### Important
+
+```text
+Major Skill Progress
+Major Combat Improvement
+Party Coordination Improvement
+Large Fatigue Increase
+```
+
+### Normal
+
+```text
+Standard Training Progress
+Minor Improvements
+Normal Fatigue
+```
+
+Fairy juga harus menjelaskan jika efek negatif tidak menghalangi Hero untuk dipanggil.
+
+---
+
+# 55. EXAMPLE FULL REPORT
+
+```text
+══════════════════════════════════
+      AI FAIRY — RESET REPORT
+══════════════════════════════════
+
+TRAINING GROUND
+
+Participants:
+5 Heroes
+
+Completed:
+5
+
+Positive Effects:
+3
+
+Negative Effects:
+2
+
+Special Events:
+1
+
+──────────────────────────────────
+
+HERO-000125
+Combat Training
+
+Effects:
+Combat Familiarity +5
+Defense Practice +3
+Fatigue +2
+
+Status:
+AVAILABLE FROM LOBBY
+
+──────────────────────────────────
+
+HERO-000126
+Team Training
+
+Effects:
+Team Coordination +6
+Confidence +2
+
+Status:
+AVAILABLE FROM LOBBY
+
+──────────────────────────────────
+
+HERO-000127
+Weapon Training
+
+Effects:
+Weapon Familiarity +4
+Fatigue +3
+
+Status:
+AVAILABLE FROM LOBBY
+
+──────────────────────────────────
+
+HERO-000128
+Combat Training
+
+Effects:
+Combat Familiarity +2
+Minor Injury
+
+Status:
+AVAILABLE FROM LOBBY
+Recommendation:
+Medical recovery is advised
+
+──────────────────────────────────
+
+HERO-000129
+Team Training
+
+Effects:
+Team Coordination +4
+Relationship Improvement
+
+Status:
+AVAILABLE FROM LOBBY
+
+══════════════════════════════════
+FAIRY RECOMMENDATION
+
+All Heroes remain callable from the Lobby.
+
+HERO-000128 may enter the Tower,
+but medical recovery is recommended.
+══════════════════════════════════
+```
+
+---
+
+# 56. IMPORTANT SYSTEM RULE
+
+Training Ground tidak boleh memodifikasi data Hero secara langsung tanpa melalui Game State System.
+
+```text
+TRAINING
+   ↓
+RESULT
+   ↓
+GAME STATE SYSTEM
+   ↓
+HERO STATE
+   ↓
+DATABASE
+```
+
+Game State System juga harus memastikan:
+
+```text
+HERO IN LOBBY
+      ↓
+MASTER CALLS HERO
+      ↓
+HERO CAN BE USED
+```
+
+Training tidak boleh menjadi alasan otomatis untuk:
+
+```text
+MISSION LOCKED
+TOWER LOCKED
+HERO UNAVAILABLE
+```
+
+---
+
+# 57. COMPLETE SYSTEM ARCHITECTURE
+
+```text
+                         MASTER
+                           │
+                           ▼
+                          LOBBY
+                           │
+                           ▼
+                    CALL HERO FROM LOBBY
+                           │
+                    HERO STATUS CHECK
+                           │
+                ┌──────────┴──────────┐
+                │                     │
+             AVAILABLE            UNAVAILABLE
+                │                     │
+                ▼                     ▼
+              PARTY              SHOW REASON
+                │
+                ▼
+              TOWER
+```
+
+Training berjalan sebagai sistem tambahan:
+
+```text
+                         LOBBY
+                           │
+                ┌──────────┴──────────┐
+                │                     │
+          MASTER CALLS HERO      OPTIONAL TRAINING
+                │                     │
+                ▼                     ▼
+              PARTY              TRAINING GROUND
+                │                     │
+                ▼                     ▼
+              TOWER              TRAINING RESULT
+                                      │
+                                      ▼
+                               GAME STATE SYSTEM
+                                      │
+                                      ▼
+                                  DATABASE
+                                      │
+                                      ▼
+                                  AI FAIRY
+```
+
+---
+
+# 58. FINAL LOBBY → PARTY → TOWER FLOW
+
+```text
+                     MASTER
+                        │
+                        ▼
+                      LOBBY
+                        │
+                        ▼
+                 SELECT HERO
+                        │
+                        ▼
+                  CALL HERO
+                        │
+                        ▼
+              CHECK HERO AVAILABILITY
+                        │
+                        ▼
+                  HERO AVAILABLE
+                        │
+                        ▼
+                 ADD TO PARTY
+                        │
+                        ▼
+                  PARTY READY
+                        │
+                        ▼
+                    DUNGEON
+                        │
+                        ▼
+                  TOWER FLOOR
+```
+
+Training bersifat opsional:
+
+```text
+                     HERO
+                        │
+                        ▼
+                      LOBBY
+                        │
+                        ▼
+                OPTIONAL TRAINING
+                        │
+                        ▼
+                TRAINING GROUND
+                        │
+                        ▼
+                 TRAINING RESULT
+                        │
+                        ▼
+                  HERO UPDATED
+                        │
+                        ▼
+                      LOBBY
+                        │
+                        ▼
+                 MASTER CALLS HERO
+                        │
+                        ▼
+                    DUNGEON
+                        │
+                        ▼
+                  TOWER FLOOR
+```
+
+---
+
+# 59. CORE DESIGN PHILOSOPHY
+
+> **Every Hero waits in the Lobby and can be called by the Master.**
+
+Hero tidak harus mengikuti Training terlebih dahulu untuk dapat digunakan.
+
+Training Ground berfungsi sebagai:
+
+```text
+OPTIONAL PREPARATION
+OPTIONAL IMPROVEMENT
+OPTIONAL PARTY SYNERGY
+```
+
+Lobby berfungsi sebagai:
+
+```text
+HERO STORAGE
+HERO SELECTION
+HERO AVAILABILITY HUB
+```
+
+Party berfungsi sebagai:
+
+```text
+TEAM COMPOSITION
+MISSION ORGANIZATION
+```
+
+Tower berfungsi sebagai:
+
+```text
+MISSION DESTINATION
+```
+
+Alur utama sistem adalah:
+
+```text
+LOBBY
+   ↓
+MASTER CALLS HERO
+   ↓
+PARTY
+   ↓
+TOWER
+```
+
+Training hanya menjadi jalur tambahan:
+
+```text
+LOBBY
+   ↓
+OPTIONAL TRAINING
+   ↓
+LOBBY
+```
+
+### Final Rule:
+
+# **HERO IN LOBBY → MASTER CALLS HERO → HERO CAN BE USED → ENTER TOWER**
+
+And:
+
+# **TRAINING GROUND IS OPTIONAL AND MUST NEVER BLOCK HERO ACCESS**
