@@ -53,6 +53,9 @@ Party Deployment
 Party Lock
 Mission Failure
 Mission Victory
+Forced Mission Resolution
+Party Death
+Permanent Death Resolution
 ```
 
 The Dungeon System **does not directly manage Enemy generation**.
@@ -85,13 +88,13 @@ DUNGEON SYSTEM
 
 ---
 
-# 2. IMPORTANT DUNGEON RULE
+# 2. ABSOLUTE DUNGEON COMMITMENT RULE
 
 Once a Party enters a Dungeon Mission:
 
-# **THE PARTY IS LOCKED INTO THE MISSION.**
+# **THE PARTY IS PERMANENTLY COMMITTED TO THE MISSION.**
 
-The Master cannot manually remove the Party from the active Dungeon.
+There is no normal command, menu, skill, item, or Master action that can forcibly return the Party to the Lobby or Town.
 
 ```text
 PARTY
@@ -102,39 +105,123 @@ MISSION START
   ↓
 PARTY LOCK
   ↓
+NO MANUAL RECALL
+  ↓
 MISSION ACTIVE
 ```
 
-During the active mission:
+The Master cannot manually:
 
 ```text
-Master cannot:
-- Remove Hero
-- Replace Hero
-- Recall Party
-- Transfer Hero
-- Disband Party
-- Change Party Leader
-- Move Hero to another Party
+Recall Party
+Return Party to Lobby
+Return Party to Town
+Cancel Mission
+Exit Dungeon
+Teleport Party Outside
+Replace Party
+Remove Hero
+Transfer Hero
+Disband Party
+Change Party Leader
 ```
 
-The Party can only leave the Dungeon through a valid system result.
+The Party must remain inside the Dungeon until the mission reaches a valid final resolution.
 
-Valid exit conditions:
+The only valid mission resolutions are:
 
 ```text
 MISSION VICTORY
 MISSION FAILURE
+PARTY DEATH
 SPECIAL SYSTEM-MANDATED ESCAPE
 EMERGENCY EVENT
 DUNGEON FORCED EXIT
 ```
 
-A normal Master command cannot cancel an active Dungeon Mission.
+However, these exits are not controlled by the Master.
+
+They can only occur when the Dungeon System, Floor configuration, Event System, or another authorized system produces a valid result.
+
+```text
+MASTER COMMAND
+"RETURN TO TOWN"
+        ↓
+      DENIED
+        ↓
+MISSION CONTINUES
+```
 
 ---
 
-# 3. PARTY DEATH RULE
+# 3. NO MANUAL ESCAPE
+
+The Dungeon does not contain a normal exit command.
+
+The following actions are permanently unavailable while a mission is active:
+
+```text
+EXIT DUNGEON
+RETURN TO LOBBY
+RETURN TO TOWN
+RECALL PARTY
+CANCEL MISSION
+ABANDON MISSION
+TELEPORT OUT
+FORCE PARTY RETREAT
+```
+
+Example:
+
+```text
+MISSION ACTIVE
+      │
+      ├── EXIT DUNGEON       = BLOCKED
+      ├── RETURN TO TOWN     = BLOCKED
+      ├── RECALL PARTY      = BLOCKED
+      ├── REPLACE HERO      = BLOCKED
+      └── CANCEL MISSION    = BLOCKED
+```
+
+If the Master attempts to issue a forbidden command:
+
+> **"Master, forced withdrawal is not permitted. The Party is bound to the active Dungeon Mission."**
+
+The mission continues regardless of the Master’s desire to retreat.
+
+---
+
+# 4. MISSION COMPLETION REQUIREMENT
+
+Every deployed Party must remain inside the Dungeon until one of the following occurs:
+
+```text
+Mission Objective Completed
+Mission Objective Failed
+All Party Heroes Dead
+Time Limit Reached
+Special Floor Condition Resolved
+System-Mandated Escape Triggered
+```
+
+The Party cannot return to the Lobby or Town simply because:
+
+```text
+The battle is difficult
+The Party is injured
+The Master changes strategy
+The Master regrets deployment
+The Party has low resources
+The Party has lost its Leader
+The Party has lost some Heroes
+The Master wants to use another Party
+```
+
+The Party must continue until the Dungeon produces a final result.
+
+---
+
+# 5. PARTY DEATH RULE
 
 A Dungeon Party has a permanent combat state during the mission.
 
@@ -160,11 +247,11 @@ Hero D — Alive
 Hero E — Alive
 ```
 
-The Party can continue if the Dungeon Mission allows it.
+The Party can continue if surviving Heroes remain and the Dungeon Mission allows continuation.
 
 However:
 
-# **IF ALL PARTY MEMBERS DIE, THE MISSION FAILS.**
+# **IF ALL PARTY MEMBERS DIE, THE PARTY IS DEFEATED.**
 
 ```text
 Hero A — DEAD
@@ -180,7 +267,155 @@ MISSION FAILED
 QUEST FAILED
 ```
 
-If the Party Leader dies but other members remain alive:
+The Party is not returned to the Lobby or Town after defeat.
+
+The Party remains inside the Dungeon until the Dungeon System completes the failure resolution.
+
+```text
+ALL HEROES DEAD
+        ↓
+PARTY DEFEATED
+        ↓
+MISSION FAILURE
+        ↓
+DEATH RESOLUTION
+        ↓
+DUNGEON SESSION CLOSED
+```
+
+If the setting does not provide a valid revival system, the dead Heroes remain dead.
+
+---
+
+# 6. FAILURE MEANS DEATH
+
+The core Dungeon rule is:
+
+# **IF THE PARTY FAILS, THE PARTY DIES.**
+
+A failed mission does not function as a safe retreat.
+
+```text
+MISSION FAILURE
+        ↓
+PARTY DEATH
+        ↓
+DUNGEON SESSION ENDS
+```
+
+The Master cannot choose:
+
+```text
+Mission Failed
+     ↓
+Return Safely to Town
+```
+
+Instead:
+
+```text
+Mission Failed
+     ↓
+Party Defeated
+     ↓
+Heroes Dead
+     ↓
+Death State Saved
+```
+
+Unless a specific Floor, Event, Artifact, or System rule provides a valid survival condition, failure results in the death of the deployed Party.
+
+---
+
+# 7. FAILURE RESOLUTION
+
+When a mission failure condition is triggered:
+
+```text
+MISSION FAILURE DETECTED
+        ↓
+CHECK SURVIVING HEROES
+        ↓
+CHECK VALID ESCAPE CONDITION
+        ↓
+CHECK REVIVAL CONDITION
+        ↓
+CHECK FLOOR-SPECIFIC RULE
+        ↓
+RESOLVE PARTY FATE
+```
+
+Default result:
+
+```text
+NO VALID ESCAPE
+NO VALID REVIVAL
+        ↓
+PARTY DEATH
+        ↓
+ALL DEPLOYED HEROES = DEAD
+```
+
+The Dungeon System must not automatically return the Party to:
+
+```text
+Lobby
+Town
+Base
+Safe Zone
+Party Selection
+```
+
+---
+
+# 8. VALID EXCEPTIONS TO DEATH
+
+A failed mission results in death by default.
+
+A different result is only possible if explicitly defined by the system.
+
+Valid exceptions may include:
+
+```text
+System-Mandated Escape
+Emergency Event
+Floor-Specific Escape Mechanic
+Artifact-Based Survival
+External Rescue Event
+Story-Defined Intervention
+Revival Mechanic
+Dungeon Collapse Teleport
+```
+
+These exceptions cannot be activated manually by the Master.
+
+Example:
+
+```text
+MISSION FAILURE
+        ↓
+FLOOR HAS EMERGENCY ESCAPE EVENT
+        ↓
+EVENT SYSTEM TRIGGER
+        ↓
+PARTY SURVIVES
+        ↓
+SYSTEM FORCED EXIT
+```
+
+Without an explicit exception:
+
+```text
+MISSION FAILURE
+        ↓
+PARTY DEATH
+```
+
+---
+
+# 9. PARTY LEADER DEATH
+
+If the Party Leader dies but other Heroes remain alive:
 
 ```text
 LEADER DEAD
@@ -194,6 +429,27 @@ NEW COMBAT LEADERSHIP LOGIC
 
 The death of the Leader alone does **not automatically fail the mission**.
 
+Possible behavior:
+
+```text
+Second-in-command assumes leadership
+AI selects temporary combat leader
+Another Hero takes tactical control
+Party morale changes
+Character emotions change
+Formation changes
+```
+
+However, the Party cannot return to Town because the Leader has died.
+
+```text
+LEADER DEAD
+     ↓
+PARTY CONTINUES
+     ↓
+NO MANUAL RECALL
+```
+
 Mission failure occurs when:
 
 ```text
@@ -202,11 +458,90 @@ ALL ACTIVE HEROES IN THE PARTY
 DEAD
 ```
 
-unless a special Floor rule defines another failure condition.
+or when another Floor-specific failure condition is triggered.
 
 ---
 
-# 4. NO NPC SYSTEM INSIDE DUNGEON
+# 10. HERO DEATH
+
+When a Hero dies:
+
+```text
+HERO
+ ↓
+DEAD
+ ↓
+CHARACTER SYSTEM UPDATE
+ ↓
+PARTY SYSTEM UPDATE
+ ↓
+DUNGEON SESSION UPDATE
+ ↓
+GAME STATE UPDATE
+ ↓
+DATABASE
+```
+
+The AI Fairy can report:
+
+> **"Master, Hero ID HERO-XXXX has fallen in battle. The Party remains inside the Dungeon and must continue the mission."**
+
+The mission continues if surviving Heroes remain and the mission permits continuation.
+
+The Master cannot:
+
+```text
+Remove the dead Hero
+Replace the dead Hero
+Summon a replacement Hero
+Recall the Party
+Return to Town
+Restart the mission
+```
+
+unless a valid system rule explicitly allows it.
+
+---
+
+# 11. NO SAFE FAILURE
+
+Dungeon failure is not a safe state.
+
+The following flow is forbidden:
+
+```text
+ENTER DUNGEON
+     ↓
+MISSION DIFFICULT
+     ↓
+MASTER CANCELS
+     ↓
+PARTY RETURNS SAFELY
+```
+
+The correct flow is:
+
+```text
+ENTER DUNGEON
+     ↓
+PARTY LOCK
+     ↓
+MISSION ACTIVE
+     ↓
+PARTY MUST CONTINUE
+     │
+     ├── VICTORY
+     │      ↓
+     │   PARTY SURVIVES
+     │
+     └── FAILURE
+            ↓
+        PARTY DIES
+```
+
+---
+
+# 12. NO NPC SYSTEM INSIDE DUNGEON
 
 The Dungeon System does **not use an NPC category**.
 
@@ -265,7 +600,7 @@ Any named character that becomes a permanent character must be registered throug
 
 ---
 
-# 5. TOWER OF REBIRTH
+# 13. TOWER OF REBIRTH
 
 The Tower of Rebirth is a mysterious structure that appeared after the destruction of Aetheria.
 
@@ -292,7 +627,7 @@ Floor 100 contains the final confrontation with:
 
 ---
 
-# 6. TOWER STRUCTURE
+# 14. TOWER STRUCTURE
 
 ```text
                     TOWER OF REBIRTH
@@ -332,9 +667,11 @@ Floor 3
 Floor 100
 ```
 
+Once a Party enters a Floor, that Party cannot abandon the Floor through a manual command.
+
 ---
 
-# 7. FLOOR IDENTITY
+# 15. FLOOR IDENTITY
 
 Every Floor is treated as an independent world instance.
 
@@ -360,6 +697,9 @@ Completion State
 Party Requirement
 Party Configuration
 Difficulty Context
+Failure Condition
+Death Condition
+Escape Condition
 ```
 
 Enemy information is requested from the Enemy System.
@@ -376,7 +716,7 @@ Floor
 
 ---
 
-# 8. FLOOR TYPES
+# 16. FLOOR TYPES
 
 Possible Floor Types:
 
@@ -404,13 +744,14 @@ Special Floor
 Raid Floor
 Story Floor
 Multi-Party Floor
+Death Mission Floor
 ```
 
 The exact type is stored in the Floor configuration.
 
 ---
 
-# 9. FLOOR DESIGN PRINCIPLE
+# 17. FLOOR DESIGN PRINCIPLE
 
 Each Floor represents a fragment of Aetheria.
 
@@ -437,7 +778,7 @@ Other Lost Civilizations
 
 ---
 
-# 10. FLOOR STORY
+# 18. FLOOR STORY
 
 Every important Floor can contain its own story.
 
@@ -470,9 +811,18 @@ Lost Knowledge
 World Secrets
 ```
 
+The story may also define:
+
+```text
+Mission Commitment
+Failure Condition
+Death Condition
+Forced Exit Condition
+```
+
 ---
 
-# 11. WORLD EXPLORATION SYSTEM
+# 19. WORLD EXPLORATION SYSTEM
 
 The Dungeon System contains:
 
@@ -496,9 +846,21 @@ CURRENT WORLD
 RUINED LOCATION
 ```
 
+World Exploration missions are also subject to Party Commitment.
+
+```text
+ENTER EXPLORATION
+        ↓
+PARTY LOCK
+        ↓
+NO MANUAL EXIT
+        ↓
+EXPLORATION MUST RESOLVE
+```
+
 ---
 
-# 12. PRE-DESTRUCTION WORLD
+# 20. PRE-DESTRUCTION WORLD
 
 Before the Night of Ruin:
 
@@ -521,7 +883,7 @@ These locations existed before Nythar destroyed the world.
 
 ---
 
-# 13. WORLD EXPLORATION PURPOSE
+# 21. WORLD EXPLORATION PURPOSE
 
 World Exploration exists to discover:
 
@@ -540,7 +902,7 @@ World Secrets
 
 ---
 
-# 14. WORLD EXPLORATION MODEL
+# 22. WORLD EXPLORATION MODEL
 
 The system can represent two versions of the same location.
 
@@ -582,7 +944,7 @@ Current Exploration
 
 ---
 
-# 15. WORLD EXPLORATION AND CHARACTER SYSTEM
+# 23. WORLD EXPLORATION AND CHARACTER SYSTEM
 
 A Hero may have a connection to a historical location.
 
@@ -622,9 +984,19 @@ Destroyed District
 Ancient Symbol
 ```
 
+If the exploration mission fails, the deployed Party cannot simply return to Town.
+
+```text
+EXPLORATION FAILURE
+        ↓
+PARTY DEATH
+```
+
+unless a valid system-defined exception exists.
+
 ---
 
-# 16. WORLD EXPLORATION AND AI FAIRY
+# 24. WORLD EXPLORATION AND AI FAIRY
 
 The AI Fairy observes the exploration and reports important discoveries.
 
@@ -636,9 +1008,13 @@ Example:
 
 > **"Master, the structure ahead existed before the Night of Ruin."**
 
+If the Master attempts to withdraw:
+
+> **"Master, withdrawal is impossible. The exploration mission must reach a valid resolution."**
+
 ---
 
-# 17. EXPLORATION DISCOVERY
+# 25. EXPLORATION DISCOVERY
 
 World Exploration can reveal:
 
@@ -662,7 +1038,7 @@ Discoveries are synchronized with:
 
 ---
 
-# 18. EXPLORATION STATE
+# 26. EXPLORATION STATE
 
 Each location can have:
 
@@ -674,6 +1050,8 @@ Completed
 Partially Explored
 Secret Discovered
 Historical Data Unlocked
+Mission Failed
+Party Lost
 ```
 
 Example:
@@ -696,7 +1074,7 @@ Artifacts:
 
 ---
 
-# 19. DUNGEON MISSION
+# 27. DUNGEON MISSION
 
 Each Floor can contain missions.
 
@@ -716,6 +1094,12 @@ Discover the old Imperial emblem.
 
 Boss:
 Corrupted Knight Commander.
+
+Failure Condition:
+Party is defeated or all Heroes die.
+
+Escape Condition:
+None.
 ```
 
 Mission entities are controlled by the relevant systems.
@@ -744,7 +1128,7 @@ EVENT SYSTEM
 
 ---
 
-# 20. FLOOR OBJECTIVES
+# 28. FLOOR OBJECTIVES
 
 Possible objectives:
 
@@ -766,11 +1150,21 @@ Complete Objectives in Sequence
 Complete Objectives Simultaneously
 Protect Important Entity
 Protect World Object
+Complete Mission Without Retreat
+```
+
+Every objective must define:
+
+```text
+Success Condition
+Failure Condition
+Death Condition
+Party Resolution
 ```
 
 ---
 
-# 21. DUNGEON PROGRESSION
+# 29. DUNGEON PROGRESSION
 
 Basic progression:
 
@@ -785,6 +1179,8 @@ PARTY DEPLOYMENT
      ↓
 PARTY LOCK
      ↓
+NO MANUAL EXIT
+     ↓
 MISSION START
      ↓
 EXPLORATION
@@ -795,9 +1191,11 @@ EVENT
      ↓
 BOSS
      ↓
-VICTORY / FAILURE
+VICTORY / FAILURE / DEATH
      ↓
-RNG REWARD
+RESOLVE PARTY FATE
+     ↓
+RNG REWARD IF VALID
      ↓
 FLOOR STATE UPDATE
      ↓
@@ -810,7 +1208,7 @@ FAIRY REPORT
 
 ---
 
-# 22. PARTY DEPLOYMENT
+# 30. PARTY DEPLOYMENT
 
 The Party System provides the Party.
 
@@ -835,11 +1233,24 @@ Leader
 Hero Availability
 Mission Restrictions
 Floor Restrictions
+Failure Condition
+Death Condition
+Escape Condition
+```
+
+Once deployment is confirmed:
+
+```text
+PARTY DEPLOYED
+        ↓
+PARTY LOCKED
+        ↓
+NO MANUAL RECALL
 ```
 
 ---
 
-# 23. PARTY LOCK SYSTEM
+# 31. PARTY LOCK SYSTEM
 
 Once the Dungeon Mission begins:
 
@@ -854,10 +1265,14 @@ Remove Hero
 Add Hero
 Replace Hero
 Recall Party
+Return to Lobby
+Return to Town
 Transfer Hero
 Disband Party
 Change Party Leader
 Move Hero to another Party
+Cancel Mission
+Force Exit
 ```
 
 Example:
@@ -882,12 +1297,16 @@ PARTY LOCK = TRUE
 
        ↓
 
+NO MANUAL EXIT
+
+       ↓
+
 Party cannot be manually changed
 ```
 
 ---
 
-# 24. PARTY LOCK STATE
+# 32. PARTY LOCK STATE
 
 The Dungeon Session stores:
 
@@ -899,130 +1318,247 @@ Formation
 Equipment State
 Mission Start Time
 Party Lock State
+No Recall State
 Party Combat State
 Party Death State
 Mission State
+Failure Condition
+Death Condition
+Escape Condition
 ```
 
 This prevents the Master from bypassing mission consequences.
 
 ---
 
-# 25. HERO DEATH
+# 33. PARTY COMMITMENT STATE
 
-When a Hero dies:
+Every deployed Party has a commitment state:
 
 ```text
-HERO
- ↓
+NOT DEPLOYED
+SELECTED
+DEPLOYED
+LOCKED
+MISSION ACTIVE
+MISSION RESOLVING
+VICTORY
+FAILURE
+DEFEATED
 DEAD
- ↓
-CHARACTER SYSTEM UPDATE
- ↓
-PARTY SYSTEM UPDATE
- ↓
-DUNGEON SESSION UPDATE
- ↓
-GAME STATE UPDATE
- ↓
-DATABASE
+SESSION CLOSED
 ```
 
-The AI Fairy can report:
+The Party cannot transition from:
 
-> **"Master, Hero ID HERO-XXXX has fallen in battle."**
+```text
+LOCKED
+```
 
-The mission continues if surviving Heroes remain and the mission permits continuation.
+directly to:
+
+```text
+LOBBY
+TOWN
+AVAILABLE
+```
+
+The Party must first pass through a valid mission result.
+
+```text
+LOCKED
+   ↓
+MISSION ACTIVE
+   ↓
+VICTORY / FAILURE / DEFEATED
+   ↓
+RESOLUTION
+   ↓
+SESSION CLOSED
+```
 
 ---
 
-# 26. COMPLETE PARTY DEATH
+# 34. PARTY DEFEAT RESOLUTION
 
-If all active Heroes in the Party are dead:
+When all Heroes in a Party die:
 
 ```text
-HERO 1 — DEAD
-HERO 2 — DEAD
-HERO 3 — DEAD
-HERO 4 — DEAD
-HERO 5 — DEAD
-       ↓
+ALL HEROES DEAD
+        ↓
 PARTY DEFEATED
-       ↓
-DUNGEON MISSION FAILED
-       ↓
-QUEST FAILED
-```
-
-The Party cannot be manually revived inside the active mission unless the Floor itself contains a valid revival mechanic.
-
----
-
-# 27. PARTY LEADER DEATH
-
-Leader death does not automatically cause mission failure.
-
-```text
-LEADER DEAD
-     ↓
-OTHER HEROES ALIVE
-     ↓
-PARTY CONTINUES
-```
-
-The Party System and Character AI determine subsequent leadership behavior.
-
-Possible behavior:
-
-```text
-Second-in-command assumes leadership
-AI selects temporary combat leader
-Another Hero takes tactical control
-Party morale changes
-Character emotions change
-```
-
-If all Heroes die:
-
-```text
-PARTY DEFEATED
-     ↓
+        ↓
 MISSION FAILED
+        ↓
+DEATH RESOLUTION
+        ↓
+HERO DEATH STATES SAVED
+        ↓
+PARTY SESSION CLOSED
+```
+
+The Party is not marked as safely available.
+
+```text
+PARTY DEFEATED
+        ≠
+PARTY AVAILABLE
+```
+
+The Party becomes unavailable because:
+
+```text
+All deployed Heroes are dead
+Party has no surviving members
+Mission ended in death
 ```
 
 ---
 
-# 28. NO MANUAL ESCAPE
+# 35. PARTY DEATH DATA
 
-The Master cannot simply press:
+When a Party dies, the following data is saved:
 
 ```text
-EXIT DUNGEON
+Party ID
+Dungeon Session ID
+Floor ID
+Mission ID
+Hero IDs
+Hero Death State
+Death Time
+Death Location
+Death Cause
+Enemy Cause
+Boss Cause
+Event Cause
+Quest State
+Floor State
+Party Result
 ```
 
-to remove the Party.
-
-The Dungeon only ends through:
+Example:
 
 ```text
-Victory
-Failure
-Valid Escape Condition
-Emergency Event
-Forced System Exit
-```
+PARTY-000001
 
-This rule ensures that:
+Result:
+DEFEATED
 
-```text
-Dungeon Decisions
-      ↓
-Have Real Consequences
+Hero 1:
+DEAD
+
+Hero 2:
+DEAD
+
+Hero 3:
+DEAD
+
+Hero 4:
+DEAD
+
+Hero 5:
+DEAD
+
+Return Destination:
+NONE
 ```
 
 ---
 
-# 29. MULTI-PARTY FLOOR
+# 36. QUEST SYSTEM INTEGRATION
+
+Dungeon Missions are connected to the Quest System.
+
+```text
+QUEST
+  ↓
+DUNGEON MISSION
+  ↓
+PARTY DEPLOYMENT
+  ↓
+PARTY LOCK
+  ↓
+NO MANUAL EXIT
+  ↓
+MISSION
+  ↓
+VICTORY / FAILURE / DEATH
+  ↓
+QUEST RESULT
+```
+
+---
+
+# 37. QUEST SUCCESS
+
+Example:
+
+```text
+Quest:
+Clear Floor 20
+
+Condition:
+Defeat Boss
+
+Party:
+Alive
+
+Boss:
+Defeated
+
+        ↓
+
+QUEST COMPLETE
+```
+
+After victory:
+
+```text
+QUEST COMPLETE
+        ↓
+PARTY SURVIVES
+        ↓
+PARTY SESSION CLOSED
+        ↓
+PARTY MAY BE PROCESSED BY PARTY SYSTEM
+```
+
+---
+
+# 38. QUEST FAILURE
+
+The following condition is critical:
+
+```text
+ALL HEROES IN ACTIVE PARTY
+        ↓
+DEAD
+        ↓
+PARTY DEFEATED
+        ↓
+DUNGEON MISSION FAILED
+        ↓
+QUEST FAILED
+        ↓
+HERO DEATH SAVED
+```
+
+The Quest System receives the failure state from the Dungeon System.
+
+The Master cannot prevent the failure by:
+
+```text
+Recalling the Party
+Returning to Town
+Replacing Heroes
+Canceling the Mission
+Restarting the Floor
+```
+
+---
+
+# 39. MULTI-PARTY FLOOR
 
 A Multi-Party Floor requires more than one Party.
 
@@ -1039,13 +1575,14 @@ Every Party entering the mission receives:
 
 ```text
 PARTY LOCK = TRUE
+NO MANUAL EXIT = TRUE
 ```
 
 The Master cannot freely remove a Party after deployment.
 
 ---
 
-# 30. MULTI-PARTY PARTY LOCK
+# 40. MULTI-PARTY PARTY LOCK
 
 Example:
 
@@ -1062,16 +1599,18 @@ If Party 1 is struggling:
 ```text
 Master cannot:
 - Recall Party 1
+- Return Party 1 to Town
 - Replace Hero
 - Move Hero from Party 2
 - Add new Hero
+- Cancel the Floor
 ```
 
-unless the Floor itself explicitly provides a valid mechanic.
+unless the Floor itself explicitly provides a valid system-controlled mechanic.
 
 ---
 
-# 31. MULTI-PARTY FAILURE
+# 41. MULTI-PARTY FAILURE
 
 Each Party maintains its own state.
 
@@ -1098,13 +1637,22 @@ Boss Changes
 Difficulty Changes
 Route Changes
 Entire Floor Failed
+Party Death
 ```
 
-The exact result is defined by the Floor Mission.
+If a Party is defeated, the Master cannot withdraw the remaining Parties to safety.
+
+```text
+PARTY 3 DEFEATED
+        ↓
+PARTY 1 AND PARTY 2 CONTINUE
+        ↓
+NO MANUAL RECALL
+```
 
 ---
 
-# 32. MULTI-PARTY COMPLETE FAILURE
+# 42. MULTI-PARTY COMPLETE FAILURE
 
 If the Floor requires all Parties to survive or complete their objectives:
 
@@ -1124,6 +1672,8 @@ DEFEATED
         ↓
 
 FLOOR MISSION FAILED
+        ↓
+ALL DEPLOYED PARTIES DIE
 ```
 
 If only one Party is required to survive:
@@ -1138,11 +1688,101 @@ Party 3 — ACTIVE
 Mission continues
 ```
 
+However, the defeated Party is not returned to Town.
+
+```text
+DEFEATED PARTY
+        ↓
+PARTY DEATH
+```
+
 The Floor configuration determines the exact condition.
 
 ---
 
-# 33. ENEMY SYSTEM INTEGRATION
+# 43. MULTI-PARTY DEATH RULE
+
+Each Party is evaluated independently.
+
+```text
+PARTY 1
+  ↓
+ALL HEROES DEAD
+  ↓
+PARTY 1 DEFEATED
+  ↓
+PARTY 1 CANNOT BE RECALLED
+```
+
+Other Parties may continue if the mission allows it.
+
+```text
+PARTY 1 — DEAD
+PARTY 2 — ACTIVE
+PARTY 3 — ACTIVE
+```
+
+The Master cannot transfer surviving Heroes into the defeated Party.
+
+```text
+TRANSFER HERO
+     ↓
+BLOCKED
+```
+
+The Master cannot replace the dead Party with a new Party.
+
+```text
+REPLACE PARTY
+     ↓
+BLOCKED
+```
+
+---
+
+# 44. MULTI-PARTY RAID DEATH
+
+If a Raid requires multiple Parties:
+
+```text
+RAID
+ │
+ ├── PARTY 1
+ ├── PARTY 2
+ ├── PARTY 3
+ ├── PARTY 4
+ └── PARTY 5
+```
+
+Each Party is locked independently.
+
+If one Party dies:
+
+```text
+PARTY 2
+  ↓
+ALL HEROES DEAD
+  ↓
+PARTY 2 DEFEATED
+  ↓
+PARTY 2 REMOVED FROM ACTIVE COMBAT
+```
+
+The Master cannot:
+
+```text
+Recall Party 2
+Return Party 2 to Town
+Replace Party 2
+Add a new Party
+Transfer Heroes
+```
+
+The Raid continues or fails according to the Raid rules.
+
+---
+
+# 45. ENEMY SYSTEM INTEGRATION
 
 The Dungeon System does not create enemies directly.
 
@@ -1182,7 +1822,7 @@ Enemy Difficulty
 
 ---
 
-# 34. ENEMY SPAWN REQUEST
+# 46. ENEMY SPAWN REQUEST
 
 Dungeon sends context:
 
@@ -1198,6 +1838,8 @@ Boss Requirement
 Event Condition
 Party Count
 Party Strength
+Failure Condition
+Death Condition
 ```
 
 Enemy System returns:
@@ -1223,6 +1865,9 @@ High
 Destruction:
 Level 4
 
+Party Commitment:
+Permanent
+
         ↓
 
 ENEMY SYSTEM
@@ -1234,7 +1879,7 @@ Enemy Encounter
 
 ---
 
-# 35. ENEMY COUNT
+# 47. ENEMY COUNT
 
 Enemy quantity is controlled by the Enemy System.
 
@@ -1260,7 +1905,7 @@ unless the Floor requires a fixed encounter.
 
 ---
 
-# 36. ENEMY DIFFICULTY
+# 48. ENEMY DIFFICULTY
 
 Difficulty is generated through:
 
@@ -1280,9 +1925,11 @@ The Dungeon provides the difficulty context.
 
 The Enemy System determines the actual enemy encounter.
 
+The Master cannot reduce the difficulty by attempting to withdraw the Party.
+
 ---
 
-# 37. BOSS
+# 49. BOSS
 
 Bosses are treated as special Enemy System entities.
 
@@ -1310,9 +1957,19 @@ Boss AI
 Boss Loot
 ```
 
+If the Boss defeats the Party:
+
+```text
+BOSS VICTORY
+        ↓
+PARTY DEFEATED
+        ↓
+PARTY DEATH
+```
+
 ---
 
-# 38. RAID BOSS SYSTEM
+# 50. RAID BOSS SYSTEM
 
 The Dungeon System supports:
 
@@ -1333,9 +1990,11 @@ Special Mechanics
 
 Raid Boss entities are generated and managed through the Enemy/Boss System.
 
+All deployed Parties are committed to the Raid.
+
 ---
 
-# 39. RAID BOSS STRUCTURE
+# 51. RAID BOSS STRUCTURE
 
 ```text
                     RAID BOSS
@@ -1351,9 +2010,17 @@ Raid Boss entities are generated and managed through the Enemy/Boss System.
 
 All deployed Parties are locked.
 
+```text
+RAID ACTIVE
+     ↓
+NO MANUAL EXIT
+     ↓
+PARTIES MUST CONTINUE
+```
+
 ---
 
-# 40. RAID BOSS PHASES
+# 52. RAID BOSS PHASES
 
 A Raid Boss may contain:
 
@@ -1383,7 +2050,7 @@ The Dungeon System only tracks the Raid encounter state.
 
 ---
 
-# 41. RAID BOSS FAILURE
+# 53. RAID BOSS FAILURE
 
 If all participating Parties are defeated:
 
@@ -1395,13 +2062,15 @@ DEFEATED
 RAID FAILED
        ↓
 DUNGEON MISSION FAILED
+       ↓
+ALL DEPLOYED HEROES DIE
 ```
 
 No Party can be manually extracted by the Master while the Raid is active.
 
 ---
 
-# 42. EVENT SYSTEM INTEGRATION
+# 54. EVENT SYSTEM INTEGRATION
 
 Dungeon Events are controlled by:
 
@@ -1419,6 +2088,8 @@ Exploration State
 Time
 Destruction Level
 Mission State
+Failure Condition
+Death Condition
 ```
 
 The Event System controls:
@@ -1435,9 +2106,11 @@ Character Event
 Story Event
 ```
 
+An Event cannot be used by the Master as a manual escape unless the Event itself defines an escape result.
+
 ---
 
-# 43. EVENT ENTITIES
+# 55. EVENT ENTITIES
 
 Because the Dungeon System has no NPC system, Events can involve:
 
@@ -1457,7 +2130,7 @@ Quest Condition
 
 ---
 
-# 44. CHARACTER EVENT
+# 56. CHARACTER EVENT
 
 Example:
 
@@ -1491,11 +2164,22 @@ Relationship Changes
 Character Quest Unlocked
 Skill Condition Activated
 Star Progression Condition Activated
+Mission Condition Changed
+```
+
+The Event System may create a valid escape only if explicitly configured.
+
+Otherwise:
+
+```text
+EVENT ACTIVE
+        ↓
+MISSION CONTINUES
 ```
 
 ---
 
-# 45. STAR 7 CHARACTER EVENT
+# 57. STAR 7 CHARACTER EVENT
 
 A Hero can experience a special progression event during a Dungeon Mission.
 
@@ -1525,9 +2209,11 @@ EVENT SYSTEM
 
 The Dungeon provides the mission environment.
 
+The Party remains committed during the event.
+
 ---
 
-# 46. QUEST SYSTEM INTEGRATION
+# 58. QUEST SYSTEM INTEGRATION
 
 Dungeon Missions are connected to the Quest System.
 
@@ -1540,60 +2226,18 @@ PARTY DEPLOYMENT
   ↓
 PARTY LOCK
   ↓
+NO MANUAL EXIT
+  ↓
 MISSION
   ↓
-VICTORY / FAILURE
+VICTORY / FAILURE / DEATH
   ↓
 QUEST RESULT
 ```
 
 ---
 
-# 47. QUEST SUCCESS
-
-Example:
-
-```text
-Quest:
-Clear Floor 20
-
-Condition:
-Defeat Boss
-
-Party:
-Alive
-
-Boss:
-Defeated
-
-        ↓
-
-QUEST COMPLETE
-```
-
----
-
-# 48. QUEST FAILURE
-
-The following condition is critical:
-
-```text
-ALL HEROES IN ACTIVE PARTY
-        ↓
-DEAD
-        ↓
-PARTY DEFEATED
-        ↓
-DUNGEON MISSION FAILED
-        ↓
-QUEST FAILED
-```
-
-The Quest System receives the failure state from the Dungeon System.
-
----
-
-# 49. RNG REWARD
+# 59. RNG REWARD
 
 The Dungeon System does not directly generate random rewards.
 
@@ -1604,6 +2248,8 @@ It sends a reward request to:
 ```text
 DUNGEON RESULT
       ↓
+CHECK RESULT VALIDITY
+      ↓
 RNG SYSTEM
       ↓
 REWARD ROLL
@@ -1611,6 +2257,22 @@ REWARD ROLL
 ITEM / GOLD / GEM / TICKET / EQUIPMENT
       ↓
 INVENTORY
+```
+
+Rewards are granted only when the mission result allows them.
+
+```text
+MISSION VICTORY
+        ↓
+REWARD ELIGIBLE
+```
+
+A failed mission does not grant a normal clear reward.
+
+```text
+MISSION FAILURE
+        ↓
+NO CLEAR REWARD
 ```
 
 Possible rewards:
@@ -1632,11 +2294,9 @@ There is:
 
 # **NO EXP REWARD FROM DUNGEON CLEAR**
 
-Dungeon rewards are based on the RNG configuration and reward tables.
-
 ---
 
-# 50. REWARD SYNCHRONIZATION
+# 60. REWARD SYNCHRONIZATION
 
 All rewards must be synchronized.
 
@@ -1671,9 +2331,19 @@ AI FAIRY
 MASTER
 ```
 
+If the Party dies:
+
+```text
+PARTY DEATH
+        ↓
+NO NORMAL CLEAR REWARD
+        ↓
+DEATH STATE SAVED
+```
+
 ---
 
-# 51. AI FAIRY DUNGEON OBSERVATION
+# 61. AI FAIRY DUNGEON OBSERVATION
 
 The AI Fairy observes the Dungeon Mission.
 
@@ -1683,6 +2353,7 @@ The Fairy can report:
 Mission Start
 Party Deployment
 Party Lock
+No Manual Exit State
 Hero Condition
 Hero Death
 Enemy Encounter
@@ -1694,23 +2365,27 @@ Important Choices
 Reward
 Mission Victory
 Mission Failure
+Party Death
+Permanent Death Resolution
 ```
 
 Example:
 
-> **"Master, Party 1 has entered Floor 27. The Party is now locked into the mission."**
+> **"Master, Party 1 has entered Floor 27. The Party is now permanently committed to the mission."**
 
-> **"Master, the Enemy System has generated an elite encounter ahead."**
+> **"Master, forced withdrawal is unavailable. The Party must complete the mission or die."**
 
 > **"Master, Hero ID HERO-00231 has fallen."**
 
-> **"Master, four Heroes remain active."**
+> **"Master, four Heroes remain active. The mission continues."**
 
-> **"Master, all members of Party 1 have fallen. The Dungeon Mission has failed."**
+> **"Master, all members of Party 1 have fallen. The Party has been defeated."**
+
+> **"Master, no valid escape condition exists. The deployed Heroes have died."**
 
 ---
 
-# 52. FAIRY OBSERVATION DURING COMBAT
+# 62. FAIRY OBSERVATION DURING COMBAT
 
 The AI Fairy receives combat information from the Combat and Character AI systems.
 
@@ -1736,9 +2411,11 @@ Example:
 
 > **"Master, the Party Leader has fallen, but the remaining members are still capable of continuing the mission."**
 
+> **"Master, the Party cannot retreat. The only available path is forward."**
+
 ---
 
-# 53. CHARACTER AI + DUNGEON
+# 63. CHARACTER AI + DUNGEON
 
 Character behavior depends on:
 
@@ -1767,9 +2444,22 @@ EMOTIONAL SYSTEM
 COMBAT DECISION
 ```
 
+The knowledge that death is permanent can influence:
+
+```text
+Fear
+Panic
+Morale
+Desperation
+Loyalty
+Sacrifice
+Aggression
+Survival Instinct
+```
+
 ---
 
-# 54. TIME SYSTEM
+# 64. TIME SYSTEM
 
 Dungeon missions interact with the Time System.
 
@@ -1806,13 +2496,15 @@ TIME EXPIRES
        ↓
 
 MISSION FAILURE
+       ↓
+PARTY DEATH
 ```
 
 The exact condition is determined by the Floor configuration.
 
 ---
 
-# 55. DESTRUCTION LEVEL
+# 65. DESTRUCTION LEVEL
 
 Dungeon difficulty is connected to the Core World Building.
 
@@ -1839,11 +2531,12 @@ Exploration
 World State
 Character Emotion
 Mission Conditions
+Death Risk
 ```
 
 ---
 
-# 56. FLOOR STATE
+# 66. FLOOR STATE
 
 Every Floor maintains its own state.
 
@@ -1857,6 +2550,7 @@ Event Active
 Raid Active
 Completed
 Failed
+Party Lost
 Revisited
 ```
 
@@ -1864,7 +2558,7 @@ The Game State System stores the persistent state.
 
 ---
 
-# 57. DUNGEON SESSION
+# 67. DUNGEON SESSION
 
 Every active mission creates a:
 
@@ -1882,11 +2576,15 @@ Hero IDs
 Leader ID
 Start Time
 Party Lock State
+No Recall State
 Mission State
 Enemy Encounter State
 Boss State
 Event State
 Exploration State
+Failure Condition
+Death Condition
+Escape Condition
 Result
 ```
 
@@ -1904,12 +2602,13 @@ Shared Floor State
 Shared Time
 Shared Event State
 Raid State
+Party Death State
 Result
 ```
 
 ---
 
-# 58. DUNGEON SESSION FLOW
+# 68. DUNGEON SESSION FLOW
 
 ```text
 CREATE SESSION
@@ -1924,6 +2623,8 @@ CHECK PARTY
       ↓
 LOCK PARTY
       ↓
+DISABLE MANUAL EXIT
+      ↓
 REQUEST ENEMY ENCOUNTER
       ↓
 ENEMY SYSTEM
@@ -1936,9 +2637,11 @@ EVENT
       ↓
 BOSS
       ↓
-VICTORY / FAILURE
+VICTORY / FAILURE / DEATH
       ↓
-CALCULATE REWARD
+RESOLVE PARTY FATE
+      ↓
+CALCULATE REWARD IF VALID
       ↓
 SAVE STATE
       ↓
@@ -1949,7 +2652,7 @@ FAIRY REPORT
 
 ---
 
-# 59. DUNGEON FAILURE
+# 69. DUNGEON FAILURE
 
 Primary failure conditions:
 
@@ -1960,6 +2663,7 @@ Time Limit Failed
 Special Floor Failure Condition
 Raid Failure
 Event Failure
+Forced Mission Failure
 ```
 
 Most important rule:
@@ -1971,14 +2675,24 @@ PARTY DEFEATED
         ↓
 DUNGEON MISSION FAILED
         ↓
+PARTY DIES
+        ↓
 QUEST FAILED
 ```
 
-The Master cannot prevent the failure by removing or replacing the Party.
+The Master cannot prevent the failure by:
+
+```text
+Removing the Party
+Returning to Town
+Replacing Heroes
+Canceling the Mission
+Teleporting Out
+```
 
 ---
 
-# 60. DUNGEON VICTORY
+# 70. DUNGEON VICTORY
 
 ```text
 MISSION COMPLETE
@@ -1999,7 +2713,9 @@ GAME STATE
        ↓
 DATABASE
        ↓
-PARTY UNLOCK
+MISSION RESOLUTION
+       ↓
+PARTY SESSION CLOSED
        ↓
 FAIRY REPORT
 ```
@@ -2010,21 +2726,27 @@ Only after the mission has officially ended does:
 PARTY LOCK = FALSE
 ```
 
+The Party is not manually recalled.
+
+It becomes eligible for post-mission processing only because the Dungeon Session has reached a valid final result.
+
 ---
 
-# 61. PARTY UNLOCK
+# 71. PARTY UNLOCK
 
-Party becomes available again only after:
+The Party does not unlock because the Master requests it.
+
+The Party becomes eligible for post-mission processing only after:
 
 ```text
 MISSION VICTORY
 OR
-MISSION FAILURE
+MISSION FAILURE RESOLUTION
 OR
 VALID SYSTEM EXIT
 ```
 
-Example:
+Example after victory:
 
 ```text
 MISSION ACTIVE
@@ -2035,12 +2757,40 @@ BOSS DEFEATED
      ↓
 MISSION COMPLETE
      ↓
+PARTY SESSION CLOSED
+     ↓
 PARTY LOCK = FALSE
+```
+
+Example after death:
+
+```text
+MISSION ACTIVE
+     ↓
+ALL HEROES DEAD
+     ↓
+PARTY DEFEATED
+     ↓
+DEATH RESOLUTION
+     ↓
+PARTY SESSION CLOSED
+     ↓
+HEROES REMAIN DEAD
+```
+
+`PARTY LOCK = FALSE` after death does not mean the Party returns safely to Town.
+
+It only means the active Dungeon Session has ended.
+
+```text
+PARTY SESSION CLOSED
+        ≠
+PARTY RETURNED SAFELY
 ```
 
 ---
 
-# 62. FLOOR REVISIT
+# 72. FLOOR REVISIT
 
 Completed Floors may be revisited for:
 
@@ -2057,9 +2807,20 @@ Hidden Area
 
 However, the persistent Floor State is loaded from the Game State System.
 
+A failed mission may permanently affect:
+
+```text
+Hero Availability
+Party Availability
+Quest State
+Floor State
+Story State
+World State
+```
+
 ---
 
-# 63. PERSISTENT FLOOR STATE
+# 73. PERSISTENT FLOOR STATE
 
 Example:
 
@@ -2094,9 +2855,19 @@ Different encounter
 
 The world does not automatically forget previous actions.
 
+If a Party dies on the Floor:
+
+```text
+Floor 20
+        ↓
+Party Lost
+        ↓
+Death State Saved
+```
+
 ---
 
-# 64. DATABASE STORAGE
+# 74. DATABASE STORAGE
 
 Persistent Dungeon data is stored in the Database System.
 
@@ -2118,12 +2889,17 @@ Party Configuration
 Party Objective
 Party Result
 Party Lock History
+No Recall History
 Hero Deployment
 Hero Death State
+Permanent Death State
 Destruction Level
 Event State
 Quest State
 Reward History
+Failure Condition
+Death Condition
+Escape Condition
 Updated Time
 ```
 
@@ -2133,7 +2909,7 @@ Enemy persistent data remains under the:
 
 ---
 
-# 65. ID SYSTEM
+# 75. ID SYSTEM
 
 Every Dungeon object receives a unique ID.
 
@@ -2167,7 +2943,7 @@ Enemy IDs remain controlled by the Enemy System.
 
 ---
 
-# 66. COMPLETE DUNGEON ARCHITECTURE
+# 76. COMPLETE DUNGEON ARCHITECTURE
 
 ```text
                          TOWER OF REBIRTH
@@ -2191,6 +2967,9 @@ Enemy IDs remain controlled by the Enemy System.
                            PARTY LOCK
                                 │
                                 ▼
+                       NO MANUAL EXIT
+                                │
+                                ▼
                          MISSION / EVENT
                                 │
                 ┌───────────────┼───────────────┐
@@ -2207,26 +2986,30 @@ Enemy IDs remain controlled by the Enemy System.
                 ▼
          VICTORY / FAILURE
                 │
+        ┌───────┴────────┐
+        ▼                ▼
+     SURVIVAL          DEATH
+        │                │
+        ▼                ▼
+     REWARD          DEATH STATE
+        │                │
+        └───────┬────────┘
                 ▼
-            RNG SYSTEM
+         GAME STATE SYSTEM
                 │
                 ▼
-        INVENTORY SYSTEM
+            DATABASE
                 │
                 ▼
-       GAME STATE SYSTEM
+            AI FAIRY
                 │
-        ┌───────┴───────┐
-        ▼               ▼
-    DATABASE         AI FAIRY
-                        │
-                        ▼
-                      MASTER
+                ▼
+              MASTER
 ```
 
 ---
 
-# 67. SYSTEM RESPONSIBILITY
+# 77. SYSTEM RESPONSIBILITY
 
 ## DUNGEON SYSTEM
 
@@ -2244,12 +3027,15 @@ Floor Objective
 Party Requirement
 Party Deployment
 Party Lock
+No Manual Exit
 Boss Encounter Trigger
 Raid Encounter
 World Exploration
 Floor Progression
 Mission Victory
 Mission Failure
+Party Death Resolution
+Forced Mission Resolution
 ```
 
 Does NOT control:
@@ -2307,9 +3093,17 @@ Hero Assignment
 Party Availability
 Party Lock Status
 Party Combat State
+Party Death State
 ```
 
-The Dungeon System enforces the mission lock.
+The Dungeon System enforces:
+
+```text
+No Recall
+No Manual Exit
+No Party Replacement
+No Hero Transfer
+```
 
 ---
 
@@ -2330,6 +3124,7 @@ Ultimate Skill
 Equipment
 Condition
 Character Progression
+Permanent Death State
 ```
 
 ---
@@ -2348,6 +3143,7 @@ Relationship Reaction
 Morale
 Fear
 Memory Response
+Survival Instinct
 ```
 
 ---
@@ -2363,10 +3159,13 @@ Narrative Report
 Combat Report
 Hero Condition Report
 Mission Report
+Death Report
 Reward Report
 Important Event Report
 Master Notification
 ```
+
+The AI Fairy cannot override the No Manual Exit rule.
 
 ---
 
@@ -2386,7 +3185,10 @@ World Event
 Star Event
 Story Event
 Event Reward
+Emergency Escape Event
 ```
+
+An Emergency Escape Event is only valid when explicitly configured.
 
 ---
 
@@ -2456,6 +3258,8 @@ Raid State
 Story State
 Destruction State
 Mission State
+Death State
+Permanent Death State
 ```
 
 ---
@@ -2477,6 +3281,8 @@ Reward History
 World State
 Game State
 Mission History
+Death History
+Permanent Death History
 ```
 
 The Database System is updated through the:
@@ -2485,7 +3291,7 @@ The Database System is updated through the:
 
 ---
 
-# 68. COMPLETE SYSTEM RELATIONSHIP
+# 78. COMPLETE SYSTEM RELATIONSHIP
 
 ```text
                          MASTER
@@ -2508,6 +3314,12 @@ The Database System is updated through the:
                        ▼
                     MISSION
                        │
+                ┌──────┴──────┐
+                ▼             ▼
+          PARTY LOCK      NO EXIT
+                │             │
+                └──────┬──────┘
+                       ▼
           ┌────────────┼────────────┐
           ▼            ▼            ▼
       EXPLORATION    COMBAT       EVENT
@@ -2521,13 +3333,18 @@ The Database System is updated through the:
                   │         │
                   └────┬────┘
                        ▼
-                   RNG SYSTEM
+                VICTORY / FAILURE
                        │
+              ┌────────┴────────┐
+              ▼                 ▼
+           SURVIVAL            DEATH
+              │                 │
+              ▼                 ▼
+          RNG REWARD       DEATH STATE
+              │                 │
+              └────────┬────────┘
                        ▼
-                 INVENTORY SYSTEM
-                       │
-                       ▼
-                 GAME STATE SYSTEM
+                 INVENTORY / STATE
                        │
                        ▼
                    DATABASE
@@ -2541,7 +3358,7 @@ The Database System is updated through the:
 
 ---
 
-# 69. FINAL DUNGEON LOOP
+# 79. FINAL DUNGEON LOOP
 
 ```text
                     ENTER FLOOR
@@ -2557,6 +3374,9 @@ The Database System is updated through the:
                          │
                          ▼
                   PARTY LOCK = TRUE
+                         │
+                         ▼
+                NO MANUAL EXIT = TRUE
                          │
                          ▼
                    START MISSION
@@ -2579,31 +3399,35 @@ The Database System is updated through the:
            VICTORY                FAILURE
               │                     │
               ▼                     ▼
-          RNG REWARD          QUEST FAILED
+          PARTY SURVIVES       CHECK ESCAPE RULE
               │                     │
-              ▼                     │
-         INVENTORY                  │
-              │                     │
-              └──────────┬──────────┘
-                         ▼
-                  GAME STATE UPDATE
-                         │
-                         ▼
-                     DATABASE
-                         │
-                         ▼
-                PARTY LOCK = FALSE
-                         │
-                         ▼
-                    AI FAIRY
-                         │
-                         ▼
-                       MASTER
+              ▼                ┌────┴────┐
+          RNG REWARD           YES       NO
+              │                │          │
+              ▼                ▼          ▼
+         INVENTORY        FORCED EXIT   PARTY DEATH
+              │                │          │
+              └──────────┬─────┘          │
+                         ▼                │
+                  GAME STATE UPDATE       │
+                         │                │
+                         ▼                │
+                     DATABASE             │
+                         │                │
+                         └────────┬───────┘
+                                  ▼
+                         SESSION CLOSED
+                                  │
+                                  ▼
+                         AI FAIRY REPORT
+                                  │
+                                  ▼
+                                MASTER
 ```
 
 ---
 
-# 70. CORE RULES
+# 80. CORE RULES
 
 The Dungeon System follows these permanent rules:
 
@@ -2645,7 +3469,39 @@ Party Locked
 
 The Master cannot remove a Party from an active Dungeon Mission.
 
-### RULE 06 — ALL HEROES DEAD = MISSION FAILURE
+```text
+No Recall
+No Lobby Return
+No Town Return
+No Cancel
+No Teleport
+```
+
+### RULE 06 — MISSION MUST REACH A VALID RESOLUTION
+
+```text
+Party Enters
+     ↓
+Party Cannot Leave Manually
+     ↓
+Mission Must Continue
+     ↓
+Victory / Failure / System Resolution
+```
+
+### RULE 07 — FAILURE MEANS DEATH
+
+```text
+Mission Failure
+        ↓
+Party Defeated
+        ↓
+Party Dies
+```
+
+Unless a valid system-defined escape or revival condition exists.
+
+### RULE 08 — ALL HEROES DEAD = MISSION FAILURE
 
 ```text
 All Party Heroes Dead
@@ -2654,10 +3510,12 @@ Party Defeated
         ↓
 Dungeon Mission Failed
         ↓
+Party Death
+        ↓
 Quest Failed
 ```
 
-### RULE 07 — LEADER DEATH ≠ AUTOMATIC FAILURE
+### RULE 09 — LEADER DEATH ≠ AUTOMATIC FAILURE
 
 ```text
 Leader Dead
@@ -2667,7 +3525,17 @@ Other Heroes Alive
 Mission Continues
 ```
 
-### RULE 08 — REWARD USES RNG
+### RULE 10 — DEFEATED PARTY DOES NOT RETURN SAFELY
+
+```text
+Party Defeated
+        ≠
+Party Returned to Town
+```
+
+The Party is resolved as dead unless an explicit exception exists.
+
+### RULE 11 — REWARD USES RNG
 
 ```text
 Dungeon Result
@@ -2677,11 +3545,11 @@ RNG System
 Reward
 ```
 
-### RULE 09 — NO DUNGEON EXP REWARD
+### RULE 12 — NO DUNGEON EXP REWARD
 
 Dungeon completion does not provide EXP as a direct reward.
 
-### RULE 10 — GAME STATE IS THE CENTRAL SYNCHRONIZER
+### RULE 13 — GAME STATE IS THE CENTRAL SYNCHRONIZER
 
 ```text
 DUNGEON
@@ -2691,6 +3559,7 @@ QUEST
 EVENT
 RNG
 INVENTORY
+DEATH STATE
        │
        ▼
 GAME STATE SYSTEM
@@ -2699,7 +3568,7 @@ GAME STATE SYSTEM
 DATABASE
 ```
 
-### RULE 11 — AI FAIRY REPORTS IMPORTANT EVENTS
+### RULE 14 — AI FAIRY REPORTS IMPORTANT EVENTS
 
 ```text
 Mission
@@ -2711,6 +3580,7 @@ Event
 Reward
 Victory
 Failure
+Party Death
        ↓
 AI FAIRY
        ↓
@@ -2719,7 +3589,7 @@ MASTER
 
 ---
 
-# 71. FINAL DESIGN PRINCIPLE
+# 81. FINAL DESIGN PRINCIPLE
 
 The Dungeon System is not simply a collection of combat stages.
 
@@ -2729,7 +3599,9 @@ The Master provides the strategy.
 
 The Party enters the mission.
 
-Once the mission starts, the Party becomes committed to the mission.
+Once the mission starts, the Party becomes permanently committed to the mission.
+
+There is no forced return to the Lobby or Town.
 
 ```text
 MASTER
@@ -2739,6 +3611,8 @@ SELECT PARTY
 ENTER FLOOR
    ↓
 PARTY LOCK
+   ↓
+NO MANUAL EXIT
    ↓
 MISSION
    ↓
@@ -2751,19 +3625,27 @@ EVENT
 BOSS / RAID
    ↓
 VICTORY / FAILURE
-   ↓
-RNG
-   ↓
-INVENTORY
-   ↓
-GAME STATE
-   ↓
-DATABASE
-   ↓
-FAIRY REPORT
+   │
+   ├── VICTORY
+   │      ↓
+   │   PARTY SURVIVES
+   │      ↓
+   │   REWARD
+   │
+   └── FAILURE
+          ↓
+      PARTY DIES
+          ↓
+      DEATH STATE SAVED
 ```
 
 The Master cannot simply remove a Party when the situation becomes dangerous.
+
+The Master cannot return the Party to the Lobby.
+
+The Master cannot return the Party to Town.
+
+The Master cannot cancel the mission.
 
 The Heroes must face the consequences of the mission.
 
@@ -2788,6 +3670,8 @@ PARTY DEFEATED
      ↓
 MISSION FAILED
      ↓
+PARTY DIES
+     ↓
 QUEST FAILED
 ```
 
@@ -2803,4 +3687,6 @@ And when the Master sends a Party into the Tower:
 
 > **There is no simple "exit" button.**
 
-> **The Party must finish the mission—or fall inside it.**
+> **There is no safe retreat to the Lobby or Town.**
+
+> **The Party must finish the mission—or die inside it.**
