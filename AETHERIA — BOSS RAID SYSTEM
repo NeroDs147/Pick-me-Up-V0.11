@@ -1,0 +1,1698 @@
+# 👹 AETHERIA — BOSS RAID SYSTEM
+
+> **A Boss is a challenge.**
+>
+> **A Raid Boss is a world event.**
+>
+> A Raid Boss is not designed to be defeated by a single Hero or a single Party.
+>
+> It is a large-scale threat that requires preparation, multiple Parties, strategic management, and cooperation between Heroes.
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+**Boss Raid System** adalah salah satu fitur utama dari:
+
+```text
+DUNGEON SYSTEM
+```
+
+Boss Raid digunakan untuk menghadapi musuh dengan kekuatan jauh di atas Boss Dungeon biasa.
+
+Struktur:
+
+```text
+DUNGEON SYSTEM
+│
+├── Floor Progression
+│
+├── Combat Dungeon
+│
+├── World Exploration
+│
+├── Boss Dungeon
+│
+└── BOSS RAID SYSTEM
+```
+
+Boss Raid dapat menjadi tantangan khusus yang muncul berdasarkan:
+
+```text
+Floor
+Game State
+Event
+Quest
+Destruction Level
+RNG
+Story Progression
+```
+
+---
+
+# 2. BOSS RAID CONCEPT
+
+Raid Boss adalah Boss yang memiliki:
+
+```text
+Extremely High HP
+Multiple Phases
+Unique Mechanics
+Special Skills
+Environmental Effects
+Multiple Targets
+Raid Objectives
+Special Rewards
+```
+
+Raid Boss tidak harus selalu muncul di setiap Floor.
+
+Kemunculannya dikontrol oleh:
+
+```text
+GAME STATE SYSTEM
++
+EVENT SYSTEM
++
+RNG SYSTEM
+```
+
+---
+
+# 3. RAID BOSS STRUCTURE
+
+```text
+                  RAID BOSS
+                      │
+        ┌─────────────┼─────────────┐
+        ▼             ▼             ▼
+      PHASE          SKILL        MECHANIC
+        │             │             │
+        └─────────────┼─────────────┘
+                      ▼
+                 RAID COMBAT
+                      │
+        ┌─────────────┼─────────────┐
+        ▼             ▼             ▼
+      PARTY 1       PARTY 2       PARTY 3+
+        │             │             │
+        └─────────────┼─────────────┘
+                      ▼
+                 RAID RESULT
+```
+
+---
+
+# 4. RAID PARTY
+
+Boss Raid dapat menggunakan beberapa Party.
+
+Party mengikuti:
+
+```text
+PARTY SYSTEM
+```
+
+Setiap Party maksimal:
+
+```text
+5 HEROES
+```
+
+Contoh:
+
+```text
+RAID TEAM
+
+Party 1
+├── Hero A
+├── Hero B
+├── Hero C
+├── Hero D
+└── Hero E
+
+Party 2
+├── Hero F
+├── Hero G
+├── Hero H
+├── Hero I
+└── Hero J
+
+Party 3
+├── Hero K
+├── Hero L
+├── Hero M
+├── Hero N
+└── Hero O
+```
+
+Jumlah Party yang dapat digunakan tergantung pada:
+
+```text
+Master Progression
+Dungeon Unlock
+Raid Requirement
+Game State
+```
+
+---
+
+# 5. PARTY 1 & PARTY 2
+
+Sesuai dengan Party System:
+
+```text
+PARTY 1
+→ Leader dapat menentukan komposisi.
+
+PARTY 2
+→ Leader dapat menentukan komposisi.
+```
+
+Master dapat memberikan peran kepada Leader untuk mengatur anggota.
+
+Party 3+:
+
+```text
+MASTER
+→ Menentukan komposisi.
+```
+
+---
+
+# 6. RAID LEADER
+
+Raid dapat memiliki:
+
+```text
+Raid Leader
+```
+
+Raid Leader tidak harus menjadi Hero terkuat.
+
+Raid Leader dapat dipilih berdasarkan:
+
+```text
+Master Decision
+Leader Trait
+Leadership Stat
+Character Personality
+Relationship
+Raid Requirement
+```
+
+Raid Leader dapat memberikan bonus atau efek tertentu apabila sistem Raid membutuhkan mekanik tersebut.
+
+---
+
+# 7. RAID BOSS CREATION
+
+Raid Boss dapat berasal dari:
+
+```text
+CORE WORLD BUILDING
+```
+
+Contoh:
+
+```text
+Ancient Dragon
+Corrupted Demon Lord
+Cult Apostle
+Forgotten God
+Ancient Golem
+World Beast
+Corrupted Dragonkin
+Nythar Fragment
+Ancient Guardian
+```
+
+Boss harus tetap sesuai dengan Lore Aetheria.
+
+---
+
+# 8. RAID BOSS ID
+
+Setiap Raid Boss memiliki ID unik.
+
+```text
+RAID-BOSS-000001
+```
+
+Data:
+
+```text
+Raid Boss ID
+Name
+Race
+Origin
+Floor
+Level
+HP
+Defense
+Attack
+Skills
+Phase
+Mechanics
+Element
+Faction
+Lore
+Drop Table
+State
+```
+
+Data tersebut disimpan di:
+
+```text
+DATABASE SYSTEM
+```
+
+---
+
+# 9. RAID BOSS AI
+
+Raid Boss menggunakan AI untuk menentukan perilaku dalam pertempuran.
+
+AI dapat mempertimbangkan:
+
+```text
+Hero Position
+Hero HP
+Hero Role
+Party Composition
+Threat Level
+Boss HP
+Boss Phase
+Emotional State
+Raid State
+Environment
+```
+
+Contoh:
+
+```text
+Boss detects Healer
+        ↓
+Threat Priority ↑
+        ↓
+Boss targets Healer
+```
+
+---
+
+# 10. BOSS PHASE SYSTEM
+
+Raid Boss memiliki beberapa Phase.
+
+Contoh:
+
+```text
+PHASE 1
+100% ───── 75% HP
+
+PHASE 2
+75% ───── 50% HP
+
+PHASE 3
+50% ───── 25% HP
+
+PHASE 4
+25% ───── 0% HP
+```
+
+Setiap Phase dapat mengubah:
+
+```text
+Boss Skill
+Attack Pattern
+Defense
+Environment
+Summon
+Mechanic
+AI Behavior
+```
+
+---
+
+# 11. PHASE TRANSITION
+
+Ketika Boss mencapai batas tertentu:
+
+```text
+BOSS HP
+ ↓
+THRESHOLD
+ ↓
+PHASE CHANGE
+ ↓
+GAME STATE UPDATE
+ ↓
+BOSS AI UPDATE
+```
+
+Contoh:
+
+```text
+Boss HP = 50%
+
+Phase 2 Activated
+
+New Skill:
+Dark Apocalypse
+
+New Mechanic:
+Summon Cult Guardian
+```
+
+---
+
+# 12. RAID MECHANICS
+
+Raid Boss dapat memiliki mekanik khusus.
+
+Contoh:
+
+```text
+Shield Phase
+Enrage
+Summoning
+Area Destruction
+Weak Point
+Element Rotation
+Regeneration
+Time Limit
+Curse
+Environmental Hazard
+```
+
+Mekanik ditentukan oleh:
+
+```text
+Boss Data
+Game State
+AI
+Raid Rules
+```
+
+---
+
+# 13. WEAK POINT SYSTEM
+
+Beberapa Raid Boss memiliki Weak Point.
+
+Contoh:
+
+```text
+HEAD
+CORE
+WINGS
+HEART
+MAGIC CORE
+TAIL
+```
+
+Hero dapat menemukan Weak Point melalui:
+
+```text
+Combat
+Character Trait
+AI Analysis
+Fairy Observation
+Quest
+Exploration Knowledge
+```
+
+---
+
+# 14. ENVIRONMENTAL EFFECT
+
+Raid Boss dapat memengaruhi area.
+
+Contoh:
+
+```text
+Corrupted Dragon
+        ↓
+Fire Environment
+        ↓
+Heat Damage
+        ↓
+Hero Condition
+```
+
+atau:
+
+```text
+Dark God Fragment
+        ↓
+Dark Mana
+        ↓
+Skill Effectiveness Changed
+```
+
+Environment mengikuti:
+
+```text
+DESTRUCTION LEVEL
+```
+
+---
+
+# 15. DESTRUCTION LEVEL
+
+Boss Raid sangat dipengaruhi oleh:
+
+```text
+CORE WORLD BUILDING
+```
+
+Semakin tinggi Destruction Level:
+
+```text
+Boss Strength ↑
+Boss Mechanic ↑
+Environmental Hazard ↑
+Enemy Spawn ↑
+Raid Difficulty ↑
+```
+
+Contoh:
+
+```text
+Floor 20
+Destruction 65%
+
+Raid Boss:
+Ancient Golem
+```
+
+Sedangkan:
+
+```text
+Floor 80
+Destruction 95%
+
+Raid Boss:
+Corrupted World Beast
+```
+
+---
+
+# 16. RAID DIFFICULTY
+
+Raid Difficulty tidak hanya berdasarkan Level Boss.
+
+Formula konseptual:
+
+```text
+RAID DIFFICULTY
+
+=
+Boss Power
++
+Floor Level
++
+Destruction Level
++
+Boss Phase
++
+Raid Mechanic
++
+Game State
+```
+
+---
+
+# 17. TIME LIMIT
+
+Beberapa Raid dapat menggunakan Time Limit.
+
+Contoh:
+
+```text
+RAID TIME
+30:00
+```
+
+Jika waktu habis:
+
+```text
+Raid Failed
+```
+
+Namun Game State menentukan apakah:
+
+```text
+Boss Reset
+Boss Remains Damaged
+Boss Enrages
+Raid Event Ends
+```
+
+---
+
+# 18. RAID DAMAGE PERSISTENCE
+
+Raid Boss dapat menggunakan sistem damage persistence.
+
+Jika fitur aktif:
+
+```text
+PARTY 1
+↓
+Boss HP 80%
+
+PARTY 2
+↓
+Boss HP 55%
+
+PARTY 3
+↓
+Boss HP 20%
+
+PARTY 4
+↓
+Boss Defeated
+```
+
+Dengan demikian beberapa Party dapat berkontribusi dalam satu Raid.
+
+Namun persistence ditentukan oleh:
+
+```text
+RAID TYPE
+GAME STATE
+```
+
+---
+
+# 19. RAID SESSION
+
+Setiap Raid memiliki:
+
+```text
+RAID SESSION ID
+```
+
+Contoh:
+
+```text
+RAID-SESSION-000021
+```
+
+Data:
+
+```text
+Raid ID
+Boss ID
+Floor ID
+Start Time
+End Time
+Participating Parties
+Boss HP
+Current Phase
+Damage History
+Raid State
+Reward State
+```
+
+---
+
+# 20. RAID COMBAT
+
+Raid menggunakan:
+
+```text
+BASIC COMBAT SYSTEM
+```
+
+Combat dikendalikan oleh:
+
+```text
+Hero AI
+Boss AI
+Character Emotional State
+Party Composition
+Skill System
+Stat System
+Raid Mechanics
+Environment
+```
+
+Master tidak harus mengendalikan setiap serangan secara manual.
+
+---
+
+# 21. HERO AI
+
+Hero akan mengambil tindakan berdasarkan:
+
+```text
+Role
+Stats
+Skills
+Personality
+Emotion
+Relationship
+Current HP
+Threat
+Boss Mechanics
+Party Condition
+```
+
+Contoh:
+
+```text
+Tank HP Low
+       ↓
+Healer AI
+       ↓
+Prioritize Tank
+```
+
+---
+
+# 22. EMOTIONAL SYSTEM
+
+Emotional State dapat memengaruhi performa Hero.
+
+Contoh:
+
+```text
+Fear HIGH
+↓
+Hero may become cautious
+```
+
+atau:
+
+```text
+Anger HIGH
+↓
+Hero may become aggressive
+```
+
+atau:
+
+```text
+Confidence HIGH
+↓
+Hero may take greater risks
+```
+
+Emotional behavior tetap dikontrol oleh:
+
+```text
+AI CHARACTER / HERO SYSTEM
+```
+
+---
+
+# 23. AI FAIRY RAID OBSERVATION
+
+AI Fairy menjadi observer utama bagi Master.
+
+Fairy memberikan laporan:
+
+```text
+Boss HP
+Current Phase
+Boss Skill
+Danger Level
+Hero Condition
+Party Condition
+Emotional Condition
+Weak Point
+Environmental Hazard
+Raid Progress
+```
+
+Contoh:
+
+> **Fairy:**
+> "Master, the Raid Boss has entered Phase 3."
+
+> **Fairy:**
+> "Its defensive layer has disappeared. This may be our best opportunity to attack."
+
+> **Fairy:**
+> "Party Two has suffered heavy damage."
+
+> **Fairy:**
+> "Several Heroes are showing signs of extreme fear."
+
+---
+
+# 24. FAIRY WARNING SYSTEM
+
+Fairy dapat memberikan warning.
+
+```text
+WARNING
+│
+├── Boss Ultimate Detected
+├── Party HP Critical
+├── Hero Emotional Instability
+├── Environmental Collapse
+├── Boss Enrage
+└── Time Limit Critical
+```
+
+---
+
+# 25. RAID OBJECTIVE
+
+Tidak semua Raid hanya membutuhkan:
+
+```text
+DEFEAT BOSS
+```
+
+Raid dapat memiliki objective:
+
+```text
+Defeat Boss
+Protect NPC
+Destroy Core
+Survive Time
+Prevent Ritual
+Destroy Cult Artifact
+Protect Ancient Ruin
+Rescue Survivor
+Break Shield
+Defeat Boss Before Enrage
+```
+
+---
+
+# 26. RAID QUEST
+
+Raid dapat terhubung dengan:
+
+```text
+QUEST SYSTEM
+```
+
+Flow:
+
+```text
+QUEST
+ ↓
+RAID UNLOCK
+ ↓
+RAID BATTLE
+ ↓
+RAID RESULT
+ ↓
+QUEST UPDATE
+```
+
+Contoh:
+
+```text
+Main Quest:
+Defeat Ancient Guardian
+
+        ↓
+
+Raid Boss:
+Ancient Guardian
+
+        ↓
+
+Victory
+
+        ↓
+
+Main Quest Complete
+```
+
+---
+
+# 27. RAID EVENT
+
+Raid juga dapat dipicu oleh:
+
+```text
+EVENT SYSTEM
+```
+
+Contoh:
+
+```text
+WORLD EVENT
+     ↓
+RAID BOSS APPEARS
+     ↓
+MASTER NOTIFICATION
+     ↓
+RAID
+```
+
+Raid dapat menjadi Event sementara atau permanen.
+
+---
+
+# 28. RAID SPAWN
+
+Raid Boss dapat muncul melalui beberapa kondisi.
+
+```text
+Floor Progression
+Event
+Quest
+World Exploration
+RNG
+Game State
+Story
+Special Condition
+```
+
+Contoh:
+
+```text
+World Exploration
+ ↓
+Discover Ancient Seal
+ ↓
+Game State
+ ↓
+Seal Broken
+ ↓
+Raid Boss Spawn
+```
+
+---
+
+# 29. WORLD EXPLORATION CONNECTION
+
+World Exploration dapat menemukan Raid Boss.
+
+```text
+WORLD EXPLORATION
+       ↓
+HIDDEN LOCATION
+       ↓
+ANCIENT RUIN
+       ↓
+BOSS DISCOVERY
+       ↓
+RAID UNLOCK
+```
+
+Dengan demikian Exploration dapat menjadi pintu masuk menuju Raid.
+
+---
+
+# 30. RAID RNG
+
+RNG System digunakan untuk:
+
+```text
+Raid Spawn
+Boss Variant
+Boss Mechanics
+Special Encounter
+Loot
+Reward
+Rare Drop
+Material
+Artifact
+```
+
+Namun RNG tidak boleh menghasilkan sesuatu yang bertentangan dengan:
+
+```text
+Core World Building
+Game State
+Floor State
+Raid Rules
+Character Rules
+```
+
+---
+
+# 31. RAID LOOT
+
+Loot menggunakan:
+
+```text
+RNG SYSTEM
+```
+
+Contoh:
+
+```text
+Boss Defeated
+       ↓
+RNG
+       ↓
+Loot Table
+       ↓
+Item
+       ↓
+Item ID
+       ↓
+Inventory
+       ↓
+Database
+```
+
+Possible loot:
+
+```text
+Gold
+Gem
+Summon Ticket
+Special Ticket
+Equipment
+Material
+Rare Material
+Artifact
+Crafting Material
+Skill Material
+Star Up Material
+```
+
+---
+
+# 32. RAID REWARD
+
+Reward dapat diberikan berdasarkan:
+
+```text
+Raid Victory
+Damage Contribution
+Objective Completion
+Special Condition
+Quest
+Event
+First Clear
+```
+
+Reward tetap diproses melalui:
+
+```text
+RNG SYSTEM
+```
+
+---
+
+# 33. NO DIRECT INVENTORY MODIFICATION
+
+Raid System tidak memasukkan item langsung ke Inventory tanpa validasi.
+
+Flow:
+
+```text
+RAID RESULT
+      ↓
+RNG SYSTEM
+      ↓
+REWARD GENERATED
+      ↓
+GAME STATE SYSTEM
+      ↓
+ITEM VALIDATION
+      ↓
+INVENTORY SYSTEM
+      ↓
+DATABASE SYSTEM
+```
+
+AI Fairy kemudian melaporkan:
+
+> **Fairy:**
+> "Master, the Raid rewards have been synchronized with the Inventory."
+
+---
+
+# 34. RAID REWARD SYNCHRONIZATION
+
+Semua hasil Raid:
+
+```text
+Gold
+Gem
+Ticket
+Item
+Equipment
+Material
+Artifact
+```
+
+harus langsung disinkronkan.
+
+```text
+RAID
+ ↓
+REWARD
+ ↓
+GAME STATE
+ ↓
+INVENTORY
+ ↓
+DATABASE
+```
+
+---
+
+# 35. RAID CONTRIBUTION
+
+Raid dapat mencatat kontribusi setiap Party.
+
+Contoh:
+
+```text
+PARTY 1
+Damage:
+35%
+
+PARTY 2
+Damage:
+25%
+
+PARTY 3
+Damage:
+20%
+
+PARTY 4
+Damage:
+20%
+```
+
+Contribution dapat digunakan untuk:
+
+```text
+Statistics
+Achievement
+Quest
+Special Reward
+Performance Record
+```
+
+Tidak harus selalu menentukan siapa yang mendapat reward terbesar.
+
+---
+
+# 36. HERO CONDITION AFTER RAID
+
+Setelah Raid:
+
+```text
+HP
+Status
+Emotion
+Stress
+Relationship
+Experience
+Skill Progress
+Character State
+```
+
+dapat berubah.
+
+Perubahan permanen diproses:
+
+```text
+GAME STATE SYSTEM
+        ↓
+CHARACTER SYSTEM
+        ↓
+DATABASE
+```
+
+---
+
+# 37. TRAINING GROUND CONNECTION
+
+Setelah Party kembali dari Raid:
+
+```text
+RAID COMPLETE
+      ↓
+PARTY RETURNS
+      ↓
+TRAINING GROUND
+```
+
+Hero yang masuk Party mengikuti aturan Training Ground.
+
+AI Fairy memberikan laporan mengenai efek Training terhadap Hero.
+
+---
+
+# 38. STAR UP CONNECTION
+
+Raid dapat memberikan material untuk:
+
+```text
+STAR UP SYSTEM
+```
+
+Contoh:
+
+```text
+RAID BOSS
+ ↓
+RARE MATERIAL
+ ↓
+STAR UP
+ ↓
+HERO DEVELOPMENT
+```
+
+Star progression dapat membuka:
+
+```text
+STAR 6
+→ Rare Skill
+
+STAR 7
+→ Ultimate Skill
+```
+
+---
+
+# 39. RAID FAILURE
+
+Jika Raid gagal:
+
+```text
+RAID FAILED
+```
+
+Game State menentukan konsekuensi.
+
+Kemungkinan:
+
+```text
+Boss Reset
+Boss HP Persists
+Party Forced Retreat
+Quest Progress Changed
+Event Progress Changed
+NPC Lost
+Area Damaged
+Raid Locked Temporarily
+```
+
+---
+
+# 40. RAID DEATH RULE
+
+Kematian Hero harus mengikuti:
+
+```text
+CHARACTER SYSTEM
+GAME STATE SYSTEM
+```
+
+Raid tidak boleh membuat Hero mati permanen secara otomatis kecuali aturan game memang mengizinkannya.
+
+Jika Hero mengalami kondisi kritis:
+
+```text
+GAME STATE
+ ↓
+CHARACTER STATE
+ ↓
+DATABASE
+```
+
+---
+
+# 41. RAID BOSS DEFEATED
+
+Ketika Boss HP mencapai:
+
+```text
+0
+```
+
+maka:
+
+```text
+BOSS DEFEATED
+       ↓
+GAME STATE
+       ↓
+RAID COMPLETE
+       ↓
+RNG REWARD
+       ↓
+QUEST / EVENT UPDATE
+       ↓
+INVENTORY UPDATE
+       ↓
+DATABASE
+```
+
+---
+
+# 42. RAID BOSS DEFEAT CONSEQUENCE
+
+Kemenangan dapat memengaruhi dunia.
+
+Contoh:
+
+```text
+Ancient Guardian Defeated
+        ↓
+Ancient Ruin Accessible
+        ↓
+World Exploration Updated
+```
+
+atau:
+
+```text
+Cult Apostle Defeated
+        ↓
+Cult Influence ↓
+        ↓
+Faction State Updated
+```
+
+---
+
+# 43. RAID BOSS RESPAWN
+
+Raid Boss dapat memiliki:
+
+```text
+RESPAWN TYPE
+```
+
+Contoh:
+
+```text
+Permanent Boss
+Event Boss
+Weekly Boss
+Story Boss
+World Boss
+Floor Boss
+Special Boss
+```
+
+Respawn mengikuti:
+
+```text
+TIME SYSTEM
+GAME STATE
+EVENT SYSTEM
+```
+
+---
+
+# 44. RAID HISTORY
+
+Setiap Raid dicatat.
+
+```text
+RAID HISTORY
+
+Raid ID:
+RAID-SESSION-000021
+
+Boss:
+Ancient Dragon
+
+Floor:
+30
+
+Result:
+Victory
+
+Duration:
+18:42
+
+Participating Parties:
+4
+
+Total Damage:
+100%
+
+Rewards:
+Generated
+
+Quest:
+Completed
+```
+
+---
+
+# 45. DATABASE STRUCTURE
+
+Data Raid disimpan:
+
+```text
+RAID DATABASE
+│
+├── Raid ID
+├── Boss ID
+├── Floor ID
+├── Session ID
+├── Party IDs
+├── Boss State
+├── Phase
+├── HP
+├── Mechanics
+├── Damage History
+├── Time
+├── Result
+├── Reward State
+└── Raid History
+```
+
+---
+
+# 46. GAME STATE UPDATE
+
+Boss Raid tidak boleh mengubah database secara langsung.
+
+Flow utama:
+
+```text
+RAID SYSTEM
+     ↓
+GAME STATE SYSTEM
+     ↓
+VALIDATION
+     ↓
+STATE UPDATE
+     ↓
+DATABASE SYSTEM
+```
+
+Game State mengatur:
+
+```text
+Boss State
+Raid State
+Floor State
+Quest State
+Event State
+Faction State
+Character State
+World State
+Reward State
+```
+
+---
+
+# 47. ID SYSTEM
+
+Raid menggunakan ID System.
+
+Contoh:
+
+```text
+RAID ID
+RAID-000001
+
+RAID BOSS ID
+RBOSS-000001
+
+SESSION ID
+RSESSION-000001
+
+PARTY ID
+PARTY-000001
+
+HERO ID
+HERO-000001
+
+ITEM ID
+ITEM-000001
+```
+
+Semua ID terhubung ke Database.
+
+---
+
+# 48. COMPLETE RAID FLOW
+
+```text
+                  DUNGEON SYSTEM
+                         │
+                         ▼
+                  RAID CONDITION
+                         │
+              ┌──────────┼──────────┐
+              ▼          ▼          ▼
+            QUEST       EVENT       RNG
+              │          │          │
+              └──────────┼──────────┘
+                         ▼
+                   RAID BOSS SPAWN
+                         │
+                         ▼
+                    RAID SESSION
+                         │
+                         ▼
+                    PARTY SETUP
+                         │
+                         ▼
+                   RAID COMBAT
+                         │
+              ┌──────────┼──────────┐
+              ▼          ▼          ▼
+          HERO AI      BOSS AI    FAIRY
+              │          │          │
+              └──────────┼──────────┘
+                         ▼
+                  PHASE / MECHANIC
+                         │
+                         ▼
+                    RAID RESULT
+                    /          \
+                   /            \
+               VICTORY         FAILURE
+                  │                │
+                  ▼                ▼
+                 RNG          GAME STATE
+                  │
+                  ▼
+                LOOT
+                  │
+                  ▼
+            INVENTORY SYSTEM
+                  │
+                  ▼
+            GAME STATE SYSTEM
+                  │
+                  ▼
+             DATABASE SYSTEM
+                  │
+                  ▼
+              AI FAIRY
+                  │
+                  ▼
+                MASTER
+```
+
+---
+
+# 49. SYSTEM CONNECTION
+
+Boss Raid terhubung dengan seluruh sistem utama Aetheria:
+
+```text
+                    CORE WORLD
+                        │
+                        ▼
+                  GAME STATE SYSTEM
+                        │
+        ┌───────────────┼────────────────┐
+        │               │                │
+        ▼               ▼                ▼
+       RNG            EVENT            QUEST
+        │               │                │
+        └───────────────┼────────────────┘
+                        ▼
+                  DUNGEON SYSTEM
+                        │
+                        ▼
+                  BOSS RAID SYSTEM
+                        │
+        ┌───────────────┼────────────────┐
+        │               │                │
+        ▼               ▼                ▼
+      PARTY          COMBAT           WORLD
+        │               │            EXPLORATION
+        ▼               ▼                │
+      HERO AI       BOSS AI              │
+        │               │                │
+        └───────────────┼────────────────┘
+                        ▼
+                    AI FAIRY
+                        │
+                        ▼
+                   RAID RESULT
+                        │
+                        ▼
+                       RNG
+                        │
+                        ▼
+                     LOOT
+                        │
+                        ▼
+                    INVENTORY
+                        │
+                        ▼
+                    DATABASE
+```
+
+---
+
+# 50. CORE RULES
+
+### RULE 01
+
+Boss Raid adalah salah satu fitur dari **Dungeon System**.
+
+### RULE 02
+
+Raid Boss memiliki ID unik.
+
+### RULE 03
+
+Raid Boss mengikuti Core World Building Aetheria.
+
+### RULE 04
+
+Raid Boss memiliki AI tersendiri.
+
+### RULE 05
+
+Raid Boss dapat memiliki beberapa Phase.
+
+### RULE 06
+
+Raid Boss dapat memiliki Unique Mechanics.
+
+### RULE 07
+
+Raid dapat menggunakan beberapa Party.
+
+### RULE 08
+
+Setiap Party maksimal 5 Hero.
+
+### RULE 09
+
+Party 1 dan Party 2 mengikuti aturan Leader dari Party System.
+
+### RULE 10
+
+Party 3+ ditentukan oleh Master.
+
+### RULE 11
+
+Combat menggunakan Basic Combat System.
+
+### RULE 12
+
+Hero menggunakan AI Character dan Emotional System.
+
+### RULE 13
+
+AI Fairy mengamati dan melaporkan kondisi Raid kepada Master.
+
+### RULE 14
+
+Difficulty dipengaruhi oleh Floor dan Destruction Level.
+
+### RULE 15
+
+Raid dapat dipicu oleh Quest, Event, Exploration, RNG, atau Game State.
+
+### RULE 16
+
+Loot menggunakan RNG System.
+
+### RULE 17
+
+Reward harus melalui Game State sebelum masuk Inventory.
+
+### RULE 18
+
+Semua Item menggunakan Item ID.
+
+### RULE 19
+
+Semua perubahan permanen Hero disimpan berdasarkan Hero ID.
+
+### RULE 20
+
+Semua hasil Raid disimpan dalam Database System.
+
+### RULE 21
+
+Database diperbarui melalui Game State System.
+
+### RULE 22
+
+AI tidak dapat melewati Game State validation.
+
+### RULE 23
+
+Raid dapat memiliki konsekuensi terhadap World State, Faction State, Quest State, Event State, dan Character State.
+
+---
+
+# 51. FINAL CONCEPT
+
+Boss Raid membuat Tower memiliki tantangan berskala besar.
+
+```text
+DUNGEON
+   │
+   ├── NORMAL COMBAT
+   │
+   ├── WORLD EXPLORATION
+   │
+   ├── BOSS
+   │
+   └── RAID BOSS
+            │
+            ▼
+      MULTIPLE PARTIES
+            │
+            ▼
+        HERO AI
+            │
+            ▼
+        BOSS AI
+            │
+            ▼
+      RAID MECHANICS
+            │
+            ▼
+       RAID VICTORY
+            │
+            ▼
+          RNG
+            │
+            ▼
+          LOOT
+            │
+            ▼
+       INVENTORY
+            │
+            ▼
+      GAME STATE
+            │
+            ▼
+        DATABASE
+```
+
+> **A normal Boss tests a Party.**
+>
+> **A Raid Boss tests the Master.**
+>
+> **Because when a threat becomes powerful enough, five Heroes are no longer enough.**
+>
+> **The Master must decide who will fight, who will lead, who will support, and who will survive.**
