@@ -1,0 +1,2828 @@
+# TOWN SQUARE, MEDICAL & HERO EQUIPMENT SYSTEM
+
+## Overview
+
+Equipment adalah item yang dapat dibuat melalui fasilitas di **Town Square**, **Medical Facility**, dan **Hero Equipment Workshop**.
+
+```text
+MATERIAL
+   ↓
+CRAFTING RECIPE
+   ↓
+TOWN / MEDICAL / HERO FACILITY
+   ↓
+EQUIPMENT
+   ↓
+HERO / TOWN
+```
+
+Equipment dibagi menjadi:
+
+```text
+TOWN SQUARE EQUIPMENT
+├── Blacksmith Equipment
+├── Workshop Equipment
+├── Carpenter Equipment
+├── Tailor Equipment
+├── General Tools
+├── Storage Equipment
+└── Facility Equipment
+
+MEDICAL EQUIPMENT
+├── Medical Tools
+├── Recovery Equipment
+├── Treatment Equipment
+├── Medicine Equipment
+├── Laboratory Equipment
+└── Advanced Medical Equipment
+
+HERO EQUIPMENT
+├── Weapons
+├── Armor
+├── Helmets
+├── Gloves
+├── Boots
+├── Accessories
+├── Shields
+├── Talismans
+├── Skill Equipment
+├── Consumable Equipment
+└── Expedition Equipment
+```
+
+---
+
+# 1. EQUIPMENT DATABASE
+
+Setiap equipment mempunyai ID unik.
+
+```text
+Equipment_ID
+Equipment_Name
+Equipment_Type
+Category
+Slot
+Grade
+Rarity
+Required_Level
+Required_Class
+Crafting_Facility
+Required_Material
+Crafting_Cost
+Crafting_Time
+Base_Stat
+Bonus_Stat
+Special_Effect
+Durability
+Bound_Status
+```
+
+Contoh:
+
+```text
+Equipment_ID:
+EQP-000001
+
+Name:
+Iron Hammer
+
+Type:
+Town Equipment
+
+Category:
+Blacksmith
+
+Slot:
+Facility Tool
+
+Grade:
+1
+
+Rarity:
+Common
+```
+
+Contoh equipment Hero:
+
+```text
+Equipment_ID:
+EQP-000069
+
+Name:
+Iron Sword
+
+Type:
+Hero Equipment
+
+Category:
+Weapon
+
+Slot:
+Main Hand
+
+Grade:
+1
+
+Rarity:
+Common
+
+Required Level:
+1
+
+Required Class:
+Warrior
+```
+
+---
+
+# 2. EQUIPMENT GRADE
+
+```text
+Grade 1
+Basic
+
+Grade 2
+Improved
+
+Grade 3
+Advanced
+
+Grade 4
+Superior
+
+Grade 5
+Legendary
+```
+
+Grade Hero Equipment memengaruhi:
+
+```text
+Base Stat
+Bonus Stat
+Durability
+Upgrade Limit
+Refinement Limit
+Special Effect
+```
+
+---
+
+# 3. EQUIPMENT RARITY
+
+```text
+Common
+Uncommon
+Rare
+Epic
+Legendary
+Mythic
+```
+
+Rarity memengaruhi jumlah bonus stat dan peluang mendapatkan efek tambahan.
+
+```text
+Common:
+0–1 Bonus Effect
+
+Uncommon:
+1 Bonus Effect
+
+Rare:
+1–2 Bonus Effect
+
+Epic:
+2–3 Bonus Effect
+
+Legendary:
+3–4 Bonus Effect
+
+Mythic:
+4+ Bonus Effect
+```
+
+---
+
+# 4. EQUIPMENT SLOT HERO
+
+Hero dapat menggunakan equipment berdasarkan slot.
+
+```text
+HEAD
+├── Helmet
+├── Circlet
+└── Hood
+
+BODY
+├── Armor
+├── Robe
+└── Coat
+
+MAIN HAND
+├── Sword
+├── Axe
+├── Spear
+├── Dagger
+├── Staff
+├── Wand
+└── Bow
+
+OFF HAND
+├── Shield
+├── Dagger
+├── Tome
+├── Orb
+└── Quiver
+
+HANDS
+├── Gloves
+├── Gauntlets
+└── Bracers
+
+FEET
+├── Boots
+├── Greaves
+└── Shoes
+
+ACCESSORY 1
+├── Ring
+├── Bracelet
+└── Talisman
+
+ACCESSORY 2
+├── Necklace
+├── Earring
+└── Charm
+
+SPECIAL
+├── Skill Equipment
+├── Relic
+└── Soul Core
+```
+
+---
+
+# 5. HERO EQUIPMENT DATABASE
+
+Hero Equipment memiliki data tambahan:
+
+```text
+Equipment_ID
+Equipment_Name
+Equipment_Type
+Equipment_Slot
+Weapon_Type
+Armor_Type
+Required_Level
+Required_Class
+Required_Stat
+Base_Attack
+Base_Defense
+Base_HP
+Base_MP
+Base_Speed
+Critical_Rate
+Critical_Damage
+Element
+Skill_Bonus
+Passive_Effect
+Upgrade_Level
+Refinement_Level
+Durability
+```
+
+---
+
+# 6. WEAPON EQUIPMENT
+
+Weapon digunakan untuk meningkatkan serangan dan menentukan gaya bertarung Hero.
+
+## SWORD
+
+### EQP-000069 — Iron Sword
+
+```text
+Type:
+Hero Equipment
+
+Category:
+Weapon
+
+Slot:
+Main Hand
+
+Weapon Type:
+Sword
+
+Required Level:
+1
+
+Required Class:
+Warrior / Knight
+
+Base Attack:
++20
+
+Effect:
+Basic Physical Attack
+```
+
+---
+
+### EQP-000070 — Steel Sword
+
+```text
+Grade:
+2
+
+Materials:
+Steel Ingot × 10
+Wood × 5
+Leather × 2
+
+Base Attack:
++45
+
+Effect:
+Physical Damage +5%
+```
+
+---
+
+### EQP-000071 — Knight Longsword
+
+```text
+Grade:
+3
+
+Materials:
+Steel Ingot × 20
+Strong Fiber × 5
+Monster Core × 2
+
+Base Attack:
++80
+
+Effect:
+Defense +5%
+Skill Damage +5%
+```
+
+---
+
+### EQP-000072 — Mithril Sword
+
+```text
+Grade:
+4
+
+Materials:
+Mithril Ore × 15
+Magic Crystal × 5
+Ancient Wood × 5
+
+Base Attack:
++150
+
+Effect:
+Armor Penetration +10%
+```
+
+---
+
+### EQP-000073 — Legendary Sword
+
+```text
+Grade:
+5
+
+Materials:
+Mithril Ingot × 20
+Legendary Core × 1
+Ancient Stone × 10
+
+Base Attack:
++300
+
+Effect:
+Critical Damage +25%
+Unlocks:
+Legendary Sword Skill
+```
+
+---
+
+## AXE
+
+### EQP-000074 — Iron Axe
+
+```text
+Slot:
+Main Hand
+
+Weapon Type:
+Axe
+
+Required Class:
+Warrior / Berserker
+
+Base Attack:
++25
+
+Effect:
+Critical Damage +5%
+```
+
+### EQP-000075 — Heavy Steel Axe
+
+```text
+Grade:
+2
+
+Base Attack:
++55
+
+Effect:
+Damage to Armored Enemies +10%
+Attack Speed -5%
+```
+
+### EQP-000076 — Berserker Axe
+
+```text
+Grade:
+3
+
+Base Attack:
++100
+
+Effect:
+Attack Damage +10%
+HP Cost per Skill:
+2%
+```
+
+---
+
+## SPEAR
+
+### EQP-000077 — Iron Spear
+
+```text
+Slot:
+Main Hand
+
+Weapon Type:
+Spear
+
+Required Class:
+Warrior / Lancer
+
+Base Attack:
++22
+
+Effect:
+Attack Range +1
+```
+
+### EQP-000078 — Steel Spear
+
+```text
+Grade:
+2
+
+Base Attack:
++50
+
+Effect:
+Damage to Large Enemies +10%
+```
+
+### EQP-000079 — Dragon Spear
+
+```text
+Grade:
+4
+
+Base Attack:
++170
+
+Effect:
+Dragon Damage +20%
+Piercing Attack +10%
+```
+
+---
+
+## DAGGER
+
+### EQP-000080 — Iron Dagger
+
+```text
+Slot:
+Main Hand / Off Hand
+
+Weapon Type:
+Dagger
+
+Required Class:
+Rogue / Assassin
+
+Base Attack:
++15
+
+Effect:
+Attack Speed +5%
+```
+
+### EQP-000081 — Assassin Dagger
+
+```text
+Grade:
+3
+
+Base Attack:
++75
+
+Effect:
+Critical Rate +10%
+Back Attack Damage +15%
+```
+
+### EQP-000082 — Shadow Dagger
+
+```text
+Grade:
+4
+
+Base Attack:
++140
+
+Effect:
+Evasion +10%
+Critical Damage +20%
+```
+
+---
+
+## STAFF
+
+### EQP-000083 — Apprentice Staff
+
+```text
+Slot:
+Main Hand
+
+Weapon Type:
+Staff
+
+Required Class:
+Mage / Healer
+
+Base Attack:
++10
+
+Base MP:
++30
+
+Effect:
+Magic Damage +5%
+```
+
+### EQP-000084 — Mage Staff
+
+```text
+Grade:
+2
+
+Base Attack:
++30
+
+Base MP:
++80
+
+Effect:
+Magic Damage +10%
+```
+
+### EQP-000085 — Elemental Staff
+
+```text
+Grade:
+3
+
+Base Attack:
++65
+
+Base MP:
++150
+
+Effect:
+Elemental Damage +15%
+```
+
+---
+
+## WAND
+
+### EQP-000086 — Apprentice Wand
+
+```text
+Slot:
+Main Hand
+
+Weapon Type:
+Wand
+
+Required Class:
+Mage / Healer
+
+Base Attack:
++8
+
+Base MP:
++40
+
+Effect:
+Skill Cooldown -3%
+```
+
+### EQP-000087 — Crystal Wand
+
+```text
+Grade:
+3
+
+Base Attack:
++55
+
+Base MP:
++120
+
+Effect:
+Magic Critical Rate +8%
+```
+
+---
+
+## BOW
+
+### EQP-000088 — Short Bow
+
+```text
+Slot:
+Main Hand
+
+Weapon Type:
+Bow
+
+Required Class:
+Archer / Ranger
+
+Base Attack:
++18
+
+Effect:
+Attack Range +2
+```
+
+### EQP-000089 — Hunter Bow
+
+```text
+Grade:
+2
+
+Base Attack:
++45
+
+Effect:
+Damage to Beasts +10%
+```
+
+### EQP-000090 — Wind Bow
+
+```text
+Grade:
+4
+
+Base Attack:
++135
+
+Effect:
+Attack Speed +15%
+Ranged Damage +15%
+```
+
+---
+
+# 7. SHIELD EQUIPMENT
+
+Shield digunakan pada slot **Off Hand**.
+
+### EQP-000091 — Wooden Shield
+
+```text
+Slot:
+Off Hand
+
+Required Class:
+Knight / Warrior
+
+Base Defense:
++15
+
+Effect:
+Block Rate +3%
+```
+
+### EQP-000092 — Iron Shield
+
+```text
+Grade:
+2
+
+Base Defense:
++40
+
+Effect:
+Block Rate +7%
+```
+
+### EQP-000093 — Knight Shield
+
+```text
+Grade:
+3
+
+Base Defense:
++85
+
+Effect:
+Damage Taken -5%
+```
+
+### EQP-000094 — Guardian Shield
+
+```text
+Grade:
+4
+
+Base Defense:
++160
+
+Effect:
+Damage Taken -10%
+Taunt Resistance +20%
+```
+
+---
+
+# 8. ARMOR EQUIPMENT
+
+## LIGHT ARMOR
+
+Digunakan oleh:
+
+```text
+Rogue
+Assassin
+Archer
+Ranger
+```
+
+### EQP-000095 — Leather Armor
+
+```text
+Slot:
+Body
+
+Armor Type:
+Light Armor
+
+Base Defense:
++20
+
+Effect:
+Evasion +3%
+```
+
+### EQP-000096 — Reinforced Leather Armor
+
+```text
+Grade:
+2
+
+Base Defense:
++45
+
+Effect:
+Evasion +5%
+```
+
+### EQP-000097 — Shadow Armor
+
+```text
+Grade:
+4
+
+Base Defense:
++130
+
+Effect:
+Evasion +12%
+Critical Rate +8%
+```
+
+---
+
+## HEAVY ARMOR
+
+Digunakan oleh:
+
+```text
+Warrior
+Knight
+Lancer
+Berserker
+```
+
+### EQP-000098 — Iron Armor
+
+```text
+Slot:
+Body
+
+Armor Type:
+Heavy Armor
+
+Base Defense:
++35
+
+Effect:
+Damage Taken -2%
+```
+
+### EQP-000099 — Steel Armor
+
+```text
+Grade:
+2
+
+Base Defense:
++75
+
+Effect:
+Damage Taken -5%
+```
+
+### EQP-000100 — Guardian Armor
+
+```text
+Grade:
+4
+
+Base Defense:
++220
+
+Effect:
+Damage Taken -12%
+Defense +10%
+```
+
+---
+
+## ROBE
+
+Digunakan oleh:
+
+```text
+Mage
+Healer
+Alchemist
+Support
+```
+
+### EQP-000101 — Apprentice Robe
+
+```text
+Slot:
+Body
+
+Armor Type:
+Robe
+
+Base Defense:
++12
+
+Base MP:
++50
+
+Effect:
+Magic Damage +3%
+```
+
+### EQP-000102 — Mage Robe
+
+```text
+Grade:
+2
+
+Base Defense:
++30
+
+Base MP:
++120
+
+Effect:
+Magic Damage +8%
+```
+
+### EQP-000103 — Arcane Robe
+
+```text
+Grade:
+4
+
+Base Defense:
++100
+
+Base MP:
++300
+
+Effect:
+Magic Damage +15%
+Skill Cooldown -5%
+```
+
+---
+
+# 9. HELMET EQUIPMENT
+
+### EQP-000104 — Iron Helmet
+
+```text
+Slot:
+Head
+
+Base Defense:
++15
+
+Effect:
+HP +20
+```
+
+### EQP-000105 — Steel Helmet
+
+```text
+Grade:
+2
+
+Base Defense:
++35
+
+Effect:
+HP +50
+```
+
+### EQP-000106 — Mage Circlet
+
+```text
+Slot:
+Head
+
+Required Class:
+Mage / Healer
+
+Base Defense:
++10
+
+Base MP:
++80
+
+Effect:
+Magic Damage +5%
+```
+
+### EQP-000107 — Shadow Hood
+
+```text
+Grade:
+3
+
+Required Class:
+Rogue / Assassin
+
+Base Defense:
++25
+
+Effect:
+Evasion +7%
+Critical Rate +5%
+```
+
+---
+
+# 10. GLOVE EQUIPMENT
+
+### EQP-000108 — Leather Gloves
+
+```text
+Slot:
+Hands
+
+Base Defense:
++5
+
+Effect:
+Attack Speed +2%
+```
+
+### EQP-000109 — Iron Gauntlets
+
+```text
+Slot:
+Hands
+
+Required Class:
+Warrior / Knight
+
+Base Defense:
++15
+
+Effect:
+Physical Damage +3%
+```
+
+### EQP-000110 — Assassin Gloves
+
+```text
+Grade:
+3
+
+Required Class:
+Assassin / Rogue
+
+Effect:
+Critical Rate +8%
+Back Attack Damage +10%
+```
+
+### EQP-000111 — Casting Gloves
+
+```text
+Grade:
+3
+
+Required Class:
+Mage / Healer
+
+Effect:
+Skill Casting Speed +10%
+```
+
+---
+
+# 11. BOOT EQUIPMENT
+
+### EQP-000112 — Leather Boots
+
+```text
+Slot:
+Feet
+
+Base Defense:
++5
+
+Effect:
+Movement Speed +3%
+```
+
+### EQP-000113 — Iron Greaves
+
+```text
+Slot:
+Feet
+
+Required Class:
+Warrior / Knight
+
+Base Defense:
++20
+
+Effect:
+Knockback Resistance +10%
+```
+
+### EQP-000114 — Wind Boots
+
+```text
+Grade:
+3
+
+Effect:
+Movement Speed +10%
+Evasion +5%
+```
+
+### EQP-000115 — Swift Boots
+
+```text
+Grade:
+4
+
+Effect:
+Movement Speed +20%
+Attack Speed +8%
+```
+
+---
+
+# 12. ACCESSORY EQUIPMENT
+
+## RING
+
+### EQP-000116 — Iron Ring
+
+```text
+Slot:
+Accessory 1 / Accessory 2
+
+Effect:
+Attack +5
+```
+
+### EQP-000117 — Ring of Vitality
+
+```text
+Grade:
+2
+
+Effect:
+HP +100
+HP Recovery +5%
+```
+
+### EQP-000118 — Ring of Mana
+
+```text
+Grade:
+2
+
+Effect:
+MP +100
+MP Recovery +5%
+```
+
+### EQP-000119 — Critical Ring
+
+```text
+Grade:
+3
+
+Effect:
+Critical Rate +8%
+```
+
+---
+
+## NECKLACE
+
+### EQP-000120 — Copper Necklace
+
+```text
+Slot:
+Accessory 1 / Accessory 2
+
+Effect:
+Defense +5
+```
+
+### EQP-000121 — Necklace of Protection
+
+```text
+Grade:
+2
+
+Effect:
+Damage Taken -3%
+```
+
+### EQP-000122 — Elemental Necklace
+
+```text
+Grade:
+3
+
+Effect:
+Elemental Resistance +10%
+```
+
+---
+
+## TALISMAN
+
+### EQP-000123 — Recovery Talisman
+
+```text
+Slot:
+Accessory 1 / Accessory 2
+
+Effect:
+HP Recovery +10%
+```
+
+### EQP-000124 — Mana Talisman
+
+```text
+Grade:
+2
+
+Effect:
+MP Recovery +10%
+```
+
+### EQP-000125 — Talisman of Resistance
+
+```text
+Grade:
+3
+
+Effect:
+Status Resistance +15%
+```
+
+---
+
+# 13. SKILL EQUIPMENT
+
+Skill Equipment memberikan bonus khusus terhadap skill tertentu.
+
+### EQP-000126 — Warrior Emblem
+
+```text
+Slot:
+Special
+
+Required Class:
+Warrior
+
+Effect:
+Warrior Skill Damage +5%
+```
+
+### EQP-000127 — Knight Emblem
+
+```text
+Slot:
+Special
+
+Required Class:
+Knight
+
+Effect:
+Taunt Effectiveness +10%
+Defense Skill Effect +10%
+```
+
+### EQP-000128 — Mage Emblem
+
+```text
+Slot:
+Special
+
+Required Class:
+Mage
+
+Effect:
+Magic Skill Damage +8%
+```
+
+### EQP-000129 — Healer Emblem
+
+```text
+Slot:
+Special
+
+Required Class:
+Healer
+
+Effect:
+Healing Skill Effectiveness +10%
+```
+
+### EQP-000130 — Assassin Emblem
+
+```text
+Slot:
+Special
+
+Required Class:
+Assassin
+
+Effect:
+Critical Damage +15%
+Back Attack Damage +10%
+```
+
+### EQP-000131 — Ranger Emblem
+
+```text
+Slot:
+Special
+
+Required Class:
+Ranger
+
+Effect:
+Ranged Damage +10%
+Attack Range +1
+```
+
+---
+
+# 14. RELIC EQUIPMENT
+
+Relic adalah equipment khusus dengan efek pasif unik.
+
+### EQP-000132 — Relic of Strength
+
+```text
+Slot:
+Special
+
+Effect:
+Attack +10%
+HP +5%
+```
+
+### EQP-000133 — Relic of Wisdom
+
+```text
+Slot:
+Special
+
+Effect:
+MP +10%
+Magic Damage +8%
+```
+
+### EQP-000134 — Relic of Agility
+
+```text
+Slot:
+Special
+
+Effect:
+Attack Speed +8%
+Evasion +5%
+```
+
+### EQP-000135 — Relic of Protection
+
+```text
+Slot:
+Special
+
+Effect:
+Defense +10%
+Damage Taken -5%
+```
+
+---
+
+# 15. SOUL CORE EQUIPMENT
+
+Soul Core memberikan efek yang berhubungan dengan monster atau elemen.
+
+### EQP-000136 — Fire Soul Core
+
+```text
+Slot:
+Special
+
+Element:
+Fire
+
+Effect:
+Fire Damage +15%
+Fire Resistance +10%
+```
+
+### EQP-000137 — Water Soul Core
+
+```text
+Slot:
+Special
+
+Element:
+Water
+
+Effect:
+Water Damage +15%
+Water Resistance +10%
+```
+
+### EQP-000138 — Earth Soul Core
+
+```text
+Slot:
+Special
+
+Element:
+Earth
+
+Effect:
+Defense +10%
+Earth Resistance +15%
+```
+
+### EQP-000139 — Wind Soul Core
+
+```text
+Slot:
+Special
+
+Element:
+Wind
+
+Effect:
+Attack Speed +10%
+Wind Resistance +10%
+```
+
+### EQP-000140 — Dark Soul Core
+
+```text
+Slot:
+Special
+
+Element:
+Dark
+
+Effect:
+Dark Damage +15%
+Critical Damage +10%
+```
+
+---
+
+# 16. HERO CONSUMABLE EQUIPMENT
+
+Consumable Equipment digunakan langsung oleh Hero dan akan berkurang setelah digunakan.
+
+```text
+Healing Potion
+Mana Potion
+Antidote
+Strength Potion
+Defense Potion
+Speed Potion
+Elemental Resistance Potion
+Revival Potion
+```
+
+### EQP-000141 — Basic Healing Potion
+
+```text
+Type:
+Consumable
+
+Effect:
+Restore 20% Max HP
+```
+
+### EQP-000142 — Basic Mana Potion
+
+```text
+Type:
+Consumable
+
+Effect:
+Restore 20% Max MP
+```
+
+### EQP-000143 — Strength Potion
+
+```text
+Type:
+Consumable
+
+Effect:
+Attack +15%
+Duration:
+30 sec
+```
+
+### EQP-000144 — Defense Potion
+
+```text
+Type:
+Consumable
+
+Effect:
+Defense +15%
+Duration:
+30 sec
+```
+
+### EQP-000145 — Speed Potion
+
+```text
+Type:
+Consumable
+
+Effect:
+Attack Speed +15%
+Movement Speed +10%
+Duration:
+30 sec
+```
+
+### EQP-000146 — Revival Potion
+
+```text
+Type:
+Consumable
+
+Effect:
+Revive Hero with 20% HP
+Restriction:
+Cannot be used during every mission
+```
+
+---
+
+# 17. EXPEDITION EQUIPMENT
+
+Expedition Equipment digunakan untuk meningkatkan kemampuan Hero selama perjalanan atau misi panjang.
+
+### EQP-000147 — Explorer Backpack
+
+```text
+Slot:
+Special
+
+Effect:
+Inventory Capacity +20
+```
+
+### EQP-000148 — Survival Cloak
+
+```text
+Slot:
+Body
+
+Effect:
+Food Consumption -10%
+Cold Resistance +10%
+```
+
+### EQP-000149 — Traveler Boots
+
+```text
+Slot:
+Feet
+
+Effect:
+Expedition Travel Time -5%
+Movement Speed +5%
+```
+
+### EQP-000150 — Explorer Compass
+
+```text
+Slot:
+Special
+
+Effect:
+Rare Loot Detection +5%
+```
+
+### EQP-000151 — Portable Camp Kit
+
+```text
+Type:
+Expedition Equipment
+
+Effect:
+Restoration during Expedition
+HP Recovery per Rest:
+10%
+```
+
+---
+
+# 18. HERO EQUIPMENT CRAFTING
+
+Hero Equipment dibuat melalui fasilitas khusus.
+
+```text
+HERO EQUIPMENT WORKSHOP
+├── Weapon Forge
+├── Armor Workshop
+├── Tailor Workshop
+├── Accessory Workshop
+├── Rune Workshop
+├── Relic Workshop
+└── Soul Core Workshop
+```
+
+Hubungan crafting:
+
+```text
+MATERIAL
+   ↓
+HERO EQUIPMENT RECIPE
+   ↓
+HERO EQUIPMENT WORKSHOP
+   ↓
+WEAPON / ARMOR / ACCESSORY
+   ↓
+HERO
+```
+
+---
+
+# 19. HERO EQUIPMENT CRAFTING EXAMPLE
+
+### Iron Sword
+
+```text
+Required Facility:
+Weapon Forge
+
+Required Level:
+1
+
+Materials:
+Iron Ingot × 5
+Wood × 2
+Leather × 1
+
+Gold:
+100
+
+Crafting Time:
+10 Minutes
+```
+
+### Steel Armor
+
+```text
+Required Facility:
+Armor Workshop
+
+Required Level:
+5
+
+Materials:
+Steel Ingot × 15
+Strong Fiber × 5
+Leather × 5
+
+Gold:
+750
+
+Crafting Time:
+1 Hour
+```
+
+### Mage Robe
+
+```text
+Required Facility:
+Tailor Workshop
+
+Required Level:
+5
+
+Materials:
+Strong Fiber × 10
+Magic Thread × 3
+Mana Crystal × 1
+
+Gold:
+600
+
+Crafting Time:
+45 Minutes
+```
+
+---
+
+# 20. HERO EQUIPMENT UPGRADE
+
+Equipment dapat ditingkatkan menggunakan material tambahan.
+
+```text
+Equipment
+   ↓
+Upgrade Material
+   ↓
+Upgrade Cost
+   ↓
+Upgrade Level
+   ↓
+Higher Stat
+```
+
+Contoh:
+
+```text
+Iron Sword +0
+Attack +20
+
+Iron Sword +1
+Attack +24
+
+Iron Sword +2
+Attack +28
+
+Iron Sword +3
+Attack +33
+```
+
+Upgrade membutuhkan:
+
+```text
+Iron Ingot
+Gold
+Upgrade Crystal
+Crafting Time
+```
+
+---
+
+# 21. HERO EQUIPMENT REFINEMENT
+
+Refinement meningkatkan kualitas atau bonus equipment.
+
+```text
+Refinement Level:
+0–10
+```
+
+Contoh:
+
+```text
+Steel Sword +0
+Physical Damage +5%
+
+Steel Sword Refine +3
+Physical Damage +8%
+
+Steel Sword Refine +6
+Physical Damage +12%
+
+Steel Sword Refine +10
+Physical Damage +18%
+```
+
+Refinement dapat memiliki risiko:
+
+```text
+Refinement 0–5:
+Tidak ada risiko
+
+Refinement 6–8:
+Equipment dapat gagal diperkuat
+
+Refinement 9–10:
+Equipment dapat kehilangan level refinement
+```
+
+Item perlindungan dapat digunakan:
+
+```text
+Refinement Protection Stone
+Equipment Protection Scroll
+Safe Refinement Ticket
+```
+
+---
+
+# 22. HERO EQUIPMENT ENCHANTMENT
+
+Equipment dapat diberi enchantment.
+
+```text
+Equipment
+   ↓
+Enchant Material
+   ↓
+Random Bonus
+   ↓
+Equipment Enchanted
+```
+
+Contoh enchantment:
+
+```text
+Attack +5%
+Defense +5%
+HP +100
+MP +100
+Critical Rate +3%
+Attack Speed +3%
+Elemental Damage +5%
+Status Resistance +5%
+```
+
+Satu equipment dapat memiliki jumlah enchantment terbatas.
+
+```text
+Grade 1:
+1 Enchantment Slot
+
+Grade 2:
+2 Enchantment Slots
+
+Grade 3:
+3 Enchantment Slots
+
+Grade 4:
+4 Enchantment Slots
+
+Grade 5:
+5 Enchantment Slots
+```
+
+---
+
+# 23. HERO EQUIPMENT SET
+
+Equipment tertentu dapat membentuk Set.
+
+Contoh:
+
+```text
+IRON KNIGHT SET
+├── Iron Helmet
+├── Iron Armor
+├── Iron Gauntlets
+└── Iron Greaves
+```
+
+Bonus Set:
+
+```text
+2 Pieces:
+Defense +3%
+
+3 Pieces:
+HP +5%
+
+4 Pieces:
+Damage Taken -8%
+```
+
+Contoh lain:
+
+```text
+SHADOW ASSASSIN SET
+├── Shadow Hood
+├── Shadow Armor
+├── Assassin Gloves
+└── Shadow Boots
+```
+
+Bonus Set:
+
+```text
+2 Pieces:
+Critical Rate +5%
+
+3 Pieces:
+Evasion +8%
+
+4 Pieces:
+Back Attack Damage +20%
+```
+
+---
+
+# 24. HERO EQUIPMENT BINDING
+
+Equipment dapat memiliki status binding.
+
+```text
+Unbound
+Bound to Hero
+Bound to Account
+Quest Bound
+```
+
+## Unbound
+
+```text
+Dapat dipindahkan
+Dapat dijual
+Dapat ditukar
+```
+
+## Bound to Hero
+
+```text
+Hanya dapat digunakan oleh Hero tertentu
+Tidak dapat dijual
+Tidak dapat ditukar
+```
+
+## Bound to Account
+
+```text
+Dapat digunakan oleh Hero dalam Account yang sama
+Tidak dapat dijual ke pemain lain
+```
+
+## Quest Bound
+
+```text
+Terikat pada Quest
+Tidak dapat dijual atau dihancurkan
+```
+
+---
+
+# 25. HERO EQUIPMENT DURABILITY
+
+Hero Equipment dapat kehilangan durability saat digunakan dalam misi.
+
+```text
+Durability:
+100 / 100
+```
+
+Durability berkurang karena:
+
+```text
+Floor Mission
+Boss Battle
+Expedition
+PvE Combat
+Special Event
+```
+
+Contoh:
+
+```text
+100
+ ↓
+85
+ ↓
+60
+ ↓
+35
+ ↓
+10
+ ↓
+0
+```
+
+Ketika durability mencapai 0:
+
+```text
+Equipment Broken
+```
+
+Efek equipment berkurang atau tidak dapat digunakan sampai diperbaiki.
+
+---
+
+# 26. HERO EQUIPMENT REPAIR
+
+Repair dilakukan melalui:
+
+```text
+Blacksmith
+Weapon Forge
+Armor Workshop
+Tailor Workshop
+Accessory Workshop
+```
+
+Contoh:
+
+```text
+Equipment:
+Steel Sword
+
+Repair Material:
+Steel Ingot × 2
+
+Repair Cost:
+100 Gold
+
+Repair Time:
+5 Minutes
+```
+
+---
+
+# 27. HERO EQUIPMENT QUALITY
+
+Crafting Hero Equipment dapat menghasilkan kualitas berbeda.
+
+```text
+Poor
+Common
+Good
+Excellent
+Masterwork
+```
+
+Contoh:
+
+```text
+Iron Sword
+
+Poor:
+Attack +18
+
+Common:
+Attack +20
+
+Good:
+Attack +23
+
+Excellent:
+Attack +27
+
+Masterwork:
+Attack +32
+```
+
+Crafting Skill Hero dan kualitas fasilitas memengaruhi hasil akhir.
+
+---
+
+# 28. HERO EQUIPMENT CRAFTING RNG
+
+```text
+Recipe
+ ↓
+Material Quality
+ ↓
+Crafting Facility
+ ↓
+Crafter Hero Skill
+ ↓
+Crafting RNG
+ ↓
+Equipment Quality
+ ↓
+Bonus Effect
+```
+
+Hero dengan skill crafting tinggi dapat meningkatkan peluang:
+
+```text
+Good Quality
+Excellent Quality
+Masterwork Quality
+Additional Bonus Effect
+```
+
+---
+
+# 29. HERO CLASS REQUIREMENT
+
+Equipment dapat memiliki persyaratan Class.
+
+```text
+Warrior
+Knight
+Berserker
+Lancer
+Rogue
+Assassin
+Archer
+Ranger
+Mage
+Healer
+Alchemist
+Support
+```
+
+Contoh:
+
+```text
+Guardian Shield:
+Knight / Warrior
+
+Shadow Dagger:
+Rogue / Assassin
+
+Mage Staff:
+Mage / Healer
+
+Wind Bow:
+Archer / Ranger
+
+Healing Staff:
+Healer / Support
+```
+
+Jika Hero tidak memenuhi persyaratan:
+
+```text
+Equipment Cannot Be Equipped
+```
+
+---
+
+# 30. HERO STAT REQUIREMENT
+
+Equipment tingkat tinggi dapat membutuhkan stat minimum.
+
+```text
+Required Strength
+Required Agility
+Required Intelligence
+Required Vitality
+Required Spirit
+```
+
+Contoh:
+
+```text
+Guardian Armor
+
+Required Level:
+20
+
+Required Strength:
+30
+
+Required Vitality:
+25
+```
+
+Jika persyaratan tidak terpenuhi:
+
+```text
+Equipment Effectiveness Reduced
+```
+
+atau:
+
+```text
+Equipment Cannot Be Equipped
+```
+
+---
+
+# 31. HERO EQUIPMENT EFFECTIVENESS
+
+Equipment tidak selalu memberikan efek penuh.
+
+```text
+Full Effect:
+Hero memenuhi Level, Class, dan Stat Requirement
+
+Reduced Effect:
+Hero hanya memenuhi sebagian persyaratan
+
+No Effect:
+Hero tidak memenuhi Class Requirement
+```
+
+Contoh:
+
+```text
+Mage Staff digunakan oleh Warrior:
+
+Base Attack:
+Tetap aktif
+
+Magic Damage Bonus:
+Tidak aktif
+
+Skill Bonus:
+Tidak aktif
+```
+
+---
+
+# 32. HERO EQUIPMENT LOADOUT
+
+Setiap Hero memiliki Loadout.
+
+```text
+Hero Loadout
+├── Main Hand
+├── Off Hand
+├── Head
+├── Body
+├── Hands
+├── Feet
+├── Accessory 1
+├── Accessory 2
+└── Special
+```
+
+Contoh:
+
+```text
+Hero:
+Knight
+
+Main Hand:
+Steel Sword
+
+Off Hand:
+Knight Shield
+
+Head:
+Steel Helmet
+
+Body:
+Steel Armor
+
+Hands:
+Iron Gauntlets
+
+Feet:
+Iron Greaves
+
+Accessory 1:
+Ring of Vitality
+
+Accessory 2:
+Necklace of Protection
+
+Special:
+Knight Emblem
+```
+
+---
+
+# 33. HERO EQUIPMENT PRESET
+
+Player dapat menyimpan beberapa preset equipment.
+
+```text
+Preset 1:
+Boss Battle
+
+Preset 2:
+Floor Farming
+
+Preset 3:
+Expedition
+
+Preset 4:
+PvP / Arena
+
+Preset 5:
+Recovery Mission
+```
+
+Preset dapat mengganti equipment secara otomatis sebelum misi dimulai.
+
+---
+
+# 34. HERO EQUIPMENT CONNECTION
+
+```text
+HERO
+ ↓
+EQUIPMENT LOADOUT
+ ↓
+BASE STAT
+ ↓
+BONUS STAT
+ ↓
+SKILL EFFECT
+ ↓
+COMBAT PERFORMANCE
+ ↓
+FLOOR MISSION
+```
+
+Contoh:
+
+```text
+Knight
++
+Guardian Armor
++
+Knight Shield
++
+Knight Emblem
+
+=
+Higher Defense
+Higher Block Rate
+Higher Taunt Effectiveness
+Lower Damage Taken
+```
+
+---
+
+# 35. MEDICAL EQUIPMENT CONNECTION TO HERO
+
+```text
+Hero Equipment
+   ↓
+Hero Combat
+   ↓
+Damage / Injury / Status Effect
+   ↓
+Medical Facility
+   ↓
+Recovery Equipment
+   ↓
+Hero Ready Again
+```
+
+Equipment Medical tidak menggantikan Hero Equipment, tetapi mendukung pemulihan Hero setelah menggunakan equipment dalam misi.
+
+---
+
+# 36. TOWN FACILITY CONNECTION
+
+```text
+TOWN SQUARE
+│
+├── Blacksmith
+│    ├── Weapon Forge
+│    ├── Armor Workshop
+│    ├── Anvil
+│    └── Repair Station
+│
+├── Workshop
+│    ├── Carpenter Equipment
+│    ├── Storage Equipment
+│    └── Expedition Equipment
+│
+├── Tailor
+│    ├── Cloth Armor
+│    ├── Robe
+│    ├── Gloves
+│    └── Boots
+│
+├── Accessory Workshop
+│    ├── Ring
+│    ├── Necklace
+│    ├── Talisman
+│    └── Charm
+│
+├── Rune Workshop
+│    ├── Enchantment
+│    ├── Refinement
+│    └── Equipment Upgrade
+│
+└── MEDICAL
+     ├── Medical Bed
+     ├── Surgery
+     ├── Pharmacy
+     ├── Alchemy
+     └── Recovery Chamber
+```
+
+---
+
+# 37. DATABASE RELATION
+
+```text
+MATERIAL
+    │
+    ↓
+CRAFTING_RECIPE
+    │
+    ↓
+EQUIPMENT
+    │
+    ├── TOWN_FACILITY
+    │
+    ├── MEDICAL_FACILITY
+    │
+    ├── HERO
+    │
+    ├── HERO_LOADOUT
+    │
+    ├── INVENTORY
+    │
+    ├── UPGRADE_SYSTEM
+    │
+    ├── ENCHANTMENT_SYSTEM
+    │
+    └── ECONOMY
+```
+
+---
+
+# 38. EQUIPMENT DATABASE EXAMPLE
+
+```text
+Equipment_ID:
+EQP-000069
+
+Name:
+Iron Sword
+
+Type:
+Hero Equipment
+
+Category:
+Weapon
+
+Slot:
+Main Hand
+
+Weapon Type:
+Sword
+
+Grade:
+1
+
+Rarity:
+Common
+
+Required Level:
+1
+
+Required Class:
+Warrior / Knight
+
+Required Material:
+Iron Ingot × 5
+Wood × 2
+Leather × 1
+
+Required Facility:
+Weapon Forge
+
+Crafting Cost:
+100 Gold
+
+Crafting Time:
+10 Minutes
+
+Base Attack:
++20
+
+Bonus Effect:
+None
+
+Durability:
+100
+
+Bound Status:
+Unbound
+```
+
+---
+
+# 39. HERO EQUIPMENT DATABASE EXAMPLE
+
+```text
+Equipment_ID:
+EQP-000103
+
+Name:
+Arcane Robe
+
+Type:
+Hero Equipment
+
+Category:
+Armor
+
+Slot:
+Body
+
+Armor Type:
+Robe
+
+Grade:
+4
+
+Rarity:
+Epic
+
+Required Level:
+25
+
+Required Class:
+Mage / Healer
+
+Required Material:
+Magic Thread × 20
+Mana Crystal × 10
+Strong Fiber × 15
+Ancient Cloth × 5
+
+Required Facility:
+Tailor Workshop
+
+Crafting Cost:
+8,000 Gold
+
+Crafting Time:
+6 Hours
+
+Base Defense:
++100
+
+Base MP:
++300
+
+Bonus Effect:
+Magic Damage +15%
+Skill Cooldown -5%
+
+Durability:
+150
+
+Bound Status:
+Unbound
+```
+
+---
+
+# 40. SYSTEM CONNECTION
+
+```text
+                 MATERIAL SYSTEM
+                        │
+                        ↓
+                 CRAFTING SYSTEM
+                        │
+                        ↓
+                 EQUIPMENT SYSTEM
+                        │
+          ┌─────────────┼─────────────┐
+          ↓             ↓             ↓
+     TOWN SQUARE     MEDICAL       HERO
+          │             │             │
+          ↓             ↓             ↓
+   Production      Recovery      Combat
+   Crafting        Treatment     Equipment
+   Storage         Medicine      Loadout
+   Defense         Research      Upgrade
+          │             │             │
+          └─────────────┼─────────────┘
+                        ↓
+                       HERO
+                        │
+                        ↓
+                  FLOOR MISSION
+                        │
+                        ↓
+                 LOOT / MATERIAL
+                        │
+                        ↓
+                    CRAFTING
+```
+
+---
+
+# 41. CORE RULES
+
+```text
+RULE 01
+Every equipment has a unique Equipment_ID.
+
+RULE 02
+Equipment must be created through a valid recipe.
+
+RULE 03
+Equipment requires specific materials.
+
+RULE 04
+Equipment may require a specific Town Facility.
+
+RULE 05
+Equipment may require Town Level.
+
+RULE 06
+Equipment may require Master Level.
+
+RULE 07
+Hero Equipment may require Hero Level.
+
+RULE 08
+Hero Equipment may require a specific Hero Class.
+
+RULE 09
+Hero Equipment may require minimum Hero Stats.
+
+RULE 10
+Town Equipment primarily supports production,
+crafting, storage, defense, and town development.
+
+RULE 11
+Medical Equipment primarily supports Hero recovery,
+treatment, medicine production, and medical research.
+
+RULE 12
+Hero Equipment primarily supports combat,
+survivability, skill performance, and expedition ability.
+
+RULE 13
+Equipment quality may be determined by Crafting RNG.
+
+RULE 14
+Equipment may have durability.
+
+RULE 15
+Damaged equipment can be repaired.
+
+RULE 16
+Hero Equipment can be upgraded, refined, and enchanted.
+
+RULE 17
+Equipment effects must be configurable.
+
+RULE 18
+Material prices and crafting costs are controlled
+by the Economy System.
+
+RULE 19
+Higher-tier equipment requires higher-grade materials.
+
+RULE 20
+Advanced equipment should unlock progressively
+through Town, Master, and Hero progression.
+
+RULE 21
+Medical equipment must be connected to the
+Hero Injury / Recovery System.
+
+RULE 22
+Hero Equipment must be connected to the
+Hero Loadout and Combat System.
+
+RULE 23
+Equipment should not directly bypass Floor progression.
+
+RULE 24
+Equipment progression should support,
+not replace, Hero progression.
+
+RULE 25
+Equipment with Class Requirement cannot be used
+at full effectiveness by an incompatible Hero.
+
+RULE 26
+Equipment obtained from special content may have
+Bound Status and cannot always be traded.
+
+RULE 27
+Equipment Set bonuses are activated only when
+the required number of pieces is equipped.
+
+RULE 28
+Consumable Equipment is removed from inventory
+after use unless otherwise specified.
+```
+
+# 42. TOWN EQUIPMENT PROGRESSION
+
+```text
+BASIC TOWN
+│
+├── Basic Forge
+├── Carpenter Bench
+├── Sewing Table
+├── Cooking Station
+└── Storage Chest
+        │
+        ↓
+IMPROVED TOWN
+│
+├── Iron Forge
+├── Advanced Workshop
+├── Weaver Loom
+├── Large Kitchen
+└── Reinforced Storage
+        │
+        ↓
+ADVANCED TOWN
+│
+├── Advanced Forge
+├── Crystal Refinery
+├── Magic Loom
+├── Advanced Alchemy
+└── Advanced Workshop
+        │
+        ↓
+HIGH TOWN
+│
+├── Master Forge
+├── Magic Laboratory
+├── Advanced Refinery
+├── Special Workshop
+└── Legendary Crafting
+```
+
+---
+
+# 43. MEDICAL PROGRESSION
+
+```text
+MEDICAL FACILITY
+│
+├── Medical Bed
+├── Medical Kit
+├── Medicine Cabinet
+└── Alchemy Table
+        │
+        ↓
+ADVANCED MEDICAL
+│
+├── Recovery Bed
+├── Surgical Kit
+├── Advanced Alchemy
+└── Laboratory
+        │
+        ↓
+HIGH MEDICAL
+│
+├── Recovery Chamber
+├── Purification Chamber
+├── Magic Laboratory
+└── Advanced Surgical Kit
+        │
+        ↓
+MASTER MEDICAL
+│
+├── Full Recovery Chamber
+├── Advanced Purification
+├── Magical Medicine Lab
+└── Legendary Medical Equipment
+```
+
+---
+
+# 44. HERO EQUIPMENT PROGRESSION
+
+```text
+BASIC HERO EQUIPMENT
+│
+├── Iron Sword
+├── Wooden Shield
+├── Leather Armor
+├── Leather Gloves
+├── Leather Boots
+└── Basic Ring
+        │
+        ↓
+IMPROVED HERO EQUIPMENT
+│
+├── Steel Sword
+├── Iron Shield
+├── Steel Armor
+├── Iron Gauntlets
+├── Iron Greaves
+└── Vitality Ring
+        │
+        ↓
+ADVANCED HERO EQUIPMENT
+│
+├── Knight Longsword
+├── Knight Shield
+├── Shadow Armor
+├── Mage Robe
+├── Wind Boots
+└── Class Emblem
+        │
+        ↓
+HIGH HERO EQUIPMENT
+│
+├── Mithril Weapon
+├── Guardian Armor
+├── Arcane Robe
+├── Legendary Accessory
+├── Relic
+└── Soul Core
+```
+
+---
+
+# 45. FUTURE EXPANSION
+
+```text
+EQUIPMENT SYSTEM
+│
+├── Town Equipment
+├── Medical Equipment
+├── Hero Equipment
+├── Weapon Equipment
+├── Armor Equipment
+├── Accessory Equipment
+├── Skill Equipment
+├── Relic Equipment
+├── Soul Core Equipment
+├── Consumable Equipment
+├── Expedition Equipment
+├── Dungeon Equipment
+├── Arena Equipment
+├── PvP Equipment
+├── Set Equipment
+├── Legendary Facility Equipment
+└── Mythic Equipment
+```
+
+Equipment khusus **Dungeon**, **Expedition**, **Arena**, **PvP**, dan **Legendary Facility** dapat dikembangkan lebih lanjut sebagai README terpisah agar sistem utama tetap terstruktur.
