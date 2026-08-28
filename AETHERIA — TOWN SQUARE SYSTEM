@@ -1,0 +1,4022 @@
+# 🏘️ AETHERIA — TOWN SQUARE SYSTEM
+
+> **The Tower is where Heroes fight.**
+>
+> **Town Square is where they live.**
+>
+> Between battles, the Heroes of Aetheria return to a place where they can rest, work, train, trade, craft, communicate, and prepare for the next floor.
+>
+> Town Square is not merely a menu.
+>
+> **It is the living headquarters of the Master and the Heroes.**
+
+---
+
+# 1. TOWN SQUARE OVERVIEW
+
+**Town Square** is the primary headquarters available to the Master outside active missions.
+
+It functions as the central hub for:
+
+```text
+Hero Management
+Facility Management
+Crafting
+Storage
+Training
+Recovery
+Hero Assignment
+Resource Processing
+Trading
+Quest Management
+Character Interaction
+Faction Interaction
+Information
+Daily Reset Management
+Automatic Crafting
+Inventory Synchronization
+Crafting Result Synchronization
+Daily Fairy Reporting
+```
+
+Town Square is designed as a living environment.
+
+Heroes are not simply stored inside a menu.
+
+They can:
+
+```text
+Work
+Rest
+Talk
+Train
+Craft
+Assist
+Explore
+Manage Facilities
+Interact with Other Heroes
+Develop Relationships
+Complete Guild Quests
+```
+
+All Facility crafting operates automatically according to the Facility Leader, AI Character, available materials, active priorities, and configured recipes.
+
+Every successful crafting result is added to the Inventory, while all required materials are automatically deducted from the Inventory.
+
+---
+
+# 2. TOWN SQUARE CONCEPT
+
+The Town Square takes inspiration from the **central lobby / headquarters concept of Pick Me Up**, where the Master manages Heroes between missions.
+
+However, Aetheria expands this concept into a more dynamic simulation.
+
+The Town Square is connected to:
+
+```text
+MASTER
+   │
+   ▼
+TOWN SQUARE
+   │
+   ├── FACILITIES
+   ├── HEROES
+   ├── CRAFTING
+   ├── INVENTORY
+   ├── GUILD QUEST
+   ├── TRAINING
+   ├── SHOP
+   ├── DAILY RESET
+   ├── FAIRY SYNCHRONIZATION
+   └── WORLD INFORMATION
+```
+
+---
+
+# 3. TOWN SQUARE AS A LIVING BASE
+
+Town Square does not pause the world completely.
+
+The Game State System can continue processing:
+
+```text
+Time
+Facility Activity
+Automatic Crafting
+Hero Activity
+Events
+Resource Consumption
+Facility Production
+Relationships
+Guild Quest Progress
+Daily Reset
+Inventory Synchronization
+Crafting Result Synchronization
+Daily Fairy Report
+```
+
+Therefore, when the Master returns from a mission, the Town Square may already have changed.
+
+Example:
+
+```text
+MASTER ENTERS TOWN SQUARE
+        ↓
+AI FAIRY
+        ↓
+FACILITY STATUS CHECK
+        ↓
+AUTOMATIC CRAFTING STATUS
+        ↓
+CRAFTING RESULT CHECK
+        ↓
+RESOURCE CONSUMPTION CHECK
+        ↓
+INVENTORY SYNCHRONIZATION
+        ↓
+HERO STATUS
+        ↓
+GUILD QUEST STATUS
+        ↓
+DAILY RESET STATUS
+        ↓
+REWARD SYNCHRONIZATION
+        ↓
+MASTER REPORT
+```
+
+---
+
+# 4. TOWN SQUARE STRUCTURE
+
+The initial Town Square can contain:
+
+```text
+                 TOWN SQUARE
+                      │
+      ┌───────────────┼────────────────┐
+      │               │                │
+   FACILITIES       HERO AREA       MARKET
+      │               │                │
+      ├── Guild       ├── Rest         ├── Shop
+      ├── Forge       ├── Training     ├── Trade
+      ├── Workshop    ├── Interaction  └── Exchange
+      ├── Academy     └── Recovery
+      ├── Inn
+      ├── Laboratory
+      └── Warehouse
+```
+
+Additional facilities can be added through future systems.
+
+---
+
+# 5. FACILITY SYSTEM
+
+Every Town Square Facility is an independent management entity.
+
+Each Facility contains:
+
+```text
+Facility ID
+Facility Name
+Facility Type
+Facility Level
+Facility State
+Leader Slot
+Worker Slots
+Required Resources
+Production
+Crafting Queue
+Crafting Result
+Facility AI
+Facility RNG
+Upgrade State
+Unlock Condition
+Automatic Processing State
+Inventory Synchronization State
+Last Daily Reset
+```
+
+Every Facility that supports production or crafting operates automatically.
+
+The Facility does not require the Master to manually start every individual crafting action unless the Master has configured manual approval for that Facility.
+
+---
+
+# 6. FACILITY LEADER SYSTEM
+
+Every important Facility must have:
+
+# **FACILITY LEADER SLOT**
+
+The Master assigns a Hero as the leader or manager of the Facility.
+
+Example:
+
+```text
+BLACKSMITH
+
+Leader:
+Hero ID: HERO-00125
+
+Role:
+Blacksmith Leader
+```
+
+The assigned Hero becomes responsible for managing the Facility.
+
+The Facility Leader determines the Facility's routine behavior through the AI Character System.
+
+---
+
+# 7. LEADER RESPONSIBILITY
+
+The Facility Leader can influence:
+
+```text
+Production
+Crafting
+Efficiency
+Success Rate
+Resource Consumption
+Crafting Quality
+Worker Behavior
+Facility Events
+Special Recipes
+RNG Result
+Crafting Priority
+Production Priority
+Automatic Task Selection
+```
+
+The exact influence depends on the Hero.
+
+A warrior may not be an efficient blacksmith.
+
+A Dwarf Blacksmith may have extremely high efficiency.
+
+The Leader does not directly create or delete items. The Leader only influences the crafting decision and production process. All final item creation and Inventory changes must be processed through the Item System and Inventory System.
+
+---
+
+# 8. FACILITY LEADER AI
+
+The Leader operates through:
+
+# **AI CHARACTER SYSTEM**
+
+The Leader considers:
+
+```text
+Personality
+Occupation
+Experience
+Skills
+Emotion
+Relationship
+Condition
+Motivation
+Facility Type
+Available Workers
+Available Materials
+Active Orders
+Crafting Priority
+Master Orders
+Inventory State
+```
+
+Example:
+
+```text
+Dwarf Blacksmith
+       ↓
+Forge
+       ↓
+AI evaluates resources
+       ↓
+Selects suitable crafting task
+       ↓
+Requests available workers
+       ↓
+Checks recipe requirements
+       ↓
+Crafting begins automatically
+```
+
+---
+
+# 9. WORKER RECRUITMENT BY LEADER
+
+A Facility Leader can request assistance from Heroes who are:
+
+```text
+Not currently in Party
+Not currently on Mission
+Available
+Not assigned to another exclusive task
+Not assigned to an active Guild Quest
+```
+
+The Leader can recommend Heroes suitable for the Facility.
+
+Example:
+
+```text
+BLACKSMITH LEADER
+       │
+       ▼
+Needs:
+2 Assistants
+       │
+       ▼
+AI SEARCH
+       │
+       ├── Hero A → Blacksmith
+       ├── Hero B → Warrior
+       ├── Hero C → Engineer
+       └── Hero D → Mage
+       │
+       ▼
+AI selects:
+Hero A + Hero C
+```
+
+---
+
+# 10. HERO ASSISTANCE SYSTEM
+
+A Leader can invite available Heroes to help.
+
+The Hero may:
+
+```text
+Accept
+Refuse
+Delay
+Request Different Task
+```
+
+The decision is influenced by:
+
+```text
+Personality
+Emotion
+Relationship
+Trust
+Occupation
+Skill
+Current Condition
+Previous Experience
+```
+
+Therefore, not every Hero automatically agrees.
+
+Once a Hero accepts a Facility assignment, the Hero becomes unavailable for conflicting activities until the assignment ends or is removed.
+
+---
+
+# 11. EXAMPLE
+
+A Blacksmith Leader asks a Hero:
+
+> "Can you help me prepare these materials?"
+
+A Hero who likes crafting may accept.
+
+A Hero with a strong dislike of the Leader may refuse.
+
+A Hero who is exhausted may postpone the task.
+
+This behavior is processed by:
+
+```text
+AI CHARACTER
++
+EMOTIONAL SYSTEM
++
+RELATIONSHIP SYSTEM
+```
+
+---
+
+# 12. PARTY RESTRICTION
+
+Heroes currently assigned to an active Party mission are considered:
+
+# **BUSY**
+
+The Facility cannot automatically recruit them for normal Facility work.
+
+Priority:
+
+```text
+ACTIVE MISSION
+      >
+PARTY ASSIGNMENT
+      >
+SPECIAL EVENT
+      >
+GUILD QUEST
+      >
+FACILITY WORK
+      >
+OPTIONAL ACTIVITY
+```
+
+This prevents Town Square activities from interfering with active missions.
+
+---
+
+# 13. AVAILABLE HERO POOL
+
+The Facility AI can search:
+
+```text
+All Owned Heroes
+       │
+       ▼
+Remove:
+Active Mission
+Dead / Unavailable
+Locked
+Event Restricted
+Facility Restricted
+Guild Quest Party
+Party Assignment
+Recovery Restricted
+       │
+       ▼
+AVAILABLE HERO POOL
+```
+
+The remaining Heroes can be considered for assistance.
+
+---
+
+# 14. FACILITY WORKER SLOTS
+
+Each Facility can contain worker slots.
+
+Example:
+
+```text
+BLACKSMITH
+
+Leader:
+1 / 1
+
+Workers:
+2 / 4
+```
+
+Facility level can increase worker capacity.
+
+Example:
+
+```text
+Level 1 → 1 Leader + 2 Workers
+Level 2 → 1 Leader + 3 Workers
+Level 3 → 1 Leader + 4 Workers
+Level 4 → 1 Leader + 5 Workers
+Level 5 → 1 Leader + 6 Workers
+```
+
+Exact values can be configured later.
+
+---
+
+# 15. FACILITY EXAMPLE
+
+## BLACKSMITH
+
+Purpose:
+
+```text
+Weapon Crafting
+Armor Crafting
+Equipment Repair
+Material Processing
+```
+
+Structure:
+
+```text
+BLACKSMITH
+│
+├── Leader Slot
+│
+├── Worker Slot
+│
+├── Worker Slot
+│
+├── Automatic Crafting Queue
+│
+├── Crafting Result Queue
+│
+└── Resource Storage
+```
+
+---
+
+# 16. OTHER FACILITIES
+
+Initial facilities may include:
+
+```text
+Guild Hall
+Blacksmith
+Workshop
+Alchemy Lab
+Magic Laboratory
+Training Ground
+Library
+Inn
+Medical Center
+Warehouse
+Market
+Merchant Guild
+Kitchen
+Resource Processing Facility
+```
+
+Each Facility has its own purpose.
+
+Facilities that support crafting or production automatically process their tasks according to their recipes, available materials, Facility Leader, workers, and configured priorities.
+
+---
+
+# 17. GUILD HALL
+
+The Guild Hall functions as the administrative center for Heroes and adventuring activities.
+
+Possible functions:
+
+```text
+Quest Management
+Mission Preparation
+Hero Requests
+Guild Information
+Faction Information
+Adventure Records
+Facility Management
+Daily Guild Quest
+Quest Reward Management
+```
+
+Leader:
+
+```text
+Guild Leader
+```
+
+The Leader can coordinate available Heroes.
+
+---
+
+# 18. GUILD QUEST PARTY RESTRICTION
+
+Guild Hall quests are not completed by the Master directly.
+
+Guild Hall quests can only be completed by:
+
+# **PARTY 3 AND ABOVE**
+
+This means:
+
+```text
+Party 1 → Cannot complete Guild Hall quests
+Party 2 → Cannot complete Guild Hall quests
+Party 3 → Can complete Guild Hall quests
+Party 4 → Can complete Guild Hall quests
+Party 5 → Can complete Guild Hall quests
+Party 6 → Can complete Guild Hall quests
+```
+
+The restriction applies to all Guild Hall quest assignments unless a specific quest states otherwise.
+
+---
+
+# 19. GUILD QUEST PARTY ELIGIBILITY
+
+A Party is eligible to complete Guild Hall quests when:
+
+```text
+Party Number >= 3
+Party is Active
+Party is not Defeated
+Party has Available Quest Capacity
+Party meets Quest Requirements
+```
+
+Example:
+
+```text
+PARTY 1
+→ Dungeon Mission Only
+
+PARTY 2
+→ Dungeon Mission Only
+
+PARTY 3
+→ Dungeon Mission + Guild Hall Quest
+
+PARTY 4
+→ Dungeon Mission + Guild Hall Quest
+```
+
+---
+
+# 20. GUILD QUEST AUTOMATION
+
+Guild Hall quests are assigned and processed automatically.
+
+The Master does not need to manually control every quest action.
+
+Basic flow:
+
+```text
+GUILD HALL
+      ↓
+QUEST AVAILABLE
+      ↓
+AI FAIRY CHECKS ELIGIBLE PARTIES
+      ↓
+PARTY 3 AND ABOVE
+      ↓
+QUEST REQUIREMENT CHECK
+      ↓
+PARTY ASSIGNMENT
+      ↓
+QUEST START
+      ↓
+TIME SYSTEM
+      ↓
+QUEST COMPLETION
+      ↓
+REWARD GENERATED
+      ↓
+REWARD SYNCHRONIZATION
+      ↓
+DAILY REPORT
+```
+
+---
+
+# 21. GUILD QUEST PARTY SELECTION
+
+The AI Fairy selects an eligible Party according to:
+
+```text
+Party Number
+Party Availability
+Quest Requirements
+Hero Skills
+Party Condition
+Current Mission
+Quest Difficulty
+Quest Priority
+```
+
+The default rule is:
+
+```text
+Select the lowest available eligible Party
+```
+
+Therefore, Party 3 is selected before Party 4 when both are available.
+
+Example:
+
+```text
+Quest Available
+      ↓
+Check Party 3
+      ↓
+Party 3 Available
+      ↓
+Assign Quest to Party 3
+```
+
+If Party 3 is unavailable:
+
+```text
+Check Party 4
+      ↓
+Party 4 Available
+      ↓
+Assign Quest to Party 4
+```
+
+---
+
+# 22. GUILD QUEST RESTRICTIONS
+
+A Party cannot receive a Guild Hall quest if it is:
+
+```text
+Currently on an incompatible mission
+Defeated
+Recovering
+Locked by an Event
+Already assigned to another Guild Quest
+Missing required Hero Type
+Missing required Skill
+```
+
+The AI Fairy automatically checks these conditions.
+
+---
+
+# 23. GUILD QUEST PRIORITY
+
+Guild Hall quest priority is processed as:
+
+```text
+Master Orders
+      ↓
+Quest Expiration
+      ↓
+Daily Quest Priority
+      ↓
+Quest Reward Value
+      ↓
+Party Suitability
+      ↓
+Party Number
+```
+
+When all conditions are equal, the lowest eligible Party number is selected.
+
+---
+
+# 24. GUILD QUEST COMPLETION
+
+When an eligible Party completes a Guild Hall quest:
+
+```text
+QUEST COMPLETE
+      ↓
+QUEST RESULT GENERATED
+      ↓
+RNG CHECK
+      ↓
+REWARD GENERATED
+      ↓
+REWARD REGISTERED
+      ↓
+INVENTORY UPDATE
+      ↓
+QUEST HISTORY UPDATE
+      ↓
+GAME STATE UPDATE
+```
+
+The Party does not need to return to the Guild Hall manually for the quest to be recognized as complete.
+
+---
+
+# 25. GUILD QUEST REWARDS
+
+Guild Hall quest rewards may include:
+
+```text
+Gold
+Gems
+Tickets
+Materials
+Equipment
+Consumables
+Experience
+Reputation
+Faction Points
+Facility Resources
+Special Items
+```
+
+Rewards are generated through the Quest System and RNG System.
+
+---
+
+# 26. REWARD SYNCHRONIZATION
+
+Every reward obtained from a Guild Hall quest must be synchronized automatically.
+
+The AI Fairy performs synchronization between:
+
+```text
+Quest System
+Party System
+Reward System
+Inventory System
+Game State System
+Database System
+```
+
+Synchronization flow:
+
+```text
+QUEST RESULT
+      ↓
+REWARD DATA
+      ↓
+REWARD VALIDATION
+      ↓
+ITEM / RESOURCE ID ASSIGNMENT
+      ↓
+INVENTORY UPDATE
+      ↓
+PARTY RECORD UPDATE
+      ↓
+QUEST HISTORY UPDATE
+      ↓
+DATABASE SAVE
+```
+
+---
+
+# 27. REWARD SYNCHRONIZATION RULES
+
+The AI Fairy must ensure that:
+
+```text
+No Reward Is Lost
+No Reward Is Duplicated
+Every Item Receives an Item ID
+Every Resource Quantity Is Updated
+Every Quest Is Marked Correctly
+Every Party Receives the Correct Reward
+```
+
+If synchronization fails, the reward enters:
+
+```text
+PENDING REWARD
+```
+
+The AI Fairy reports the issue to the Master.
+
+---
+
+# 28. PENDING REWARD SYSTEM
+
+If a reward cannot be immediately added to Inventory:
+
+```text
+QUEST COMPLETE
+      ↓
+REWARD GENERATED
+      ↓
+INVENTORY UPDATE FAILED
+      ↓
+PENDING REWARD
+      ↓
+AI FAIRY ALERT
+      ↓
+RETRY SYNCHRONIZATION
+```
+
+The reward remains protected until synchronization succeeds.
+
+---
+
+# 29. DAILY RESET SYSTEM
+
+Guild Hall quests and Facility synchronization use a Daily Reset.
+
+The Daily Reset determines:
+
+```text
+New Guild Quests
+Quest Availability
+Quest Limits
+Quest Progress Reset
+Daily Reward Eligibility
+Daily Quest History
+Daily Party Assignment
+Facility Crafting Synchronization
+Crafting Result Synchronization
+Inventory Synchronization
+Daily Fairy Report
+```
+
+The Daily Reset is controlled by the Time System and Game State System.
+
+The Daily Reset is the official synchronization point for all automatic Facility crafting results.
+
+---
+
+# 30. DAILY RESET PROCESS
+
+At the configured reset time:
+
+```text
+DAILY RESET TIME
+      ↓
+TIME SYSTEM TRIGGER
+      ↓
+GAME STATE LOCK
+      ↓
+FACILITY PROCESSING CHECK
+      ↓
+AUTOMATIC CRAFTING COMPLETION CHECK
+      ↓
+CRAFTING RESULT VALIDATION
+      ↓
+REQUIRED MATERIAL DEDUCTION
+      ↓
+CRAFTED ITEM REGISTRATION
+      ↓
+INVENTORY UPDATE
+      ↓
+GUILD QUEST PROCESSING
+      ↓
+REWARD SYNCHRONIZATION
+      ↓
+QUEST HISTORY SAVE
+      ↓
+OLD DAILY QUEST DATA RESET
+      ↓
+NEW DAILY QUESTS GENERATED
+      ↓
+ELIGIBLE PARTIES CHECKED
+      ↓
+AUTOMATIC QUEST ASSIGNMENT
+      ↓
+DATABASE SAVE
+      ↓
+AI FAIRY DAILY REPORT
+      ↓
+MASTER NOTIFICATION
+```
+
+---
+
+# 31. DAILY RESET ORDER
+
+The system must process the Daily Reset in this order:
+
+```text
+1. Detect Reset Time
+2. Lock Daily Town Square State
+3. Process All Completed Facility Crafting
+4. Validate Crafting Results
+5. Deduct Required Crafting Materials
+6. Add Crafted Items and Resources to Inventory
+7. Save Crafting History
+8. Complete Valid Finished Guild Quests
+9. Generate Pending Rewards
+10. Synchronize All Quest Rewards
+11. Save Previous Daily Records
+12. Reset Daily Quest Counters
+13. Generate New Daily Quests
+14. Check Party 3 and Above
+15. Assign Eligible Quests Automatically
+16. Save New Town Square State
+17. Create AI Fairy Daily Report
+18. Notify the Master
+```
+
+This order prevents crafting materials, crafted items, and quest rewards from being lost or duplicated during the reset.
+
+---
+
+# 32. DAILY RESET AND ACTIVE QUESTS
+
+If a Guild Hall quest is still active when the Daily Reset occurs, the system follows the configured quest rule.
+
+Default behavior:
+
+```text
+Completed Quest
+→ Reward Immediately
+
+Active Quest
+→ Remains Active
+
+Expired Quest
+→ Marked Expired
+
+Failed Quest
+→ Marked Failed
+```
+
+An active quest is not automatically deleted unless the quest specifically requires daily expiration.
+
+---
+
+# 33. DAILY FACILITY CRAFTING SYNCHRONIZATION
+
+At every Daily Reset, the AI Fairy synchronizes all Facility crafting activity.
+
+The synchronization includes:
+
+```text
+Completed Crafting Tasks
+Crafting Tasks In Progress
+Crafting Tasks Waiting for Materials
+Consumed Materials
+Crafted Items
+Crafted Resource Quantities
+Crafting Quality
+RNG Results
+Crafting Failures
+Pending Crafting Results
+Facility Production History
+Inventory Changes
+```
+
+Synchronization flow:
+
+```text
+FACILITY
+      ↓
+CRAFTING QUEUE CHECK
+      ↓
+COMPLETED TASK CHECK
+      ↓
+RECIPE VALIDATION
+      ↓
+MATERIAL DEDUCTION
+      ↓
+RNG RESULT VALIDATION
+      ↓
+ITEM / RESOURCE CREATION
+      ↓
+INVENTORY ADDITION
+      ↓
+CRAFTING HISTORY SAVE
+      ↓
+DATABASE SAVE
+      ↓
+FAIRY REPORT
+```
+
+---
+
+# 34. AUTOMATIC CRAFTING RESULT RULE
+
+The result of every successful craft from every Facility must be added to the Inventory automatically.
+
+The required materials must be reduced from the Inventory automatically.
+
+Example:
+
+```text
+BEFORE CRAFTING
+
+Iron:
+10
+
+Wood:
+5
+
+Leather:
+3
+```
+
+Recipe:
+
+```text
+IRON SWORD
+
+Required:
+Iron × 5
+Wood × 2
+Leather × 1
+```
+
+After successful crafting:
+
+```text
+AFTER CRAFTING
+
+Iron:
+5
+
+Wood:
+3
+
+Leather:
+2
+
+Inventory Added:
+Iron Sword × 1
+```
+
+The transaction must be recorded as one synchronized operation.
+
+---
+
+# 35. AUTOMATIC CRAFTING TRANSACTION
+
+Every Facility crafting transaction follows:
+
+```text
+CRAFTING TASK CREATED
+      ↓
+RECIPE CHECK
+      ↓
+INVENTORY MATERIAL CHECK
+      ↓
+MATERIAL RESERVED
+      ↓
+CRAFTING PROCESS
+      ↓
+CRAFTING COMPLETED
+      ↓
+RNG RESULT
+      ↓
+MATERIALS DEDUCTED
+      ↓
+CRAFTED ITEM CREATED
+      ↓
+ITEM ADDED TO INVENTORY
+      ↓
+CRAFTING HISTORY UPDATED
+      ↓
+GAME STATE UPDATED
+      ↓
+DATABASE SAVED
+```
+
+Materials must not be deducted before the recipe and crafting task are validated.
+
+If the crafting task fails before completion, reserved materials are returned unless the recipe explicitly defines a failure cost.
+
+---
+
+# 36. CRAFTING MATERIAL RESERVATION
+
+When a Facility begins crafting, the required materials may be reserved.
+
+Example:
+
+```text
+Inventory:
+Iron × 10
+
+Crafting Task:
+Iron Sword
+Required:
+Iron × 5
+
+Reserved:
+Iron × 5
+
+Available:
+Iron × 5
+```
+
+Reserved materials cannot be used by another Facility or crafting task.
+
+This prevents multiple Facilities from consuming the same materials.
+
+---
+
+# 37. CRAFTING RESULT STATES
+
+Every automatic crafting task has a state:
+
+```text
+QUEUED
+WAITING_FOR_MATERIALS
+MATERIALS_RESERVED
+IN_PROGRESS
+COMPLETED
+FAILED
+CANCELLED
+SYNCHRONIZED
+PENDING_SYNCHRONIZATION
+```
+
+Only a task with the state:
+
+```text
+COMPLETED
+```
+
+can generate a final crafting result.
+
+After the result is added to Inventory, the task becomes:
+
+```text
+SYNCHRONIZED
+```
+
+---
+
+# 38. CRAFTING RESULT SYNCHRONIZATION FAILURE
+
+If a crafted result cannot be added to Inventory during the Daily Reset:
+
+```text
+CRAFTING COMPLETE
+      ↓
+INVENTORY UPDATE FAILED
+      ↓
+PENDING CRAFTING RESULT
+      ↓
+MATERIAL CONSUMPTION LOCKED
+      ↓
+AI FAIRY ALERT
+      ↓
+RETRY SYNCHRONIZATION
+```
+
+The crafted result must remain protected.
+
+The system must not create a duplicate result during retry.
+
+---
+
+# 39. PENDING CRAFTING RESULT
+
+A Pending Crafting Result contains:
+
+```text
+Craft ID
+Facility ID
+Recipe ID
+Crafting Result Data
+Required Materials
+Material Consumption Status
+RNG Result
+Item ID
+Inventory Synchronization Status
+Creation Time
+Last Retry Time
+```
+
+The AI Fairy reports all Pending Crafting Results to the Master.
+
+---
+
+# 40. DAILY FAIRY REPORT
+
+The AI Fairy creates a report after every Daily Reset.
+
+The report is sent to the Master automatically.
+
+The report includes all important Facility crafting and Guild Quest changes.
+
+Example:
+
+> **"Master, the Daily Reset has been completed."**
+
+> **"The Blacksmith completed three equipment orders."**
+
+> **"The Workshop completed two utility items."**
+
+> **"The Alchemy Laboratory completed five healing potions."**
+
+> **"All required crafting materials have been deducted from the Inventory."**
+
+> **"All crafted items have been added to the Inventory."**
+
+> **"Party 3 completed one Guild Hall quest and received its rewards."**
+
+> **"All rewards and crafting results have been synchronized with the Inventory."**
+
+> **"No synchronization errors were detected."**
+
+---
+
+# 41. DAILY REPORT CONTENT
+
+The Daily Report contains:
+
+```text
+Reset ID
+Reset Time
+
+Completed Facility Crafts
+Crafting Tasks In Progress
+Crafting Tasks Waiting for Materials
+Crafting Tasks Failed
+Crafting Tasks Pending Synchronization
+
+Materials Consumed
+Crafted Items Added
+Crafted Resources Added
+Crafting Quality Results
+Rare Crafting Results
+
+Completed Guild Quests
+Failed Guild Quests
+Expired Guild Quests
+New Guild Quests
+Assigned Parties
+
+Rewards Obtained
+Reward Synchronization Status
+Pending Rewards
+
+Inventory Changes
+Reputation Changes
+Faction Changes
+
+Errors
+Warnings
+```
+
+---
+
+# 42. DAILY REPORT EXAMPLE
+
+```text
+DAILY TOWN REPORT
+────────────────────────────
+Reset ID:
+RESET-000125
+
+Facility Crafting:
+12 Completed
+3 In Progress
+2 Waiting for Materials
+0 Failed
+0 Pending Synchronization
+
+Materials Consumed:
+Iron × 25
+Wood × 12
+Herb × 40
+
+Crafted Items Added:
+Iron Sword × 2
+Healing Potion × 5
+Repair Kit × 3
+
+Guild Quests:
+3 Completed
+2 In Progress
+5 New
+
+Assigned Parties:
+Party 3
+Party 4
+Party 5
+
+Rewards Synchronized:
+Yes
+
+Crafting Results Synchronized:
+Yes
+
+Pending Rewards:
+0
+
+Pending Crafting Results:
+0
+
+Inventory Updated:
+Yes
+
+Errors:
+0
+
+Warnings:
+Alchemy Laboratory requires more herbs
+```
+
+---
+
+# 43. AI FAIRY REPORT PRIORITY
+
+The AI Fairy must report:
+
+```text
+Crafting Result Synchronization Failure
+Pending Crafting Result
+Material Deduction Failure
+Inventory Update Failure
+Crafting Completion
+Crafting Failure
+Rare Crafting Result
+Quest Completion
+Quest Failure
+Quest Expiration
+Party Unavailability
+Daily Reset Completion
+New Quest Generation
+Important Reputation Changes
+Rare Reward Acquisition
+```
+
+Minor routine activity may be summarized.
+
+Major errors must be reported immediately.
+
+---
+
+# 44. GUILD QUEST + INVENTORY
+
+Guild Quest rewards are connected directly to the Inventory System.
+
+```text
+QUEST COMPLETE
+      ↓
+REWARD GENERATED
+      ↓
+ITEM / RESOURCE VALIDATION
+      ↓
+INVENTORY UPDATE
+      ↓
+DATABASE SAVE
+```
+
+All items must receive valid Item IDs.
+
+All stackable resources must update their quantities correctly.
+
+---
+
+# 45. GUILD QUEST + RNG
+
+RNG can determine:
+
+```text
+Reward Quantity
+Reward Quality
+Bonus Reward
+Rare Reward
+Critical Success
+Quest Event
+Additional Reputation
+```
+
+Example:
+
+```text
+QUEST COMPLETE
+      ↓
+BASE REWARD
+      ↓
+RNG
+      ↓
+NORMAL REWARD
+
+OR
+
+BONUS REWARD
+
+OR
+
+RARE REWARD
+```
+
+The AI Fairy does not directly decide the reward result.
+
+The Quest System and RNG System determine the result according to configured rules.
+
+---
+
+# 46. GUILD QUEST + PARTY SYSTEM
+
+Guild Hall quests use Party IDs.
+
+Example:
+
+```text
+PARTY-000003
+PARTY-000004
+PARTY-000005
+```
+
+The system must record:
+
+```text
+Party ID
+Quest ID
+Quest Start Time
+Quest Completion Time
+Quest Result
+Reward Data
+Reward Synchronization Status
+```
+
+---
+
+# 47. GUILD QUEST + TIME SYSTEM
+
+Guild Hall quests use the Time System.
+
+Example:
+
+```text
+Quest Duration:
+6 Hours
+
+Time System
+      ↓
+6 Hours Passed
+      ↓
+Quest Complete
+      ↓
+Reward Generated
+      ↓
+Reward Synchronized
+```
+
+The quest may complete while the Master is away from Town Square.
+
+---
+
+# 48. GUILD QUEST + GAME STATE
+
+The Game State System tracks:
+
+```text
+Guild Quest State
+Party Quest State
+Daily Reset State
+Reward State
+Inventory State
+Pending Reward State
+Quest History
+```
+
+This ensures that the Guild Hall remains synchronized with the rest of Aetheria.
+
+---
+
+# 49. BLACKSMITH
+
+The Blacksmith specializes in:
+
+```text
+Weapons
+Armor
+Equipment
+Repair
+Refinement
+Material Processing
+```
+
+The Leader may automatically initiate crafting based on:
+
+```text
+Available Materials
+Current Equipment Needs
+Hero Requests
+Master Orders
+Facility AI
+Crafting Priority
+```
+
+Automatic processing:
+
+```text
+BLACKSMITH
+      ↓
+RECIPE SELECTION
+      ↓
+MATERIAL CHECK
+      ↓
+CRAFTING
+      ↓
+RNG
+      ↓
+ITEM CREATED
+      ↓
+MATERIALS REDUCED
+      ↓
+ITEM ADDED TO INVENTORY
+```
+
+---
+
+# 50. WORKSHOP
+
+The Workshop focuses on:
+
+```text
+Tools
+Machines
+Engineering
+Utility Items
+Special Equipment
+Mechanical Devices
+```
+
+Dwarves and engineers may receive higher efficiency.
+
+All completed Workshop products are automatically added to the Inventory.
+
+All required materials are automatically reduced from the Inventory.
+
+---
+
+# 51. ALCHEMY LABORATORY
+
+The Alchemy Laboratory handles:
+
+```text
+Potions
+Medicine
+Elixirs
+Materials
+Special Consumables
+```
+
+The AI can select recipes according to:
+
+```text
+Inventory
+Hero Needs
+Quest Requirements
+Current Floor
+Available Materials
+Master Orders
+```
+
+All completed alchemical products are automatically added to the Inventory.
+
+All required ingredients are automatically reduced from the Inventory.
+
+---
+
+# 52. MAGIC LABORATORY
+
+The Magic Laboratory focuses on:
+
+```text
+Magic Items
+Runes
+Scrolls
+Magic Materials
+Arcane Equipment
+```
+
+Mages with suitable abilities can improve production.
+
+All completed magical products are automatically added to the Inventory.
+
+All required materials are automatically reduced from the Inventory.
+
+---
+
+# 53. TRAINING GROUND
+
+The Training Ground is used for:
+
+```text
+Hero Training
+Combat Practice
+Skill Practice
+Team Training
+AI Behavior Training
+```
+
+The Leader can assign available Heroes.
+
+Training results are processed by the Character System.
+
+If the Training Ground produces training materials, tokens, or other resources, those results are automatically added to the Inventory during synchronization.
+
+---
+
+# 54. LIBRARY
+
+The Library manages:
+
+```text
+World Knowledge
+Ancient Records
+Historical Data
+Monster Information
+Cult Information
+Character Records
+Exploration Data
+```
+
+It can interact with:
+
+```text
+World Exploration
+Quest System
+Story System
+Game State System
+```
+
+If the Library produces research materials, records, or special resources, those results are registered through the appropriate system and synchronized during the Daily Reset.
+
+---
+
+# 55. INN
+
+The Inn is primarily a recovery and social facility.
+
+Possible functions:
+
+```text
+Rest
+Recovery
+Social Interaction
+Relationship Development
+Character Events
+Rumors
+Information
+```
+
+The Inn can generate spontaneous Character Events.
+
+If the Inn produces food, supplies, or other resources, the results are added to the Inventory automatically after successful processing.
+
+---
+
+# 56. MEDICAL CENTER
+
+The Medical Center handles:
+
+```text
+Healing
+Recovery
+Status Treatment
+Injury Management
+Condition Monitoring
+```
+
+The Leader can assign medical Heroes.
+
+If the Medical Center produces medicine or medical supplies, the results are added to the Inventory automatically and the required materials are reduced automatically.
+
+---
+
+# 57. WAREHOUSE
+
+The Warehouse provides additional storage management.
+
+It is connected directly to:
+
+# **ITEM + INVENTORY SYSTEM**
+
+All resources remain registered through Item IDs.
+
+Example:
+
+```text
+ITEM-000001
+ITEM-000002
+ITEM-000003
+```
+
+The Warehouse does not create duplicate items.
+
+It only stores, organizes, and synchronizes existing Inventory records.
+
+---
+
+# 58. MARKET
+
+The Market can handle:
+
+```text
+Buying
+Selling
+Trading
+Merchant Events
+Resource Exchange
+Special Offers
+```
+
+Market content can be influenced by:
+
+```text
+Time
+World State
+Faction State
+Town State
+RNG
+Events
+```
+
+All purchased items are added to the Inventory.
+
+All sold or exchanged items are removed from the Inventory according to the transaction result.
+
+---
+
+# 59. AUTOMATIC CRAFTING
+
+Crafting is designed to operate automatically.
+
+The Master does not need to manually control every crafting action.
+
+Every Facility with a crafting or production function can automatically:
+
+```text
+Select a Recipe
+Check Inventory
+Reserve Materials
+Start Crafting
+Process Crafting Time
+Apply Facility Modifiers
+Apply RNG
+Complete the Craft
+Reduce Required Materials
+Create the Result
+Add the Result to Inventory
+Record the Transaction
+```
+
+Basic flow:
+
+```text
+FACILITY LEADER
+       ↓
+AI ANALYSIS
+       ↓
+CHECK INVENTORY
+       ↓
+CHECK MATERIALS
+       ↓
+CHECK RECIPES
+       ↓
+SELECT CRAFTING TASK
+       ↓
+RESERVE MATERIALS
+       ↓
+CRAFTING PROCESS
+       ↓
+RNG
+       ↓
+CRAFT COMPLETED
+       ↓
+MATERIALS REDUCED
+       ↓
+ITEM / RESOURCE CREATED
+       ↓
+INVENTORY UPDATE
+       ↓
+DAILY FAIRY SYNCHRONIZATION
+```
+
+---
+
+# 60. AI CRAFTING
+
+The crafting AI can determine:
+
+```text
+What to Craft
+When to Craft
+How Much to Craft
+Which Materials to Use
+Which Hero Should Assist
+Priority
+Whether to Wait for More Materials
+```
+
+The Master can optionally provide instructions.
+
+Example:
+
+```text
+MASTER PRIORITY:
+
+"Prepare equipment for Floor 25."
+```
+
+The AI then evaluates available materials and creates an appropriate production queue.
+
+The AI cannot consume restricted materials unless the Master has authorized their use.
+
+---
+
+# 61. CRAFTING PRIORITY
+
+The AI can prioritize:
+
+```text
+Master Orders
+      ↓
+Mission Requirements
+      ↓
+Guild Quest Requirements
+      ↓
+Hero Equipment Needs
+      ↓
+Facility Stock
+      ↓
+Optional Production
+```
+
+If multiple Facilities require the same material, the Game State System applies the configured priority order.
+
+---
+
+# 62. CRAFTING + RNG
+
+RNG is integrated into crafting.
+
+RNG can determine:
+
+```text
+Crafting Quality
+Bonus Material
+Extra Output
+Special Property
+Rare Result
+Critical Craft
+Failure
+```
+
+Example:
+
+```text
+IRON SWORD
+     ↓
+CRAFT
+     ↓
+RNG
+     ↓
+NORMAL RESULT
+
+OR
+
+HIGH QUALITY
+
+OR
+
+RARE RESULT
+```
+
+The exact probability is managed by the RNG System.
+
+---
+
+# 63. AI + RNG CRAFTING
+
+The AI chooses the action.
+
+RNG determines the result.
+
+```text
+AI
+ ↓
+Decision
+ ↓
+Recipe Selected
+ ↓
+Materials Reserved
+ ↓
+Craft
+ ↓
+RNG
+ ↓
+Result
+ ↓
+Inventory Synchronization
+```
+
+This separation is important.
+
+The AI does not directly decide that a rare item must appear.
+
+The RNG System determines the result according to configured probabilities.
+
+---
+
+# 64. MATERIAL SOURCE
+
+Crafting materials come from the Inventory.
+
+Possible sources:
+
+```text
+Enemy Loot
+Floor Rewards
+Quest Rewards
+Guild Hall Rewards
+Exploration
+Events
+Mining
+Gathering
+Previous Crafting
+Market
+Facility Production
+```
+
+All resources must be registered in Inventory.
+
+---
+
+# 65. MATERIAL CONSUMPTION
+
+Example:
+
+```text
+IRON SWORD
+
+Required:
+Iron × 5
+Wood × 2
+Leather × 1
+```
+
+The crafting AI checks Inventory.
+
+If enough materials exist:
+
+```text
+MATERIALS RESERVED
+CRAFTING START
+```
+
+If insufficient:
+
+```text
+CRAFTING WAITING
+```
+
+The AI can report missing materials.
+
+When the craft is successfully completed:
+
+```text
+Iron × 5
+Wood × 2
+Leather × 1
+```
+
+are reduced from the Inventory, and the crafted item is added to the Inventory.
+
+---
+
+# 66. AI FAIRY CRAFTING REPORT
+
+The Fairy reports important activity to the Master.
+
+Example:
+
+> **"Master, the Blacksmith has started crafting equipment for the next expedition."**
+
+> **"Master, Iron is insufficient to continue the current production queue."**
+
+> **"Master, the crafting process has completed."**
+
+> **"Master, the required materials have been deducted from the Inventory."**
+
+> **"Master, the crafted item has been added to the Inventory."**
+
+> **"Master, a High Quality weapon was produced."**
+
+---
+
+# 67. INVENTORY SYNCHRONIZATION
+
+Every crafting transaction must be synchronized.
+
+```text
+INVENTORY
+   ↓
+MATERIAL CHECK
+   ↓
+MATERIAL RESERVATION
+   ↓
+CRAFTING
+   ↓
+RNG
+   ↓
+MATERIALS REDUCED
+   ↓
+ITEM / RESOURCE CREATED
+   ↓
+ITEM / RESOURCE ADDED TO INVENTORY
+   ↓
+CRAFTING HISTORY
+   ↓
+GAME STATE
+   ↓
+DATABASE
+```
+
+The Inventory transaction must be atomic.
+
+This means the system must not reduce materials without adding the valid crafting result, except when a recipe explicitly defines a failure cost.
+
+---
+
+# 68. DATABASE INTEGRATION
+
+Town Square data is stored in the Database System.
+
+Example:
+
+```text
+Town ID
+Facility ID
+Facility Level
+Leader ID
+Worker IDs
+Crafting Queue
+Crafting History
+Crafting Result
+Facility State
+Production State
+Guild Quest State
+Daily Reset State
+Reward Synchronization State
+Inventory Synchronization State
+Last Update
+```
+
+All Hero assignments use Character IDs.
+
+---
+
+# 69. ID SYSTEM
+
+Every Town Square object receives an ID.
+
+Example:
+
+```text
+TOWN-000001
+
+FACILITY-000001
+FACILITY-000002
+
+CRAFT-000001
+CRAFT-000002
+
+TASK-000001
+TASK-000002
+
+QUEST-000001
+QUEST-000002
+
+RESET-000001
+RESET-000002
+
+REWARD-000001
+REWARD-000002
+
+SYNC-000001
+SYNC-000002
+```
+
+Hero references use:
+
+```text
+HERO-XXXXXX
+```
+
+Party references use:
+
+```text
+PARTY-XXXXXX
+```
+
+Item references use:
+
+```text
+ITEM-XXXXXX
+```
+
+---
+
+# 70. GAME STATE INTEGRATION
+
+The Game State System monitors Town Square.
+
+It tracks:
+
+```text
+Town State
+Facility State
+Leader State
+Worker State
+Crafting State
+Crafting Result State
+Resource State
+Material Reservation State
+Hero Availability
+Guild Quest State
+Party Quest State
+Daily Reset State
+Reward Synchronization State
+Inventory Synchronization State
+Facility Events
+Town Events
+```
+
+---
+
+# 71. TOWN STATE LOOP
+
+```text
+                    MASTER
+                      │
+                      ▼
+                 TOWN SQUARE
+                      │
+                      ▼
+               GAME STATE SYSTEM
+                      │
+       ┌──────────────┼──────────────┐
+       │              │              │
+   FACILITY         HERO          RESOURCE
+      STATE          STATE           STATE
+       │              │              │
+       ├──────────────┼──────────────┤
+       │              │              │
+   GUILD QUEST     PARTY         DAILY RESET
+      STATE         STATE           STATE
+       │              │              │
+       └──────────────┼──────────────┘
+                      ▼
+                     AI
+                      │
+             ┌────────┴────────┐
+             │                 │
+          ACTIVITY          EVENT
+             │                 │
+             └────────┬────────┘
+                      ▼
+                    RESULT
+                      │
+                      ▼
+              INVENTORY UPDATE
+                      │
+                      ▼
+                  DATABASE
+```
+
+---
+
+# 72. TIME SYSTEM INTEGRATION
+
+Town Square activities use the Time System.
+
+Examples:
+
+```text
+Crafting Duration
+Training Duration
+Recovery Duration
+Facility Production
+Hero Activity
+Market Rotation
+Town Events
+Guild Quest Duration
+Daily Reset
+Inventory Synchronization
+```
+
+Example:
+
+```text
+Crafting Time:
+30 Minutes
+
+Time System
+      ↓
+30 Minutes Passed
+      ↓
+Crafting Complete
+      ↓
+Materials Reduced
+      ↓
+Item Added to Inventory
+```
+
+---
+
+# 73. HERO DAILY ACTIVITY
+
+Heroes can have automatic activities.
+
+Example:
+
+```text
+MORNING
+↓
+Training
+
+AFTERNOON
+↓
+Facility Work
+
+EVENING
+↓
+Inn / Social Interaction
+
+NIGHT
+↓
+Rest
+```
+
+The AI Character System can modify these activities according to personality and current conditions.
+
+---
+
+# 74. EMOTIONAL SYSTEM
+
+Heroes inside Town Square retain their emotional state.
+
+Possible states:
+
+```text
+Happy
+Calm
+Sad
+Angry
+Fearful
+Excited
+Tired
+Stressed
+Motivated
+Lonely
+Satisfied
+Dissatisfied
+```
+
+The Town environment can influence these values.
+
+---
+
+# 75. CHARACTER INTERACTION
+
+Heroes can interact automatically.
+
+Example:
+
+```text
+Hero A
+   ↓
+Talks with
+   ↓
+Hero B
+   ↓
+Relationship Update
+   ↓
+Emotional Update
+```
+
+Possible results:
+
+```text
+Friendship
+Rivalry
+Trust
+Conflict
+Respect
+Romance
+Dislike
+Alliance
+```
+
+The actual relationship rules belong to the Character / Relationship System.
+
+---
+
+# 76. FACILITY LEADER PERSONALITY
+
+The Leader's personality affects management.
+
+Example:
+
+### Strict Leader
+
+```text
+High productivity
+Low tolerance for lazy workers
+Higher conflict probability
+```
+
+### Friendly Leader
+
+```text
+Better social relationships
+Higher cooperation
+Lower conflict
+```
+
+### Greedy Leader
+
+```text
+Prioritizes valuable production
+May consume rare materials
+```
+
+### Perfectionist
+
+```text
+Lower production speed
+Higher quality probability
+```
+
+These effects are processed through AI and RNG.
+
+---
+
+# 77. FACILITY EVENTS
+
+Facilities can generate Events.
+
+Examples:
+
+```text
+Blacksmith discovers rare recipe
+Mage discovers ancient spell
+Dwarf repairs ancient machine
+Heroes argue during work
+Hero discovers hidden talent
+Worker requests promotion
+Facility Leader requests new worker
+Rare material discovered
+Crafting accident
+Special crafting event
+```
+
+Events are controlled by the:
+
+# **EVENT SYSTEM**
+
+---
+
+# 78. FACILITY LEADER PROGRESSION
+
+Facility Leaders can develop their expertise.
+
+Example:
+
+```text
+Blacksmith Leader
+      ↓
+Experience
+      ↓
+Facility Skill
+      ↓
+Better Crafting
+```
+
+Possible expertise:
+
+```text
+Weapon Crafting
+Armor Crafting
+Alchemy
+Engineering
+Magic Crafting
+Resource Processing
+```
+
+---
+
+# 79. FACILITY LEVEL
+
+Facilities can have levels.
+
+```text
+Level 1
+   ↓
+Level 2
+   ↓
+Level 3
+   ↓
+Level 4
+   ↓
+Level 5
+```
+
+Higher levels may unlock:
+
+```text
+More Worker Slots
+New Recipes
+Better Production
+Higher Storage
+New Functions
+New Facility Events
+```
+
+Exact progression can be configured separately.
+
+---
+
+# 80. MASTER CONTROL
+
+The Master remains the highest authority.
+
+The Master can:
+
+```text
+Assign Leader
+Remove Leader
+Assign Workers
+Remove Workers
+Set Production Priority
+Set Crafting Priority
+Upgrade Facility
+Cancel Task
+Change Facility Policy
+Inspect Status
+Set Guild Quest Policy
+Set Daily Quest Priority
+Authorize Restricted Materials
+Set Automatic Crafting Policy
+```
+
+However, the Master does not need to micromanage every action.
+
+---
+
+# 81. AI AUTONOMY
+
+The intended system is:
+
+```text
+MASTER
+   │
+   │ gives strategic direction
+   ▼
+FACILITY LEADER
+   │
+   │ manages facility
+   ▼
+AI
+   │
+   │ selects activities
+   ▼
+WORKERS
+   │
+   ▼
+AUTOMATIC CRAFTING
+   │
+   ▼
+INVENTORY UPDATE
+```
+
+For Guild Hall quests:
+
+```text
+MASTER
+   │
+   │ sets strategic priority
+   ▼
+AI FAIRY
+   │
+   │ checks Party 3 and above
+   ▼
+ELIGIBLE PARTY
+   │
+   ▼
+GUILD QUEST
+   │
+   ▼
+REWARD SYNCHRONIZATION
+   │
+   ▼
+DAILY REPORT
+```
+
+This allows Town Square to feel alive while preserving the Master's authority.
+
+---
+
+# 82. MASTER ORDERS
+
+The Master can provide high-level commands.
+
+Example:
+
+```text
+"Prepare equipment for Floor 30."
+
+"Prioritize healing items."
+
+"Save rare materials."
+
+"Produce food."
+
+"Prepare weapons."
+
+"Do not consume Legendary materials."
+
+"Prioritize Guild Hall quests for Party 3."
+
+"Do not assign Party 4 unless Party 3 is unavailable."
+
+"Automatically craft healing potions when herbs are available."
+
+"Do not begin crafting if the material reserve falls below the configured limit."
+```
+
+The AI interprets these as Facility and quest priorities.
+
+---
+
+# 83. RESOURCE POLICY
+
+The Master can configure resource policies.
+
+Example:
+
+```text
+COMMON MATERIAL
+→ Free Use
+
+RARE MATERIAL
+→ Restricted
+
+LEGENDARY MATERIAL
+→ Master Approval
+```
+
+This prevents the AI from accidentally consuming important resources.
+
+The policy is checked before materials are reserved.
+
+---
+
+# 84. SPECIAL ITEMS
+
+Items created by Town Square can have AI-generated:
+
+```text
+Name
+Description
+Effect
+Lore
+Special Property
+```
+
+The actual gameplay values must still be validated by the Item System.
+
+Example:
+
+```text
+Item:
+"Flameheart Sword"
+
+Effect:
+Fire Damage +X%
+
+Special Property:
+Chance to inflict Burn
+```
+
+The Item System stores the final item data.
+
+---
+
+# 85. RNG ITEM CREATION
+
+When a crafting result is generated:
+
+```text
+Recipe
+   ↓
+Base Item
+   ↓
+AI-generated properties
+   ↓
+RNG
+   ↓
+Final Item
+   ↓
+Item ID
+   ↓
+Inventory
+```
+
+The final item is added to the Inventory only after the crafting transaction is validated.
+
+---
+
+# 86. NO DIRECT ITEM DUPLICATION
+
+Every generated item receives an Item ID.
+
+Example:
+
+```text
+ITEM-100021
+ITEM-100022
+ITEM-100023
+```
+
+The Database System stores each persistent item where required.
+
+Stackable resources can use quantity-based records according to the Inventory System.
+
+The synchronization system must verify that the same Craft ID cannot generate the same Item ID more than once.
+
+---
+
+# 87. TOWN SQUARE + DUNGEON
+
+Town Square prepares Heroes for Dungeon missions.
+
+```text
+TOWN SQUARE
+      ↓
+Preparation
+      ↓
+Equipment
+      ↓
+Training
+      ↓
+Recovery
+      ↓
+PARTY
+      ↓
+DUNGEON
+```
+
+After the mission:
+
+```text
+DUNGEON
+      ↓
+Loot
+      ↓
+Inventory
+      ↓
+TOWN SQUARE
+      ↓
+Automatic Crafting / Recovery / Training
+```
+
+---
+
+# 88. COMPLETE RESOURCE LOOP
+
+```text
+                    DUNGEON
+                       │
+                       ▼
+                  ENEMY LOOT
+                       │
+                       ▼
+                  FLOOR REWARD
+                       │
+                       ▼
+                      RNG
+                       │
+                       ▼
+                   INVENTORY
+                       │
+                       ▼
+                  TOWN SQUARE
+                       │
+                       ▼
+                 FACILITY AI
+                       │
+                       ▼
+              AUTOMATIC CRAFTING
+                       │
+                       ▼
+                      RNG
+                       │
+                       ▼
+                 MATERIALS REDUCED
+                       │
+                       ▼
+                 NEW ITEM CREATED
+                       │
+                       ▼
+                  INVENTORY
+                       │
+                       ▼
+                     HERO
+                       │
+                       ▼
+                  NEXT FLOOR
+```
+
+---
+
+# 89. COMPLETE GUILD QUEST LOOP
+
+```text
+                 DAILY RESET
+                      │
+                      ▼
+              NEW QUEST GENERATION
+                      │
+                      ▼
+                AI FAIRY CHECK
+                      │
+          ┌───────────┴───────────┐
+          │                       │
+       PARTY 1–2              PARTY 3+
+       INELIGIBLE              ELIGIBLE
+                                  │
+                                  ▼
+                         QUEST ASSIGNMENT
+                                  │
+                                  ▼
+                            TIME SYSTEM
+                                  │
+                                  ▼
+                          QUEST COMPLETION
+                                  │
+                                  ▼
+                                RNG
+                                  │
+                                  ▼
+                           REWARD GENERATED
+                                  │
+                                  ▼
+                       REWARD SYNCHRONIZATION
+                                  │
+                                  ▼
+                              INVENTORY
+                                  │
+                                  ▼
+                           DATABASE SAVE
+                                  │
+                                  ▼
+                         DAILY FAIRY REPORT
+                                  │
+                                  ▼
+                                MASTER
+```
+
+---
+
+# 90. COMPLETE AUTOMATIC CRAFTING LOOP
+
+```text
+                 FACILITY
+                    │
+                    ▼
+             FACILITY LEADER
+                    │
+                    ▼
+                    AI
+                    │
+                    ▼
+             RECIPE SELECTION
+                    │
+                    ▼
+             INVENTORY CHECK
+                    │
+          ┌─────────┴─────────┐
+          │                   │
+     MATERIALS ENOUGH     MATERIALS LOW
+          │                   │
+          ▼                   ▼
+   RESERVE MATERIALS     WAITING STATE
+          │
+          ▼
+       CRAFTING
+          │
+          ▼
+          RNG
+          │
+          ▼
+    CRAFTING RESULT
+          │
+          ▼
+   MATERIALS REDUCED
+          │
+          ▼
+    ITEM / RESOURCE
+       CREATED
+          │
+          ▼
+   INVENTORY ADDITION
+          │
+          ▼
+ DAILY FAIRY SYNCHRONIZATION
+          │
+          ▼
+       DATABASE
+          │
+          ▼
+        MASTER
+```
+
+---
+
+# 91. COMPLETE HERO ACTIVITY LOOP
+
+```text
+                    HERO
+                      │
+          ┌───────────┼───────────┐
+          │           │           │
+        PARTY      FACILITY     TOWN
+          │           │           │
+       MISSION       WORK       SOCIAL
+          │           │           │
+          └───────────┼───────────┘
+                      │
+                      ▼
+                 CHARACTER AI
+                      │
+                      ▼
+                EMOTIONAL STATE
+                      │
+                      ▼
+                RELATIONSHIP
+                      │
+                      ▼
+                 GAME STATE
+```
+
+---
+
+# 92. TOWN SQUARE EVENT LOOP
+
+```text
+TIME
+ │
+ ▼
+GAME STATE
+ │
+ ▼
+TOWN CONDITION
+ │
+ ▼
+FACILITY CONDITION
+ │
+ ▼
+HERO CONDITION
+ │
+ ▼
+GUILD QUEST CONDITION
+ │
+ ▼
+DAILY RESET CONDITION
+ │
+ ▼
+AI
+ │
+ ▼
+RNG
+ │
+ ▼
+EVENT
+ │
+ ▼
+CONSEQUENCE
+ │
+ ▼
+INVENTORY UPDATE
+ │
+ ▼
+DATABASE
+```
+
+---
+
+# 93. AI FAIRY — TOWN MANAGEMENT
+
+The AI Fairy acts as the Master's primary information interface.
+
+The Fairy monitors:
+
+```text
+Facility Status
+Automatic Crafting
+Crafting Queue
+Crafting Results
+Resource Consumption
+Material Reservations
+Inventory Changes
+Hero Activity
+Leader Activity
+Facility Events
+Important Character Events
+Town Problems
+Guild Quest Status
+Party Eligibility
+Quest Rewards
+Reward Synchronization
+Daily Reset
+Pending Rewards
+Pending Crafting Results
+```
+
+The Fairy should not make major strategic decisions without the Master's authority unless the system explicitly allows autonomous management.
+
+The Fairy may automatically perform:
+
+```text
+Routine Facility Processing
+Crafting Result Synchronization
+Material Deduction
+Inventory Addition
+Guild Hall Quest Synchronization
+Daily Reset Processing
+Daily Report Generation
+```
+
+---
+
+# 94. AI FAIRY REPORT EXAMPLE
+
+When the Master returns:
+
+> **"Welcome back, Master."**
+
+> **"The Blacksmith completed three equipment orders while you were away."**
+
+> **"The Workshop completed two utility items."**
+
+> **"The Alchemy Laboratory completed five healing potions."**
+
+> **"The required materials have been deducted from the Inventory."**
+
+> **"All crafted items have been added to the Inventory."**
+
+> **"Two Heroes assisted the Blacksmith."**
+
+> **"The Alchemy Laboratory is currently low on medicinal herbs."**
+
+> **"The Training Ground has completed its current training session."**
+
+> **"Party 3 completed a Guild Hall quest."**
+
+> **"The quest reward has been synchronized with the Inventory."**
+
+> **"The Daily Reset has been completed."**
+
+> **"All Facility crafting results and Guild Hall rewards have been synchronized."**
+
+> **"No synchronization errors were detected."**
+
+---
+
+# 95. TOWN SQUARE MASTER REPORT
+
+The Fairy can summarize:
+
+```text
+TOWN STATUS
+────────────────────
+Facilities:
+8 Active
+
+Crafting:
+12 Completed
+3 In Progress
+2 Waiting for Materials
+0 Failed
+
+Crafting Results:
+All Synchronized
+
+Materials Consumed:
+Iron
+Wood
+Leather
+Herbs
+
+Items Added:
+Weapons
+Potions
+Tools
+Materials
+
+Heroes:
+12 Available
+5 Assigned to Facilities
+8 On Mission
+
+Guild Quests:
+3 Completed
+2 In Progress
+5 New
+
+Eligible Parties:
+Party 3
+Party 4
+Party 5
+
+Rewards:
+All Synchronized
+
+Pending Rewards:
+0
+
+Pending Crafting Results:
+0
+
+Resources:
+Gold
+Gems
+Tickets
+Materials
+
+Events:
+2 Active
+1 New
+```
+
+---
+
+# 96. MASTER + FACILITY LEADER
+
+The Master can communicate directly with Facility Leaders.
+
+Example:
+
+```text
+MASTER
+   ↓
+FACILITY LEADER
+   ↓
+REPORT
+   ↓
+MASTER DECISION
+```
+
+Leader reports can include:
+
+```text
+Production
+Problems
+Resources
+Worker Requests
+Facility Conditions
+New Discoveries
+Crafting Results
+Material Shortages
+```
+
+---
+
+# 97. LEADER RECRUITMENT PRIORITY
+
+When a Facility needs workers:
+
+```text
+FACILITY LEADER
+      ↓
+REQUEST
+      ↓
+AI
+      ↓
+AVAILABLE HERO POOL
+      ↓
+SKILL MATCH
+      ↓
+PERSONALITY MATCH
+      ↓
+RELATIONSHIP
+      ↓
+EMOTIONAL STATE
+      ↓
+RNG / DECISION
+      ↓
+WORKER ASSIGNMENT
+```
+
+This keeps worker selection dynamic.
+
+---
+
+# 98. FACILITY CONFLICT
+
+Heroes can disagree.
+
+Example:
+
+```text
+Leader:
+Strict Dwarf
+
+Worker:
+Lazy Beastfolk
+```
+
+Possible result:
+
+```text
+Conflict Event
+```
+
+The Event System determines the consequence.
+
+Possible outcomes:
+
+```text
+Argument
+Improved Understanding
+Worker Leaves
+Leader Requests Replacement
+Relationship Changes
+New Friendship
+```
+
+---
+
+# 99. TOWN SQUARE SOCIAL EVENTS
+
+Possible events:
+
+```text
+Festival
+Celebration
+Training Competition
+Drinking Event
+Cooking Event
+Hero Birthday
+Argument
+Friendship Event
+Romance Event
+Memorial
+World News
+Faction Visit
+Merchant Arrival
+```
+
+These events interact with:
+
+```text
+Character AI
+Emotional System
+Relationship System
+Event System
+Time System
+Game State
+```
+
+---
+
+# 100. TOWN SQUARE AND WORLD STATE
+
+Town Square reflects the condition of Aetheria.
+
+If the Master saves more Heroes:
+
+```text
+Population increases
+      ↓
+More available workers
+      ↓
+More facility activity
+      ↓
+Greater Town development
+```
+
+If the world becomes more corrupted:
+
+```text
+Destruction increases
+      ↓
+Resources become scarce
+      ↓
+Town pressure increases
+      ↓
+New Events
+```
+
+---
+
+# 101. TOWN DEVELOPMENT
+
+Town Square can gradually evolve.
+
+```text
+Small Refuge
+      ↓
+Survivor Camp
+      ↓
+Settlement
+      ↓
+Town
+      ↓
+Major Settlement
+      ↓
+Reborn Civilization
+```
+
+Development can depend on:
+
+```text
+Master Progress
+Saved Heroes
+Resources
+Facilities
+Events
+World State
+Faction State
+Floor Progression
+Guild Reputation
+Crafting Progress
+```
+
+---
+
+# 102. TOWN SQUARE AS FUTURE WORLD FOUNDATION
+
+The Town Square is not only a temporary headquarters.
+
+It can eventually become one of the foundations of:
+
+# **NEW AETHERIA**
+
+If the Master defeats Nythar, the Town Square may become part of the civilization rebuilt after the Pact.
+
+The final state can depend on:
+
+```text
+Town Level
+Facilities
+Saved Heroes
+Faction Relationships
+World Exploration
+Resources
+Master Decisions
+Events
+Guild Reputation
+Quest History
+Crafting History
+```
+
+---
+
+# 103. COMPLETE SYSTEM ARCHITECTURE
+
+```text
+                         MASTER
+                           │
+                           ▼
+                     TOWN SQUARE
+                           │
+          ┌────────────────┼────────────────┐
+          │                │                │
+      FACILITIES          HEROES          GUILD HALL
+          │                │                │
+          ▼                ▼                ▼
+      LEADER AI       CHARACTER AI       QUEST AI
+          │                │                │
+          ▼                ▼                ▼
+      WORKERS          EMOTIONAL       PARTY 3+
+          │                │                │
+          └────────┬───────┴───────┬────────┘
+                   ▼               ▼
+                  AI             TIME SYSTEM
+                   │               │
+             ┌─────┴─────┐         │
+             │           │         │
+          CRAFT        EVENT     DAILY RESET
+             │           │         │
+             ▼           ▼         ▼
+            RNG        GAME STATE  REWARD SYNC
+             │           │         │
+             └─────┬─────┴─────────┘
+                   ▼
+          MATERIALS REDUCED
+                   │
+                   ▼
+          CRAFTED RESULT CREATED
+                   │
+                   ▼
+               INVENTORY
+                   │
+                   ▼
+                DATABASE
+                   │
+                   ▼
+                AI FAIRY
+                   │
+                   ▼
+                 MASTER
+```
+
+---
+
+# 104. SYSTEM DEPENDENCY
+
+Town Square depends on:
+
+```text
+MASTER SYSTEM
+CHARACTER / HERO SYSTEM
+CHARACTER AI
+EMOTIONAL SYSTEM
+PARTY SYSTEM
+ITEM SYSTEM
+INVENTORY SYSTEM
+RNG SYSTEM
+GAME STATE SYSTEM
+DATABASE SYSTEM
+ID SYSTEM
+TIME SYSTEM
+EVENT SYSTEM
+AI FAIRY
+DUNGEON SYSTEM
+QUEST SYSTEM
+GUILD SYSTEM
+REWARD SYSTEM
+DAILY RESET SYSTEM
+CRAFTING SYSTEM
+SYNCHRONIZATION SYSTEM
+```
+
+Town Square does not replace these systems.
+
+It acts as their central operational environment outside missions.
+
+---
+
+# 105. DATA FLOW
+
+```text
+DUNGEON
+   │
+   ├── Loot
+   ├── Rewards
+   └── Materials
+          │
+          ▼
+      INVENTORY
+          │
+          ▼
+     TOWN SQUARE
+          │
+          ├── FACILITY LEADER
+          │       │
+          │       ▼
+          │      AI
+          │       │
+          │       ▼
+          │    CRAFTING
+          │       │
+          │       ▼
+          │  MATERIALS REDUCED
+          │       │
+          │       ▼
+          │  CRAFTED RESULT
+          │       │
+          │       ▼
+          │  INVENTORY ADDITION
+          │
+          └── GUILD HALL
+                  │
+                  ▼
+             PARTY 3+
+                  │
+                  ▼
+             GUILD QUEST
+                  │
+                  ▼
+                REWARD
+                  │
+                  ▼
+          REWARD SYNCHRONIZATION
+                  │
+                  ▼
+              INVENTORY
+                  │
+                  ▼
+               DATABASE
+```
+
+---
+
+# 106. PERSISTENT DATA
+
+The following Town Square information must be persisted:
+
+```text
+Town ID
+Town Level
+Town State
+
+Facility ID
+Facility Level
+Facility State
+Facility Leader ID
+Worker IDs
+
+Crafting Queue
+Crafting History
+Crafting Result
+Crafting Result State
+Production State
+Material Reservation State
+Material Consumption State
+
+Hero Activity
+Hero Assignment
+Hero Availability
+
+Guild Quest ID
+Guild Quest State
+Assigned Party ID
+Quest Completion Time
+Quest Reward Data
+Reward Synchronization State
+
+Daily Reset ID
+Daily Reset Time
+Daily Quest History
+Daily Quest Counters
+
+Pending Rewards
+Pending Crafting Results
+
+Inventory Changes
+Inventory Synchronization State
+
+Town Events
+Facility Events
+
+Resource Usage
+Upgrade History
+
+Last Updated Time
+```
+
+---
+
+# 107. SAVE / LOAD
+
+When the Master leaves or enters Town Square:
+
+```text
+GAME STATE
+    ↓
+TOWN STATE
+    ↓
+FACILITY STATE
+    ↓
+HERO STATE
+    ↓
+PARTY STATE
+    ↓
+CRAFTING STATE
+    ↓
+CRAFTING RESULT STATE
+    ↓
+MATERIAL RESERVATION STATE
+    ↓
+GUILD QUEST STATE
+    ↓
+DAILY RESET STATE
+    ↓
+REWARD STATE
+    ↓
+INVENTORY STATE
+    ↓
+SYNCHRONIZATION STATE
+    ↓
+DATABASE SAVE
+```
+
+When loading:
+
+```text
+DATABASE
+    ↓
+GAME STATE
+    ↓
+TOWN STATE
+    ↓
+FACILITY STATE
+    ↓
+HERO STATE
+    ↓
+PARTY STATE
+    ↓
+CRAFTING STATE
+    ↓
+CRAFTING RESULT STATE
+    ↓
+MATERIAL RESERVATION STATE
+    ↓
+GUILD QUEST STATE
+    ↓
+DAILY RESET STATE
+    ↓
+REWARD STATE
+    ↓
+INVENTORY STATE
+    ↓
+SYNCHRONIZATION STATE
+    ↓
+TOWN SQUARE
+```
+
+---
+
+# 108. IMPORTANT DESIGN RULES
+
+### Rule 1
+
+Every major Facility has:
+
+```text
+1 Leader Slot
+```
+
+### Rule 2
+
+The Leader is a real Hero Character.
+
+### Rule 3
+
+The Leader can request assistance from Heroes not currently assigned to active Parties.
+
+### Rule 4
+
+Heroes maintain their own:
+
+```text
+Personality
+Emotion
+Relationship
+Skills
+Condition
+```
+
+### Rule 5
+
+Crafting operates automatically for all Facilities that support production.
+
+### Rule 6
+
+Crafting checks and reserves required materials from the Inventory.
+
+### Rule 7
+
+When crafting succeeds, required materials are reduced from the Inventory.
+
+### Rule 8
+
+When crafting succeeds, the crafted item or resource is added to the Inventory.
+
+### Rule 9
+
+Crafting material deduction and crafting result addition must be processed as one synchronized transaction.
+
+### Rule 10
+
+AI decides suitable activities.
+
+### Rule 11
+
+RNG determines randomized crafting and quest results.
+
+### Rule 12
+
+Important Town changes are processed through the Game State System.
+
+### Rule 13
+
+Persistent data is stored in the Database System.
+
+### Rule 14
+
+AI Fairy reports important changes to the Master.
+
+### Rule 15
+
+Guild Hall quests can only be completed by Party 3 and above.
+
+### Rule 16
+
+Party 1 and Party 2 are ineligible for Guild Hall quests unless a special rule overrides this restriction.
+
+### Rule 17
+
+Guild Hall quest assignment is automated by the AI Fairy.
+
+### Rule 18
+
+Every Guild Hall reward must be synchronized with the Inventory System.
+
+### Rule 19
+
+The Daily Reset must process completed Facility crafting before finalizing the daily synchronization.
+
+### Rule 20
+
+The Daily Reset must process completed quests and rewards before resetting daily quest data.
+
+### Rule 21
+
+The AI Fairy must create a report for the Master after every Daily Reset.
+
+### Rule 22
+
+Pending or failed reward synchronization must never delete the reward.
+
+### Rule 23
+
+Pending or failed crafting synchronization must never delete the crafted result.
+
+### Rule 24
+
+The same Craft ID cannot generate duplicate crafting results.
+
+### Rule 25
+
+The same Reward ID cannot generate duplicate quest rewards.
+
+### Rule 26
+
+The AI Fairy performs automatic synchronization at every Daily Reset.
+
+### Rule 27
+
+The AI Fairy sends a Daily Report to the Master after every Daily Reset.
+
+---
+
+# 109. CORE TOWN SQUARE LOOP
+
+```text
+                 MASTER
+                    │
+                    ▼
+              TOWN SQUARE
+                    │
+                    ▼
+              FACILITIES
+                    │
+                    ▼
+            FACILITY LEADERS
+                    │
+                    ▼
+                   AI
+                    │
+          ┌─────────┼─────────┐
+          │         │         │
+        WORK      CRAFT     EVENT
+          │         │         │
+          └─────────┼─────────┘
+                    ▼
+                   RNG
+                    │
+                    ▼
+                RESULT
+                    │
+                    ▼
+             MATERIALS REDUCED
+                    │
+                    ▼
+              INVENTORY UPDATED
+                    │
+                    ▼
+             GAME STATE SYSTEM
+                    │
+                    ▼
+              DATABASE SYSTEM
+                    │
+                    ▼
+                AI FAIRY
+                    │
+                    ▼
+                 MASTER
+```
+
+---
+
+# 110. CORE GUILD QUEST LOOP
+
+```text
+                 DAILY RESET
+                      │
+                      ▼
+              QUEST GENERATION
+                      │
+                      ▼
+                AI FAIRY CHECK
+                      │
+                      ▼
+              CHECK PARTY NUMBER
+                      │
+          ┌───────────┴───────────┐
+          │                       │
+       PARTY 1–2              PARTY 3+
+       INELIGIBLE              ELIGIBLE
+                                  │
+                                  ▼
+                         QUEST ASSIGNMENT
+                                  │
+                                  ▼
+                            TIME SYSTEM
+                                  │
+                                  ▼
+                          QUEST COMPLETION
+                                  │
+                                  ▼
+                                RNG
+                                  │
+                                  ▼
+                           REWARD GENERATED
+                                  │
+                                  ▼
+                       REWARD SYNCHRONIZATION
+                                  │
+                                  ▼
+                              INVENTORY
+                                  │
+                                  ▼
+                           DATABASE SAVE
+                                  │
+                                  ▼
+                         DAILY FAIRY REPORT
+                                  │
+                                  ▼
+                                MASTER
+```
+
+---
+
+# 111. CORE DAILY CRAFTING SYNCHRONIZATION LOOP
+
+```text
+                 DAILY RESET
+                      │
+                      ▼
+              AI FAIRY ACTIVATES
+                      │
+                      ▼
+              CHECK ALL FACILITIES
+                      │
+                      ▼
+             CHECK CRAFTING QUEUES
+                      │
+                      ▼
+             CHECK COMPLETED CRAFTS
+                      │
+                      ▼
+              VALIDATE CRAFT RESULTS
+                      │
+                      ▼
+             DEDUCT REQUIRED MATERIALS
+                      │
+                      ▼
+              ADD RESULTS TO INVENTORY
+                      │
+                      ▼
+              SAVE CRAFTING HISTORY
+                      │
+                      ▼
+             SAVE INVENTORY CHANGES
+                      │
+                      ▼
+                  DATABASE
+                      │
+                      ▼
+              CREATE DAILY REPORT
+                      │
+                      ▼
+                    MASTER
+```
+
+---
+
+# 112. FINAL CONCEPT
+
+Town Square is the **living headquarters of Aetheria**.
+
+The Master does not need to manually control every Hero.
+
+Instead:
+
+```text
+MASTER
+   ↓
+STRATEGIC COMMAND
+   ↓
+FACILITY LEADER
+   ↓
+AI MANAGEMENT
+   ↓
+HERO WORKERS
+   ↓
+AUTOMATIC CRAFTING
+   ↓
+RNG RESULT
+   ↓
+MATERIALS REDUCED
+   ↓
+CRAFTED RESULT ADDED TO INVENTORY
+   ↓
+GAME STATE
+```
+
+For Guild Hall quests:
+
+```text
+DAILY RESET
+   ↓
+AI FAIRY
+   ↓
+CHECK PARTY 3 AND ABOVE
+   ↓
+AUTOMATIC QUEST ASSIGNMENT
+   ↓
+QUEST COMPLETION
+   ↓
+REWARD SYNCHRONIZATION
+   ↓
+INVENTORY UPDATE
+   ↓
+DAILY REPORT
+   ↓
+MASTER
+```
+
+For Facility crafting:
+
+```text
+FACILITY
+   ↓
+AUTOMATIC RECIPE SELECTION
+   ↓
+MATERIAL CHECK
+   ↓
+CRAFTING
+   ↓
+MATERIALS REDUCED
+   ↓
+CRAFTED ITEM / RESOURCE ADDED TO INVENTORY
+   ↓
+DAILY FAIRY SYNCHRONIZATION
+   ↓
+DAILY REPORT
+   ↓
+MASTER
+```
+
+This creates a system where Heroes can develop their own lives and responsibilities.
+
+The Master gives direction.
+
+The Leaders manage.
+
+The Heroes work, interact, train, rest, and develop.
+
+Party 3 and above automatically handle Guild Hall quests.
+
+All Facilities automatically process their crafting and production tasks.
+
+Required crafting materials are reduced from the Inventory.
+
+Crafted items and resources are added to the Inventory.
+
+The AI manages routine activities.
+
+The RNG introduces uncertainty.
+
+The Reward System distributes quest rewards.
+
+The Inventory System records every reward and crafting result.
+
+The Daily Reset synchronizes all Facility crafting results and Guild Hall rewards.
+
+The Game State System records the consequences.
+
+The Database preserves the world.
+
+And the AI Fairy tells the Master what happened after every reset.
+
+---
+
+# 113. TOWN SQUARE PHILOSOPHY
+
+> **A Hero is not an item inside the Master's inventory.**
+
+> **A Hero is a living character.**
+
+> They have skills.
+
+> They have emotions.
+
+> They have relationships.
+
+> They have opinions.
+
+> They can work.
+
+> They can refuse.
+
+> They can help others.
+
+> They can become leaders.
+
+> They can build something.
+
+> They can make mistakes.
+
+> They can create something the Master never expected.
+
+> They can join Guild Hall quests when they belong to Party 3 or above.
+
+> They can bring rewards back to the Town Square.
+
+> They can create items and resources through automatic Facility crafting.
+
+> Their required materials can be consumed automatically.
+
+> Their crafted results can be added automatically to the Inventory.
+
+> Their achievements can be synchronized, recorded, and reported automatically after every Daily Reset.
+
+And while the Master climbs the Tower to save Aetheria:
+
+> **The Town Square becomes the place where the Heroes learn how to live again.**
