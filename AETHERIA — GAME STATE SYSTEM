@@ -1,0 +1,3223 @@
+# 🌑 AETHERIA — GAME STATE SYSTEM
+
+> **The Game State System is the memory, condition, and evolution layer of Aetheria.**
+>
+> Every action changes the state of the world.
+>
+> Every state can create consequences.
+>
+> Every consequence can change the future.
+
+---
+
+# 📌 1. OVERVIEW
+
+The **Game State System** is one of the most important core systems in Aetheria.
+
+It is responsible for managing the current condition of:
+
+```text
+World
+Master
+Characters
+NPCs
+Enemies
+Items
+Inventory
+Factions
+Locations
+Tower
+Floors
+Quests
+Events
+Relationships
+Resources
+Story
+Destruction
+Time-dependent states
+```
+
+The Game State System does not exist to replace other systems.
+
+Instead, it acts as the central state-management layer that connects them.
+
+```text
+                         GAME MANAGER
+                              │
+                              ▼
+                     GAME STATE SYSTEM
+                              │
+       ┌──────────────────────┼──────────────────────┐
+       │                      │                      │
+       ▼                      ▼                      ▼
+  WORLD STATE            ENTITY STATE           SYSTEM STATE
+       │                      │                      │
+       ├── World              ├── Master            ├── Quest
+       ├── Tower              ├── Character         ├── Event
+       ├── Floor              ├── NPC               ├── Recruit
+       ├── Faction            ├── Enemy             ├── Dungeon
+       └── Destruction        └── Item              └── Inventory
+                              │
+                              ▼
+                       DATABASE SYSTEM
+```
+
+---
+
+# 🎯 2. PRIMARY PURPOSE
+
+The Game State System answers the most important question:
+
+> **"What is happening in Aetheria right now?"**
+
+For example:
+
+```text
+Master:
+Floor 20
+HP 850
+Gold 12,500
+
+Character:
+CHAR_000125
+Level 25
+HP 100%
+
+NPC:
+NPC_000012
+Status: Injured
+
+Enemy:
+ENEMY_000451
+Status: Defeated
+
+Faction:
+Cult Influence: 62%
+
+World:
+Destruction: 71%
+
+Time:
+Day 35 — 21:45
+```
+
+All of these are part of the current Game State.
+
+---
+
+# 🧠 3. CORE PRINCIPLE
+
+The Game State System follows:
+
+> **Every meaningful change in the game must produce a state change.**
+
+Example:
+
+```text
+Enemy defeated
+       ↓
+Enemy State
+       ↓
+Loot generated
+       ↓
+Inventory State
+       ↓
+Master State
+       ↓
+Quest State
+       ↓
+World State
+       ↓
+Database
+```
+
+A single action can therefore affect multiple states.
+
+---
+
+# 🏗️ 4. CORE ARCHITECTURE
+
+```text
+                              AETHERIA
+                                  │
+                                  ▼
+                           GAME MANAGER
+                                  │
+                                  ▼
+                       GAME STATE SYSTEM
+                                  │
+        ┌─────────────────────────┼─────────────────────────┐
+        │                         │                         │
+        ▼                         ▼                         ▼
+   WORLD STATE              ENTITY STATE              SYSTEM STATE
+        │                         │                         │
+        │                         │                         │
+        ▼                         ▼                         ▼
+   Tower/Floor              Master                     Quest
+   Faction                  Character                  Event
+   Location                 NPC                        Recruit
+   Destruction              Enemy                      Dungeon
+   World Events             Item                       Inventory
+        │                         │                         │
+        └─────────────────────────┼─────────────────────────┘
+                                  │
+                                  ▼
+                             STATE ENGINE
+                                  │
+                                  ▼
+                             VALIDATION
+                                  │
+                                  ▼
+                              ID SYSTEM
+                                  │
+                                  ▼
+                           DATABASE SYSTEM
+```
+
+---
+
+# 🌎 5. WORLD STATE
+
+The World State represents the overall condition of Aetheria.
+
+```text
+WORLD STATE
+│
+├── World Condition
+├── Destruction Level
+├── Civilization Condition
+├── Resource Condition
+├── Faction Influence
+├── Global Events
+├── World Flags
+└── Historical State
+```
+
+Example:
+
+```text
+WORLD_STATE
+
+Destruction:
+71%
+
+Civilization:
+COLLAPSED
+
+Cult Influence:
+62%
+
+World Stability:
+28%
+
+Current Era:
+POST_RUIN
+```
+
+---
+
+# 🌑 6. DESTRUCTION STATE
+
+Aetheria was destroyed by Nythar.
+
+The Game State System tracks the continuing destruction and corruption.
+
+```text
+Destruction Level
+```
+
+Example:
+
+```text
+Floor 1   → 50%
+Floor 10  → 55%
+Floor 20  → 65%
+Floor 30  → 72%
+Floor 50  → 82%
+Floor 75  → 91%
+Floor 90  → 97%
+Floor 99  → 99%
+Floor 100 → Nythar Domain
+```
+
+These values are examples.
+
+The final values should be configurable.
+
+Destruction can influence:
+
+```text
+Environment
+Enemy Strength
+Enemy Spawn
+NPC Behavior
+Quest Availability
+Resource Availability
+Cult Activity
+Mana Stability
+World Events
+```
+
+---
+
+# 🗼 7. TOWER STATE
+
+The Tower of Rebirth has its own state.
+
+```text
+TOWER STATE
+│
+├── Current Floor
+├── Highest Floor
+├── Cleared Floors
+├── Active Floor
+├── Floor Conditions
+├── Floor Events
+├── Floor Destruction
+└── Tower Progression
+```
+
+Example:
+
+```text
+Tower:
+
+Current Floor:
+20
+
+Highest Floor:
+19
+
+Floor 20:
+ACTIVE
+
+Floor 19:
+CLEARED
+```
+
+---
+
+# 🏢 8. FLOOR STATE
+
+Each floor can maintain an independent state.
+
+```text
+FLOOR_020
+
+Status:
+ACTIVE
+
+Destruction:
+65%
+
+Boss:
+ALIVE
+
+Cult Activity:
+HIGH
+
+Special Event:
+ACTIVE
+
+Cleared:
+FALSE
+```
+
+After clearing:
+
+```text
+FLOOR_020
+
+Status:
+CLEARED
+
+Boss:
+DEFEATED
+
+Cleared:
+TRUE
+```
+
+The state is saved in the Database System.
+
+---
+
+# 👑 9. MASTER STATE
+
+The Master is represented using:
+
+```text
+MASTER_000001
+```
+
+The Master State can contain:
+
+```text
+Level
+EXP
+HP
+MP
+Gold
+Gems
+Tickets
+Current Floor
+Location
+Quest Progress
+Party
+Inventory
+Achievements
+Story Progress
+Relationship Progress
+```
+
+Example:
+
+```text
+MASTER_000001
+
+Level:
+15
+
+EXP:
+75,000
+
+Gold:
+12500
+
+Gem:
+850
+
+Ticket:
+12
+
+Current Floor:
+20
+
+Location:
+FLOOR_020
+```
+
+---
+
+# 🧬 10. CHARACTER STATE
+
+Every recruited character has a persistent state.
+
+Example:
+
+```text
+CHAR_000125
+
+Level:
+25
+
+EXP:
+125,000
+
+Star:
+3
+
+HP:
+100%
+
+Status:
+ACTIVE
+
+Location:
+FLOOR_020
+
+Loyalty:
+72
+
+Relationship:
+MASTER_000001
+```
+
+Character State may contain:
+
+```text
+Level
+EXP
+Star
+Class
+HP
+MP
+Status
+Equipment
+Skills
+Relationships
+Loyalty
+Personality State
+Location
+History
+```
+
+---
+
+# 👤 11. NPC STATE
+
+NPCs also have persistent states.
+
+Example:
+
+```text
+NPC_000012
+
+Status:
+INJURED
+
+Location:
+LOC_000015
+
+Faction:
+AURELIA
+
+Occupation:
+BLACKSMITH
+
+Relationship:
+NEUTRAL
+```
+
+NPC state can change through:
+
+```text
+Time
+Quest
+Event
+Faction Activity
+Player Action
+Enemy Attack
+World Destruction
+```
+
+---
+
+# 👹 12. ENEMY STATE
+
+Enemies can also possess state.
+
+```text
+ENEMY_000451
+
+Type:
+CORRUPTED_KNIGHT
+
+Level:
+25
+
+HP:
+0
+
+Status:
+DEFEATED
+
+Location:
+FLOOR_020
+```
+
+Enemy state may include:
+
+```text
+HP
+Level
+Status
+Location
+Faction
+Aggression
+Target
+Loot State
+Spawn State
+Transformation State
+```
+
+---
+
+# 🎒 13. ITEM STATE
+
+Items have definitions and runtime states.
+
+Example:
+
+```text
+ITEM_000015
+
+Name:
+Ancient Iron
+
+Type:
+MATERIAL
+```
+
+Inventory state:
+
+```text
+MASTER_000001
+
+ITEM_000015
+
+Quantity:
+25
+```
+
+The Game State System updates the ownership and quantity.
+
+---
+
+# 🎒 14. INVENTORY STATE
+
+Inventory is a state belonging to an owner.
+
+```text
+INVENTORY
+│
+└── MASTER_000001
+      │
+      ├── ITEM_000001 × 50
+      ├── ITEM_000015 × 25
+      └── ITEM_000032 × 3
+```
+
+When an item is:
+
+```text
+Obtained
+Used
+Sold
+Destroyed
+Consumed
+Transferred
+```
+
+the Game State changes.
+
+---
+
+# 🏛️ 15. FACTION STATE
+
+Every important faction can have its own state.
+
+Examples:
+
+```text
+Valeria
+Aurelia
+Aurelian Empire
+Elaria
+Karak-Dur
+Beastfolk Clans
+Draconis Dominion
+Demon Dominion
+Atlantia
+Cult of Eternal Night
+```
+
+Faction State can include:
+
+```text
+Influence
+Military Power
+Economy
+Territory
+Relations
+Leader
+Stability
+Resources
+Diplomatic Status
+Cult Influence
+```
+
+---
+
+# 🩸 16. CULT STATE
+
+The Cult of Eternal Night has a dedicated state.
+
+```text
+CULT OF ETERNAL NIGHT
+
+Influence:
+62%
+
+Activity:
+HIGH
+
+Known Cells:
+12
+
+Active Rituals:
+3
+
+High Priest:
+UNKNOWN
+
+Dark Apostles:
+4
+```
+
+Cult state can change through:
+
+```text
+Quest
+Event
+Player Action
+Time
+Floor Progression
+Faction Conflict
+```
+
+---
+
+# 🤝 17. RELATIONSHIP STATE
+
+Relationships are persistent game states.
+
+Example:
+
+```text
+MASTER_000001
+      │
+      ▼
+CHAR_000125
+
+Relationship:
+TRUSTED
+
+Value:
+82
+```
+
+Relationships can exist between:
+
+```text
+Master ↔ Character
+Character ↔ Character
+Master ↔ NPC
+Character ↔ NPC
+Faction ↔ Faction
+Faction ↔ Master
+Faction ↔ Character
+```
+
+---
+
+# ❤️ 18. CHARACTER RELATIONSHIP
+
+Characters can develop relationships.
+
+Example:
+
+```text
+CHAR_000125
+      ↕
+CHAR_000126
+
+Relationship:
+RIVAL
+
+Value:
+-20
+```
+
+Later:
+
+```text
+Relationship:
+ALLY
+
+Value:
+65
+```
+
+The Game State System stores the current relationship state.
+
+---
+
+# ❤️ 19. LOYALTY STATE
+
+Characters may have loyalty toward the Master.
+
+Example:
+
+```text
+CHAR_000125
+
+Loyalty:
+72 / 100
+```
+
+Actions can change loyalty:
+
+```text
+Successful Mission
++5
+
+Character Saved
++10
+
+Character Ignored
+-5
+
+Character Betrayed
+-30
+```
+
+The exact values should be configured by the Character/Relationship System.
+
+---
+
+# 🧠 20. CHARACTER PERSONALITY STATE
+
+Character personality itself belongs to the Character System.
+
+But changes caused by experiences can become Game State.
+
+Example:
+
+```text
+CHAR_000125
+
+Personality:
+BRAVE
+
+Current Emotional State:
+FEAR
+
+Cause:
+ALLY_DEATH
+
+Temporary State:
+TRAUMATIZED
+```
+
+This allows character behavior to react to world events.
+
+---
+
+# ⏳ 21. TIME STATE
+
+The Time System provides the current world time.
+
+Example:
+
+```text
+TIME STATE
+
+Year:
+001
+
+Month:
+05
+
+Day:
+27
+
+Hour:
+21
+
+Minute:
+45
+
+TimeOfDay:
+NIGHT
+
+Season:
+SUMMER
+```
+
+The Game State System uses this information to evaluate world conditions.
+
+---
+
+# 🔄 22. TIME → GAME STATE
+
+The Time System does not directly control NPCs, quests, or factions.
+
+Instead:
+
+```text
+TIME SYSTEM
+      ↓
+CURRENT TIME
+      ↓
+GAME STATE SYSTEM
+      ↓
+STATE EVALUATION
+```
+
+Example:
+
+```text
+22:00
+ ↓
+NIGHT
+ ↓
+Game State Evaluation
+ ↓
+Cult Activity = HIGH
+NPC Routine = SLEEP
+Night Enemy = ACTIVE
+```
+
+---
+
+# 🎲 23. RNG STATE
+
+The RNG System provides random results.
+
+The Game State System applies those results.
+
+Example:
+
+```text
+RNG SYSTEM
+    ↓
+Result:
+⭐⭐⭐
+    ↓
+RECRUIT SYSTEM
+    ↓
+Character Selection
+    ↓
+GAME STATE SYSTEM
+    ↓
+Character Added
+```
+
+The Game State System therefore does not replace RNG.
+
+---
+
+# 🤖 24. AI STATE
+
+AI systems can evaluate Game State.
+
+Example:
+
+```text
+AI FAIRY
+     ↓
+READ GAME STATE
+     ↓
+Master State
+Character State
+Enemy State
+Quest State
+World State
+     ↓
+AI DECISION
+```
+
+The AI Fairy can then recommend:
+
+```text
+Quest
+Character
+Party Formation
+Equipment
+Training
+Exploration
+```
+
+The Game State System remains the source of current state.
+
+---
+
+# 🎯 25. QUEST STATE
+
+Every quest has a persistent state.
+
+```text
+QUEST_000125
+
+Status:
+ACTIVE
+
+Progress:
+70%
+
+Objective:
+Defeat Cult Commander
+
+Deadline:
+Day 40
+```
+
+Possible quest states:
+
+```text
+LOCKED
+AVAILABLE
+ACTIVE
+COMPLETED
+FAILED
+EXPIRED
+CANCELLED
+```
+
+---
+
+# 📜 26. QUEST CONDITION EVALUATION
+
+Quest requirements can reference multiple states.
+
+Example:
+
+```text
+QUEST_000200
+
+Requirement:
+
+Floor >= 20
+AND
+Master Level >= 15
+AND
+Cult Influence >= 50
+AND
+TimeOfDay = NIGHT
+```
+
+The Game State System evaluates the conditions.
+
+```text
+WORLD STATE
+     +
+MASTER STATE
+     +
+TIME STATE
+     +
+FACTION STATE
+     ↓
+QUEST CONDITION
+     ↓
+TRUE / FALSE
+```
+
+---
+
+# 🎉 27. EVENT STATE
+
+Events can affect the world.
+
+Example:
+
+```text
+EVENT_000451
+
+Name:
+Cult Raid
+
+Status:
+ACTIVE
+
+Floor:
+20
+
+Start:
+Day 35 — 20:00
+
+End:
+Day 35 — 23:00
+```
+
+After completion:
+
+```text
+Status:
+COMPLETED
+```
+
+The consequences become part of Game State.
+
+---
+
+# 🔥 28. EVENT CONSEQUENCE
+
+An event can change multiple states.
+
+Example:
+
+```text
+CULT RAID
+    │
+    ├── NPC_000012 → DEAD
+    ├── NPC_000013 → INJURED
+    ├── CULT INFLUENCE → +5
+    ├── VILLAGE STABILITY → -20
+    ├── QUEST_000125 → FAILED
+    └── WORLD DESTRUCTION → +1%
+```
+
+One event can therefore create a chain reaction.
+
+---
+
+# 🔗 29. STATE DEPENDENCY
+
+Game states can depend on each other.
+
+Example:
+
+```text
+TIME
+ ↓
+CULT ACTIVITY
+ ↓
+EVENT
+ ↓
+NPC STATE
+ ↓
+QUEST STATE
+ ↓
+FACTION STATE
+ ↓
+WORLD STATE
+```
+
+This creates dynamic world simulation.
+
+---
+
+# 🌎 30. WORLD SIMULATION
+
+The Game State System is the core of Aetheria's living-world concept.
+
+```text
+TIME PASSES
+      ↓
+GAME STATE UPDATE
+      ↓
+NPC ACTIONS
+      ↓
+FACTION ACTIONS
+      ↓
+EVENTS
+      ↓
+QUEST CHANGES
+      ↓
+CHARACTER CHANGES
+      ↓
+WORLD CHANGES
+      ↓
+DATABASE
+```
+
+The world can therefore evolve even without direct player interaction.
+
+---
+
+# 🔄 31. STATE UPDATE LOOP
+
+The standard update loop:
+
+```text
+INPUT
+  ↓
+GAME MANAGER
+  ↓
+SYSTEM ACTION
+  ↓
+GAME STATE SYSTEM
+  ↓
+VALIDATE
+  ↓
+CALCULATE CONSEQUENCES
+  ↓
+UPDATE STATES
+  ↓
+ID SYSTEM
+  ↓
+DATABASE SYSTEM
+  ↓
+NEW WORLD STATE
+```
+
+---
+
+# 🧩 32. STATE TRANSACTION
+
+Every important change should be processed as a state transaction.
+
+Example:
+
+```text
+TRANSACTION
+
+Action:
+Recruit Character
+
+Master:
+MASTER_000001
+
+Resource:
+Gold
+
+Cost:
+1000
+
+RNG Result:
+⭐⭐⭐
+
+Character:
+CHAR_000321
+```
+
+The Game State System validates:
+
+```text
+Gold sufficient?
+Character available?
+Character already owned?
+Recruit method valid?
+Character Star valid?
+```
+
+If valid:
+
+```text
+COMMIT
+```
+
+Otherwise:
+
+```text
+REJECT
+```
+
+---
+
+# 🔐 33. STATE VALIDATION
+
+Before changing state:
+
+```text
+REQUEST
+  ↓
+VALIDATION
+  ↓
+VALID?
+ ┌──┴──┐
+YES    NO
+ │      │
+ ▼      ▼
+UPDATE  REJECT
+```
+
+Examples:
+
+```text
+Cannot spend 1000 Gold if Master has only 500.
+
+Cannot add duplicate Character.
+
+Cannot clear Floor 20 if Floor 19 is required and uncleared.
+
+Cannot use an Item that does not exist.
+
+Cannot complete a Quest whose requirements are not satisfied.
+```
+
+---
+
+# 🆔 34. ID SYSTEM CONNECTION
+
+The Game State System uses the ID System to identify entities.
+
+Example:
+
+```text
+CHAR_000125
+NPC_000012
+ENEMY_000451
+ITEM_000015
+MASTER_000001
+```
+
+Instead of copying entire entity objects everywhere.
+
+Example:
+
+```text
+QUEST_000125
+
+MasterID:
+MASTER_000001
+
+CharacterID:
+CHAR_000125
+
+EnemyID:
+ENEMY_000451
+
+ItemID:
+ITEM_000015
+```
+
+---
+
+# 💾 35. DATABASE SYSTEM CONNECTION
+
+The Database System stores persistent Game State.
+
+```text
+GAME STATE
+    ↓
+STATE CHANGE
+    ↓
+VALIDATION
+    ↓
+DATABASE UPDATE
+```
+
+Example:
+
+```text
+CHAR_000125
+
+Before:
+Level 25
+
+After:
+Level 26
+```
+
+The Game State System sends the update.
+
+The Database System stores it.
+
+---
+
+# 🔄 36. DATABASE → GAME STATE
+
+When the game starts:
+
+```text
+DATABASE
+   ↓
+LOAD SAVE
+   ↓
+ID SYSTEM
+   ↓
+GAME STATE SYSTEM
+   ↓
+RESTORE WORLD
+```
+
+The Game State System reconstructs:
+
+```text
+Master
+Characters
+NPCs
+Enemies
+Inventory
+Quests
+Events
+Factions
+Tower
+Floor
+World
+Time
+Relationships
+```
+
+---
+
+# 🎮 37. GAME MANAGER CONNECTION
+
+The Game Manager coordinates the entire game.
+
+```text
+GAME MANAGER
+      │
+      ▼
+GAME STATE SYSTEM
+      │
+ ┌────┼────┬────┬────┬────┐
+ ▼    ▼    ▼    ▼    ▼
+Time RNG Recruit Quest Event
+      │
+      ▼
+STATE CHANGES
+      │
+      ▼
+DATABASE
+```
+
+The Game Manager controls system execution order.
+
+---
+
+# 🪙 38. RECRUITMENT STATE FLOW
+
+Recruitment uses:
+
+```text
+Gold
+Ticket
+Gem
+Special Ticket
+```
+
+Flow:
+
+```text
+MASTER
+  ↓
+RECRUIT SYSTEM
+  ↓
+RESOURCE VALIDATION
+  ↓
+RNG SYSTEM
+  ↓
+STAR RESULT
+  ↓
+AI CHARACTER SELECTION
+  ↓
+DUPLICATE CHECK
+  ↓
+CHARACTER ID
+  ↓
+GAME STATE SYSTEM
+  ↓
+MASTER ROSTER UPDATE
+  ↓
+DATABASE
+```
+
+---
+
+# ⭐ 39. RECRUITMENT STATE RULES
+
+### Gold
+
+```text
+⭐ 1
+⭐⭐ 2
+⭐⭐⭐ 3
+```
+
+### Ticket
+
+```text
+⭐⭐ 2
+⭐⭐⭐ 3
+⭐⭐⭐⭐ 4
+```
+
+### Gem
+
+```text
+⭐ 1
+⭐⭐ 2
+⭐⭐⭐ 3
+⭐⭐⭐⭐ 4
+```
+
+### Special Ticket
+
+```text
+⭐⭐⭐⭐⭐ 5
+```
+
+The Game State System validates that the result is legal for the recruitment method.
+
+---
+
+# 🚫 40. DUPLICATE CHARACTER STATE
+
+When recruitment produces a character:
+
+```text
+CHAR_000321
+```
+
+the Game State System checks:
+
+```text
+MASTER_000001
+      ↓
+Owned Characters
+      ↓
+CHAR_000321 exists?
+```
+
+If:
+
+```text
+YES
+```
+
+the recruitment result cannot be committed.
+
+The Recruit/AI layer must select another valid character.
+
+If:
+
+```text
+NO
+```
+
+the character can be added.
+
+---
+
+# 🎲 41. LOOT STATE FLOW
+
+Enemy defeated:
+
+```text
+ENEMY_000451
+      ↓
+ENEMY STATE = DEFEATED
+      ↓
+LOOT SYSTEM
+      ↓
+RNG SYSTEM
+      ↓
+LOOT RESULT
+      ↓
+GAME STATE SYSTEM
+      ↓
+INVENTORY UPDATE
+      ↓
+DATABASE
+```
+
+Example:
+
+```text
+ITEM_000015 × 2
+Gold +150
+```
+
+---
+
+# 🗼 42. FLOOR REWARD STATE
+
+Floor cleared:
+
+```text
+FLOOR_020
+      ↓
+CLEAR VALIDATION
+      ↓
+FLOOR STATE = CLEARED
+      ↓
+REWARD SYSTEM
+      ↓
+RNG SYSTEM
+      ↓
+REWARD RESULT
+      ↓
+MASTER STATE
+      ↓
+DATABASE
+```
+
+---
+
+# 📜 43. QUEST REWARD STATE
+
+Quest completed:
+
+```text
+QUEST_000125
+      ↓
+OBJECTIVES COMPLETE
+      ↓
+QUEST STATE = COMPLETED
+      ↓
+REWARD SYSTEM
+      ↓
+RNG SYSTEM
+      ↓
+REWARD
+      ↓
+GAME STATE
+      ↓
+MASTER / INVENTORY
+```
+
+---
+
+# ⚔️ 44. COMBAT STATE
+
+Combat creates temporary and persistent states.
+
+Example:
+
+```text
+COMBAT
+│
+├── Master State
+├── Character State
+├── Enemy State
+├── HP State
+├── Status Effect
+├── Skill State
+└── Combat Result
+```
+
+After combat:
+
+```text
+Victory
+    ↓
+Enemy Defeated
+    ↓
+EXP
+    ↓
+Loot
+    ↓
+Quest Progress
+    ↓
+Floor Progress
+```
+
+---
+
+# 💀 45. CHARACTER DEATH
+
+Character death must be represented as a persistent state when applicable.
+
+```text
+CHAR_000125
+
+Status:
+DEAD
+```
+
+The ID remains:
+
+```text
+CHAR_000125
+```
+
+The Game State System records:
+
+```text
+Death Time
+Death Location
+Death Event
+Cause of Death
+Relationships
+Quest Consequences
+```
+
+This allows death to have lasting consequences.
+
+---
+
+# 🧑 46. NPC DEATH
+
+NPC death can also affect the world.
+
+Example:
+
+```text
+NPC_000012
+DEAD
+```
+
+Consequences:
+
+```text
+Quest Failed
+Shop Closed
+Faction Reputation Changed
+Village Stability Decreased
+Character Relationship Changed
+```
+
+The Game State System processes these consequences.
+
+---
+
+# 🩸 47. WORLD CONSEQUENCE ENGINE
+
+Aetheria should support cascading consequences.
+
+Example:
+
+```text
+NPC DEATH
+   ↓
+QUEST FAILURE
+   ↓
+VILLAGE LOSS
+   ↓
+FACTION RELATIONSHIP
+   ↓
+FACTION WAR
+   ↓
+WORLD EVENT
+```
+
+This is one of the key features of the Game State System.
+
+---
+
+# 🧠 48. STATE FLAGS
+
+The Game State System can use flags.
+
+Example:
+
+```text
+FLAG_CULT_RITUAL_DISCOVERED = TRUE
+
+FLAG_ELARIA_SAVED = FALSE
+
+FLAG_KARAK_DUR_REBUILT = TRUE
+
+FLAG_NPC_000012_DEAD = TRUE
+
+FLAG_FLOOR_020_CLEARED = TRUE
+```
+
+Flags allow systems to quickly evaluate important conditions.
+
+---
+
+# 🏷️ 49. STATE TAGS
+
+Entities can also have dynamic tags.
+
+Example:
+
+```text
+CHAR_000125
+
+Tags:
+SURVIVOR
+VALERIA
+KNIGHT
+TRUSTED
+INJURED
+```
+
+Tags can change during gameplay.
+
+---
+
+# 🔍 50. STATE QUERY SYSTEM
+
+Other systems can request current state.
+
+Example:
+
+```text
+QUERY:
+
+Is Floor 20 cleared?
+```
+
+Game State:
+
+```text
+FALSE
+```
+
+Another:
+
+```text
+Is CHAR_000125 alive?
+```
+
+Result:
+
+```text
+TRUE
+```
+
+Another:
+
+```text
+How much Cult Influence?
+```
+
+Result:
+
+```text
+62%
+```
+
+This creates a standardized way for systems to read world state.
+
+---
+
+# 🧮 51. STATE CALCULATION
+
+The Game State System can calculate derived states.
+
+Example:
+
+```text
+Base Enemy Strength
+        +
+Floor Difficulty
+        +
+Destruction Level
+        +
+World Modifier
+        ↓
+Final Enemy Strength
+```
+
+The source systems provide the values.
+
+The Game State System combines the state where appropriate.
+
+---
+
+# 🧱 52. STATE LAYERS
+
+Aetheria can divide Game State into layers.
+
+```text
+GAME STATE
+│
+├── Global State
+│
+├── World State
+│
+├── Tower State
+│
+├── Floor State
+│
+├── Faction State
+│
+├── Master State
+│
+├── Character State
+│
+├── NPC State
+│
+├── Enemy State
+│
+├── Item State
+│
+├── Quest State
+│
+├── Event State
+│
+├── Relationship State
+└── System State
+```
+
+---
+
+# 🌐 53. GLOBAL STATE
+
+Global State contains information that affects the entire game.
+
+Example:
+
+```text
+GLOBAL STATE
+
+Current Era:
+POST_RUIN
+
+Nythar Status:
+ACTIVE
+
+Pact Status:
+ACTIVE
+
+World Rebirth:
+NOT_AVAILABLE
+
+Current Master:
+MASTER_000001
+```
+
+---
+
+# 🤝 54. FACTION RELATIONSHIP STATE
+
+Faction relationships can be dynamic.
+
+Example:
+
+```text
+VALERIA
+   ↕
+ELARIA
+
+Relation:
+ALLY
+```
+
+Another:
+
+```text
+AURELIA
+   ↕
+CULT
+
+Relation:
+HOSTILE
+```
+
+Relations can change because of:
+
+```text
+Quest
+Event
+War
+Diplomacy
+Player Decisions
+NPC Actions
+Faction Actions
+```
+
+---
+
+# 🌍 55. LOCATION STATE
+
+Locations can also have state.
+
+Example:
+
+```text
+LOC_000015
+
+Name:
+Ruined Village
+
+Population:
+42
+
+Stability:
+30%
+
+Cult Influence:
+55%
+
+Status:
+DAMAGED
+```
+
+Later:
+
+```text
+Status:
+RESTORED
+```
+
+The world therefore remembers changes to locations.
+
+---
+
+# 🏙️ 56. CIVILIZATION STATE
+
+Aetheria's major civilizations can have persistent states.
+
+Examples:
+
+```text
+Valeria
+Aurelia
+Aurelian Empire
+Elaria
+Karak-Dur
+Draconis Dominion
+Demon Dominion
+Atlantia
+Beastfolk Realms
+```
+
+Possible states:
+
+```text
+DESTROYED
+RUINED
+SURVIVING
+RECOVERING
+RESTORED
+REBUILT
+```
+
+---
+
+# 🌅 57. WORLD REBIRTH STATE
+
+The final objective is to defeat Nythar.
+
+The Game State System tracks:
+
+```text
+Pact Status
+Nythar Status
+Tower Progress
+Master Progress
+World Rebirth Eligibility
+```
+
+Example:
+
+```text
+FLOOR 100
+CLEARED = TRUE
+
+NYTHAR
+DEFEATED = TRUE
+
+PACT
+FULFILLED = TRUE
+
+WORLD REBIRTH
+AVAILABLE = TRUE
+```
+
+---
+
+# 🌱 58. NEW AETHERIA STATE
+
+After Nythar is defeated, the world can be rebuilt.
+
+The final world depends on accumulated Game State.
+
+Example:
+
+```text
+ELARIA
+Saved
+
+KARAK-DUR
+Partially Restored
+
+AURELIA
+Restored
+
+ATLANTIA
+Survived
+
+CULT
+Destroyed
+
+CHARACTER SURVIVORS
+127
+
+WORLD REBIRTH
+SUCCESSFUL
+```
+
+The result is:
+
+> **A New Aetheria shaped by the Master's journey.**
+
+---
+
+# 🧠 59. STATE HISTORY
+
+Important state changes should optionally be recorded.
+
+Example:
+
+```text
+STATE HISTORY
+
+CHAR_000125
+
+Day 10:
+RECRUITED
+
+Day 15:
+LEVEL 10
+
+Day 20:
+FLOOR 15 CLEARED
+
+Day 30:
+RELATIONSHIP +20
+
+Day 50:
+INJURED
+```
+
+This creates historical continuity.
+
+---
+
+# 📜 60. EVENT LOG
+
+The Game State System can maintain a world event log.
+
+Example:
+
+```text
+DAY 35
+Cult attacked Village
+
+DAY 36
+NPC_000012 died
+
+DAY 37
+Master accepted rescue quest
+
+DAY 40
+Village restored
+
+DAY 45
+Cult influence decreased
+```
+
+This can later power:
+
+```text
+History
+Story
+Character Memories
+World Chronicle
+Achievements
+```
+
+---
+
+# 🔄 61. STATE SNAPSHOT
+
+The system can create snapshots.
+
+Example:
+
+```text
+WORLD SNAPSHOT
+Day 50 — 20:00
+```
+
+Contains:
+
+```text
+Master State
+Tower State
+Floor State
+Faction State
+Character State
+NPC State
+Quest State
+Event State
+Inventory State
+World State
+```
+
+Snapshots are useful for:
+
+```text
+Save
+Debugging
+Replay
+Testing
+Recovery
+Analytics
+```
+
+---
+
+# 💾 62. SAVE ARCHITECTURE
+
+```text
+GAME STATE
+    ↓
+STATE VALIDATION
+    ↓
+STATE SNAPSHOT
+    ↓
+ID REFERENCES
+    ↓
+DATABASE SYSTEM
+    ↓
+SAVE DATA
+```
+
+---
+
+# 🔄 63. LOAD ARCHITECTURE
+
+```text
+DATABASE
+    ↓
+SAVE DATA
+    ↓
+ID SYSTEM
+    ↓
+GAME STATE SYSTEM
+    ↓
+VALIDATE
+    ↓
+RECONSTRUCT WORLD
+    ↓
+GAME MANAGER
+    ↓
+AETHERIA
+```
+
+---
+
+# 🧪 64. DEBUG STATE
+
+Developers should be able to inspect states.
+
+Example:
+
+```text
+DEBUG
+
+Master:
+MASTER_000001
+
+Floor:
+20
+
+World Destruction:
+71%
+
+Cult Influence:
+62%
+
+Characters:
+24
+
+NPCs:
+185
+
+Active Quests:
+7
+
+Active Events:
+3
+
+Game Time:
+Day 35 — 21:45
+```
+
+This is extremely useful during development.
+
+---
+
+# 🛠️ 65. DEBUG STATE MODIFICATION
+
+During development, developers may be allowed to modify states.
+
+Example:
+
+```text
+SET FLOOR = 50
+SET GOLD = 999999
+SET CULT_INFLUENCE = 100
+SET CHARACTER_LEVEL = 100
+SET TIME = DAY 100
+```
+
+This must be restricted to:
+
+```text
+DEBUG
+TEST
+DEVELOPMENT
+```
+
+and should not be available in normal gameplay.
+
+---
+
+# ⚙️ 66. STATE PROCESSING ORDER
+
+To avoid inconsistent states, the Game State System should process changes in a controlled order.
+
+Recommended:
+
+```text
+1. Input
+2. Validate Request
+3. Identify Entities
+4. Read Current State
+5. Apply System Logic
+6. Calculate Consequences
+7. Update State
+8. Validate New State
+9. Generate Event
+10. Save Persistent State
+```
+
+---
+
+# 🔄 67. COMPLETE STATE TRANSACTION
+
+Example: Master defeats an enemy.
+
+```text
+MASTER
+   ↓
+COMBAT SYSTEM
+   ↓
+ENEMY DEFEATED
+   ↓
+GAME STATE SYSTEM
+   ↓
+Validate Combat Result
+   ↓
+Update Enemy State
+   ↓
+RNG LOOT
+   ↓
+Update Inventory
+   ↓
+Update EXP
+   ↓
+Update Quest
+   ↓
+Check Level Up
+   ↓
+Check Floor Condition
+   ↓
+Generate Event
+   ↓
+DATABASE
+```
+
+One action can therefore update multiple systems.
+
+---
+
+# 🧬 68. RECRUITMENT TRANSACTION
+
+```text
+MASTER
+   ↓
+RECRUIT SYSTEM
+   ↓
+RESOURCE CHECK
+   ↓
+RNG SYSTEM
+   ↓
+STAR RESULT
+   ↓
+AI RECRUITMENT
+   ↓
+DUPLICATE CHECK
+   ↓
+CHARACTER ID
+   ↓
+GAME STATE SYSTEM
+   ↓
+ROSTER UPDATE
+   ↓
+RELATIONSHIP INITIALIZATION
+   ↓
+QUEST / STORY CHECK
+   ↓
+DATABASE
+```
+
+---
+
+# 🗼 69. FLOOR CLEAR TRANSACTION
+
+```text
+COMBAT
+   ↓
+BOSS DEFEATED
+   ↓
+GAME STATE SYSTEM
+   ↓
+FLOOR CLEAR VALIDATION
+   ↓
+FLOOR = CLEARED
+   ↓
+REWARD RNG
+   ↓
+MASTER REWARD
+   ↓
+QUEST UPDATE
+   ↓
+TOWER PROGRESSION
+   ↓
+WORLD STATE UPDATE
+   ↓
+DATABASE
+```
+
+---
+
+# 🩸 70. CULT EVENT TRANSACTION
+
+```text
+TIME
+ ↓
+CULT ACTIVITY
+ ↓
+EVENT TRIGGER
+ ↓
+RNG
+ ↓
+CULT RAID
+ ↓
+NPC STATE
+ ↓
+LOCATION STATE
+ ↓
+FACTION STATE
+ ↓
+QUEST STATE
+ ↓
+WORLD STATE
+ ↓
+DATABASE
+```
+
+This is the type of cascading simulation Aetheria is designed to support.
+
+---
+
+# 🧠 71. STATE PRIORITY
+
+Not every state has equal importance.
+
+Recommended priority:
+
+```text
+GLOBAL STATE
+      ↓
+WORLD STATE
+      ↓
+TOWER / FLOOR STATE
+      ↓
+FACTION STATE
+      ↓
+ENTITY STATE
+      ↓
+QUEST / EVENT STATE
+      ↓
+DERIVED STATE
+```
+
+This helps prevent contradictory world conditions.
+
+---
+
+# ⚠️ 72. STATE CONSISTENCY
+
+The system must prevent impossible conditions.
+
+Invalid:
+
+```text
+Floor 20 = CLEARED
+Floor 19 = LOCKED
+```
+
+if Floor 20 requires Floor 19.
+
+Invalid:
+
+```text
+Character Status = DEAD
+Character HP = 100%
+```
+
+unless the game explicitly allows such a state.
+
+Invalid:
+
+```text
+Quest = COMPLETED
+Objective = INCOMPLETE
+```
+
+unless the quest configuration allows alternative completion.
+
+---
+
+# 🔐 73. STATE AUTHORITY
+
+Each system has authority over specific state categories.
+
+Example:
+
+```text
+TIME SYSTEM
+→ World Time
+
+RNG SYSTEM
+→ Random Results
+
+RECRUIT SYSTEM
+→ Recruitment Process
+
+CHARACTER SYSTEM
+→ Character Definition
+
+INVENTORY SYSTEM
+→ Inventory Logic
+
+QUEST SYSTEM
+→ Quest Logic
+
+COMBAT SYSTEM
+→ Combat Result
+```
+
+The Game State System:
+
+> **Coordinates and commits the resulting state changes.**
+
+---
+
+# 🧱 74. SYSTEM RESPONSIBILITY
+
+The architecture follows:
+
+### Game Manager
+
+> **"When and how do systems operate?"**
+
+### Game State System
+
+> **"What is the current state, and what changes?"**
+
+### Time System
+
+> **"What time is it?"**
+
+### RNG System
+
+> **"What random result occurred?"**
+
+### ID System
+
+> **"Which entity is involved?"**
+
+### Database System
+
+> **"What must be remembered?"**
+
+### Recruit System
+
+> **"How is a character recruited?"**
+
+### Character System
+
+> **"What is this character?"**
+
+### Quest System
+
+> **"What objectives and quest rules exist?"**
+
+### AI System
+
+> **"What decision or recommendation should be made?"**
+
+---
+
+# 🤖 75. AI FAIRY + GAME STATE
+
+The AI Fairy can read the Game State.
+
+Example:
+
+```text
+AI FAIRY
+   ↓
+READ
+   │
+   ├── Master State
+   ├── Character State
+   ├── Enemy State
+   ├── Quest State
+   ├── World State
+   ├── Time State
+   └── Faction State
+   ↓
+ANALYZE
+   ↓
+RECOMMENDATION
+```
+
+Example recommendation:
+
+```text
+"Floor 20 contains high Cult activity.
+Your current party has low resistance to corruption.
+Consider preparing before entering."
+```
+
+The AI Fairy does not directly overwrite Game State unless explicitly authorized by the relevant system.
+
+---
+
+# 🌎 76. COMPLETE AETHERIA STATE MODEL
+
+```text
+                         AETHERIA
+                            │
+                            ▼
+                      GAME MANAGER
+                            │
+                            ▼
+                   GAME STATE SYSTEM
+                            │
+       ┌────────────────────┼────────────────────┐
+       │                    │                    │
+       ▼                    ▼                    ▼
+    WORLD                ENTITIES             SYSTEMS
+       │                    │                    │
+       ├── Destruction      ├── Master          ├── Time
+       ├── Tower            ├── Character       ├── RNG
+       ├── Floor            ├── NPC             ├── Recruit
+       ├── Faction          ├── Enemy           ├── Quest
+       ├── Location         └── Item            ├── Event
+       └── History                              ├── Combat
+                                                 └── Inventory
+       │                    │                    │
+       └────────────────────┼────────────────────┘
+                            │
+                            ▼
+                       STATE ENGINE
+                            │
+                            ▼
+                       VALIDATION
+                            │
+                            ▼
+                         ID SYSTEM
+                            │
+                            ▼
+                     DATABASE SYSTEM
+                            │
+                            ▼
+                     PERSISTENT WORLD
+```
+
+---
+
+# 🔄 77. COMPLETE GAME LOOP
+
+```text
+                    PLAYER / AI ACTION
+                           │
+                           ▼
+                      GAME MANAGER
+                           │
+                           ▼
+                    SYSTEM PROCESSING
+                           │
+                           ▼
+                    GAME STATE SYSTEM
+                           │
+                 ┌─────────┼─────────┐
+                 │         │         │
+                 ▼         ▼         ▼
+               TIME       RNG       AI
+                 │         │         │
+                 └─────────┼─────────┘
+                           ▼
+                    STATE VALIDATION
+                           │
+                           ▼
+                  STATE CONSEQUENCES
+                           │
+       ┌───────────────────┼───────────────────┐
+       │                   │                   │
+       ▼                   ▼                   ▼
+     WORLD              ENTITIES             SYSTEMS
+       │                   │                   │
+       └───────────────────┼───────────────────┘
+                           ▼
+                        ID SYSTEM
+                           │
+                           ▼
+                     DATABASE SYSTEM
+                           │
+                           ▼
+                      NEW GAME STATE
+                           │
+                           └───────────────► LOOP
+```
+
+---
+
+# 🧠 78. THE WORLD NEVER HAS ONLY ONE STATE
+
+Aetheria is not represented by a single variable.
+
+It is a collection of interconnected states.
+
+```text
+AETHERIA STATE
+│
+├── Global State
+├── World State
+├── Time State
+├── Tower State
+├── Floor State
+├── Master State
+├── Character State
+├── NPC State
+├── Enemy State
+├── Item State
+├── Inventory State
+├── Faction State
+├── Relationship State
+├── Quest State
+├── Event State
+├── Story State
+├── Location State
+├── Destruction State
+└── History State
+```
+
+---
+
+# 🌱 79. EMERGENT STORY
+
+The Game State System allows stories to emerge from state changes.
+
+Example:
+
+```text
+Cult attacks village
+        ↓
+NPC dies
+        ↓
+Quest fails
+        ↓
+Character loses family
+        ↓
+Character relationship changes
+        ↓
+Character seeks revenge
+        ↓
+Character attacks Cult
+        ↓
+Cult retaliates
+        ↓
+Faction conflict
+        ↓
+New Event
+```
+
+No single story script needs to explicitly contain every possible sequence.
+
+The states create the possibility.
+
+---
+
+# 📖 80. STORY SYSTEM CONNECTION
+
+The Story System reads Game State.
+
+Example:
+
+```text
+IF
+
+Floor >= 30
+AND
+Cult Influence >= 70
+AND
+NPC_000125 = DEAD
+AND
+Character Loyalty >= 80
+
+THEN
+
+Story Event:
+"Vengeance of the Survivor"
+```
+
+The Game State System provides the conditions.
+
+The Story System provides the narrative.
+
+---
+
+# 🧬 81. CHARACTER STORY CONNECTION
+
+A character's personal story can react to Game State.
+
+Example:
+
+```text
+CHAR_000125
+
+Origin:
+Valeria
+
+Family:
+DEAD
+
+Cult Relationship:
+HATRED
+
+Master Relationship:
+82
+
+Story Progress:
+CHAPTER 4
+```
+
+This allows personal stories to evolve based on world events.
+
+---
+
+# 🌍 82. WORLD REACTION
+
+Aetheria should react to the Master's actions.
+
+Example:
+
+```text
+Master saves Elaria
+        ↓
+Elaria State improves
+        ↓
+Elaria Faction Influence increases
+        ↓
+Elaria rewards Master
+        ↓
+New Quest unlocked
+        ↓
+Character relationship increases
+```
+
+Another:
+
+```text
+Master ignores village
+        ↓
+Village destroyed
+        ↓
+NPC deaths
+        ↓
+Quest failure
+        ↓
+Faction distrust
+        ↓
+Future consequences
+```
+
+---
+
+# 🧠 83. GAME STATE AS THE WORLD MEMORY
+
+The Database stores data.
+
+But the Game State System determines the meaning of that data during gameplay.
+
+Therefore:
+
+```text
+DATABASE
+=
+Persistent Storage
+
+GAME STATE SYSTEM
+=
+Current World Condition
++
+State Logic
++
+Consequences
+```
+
+---
+
+# 🔄 84. PERSISTENT WORLD PRINCIPLE
+
+When the player leaves the game:
+
+```text
+SAVE
+ ↓
+DATABASE
+```
+
+When the player returns:
+
+```text
+DATABASE
+ ↓
+GAME STATE
+ ↓
+WORLD RESTORED
+```
+
+The world should not simply reset unless a specific game mechanic requires it.
+
+---
+
+# 🌑 85. NYTHAR STATE
+
+Nythar is represented as a global entity/state.
+
+```text
+NYTHAR
+
+Status:
+ACTIVE
+
+Power:
+UNKNOWN
+
+Domain:
+FLOOR_100
+
+Pact:
+ACTIVE
+
+World Destruction:
+71%
+```
+
+As the Master progresses:
+
+```text
+Tower Progress
+     ↓
+Nythar Influence
+     ↓
+World State
+```
+
+---
+
+# 🤝 86. THE PACT STATE
+
+The Pact is a critical global state.
+
+```text
+PACT
+
+Status:
+ACTIVE
+
+Condition:
+MASTER REACHES FLOOR 100
+
+Victory Condition:
+NYTHAR DEFEATED
+
+Reward:
+WORLD REBIRTH
+```
+
+After victory:
+
+```text
+PACT
+ ↓
+FULFILLED
+```
+
+Then:
+
+```text
+WORLD REBIRTH
+ ↓
+AVAILABLE
+```
+
+---
+
+# 🌅 87. FINAL STATE
+
+The final state of Aetheria depends on the accumulated journey.
+
+```text
+MASTER DECISIONS
+       +
+CHARACTER SURVIVORS
+       +
+FACTION STATES
+       +
+WORLD STATES
+       +
+QUEST OUTCOMES
+       +
+EVENT OUTCOMES
+       +
+TOWER PROGRESS
+       +
+CULT STATE
+       ↓
+FINAL WORLD STATE
+       ↓
+WORLD REBIRTH
+       ↓
+NEW AETHERIA
+```
+
+---
+
+# 🧱 88. RECOMMENDED MODULE STRUCTURE
+
+```text
+GAME STATE SYSTEM
+│
+├── GameStateManager
+│
+├── StateRegistry
+│
+├── StateValidator
+│
+├── StateTransaction
+│
+├── StateQuery
+│
+├── StateUpdater
+│
+├── StateDependency
+│
+├── ConsequenceEngine
+│
+├── EventProcessor
+│
+├── StateHistory
+│
+├── StateSnapshot
+│
+├── StateLoader
+│
+├── StateSaver
+│
+└── StateDebugger
+```
+
+### GameStateManager
+
+Main coordinator.
+
+### StateRegistry
+
+Tracks active states.
+
+### StateValidator
+
+Prevents invalid states.
+
+### StateTransaction
+
+Processes state changes atomically.
+
+### StateQuery
+
+Allows systems to read state.
+
+### StateUpdater
+
+Applies valid changes.
+
+### StateDependency
+
+Tracks relationships between states.
+
+### ConsequenceEngine
+
+Processes secondary effects.
+
+### EventProcessor
+
+Processes state-driven events.
+
+### StateHistory
+
+Tracks important changes.
+
+### StateSnapshot
+
+Creates save/debug snapshots.
+
+### StateLoader
+
+Restores state.
+
+### StateSaver
+
+Persists state.
+
+### StateDebugger
+
+Provides development inspection.
+
+---
+
+# 🧠 89. DESIGN PHILOSOPHY
+
+The Game State System should remain:
+
+```text
+Modular
+Persistent
+Deterministic where required
+Configurable
+Observable
+Validated
+Extensible
+```
+
+The system should not contain every gameplay rule.
+
+Instead:
+
+> **It provides the infrastructure through which gameplay systems modify the world safely.**
+
+---
+
+# 🔥 90. CORE PRINCIPLE
+
+Aetheria follows:
+
+```text
+ACTION
+  ↓
+STATE CHANGE
+  ↓
+CONSEQUENCE
+  ↓
+NEW STATE
+  ↓
+FUTURE ACTION
+  ↓
+NEW CONSEQUENCE
+```
+
+This creates a continuously evolving world.
+
+---
+
+# ✨ 91. FINAL AETHERIA ARCHITECTURE
+
+```text
+                              AETHERIA
+                                  │
+                                  ▼
+                          CORE WORLD BUILDING
+                                  │
+                                  ▼
+                            GAME MANAGER
+                                  │
+                                  ▼
+                        GAME STATE SYSTEM
+                                  │
+        ┌─────────────────────────┼─────────────────────────┐
+        │                         │                         │
+        ▼                         ▼                         ▼
+    TIME SYSTEM              RNG SYSTEM               AI SYSTEM
+        │                         │                         │
+        └─────────────────────────┼─────────────────────────┘
+                                  │
+                                  ▼
+                         GAMEPLAY SYSTEMS
+                                  │
+      ┌──────────┬──────────┬────┼────┬──────────┬──────────┐
+      │          │          │    │    │          │          │
+      ▼          ▼          ▼    ▼    ▼          ▼          ▼
+   Recruit   Character     NPC Enemy Quest      Event    Inventory
+      │          │          │    │    │          │          │
+      └──────────┴──────────┴────┼────┴──────────┴──────────┘
+                                 │
+                                 ▼
+                              ID SYSTEM
+                                 │
+                                 ▼
+                          DATABASE SYSTEM
+                                 │
+                                 ▼
+                         PERSISTENT WORLD
+                                 │
+                                 ▼
+                         NEW GAME STATE
+                                 │
+                                 └───────────────► LOOP
+```
+
+---
+
+# 🌑 92. FINAL PHILOSOPHY
+
+> **The Game State System is the heart of Aetheria's living world.**
+
+The Core World Building defines:
+
+> **What Aetheria is.**
+
+The Game Manager defines:
+
+> **How systems operate.**
+
+The Time System defines:
+
+> **When things happen.**
+
+The RNG System defines:
+
+> **What random result occurs.**
+
+The AI System defines:
+
+> **What decisions can be recommended or simulated.**
+
+The ID System defines:
+
+> **Which entity is involved.**
+
+The Database System defines:
+
+> **What information is permanently remembered.**
+
+The Game State System defines:
+
+> **What the world is like right now and how it changes.**
+
+Therefore:
+
+```text
+                    AETHERIA
+                       │
+                       ▼
+                 WORLD DEFINITION
+                       │
+                       ▼
+                  GAME MANAGER
+                       │
+                       ▼
+               GAME STATE SYSTEM
+                       │
+            ┌──────────┼──────────┐
+            │          │          │
+           TIME       RNG        AI
+            │          │          │
+            └──────────┼──────────┘
+                       ▼
+                  STATE CHANGE
+                       │
+                       ▼
+                  CONSEQUENCE
+                       │
+                       ▼
+                  WORLD EVOLUTION
+                       │
+                       ▼
+                   ID SYSTEM
+                       │
+                       ▼
+                 DATABASE SYSTEM
+                       │
+                       ▼
+                PERSISTENT MEMORY
+                       │
+                       ▼
+                 AETHERIA CHANGES
+                       │
+                       └──────────► CONTINUES
+```
+
+> **Aetheria is not a world where events simply happen.**
+>
+> **Aetheria is a world where events change the state of the world.**
+>
+> **And the state of the world determines what can happen next.**
+
+This is the foundation of the **Aetheria World Simulation System**.
