@@ -1,0 +1,2793 @@
+# ⭐ AETHERIA — HERO LEVEL, STAT & SKILL GROWTH SYSTEM
+
+> **A Hero does not become stronger simply because their Level increases.**
+>
+> Their body becomes stronger.
+>
+> Their abilities evolve.
+>
+> Their experience changes how they fight.
+>
+> Their quests reveal hidden potential.
+>
+> And when a Hero reaches the highest Star Rank, they may awaken powers that ordinary Heroes can never obtain.
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+Hero Growth System mengatur perkembangan:
+
+```text
+Hero Level
+Hero Stats
+Skill Unlock
+Skill Upgrade
+Quest Skill
+Dungeon Skill
+Rare Skill
+Ultimate Skill
+Growth Potential
+```
+
+Sistem terhubung dengan:
+
+```text
+CHARACTER / HERO SYSTEM
+STAR UP SYSTEM
+HERO SYNTHESIS SYSTEM
+RNG SYSTEM
+AI CHARACTER SYSTEM
+EMOTIONAL SYSTEM
+AI FAIRY
+PARTY SYSTEM
+BASIC COMBAT SYSTEM
+DUNGEON SYSTEM
+QUEST SYSTEM
+EVENT SYSTEM
+GAME STATE SYSTEM
+DATABASE SYSTEM
+ID SYSTEM
+```
+
+---
+
+# 2. HERO DEVELOPMENT STRUCTURE
+
+Setiap Hero berkembang melalui beberapa layer.
+
+```text
+RECRUITMENT
+     ↓
+HERO
+     ↓
+LEVEL
+     ↓
+STAT GROWTH
+     ↓
+QUEST & DUNGEON PROGRESSION
+     ↓
+SKILL DEVELOPMENT
+     ↓
+STAR UP
+     ↓
+HIGHER GROWTH POTENTIAL
+     ↓
+STAR 6
+     ↓
+RARE SKILL
+     ↓
+STAR 7
+     ↓
+ULTIMATE SKILL
+```
+
+Skill tidak hanya diperoleh melalui Level Up.
+
+Skill juga dapat diperoleh melalui:
+
+```text
+Quest
+Dungeon Quest
+Dungeon Floor
+Boss Battle
+Hidden Dungeon
+Character Story
+Event
+Special Achievement
+```
+
+---
+
+# 3. HERO LEVEL
+
+Setiap Hero memiliki Level.
+
+Contoh:
+
+```text
+HERO-000125
+
+Star:
+⭐⭐⭐⭐
+
+Level:
+25 / 40
+```
+
+Ketika mendapatkan EXP:
+
+```text
+EXP
+ ↓
+LEVEL UP
+ ↓
+STAT GROWTH
+ ↓
+SKILL CHECK
+ ↓
+GAME STATE UPDATE
+```
+
+EXP dapat diperoleh dari:
+
+```text
+Combat
+Quest
+Dungeon
+Dungeon Boss
+Training
+Hero Synthesis
+Event
+Special System
+```
+
+---
+
+# 4. LEVEL UP
+
+Level Hero dapat meningkat melalui:
+
+```text
+Combat EXP
+Quest Reward
+Dungeon Reward
+Floor Reward
+Dungeon Boss Reward
+Training Ground
+Hero Synthesis
+Event
+Special System
+```
+
+Semua EXP yang diterima harus disinkronkan dengan Game State System.
+
+Jika satu aktivitas memberikan EXP dalam jumlah besar, Hero dapat mengalami beberapa Level Up sekaligus.
+
+```text
+EXP REWARD
+ ↓
+EXP CALCULATION
+ ↓
+MULTIPLE LEVEL UP CHECK
+ ↓
+STAT GROWTH
+ ↓
+SKILL CHECK
+ ↓
+GAME STATE UPDATE
+```
+
+---
+
+# 5. LEVEL UP STAT GROWTH
+
+Setiap Level Up akan meningkatkan Stat Hero.
+
+Contoh:
+
+```text
+LEVEL 20
+ ↓
+LEVEL 21
+ ↓
+STAT CALCULATION
+ ↓
+NEW STAT
+```
+
+Stat yang dapat berkembang:
+
+```text
+HP
+MP
+ATK
+DEF
+MAGIC ATK
+MAGIC DEF
+SPEED
+CRITICAL
+ACCURACY
+EVASION
+RESISTANCE
+```
+
+Stat tambahan dapat dikembangkan kemudian.
+
+---
+
+# 6. BASE STAT
+
+Setiap Hero memiliki Base Stat.
+
+Contoh:
+
+```text
+HERO-000125
+
+HP      : 1,200
+ATK     : 150
+DEF     : 110
+MAG ATK : 80
+MAG DEF : 90
+SPEED   : 105
+```
+
+Base Stat berasal dari:
+
+```text
+Character Data
+Race
+Class
+Growth Type
+Star Rank
+```
+
+---
+
+# 7. LEVEL STAT FORMULA
+
+Stat Level dapat dihitung menggunakan Growth Rate.
+
+Konsep:
+
+```text
+Final Stat
+=
+Base Stat
++
+Level Growth
++
+Star Growth
++
+Equipment
++
+Buff
++
+Passive
++
+Quest Modifier
++
+Dungeon Modifier
++
+Other Modifier
+```
+
+Contoh:
+
+```text
+Base ATK:
+100
+
+Level Growth:
++50
+
+Equipment:
++20
+
+Passive:
++10
+
+Quest Modifier:
++5
+
+Final ATK:
+185
+```
+
+Formula aktual dapat dikonfigurasi melalui Game Configuration.
+
+Quest dan Dungeon Modifier dapat bersifat:
+
+```text
+Temporary
+Permanent
+Conditional
+Story-Based
+Achievement-Based
+```
+
+---
+
+# 8. GROWTH TYPE
+
+Setiap Hero memiliki Growth Type.
+
+Contoh:
+
+```text
+BALANCED
+ATTACK
+DEFENSE
+MAGIC
+SPEED
+CRITICAL
+TANK
+SUPPORT
+HYBRID
+```
+
+Contoh Hero Attack:
+
+```text
+ATK Growth:
+HIGH
+
+DEF Growth:
+LOW
+```
+
+Hero Tank:
+
+```text
+HP Growth:
+VERY HIGH
+
+DEF Growth:
+HIGH
+
+ATK Growth:
+MEDIUM
+```
+
+---
+
+# 9. RANDOM GROWTH
+
+Untuk memberikan variasi antar Hero, Level Up dapat menggunakan RNG terbatas.
+
+Contoh:
+
+```text
+Base Growth:
++10 ATK
+
+RNG Growth:
++0 ~ +3
+
+Final:
++10 ~ +13 ATK
+```
+
+Namun RNG tidak boleh membuat Hero menjadi tidak masuk akal.
+
+Growth tetap mengikuti batas minimum dan maksimum.
+
+---
+
+# 10. RNG GROWTH RULE
+
+RNG hanya menentukan variasi pertumbuhan.
+
+```text
+RNG
+ ↓
+Growth Variation
+ ↓
+Stat Calculation
+```
+
+RNG tidak boleh:
+
+```text
+Create impossible stats
+Ignore class
+Ignore race
+Ignore Star Rank
+Break balance
+```
+
+---
+
+# 11. STAR RANK EFFECT
+
+Star Rank memengaruhi potensi pertumbuhan.
+
+```text
+⭐
+Low Growth Potential
+
+⭐⭐
+Basic Growth Potential
+
+⭐⭐⭐
+Good Growth Potential
+
+⭐⭐⭐⭐
+High Growth Potential
+
+⭐⭐⭐⭐⭐
+Very High Growth Potential
+
+⭐⭐⭐⭐⭐⭐
+Exceptional Growth Potential
+
+⭐⭐⭐⭐⭐⭐⭐
+Ultimate Growth Potential
+```
+
+Star Rank juga dapat memengaruhi:
+
+```text
+Maximum Level
+Stat Growth Rate
+Skill Slot
+Skill Rarity
+Quest Eligibility
+Dungeon Eligibility
+Rare Skill Access
+Ultimate Skill Access
+```
+
+---
+
+# 12. LEVEL CAP
+
+Star Rank menentukan Maximum Level.
+
+Contoh konfigurasi:
+
+```text
+⭐      → Lv.10
+⭐⭐     → Lv.20
+⭐⭐⭐    → Lv.30
+⭐⭐⭐⭐   → Lv.40
+⭐⭐⭐⭐⭐  → Lv.50
+⭐⭐⭐⭐⭐⭐ → Lv.60
+⭐⭐⭐⭐⭐⭐⭐ → Lv.70
+```
+
+Nilai tersebut dapat diubah melalui konfigurasi game.
+
+Quest atau Dungeon tertentu dapat memberikan:
+
+```text
+Level Cap Increase
+Temporary Level Limit Break
+Permanent Level Limit Break
+```
+
+Jika sistem mengizinkan, peningkatan tersebut harus memiliki kondisi khusus.
+
+---
+
+# 13. STAR UP VS LEVEL
+
+Star Up tidak langsung memberikan Level.
+
+Contoh:
+
+```text
+Hero:
+⭐⭐⭐
+Lv.30 / 30
+```
+
+Star Up:
+
+```text
+⭐⭐⭐⭐
+Lv.30 / 40
+```
+
+Hero mendapatkan:
+
+```text
+Higher Level Cap
+Higher Growth Potential
+Potential Skill Unlock
+New Quest Eligibility
+New Dungeon Eligibility
+```
+
+---
+
+# 14. SKILL SYSTEM
+
+Setiap Hero memiliki Skill Tree.
+
+Contoh:
+
+```text
+BASIC SKILL
+     ↓
+ACTIVE SKILL
+     ↓
+PASSIVE SKILL
+     ↓
+QUEST SKILL
+     ↓
+DUNGEON SKILL
+     ↓
+ADVANCED SKILL
+     ↓
+RARE SKILL
+     ↓
+ULTIMATE SKILL
+```
+
+Tidak semua Hero memiliki jumlah Skill yang sama.
+
+Tidak semua Skill harus dibuka melalui Level.
+
+Beberapa Skill hanya dapat diperoleh melalui Quest atau Dungeon.
+
+---
+
+# 15. SKILL CATEGORIES
+
+Skill dapat dibagi menjadi:
+
+```text
+Basic Skill
+Active Skill
+Passive Skill
+Support Skill
+Defensive Skill
+Offensive Skill
+Utility Skill
+Quest Skill
+Dungeon Skill
+Boss Skill
+Hidden Skill
+Rare Skill
+Ultimate Skill
+```
+
+---
+
+# 16. SKILL ACQUISITION SOURCES
+
+Skill dapat diperoleh melalui:
+
+```text
+Level Up
+Star Up
+Quest
+Dungeon Quest
+Dungeon Floor
+Dungeon Boss
+Hidden Dungeon
+Character Story
+Event
+Achievement
+Training
+Special Condition
+RNG Awakening
+```
+
+Setiap Skill harus memiliki Unlock Method.
+
+Contoh:
+
+```text
+Unlock Method:
+LEVEL_UP
+```
+
+```text
+Unlock Method:
+DUNGEON_QUEST
+```
+
+```text
+Unlock Method:
+BOSS_DEFEAT
+```
+
+---
+
+# 17. LEVEL-BASED SKILL UNLOCK
+
+Ketika Hero naik Level, sistem memeriksa apakah ada Skill yang dapat dibuka.
+
+```text
+LEVEL UP
+   ↓
+CHECK LEVEL SKILL CONDITION
+   ↓
+SKILL AVAILABLE?
+   │
+ ┌─┴─┐
+YES  NO
+ │    │
+ ▼    ▼
+UNLOCK CONTINUE
+```
+
+---
+
+# 18. QUEST-BASED SKILL UNLOCK
+
+Quest dapat memberikan Skill sebagai hadiah atau hasil perkembangan cerita.
+
+```text
+QUEST ACCEPTED
+      ↓
+QUEST PROGRESS
+      ↓
+QUEST COMPLETED
+      ↓
+REWARD CHECK
+      ↓
+SKILL REWARD?
+   │
+ ┌─┴─┐
+YES  NO
+ │    │
+ ▼    ▼
+UNLOCK CONTINUE
+```
+
+Quest Skill dapat diperoleh melalui:
+
+```text
+Main Quest
+Side Quest
+Character Quest
+Faction Quest
+Hidden Quest
+Relationship Quest
+Class Quest
+Race Quest
+```
+
+---
+
+# 19. QUEST SKILL CONDITION
+
+Quest Skill dapat memiliki kondisi:
+
+```text
+Required Quest
+Required Quest Chain
+Required Hero
+Required Class
+Required Race
+Required Level
+Required Star
+Required Relationship
+Required Choice
+Required Achievement
+Required Dungeon Clear
+Special Story Condition
+```
+
+Contoh:
+
+```text
+Quest:
+"The Lost Blade"
+
+Condition:
+Warrior Hero
+Level 20
+Complete Ancient Ruins
+
+Reward:
+Skill "Blade Resonance"
+```
+
+---
+
+# 20. QUEST SKILL REWARD
+
+Quest dapat memberikan:
+
+```text
+Guaranteed Skill
+Skill Fragment
+Skill Blueprint
+Skill Material
+Skill Upgrade
+Skill Awakening
+Skill Choice
+```
+
+Contoh:
+
+```text
+QUEST COMPLETE
+ ↓
+REWARD
+ ↓
+SKILL BLUEPRINT
+ ↓
+CRAFT / UNLOCK
+ ↓
+SKILL AWAKENED
+```
+
+---
+
+# 21. QUEST CHOICE SKILL
+
+Beberapa Quest dapat memberikan pilihan Skill.
+
+```text
+QUEST COMPLETE
+      ↓
+SKILL CHOICE
+      ↓
+┌───────────────┐
+│               │
+▼               ▼
+SKILL A       SKILL B
+```
+
+Contoh:
+
+```text
+Choose one:
+
+"Flame Guard"
+or
+"Flame Burst"
+```
+
+Skill yang tidak dipilih dapat:
+
+```text
+Remain Locked
+Return in Another Quest
+Appear in Dungeon
+Appear in Event
+Become Available Through Special Condition
+```
+
+---
+
+# 22. DUNGEON-BASED SKILL UNLOCK
+
+Dungeon dapat memberikan Skill melalui:
+
+```text
+Dungeon Quest
+Floor Clear
+Boss Defeat
+Hidden Room
+Treasure Chest
+Dungeon Achievement
+Dungeon Choice
+Dungeon Story
+```
+
+Flow utama:
+
+```text
+ENTER DUNGEON
+      ↓
+DUNGEON PROGRESS
+      ↓
+FLOOR / QUEST / BOSS
+      ↓
+REWARD CHECK
+      ↓
+SKILL REWARD?
+      │
+   ┌──┴──┐
+  YES    NO
+   │      │
+   ▼      ▼
+UNLOCK  CONTINUE
+```
+
+---
+
+# 23. DUNGEON QUEST SKILL
+
+Dungeon Quest dapat memberikan Skill secara langsung.
+
+Contoh:
+
+```text
+DUNGEON QUEST
+"Echoes Beneath the Ruins"
+
+Condition:
+Reach Floor 20
+Defeat the Guardian
+Do not abandon the party
+
+Reward:
+Skill "Echo Step"
+```
+
+Skill tersebut hanya dapat diperoleh jika kondisi Quest terpenuhi.
+
+---
+
+# 24. DUNGEON FLOOR SKILL
+
+Floor tertentu dapat memiliki Skill Reward.
+
+Contoh:
+
+```text
+FLOOR 10
+→ Skill Material
+
+FLOOR 20
+→ Skill Fragment
+
+FLOOR 30
+→ Skill Unlock
+
+FLOOR 50
+→ Rare Skill Chance
+```
+
+Floor Reward dapat bersifat:
+
+```text
+Guaranteed
+Random
+Choice-Based
+Hidden
+Conditional
+```
+
+---
+
+# 25. DUNGEON BOSS SKILL
+
+Dungeon Boss dapat memberikan Skill setelah dikalahkan.
+
+```text
+BOSS BATTLE
+      ↓
+BOSS DEFEATED
+      ↓
+DROP CHECK
+      ↓
+SKILL DROP CHECK
+      ↓
+SKILL UNLOCK
+```
+
+Contoh:
+
+```text
+Boss:
+Ancient Stone Dragon
+
+Possible Skill:
+"Dragon Scale"
+"Stone Breath"
+"Earthbound Will"
+```
+
+Skill dapat diberikan kepada:
+
+```text
+Hero yang memberikan kontribusi terbesar
+Hero yang memenuhi kondisi Quest
+Hero tertentu
+Hero dengan Class tertentu
+Hero yang dipilih Player
+Party secara keseluruhan
+```
+
+---
+
+# 26. DUNGEON SKILL DROP RULE
+
+Dungeon Skill Drop dapat menggunakan:
+
+```text
+Guaranteed Drop
+Drop Rate
+Contribution Check
+Class Check
+Character Check
+Quest Check
+RNG
+```
+
+Contoh:
+
+```text
+Boss Defeated
+      ↓
+Required Hero Check
+      ↓
+RNG Drop Check
+      ↓
+Skill Obtained
+```
+
+RNG tidak boleh menghapus Skill yang dijamin oleh Quest.
+
+---
+
+# 27. HIDDEN DUNGEON SKILL
+
+Hidden Dungeon dapat memberikan Skill yang tidak tersedia melalui Level Up biasa.
+
+```text
+HIDDEN DUNGEON DISCOVERED
+      ↓
+SPECIAL CONDITION
+      ↓
+HIDDEN BOSS / ROOM
+      ↓
+SKILL AWAKENING
+```
+
+Hidden Skill dapat memiliki:
+
+```text
+Unique Effect
+Rare Mechanic
+Character Synergy
+Dungeon Lore Connection
+Secret Class Connection
+```
+
+---
+
+# 28. DUNGEON SKILL EXAMPLE
+
+```text
+DUNGEON:
+Abyssal Library
+
+FLOOR:
+40
+
+HIDDEN CONDITION:
+Enter with a Mage Hero
+and solve the forbidden inscription.
+
+REWARD:
+Skill "Abyssal Script"
+
+Type:
+Passive
+
+Effect:
+Increases magic damage against
+enemies affected by Curse.
+```
+
+---
+
+# 29. DUNGEON SKILL OWNERSHIP
+
+Skill dari Dungeon dapat diberikan berdasarkan:
+
+```text
+Hero ID
+Party ID
+Quest Participant
+Boss Contributor
+Selected Reward Recipient
+Character Condition
+```
+
+Contoh:
+
+```text
+Dungeon Clear
+ ↓
+Reward Selection
+ ↓
+Select Hero
+ ↓
+Skill Assigned
+```
+
+Jika Skill bersifat Party Skill:
+
+```text
+Party Clear
+ ↓
+Party Skill Unlocked
+```
+
+---
+
+# 30. SKILL UNLOCK CONDITION
+
+Skill dapat memiliki kondisi:
+
+```text
+Required Level
+Required Star
+Required Quest
+Required Dungeon
+Required Dungeon Floor
+Required Boss
+Required Event
+Required Character Story
+Required Class
+Required Trait
+Required Achievement
+Required Item
+Required Choice
+Special Condition
+```
+
+---
+
+# 31. LEVEL SKILL EXAMPLE
+
+Contoh:
+
+```text
+Level 1
+→ Basic Skill
+
+Level 5
+→ Skill Slot 2
+
+Level 10
+→ Passive Skill
+
+Level 20
+→ Advanced Skill
+
+Level 30
+→ Special Skill
+```
+
+Ini hanya contoh konfigurasi.
+
+Skill sebenarnya ditentukan oleh Character Data, Quest Data, dan Dungeon Data.
+
+---
+
+# 32. SKILL UNLOCK RNG
+
+Beberapa Skill dapat memiliki peluang terbuka ketika Hero mencapai kondisi tertentu.
+
+Contoh:
+
+```text
+Hero Level Up
+       ↓
+Skill Potential Check
+       ↓
+RNG
+       ↓
+Skill Awakened
+```
+
+RNG digunakan untuk:
+
+```text
+Rare Trait
+Hidden Skill
+Special Skill
+Bonus Skill
+Dungeon Drop Skill
+Boss Skill
+```
+
+Skill wajib dari Quest tidak menggunakan RNG.
+
+Skill wajib dari Dungeon Quest juga tidak menggunakan RNG, kecuali Quest secara eksplisit menetapkan sistem peluang.
+
+---
+
+# 33. GUARANTEED SKILL
+
+Skill yang menjadi bagian dari perkembangan utama Hero dapat bersifat guaranteed.
+
+Contoh:
+
+```text
+Level 10
+→ Guaranteed Passive
+```
+
+Contoh Quest:
+
+```text
+Complete Character Quest
+→ Guaranteed Character Skill
+```
+
+Contoh Dungeon:
+
+```text
+Clear Floor 50
+→ Guaranteed Dungeon Skill
+```
+
+Tidak peduli RNG.
+
+---
+
+# 34. POTENTIAL SKILL
+
+Skill tertentu dapat memiliki:
+
+```text
+Unlock Chance
+```
+
+Contoh:
+
+```text
+Level 20
+
+Potential Skill:
+"Shadow Step"
+
+Unlock Chance:
+5%
+```
+
+Jika gagal:
+
+```text
+Skill remains locked.
+```
+
+Skill dapat memiliki kesempatan berikutnya berdasarkan konfigurasi.
+
+Dungeon Drop juga dapat menggunakan sistem serupa:
+
+```text
+Boss Defeated
+ ↓
+Skill Drop Chance
+ ↓
+Success / Failure
+```
+
+---
+
+# 35. SKILL AWAKENING
+
+Skill yang berhasil terbuka akan dicatat:
+
+```text
+SKILL UNLOCKED
+```
+
+Data:
+
+```text
+Hero ID
+Skill ID
+Skill Type
+Unlock Level
+Unlock Method
+Source Quest ID
+Source Dungeon ID
+Source Boss ID
+RNG Result
+Timestamp
+```
+
+---
+
+# 36. SKILL ID
+
+Setiap Skill memiliki ID unik.
+
+Contoh:
+
+```text
+SKILL-000001
+SKILL-000002
+SKILL-000003
+```
+
+Hero menyimpan referensi:
+
+```text
+Hero ID
+ ↓
+Skill ID
+```
+
+Skill yang diperoleh dari Quest atau Dungeon tetap menggunakan Skill ID yang sama dan memiliki Unlock Method yang berbeda.
+
+---
+
+# 37. SKILL DATABASE
+
+Database menyimpan:
+
+```text
+Skill ID
+Skill Name
+Skill Type
+Description
+Damage
+Effect
+Cooldown
+Mana Cost
+Required Level
+Required Star
+Rarity
+Unlock Condition
+Unlock Method
+Source Quest ID
+Source Dungeon ID
+Source Boss ID
+Drop Rate
+```
+
+Skill yang dibuat oleh AI tetap harus mendapatkan Skill ID.
+
+---
+
+# 38. QUEST DATABASE
+
+Quest Database menyimpan:
+
+```text
+Quest ID
+Quest Name
+Quest Type
+Required Hero
+Required Level
+Required Star
+Required Class
+Required Dungeon
+Required Floor
+Required Boss
+Quest Condition
+Quest Reward
+Skill Reward
+Skill Choice
+Completion Status
+```
+
+---
+
+# 39. DUNGEON DATABASE
+
+Dungeon Database menyimpan:
+
+```text
+Dungeon ID
+Dungeon Name
+Dungeon Type
+Floor Count
+Floor Condition
+Dungeon Quest
+Boss ID
+Reward Table
+Skill Drop Table
+Hidden Room
+Hidden Condition
+Required Star
+Required Level
+```
+
+---
+
+# 40. AI SKILL GENERATION
+
+AI dapat membantu membuat:
+
+```text
+Skill Name
+Skill Description
+Skill Effect
+Animation Concept
+Combat Behavior
+Skill Synergy
+Quest Reward Concept
+Dungeon Reward Concept
+Boss Drop Concept
+```
+
+Namun AI tidak boleh langsung mengubah database tanpa validasi.
+
+Flow:
+
+```text
+AI
+ ↓
+GENERATE SKILL
+ ↓
+VALIDATION
+ ↓
+BALANCE CHECK
+ ↓
+QUEST / DUNGEON CHECK
+ ↓
+GAME STATE
+ ↓
+DATABASE
+```
+
+---
+
+# 41. STAR 6 — RARE SKILL
+
+Ketika Hero mencapai:
+
+# ⭐⭐⭐⭐⭐⭐
+
+Hero mendapatkan akses ke:
+
+# **RARE SKILL**
+
+Rare Skill merupakan kemampuan yang lebih langka daripada Skill normal.
+
+```text
+⭐⭐⭐⭐⭐
+       ↓
+     STAR UP
+       ↓
+⭐⭐⭐⭐⭐⭐
+       ↓
+RARE SKILL SYSTEM
+```
+
+Rare Skill juga dapat diperoleh melalui:
+
+```text
+High-Level Dungeon
+Dungeon Boss
+Hidden Dungeon
+Special Quest
+Character Quest
+Event
+```
+
+Star 6 membuka akses terhadap Rare Skill, tetapi sumber Skill tetap dapat berasal dari berbagai sistem.
+
+---
+
+# 42. RARE SKILL
+
+Rare Skill dapat memiliki:
+
+```text
+Unique Effect
+High Combat Value
+Special Passive
+Special Mechanic
+Class Synergy
+Race Synergy
+Character Synergy
+Dungeon Synergy
+Quest Synergy
+```
+
+Rare Skill tidak harus sama antara Hero satu dengan lainnya.
+
+---
+
+# 43. RARE SKILL EXAMPLE
+
+Contoh:
+
+```text
+RARE SKILL
+"Dragon Heart"
+
+Type:
+Passive
+
+Effect:
+Increases elemental resistance
+and increases damage when HP is low.
+```
+
+Hero lain dapat memiliki:
+
+```text
+RARE SKILL
+"Void Step"
+
+Type:
+Active
+
+Effect:
+Short-range teleportation with
+temporary evasion increase.
+```
+
+Rare Skill juga dapat diperoleh dari Dungeon:
+
+```text
+DUNGEON:
+Abyssal Rift
+
+BOSS:
+Void Devourer
+
+DROP:
+"Void Step"
+
+DROP RATE:
+3%
+```
+
+---
+
+# 44. RARE SKILL RNG
+
+Rare Skill dapat memiliki beberapa mekanisme:
+
+```text
+GUARANTEED RARE SKILL
+```
+
+```text
+RARE SKILL AWAKENING
++
+RNG
+```
+
+```text
+DUNGEON BOSS DROP
++
+RNG
+```
+
+```text
+QUEST REWARD
++
+CHOICE
+```
+
+Konfigurasi dapat menentukan sistem yang digunakan.
+
+---
+
+# 45. RARE SKILL SELECTION
+
+Jika Hero memiliki beberapa kemungkinan Rare Skill:
+
+```text
+STAR 6
+ ↓
+RARE SKILL POOL
+ ↓
+CHARACTER DATA
+ ↓
+QUEST DATA
+ ↓
+DUNGEON DATA
+ ↓
+RNG / CHOICE
+ ↓
+SELECT RARE SKILL
+```
+
+Skill pool dibatasi berdasarkan:
+
+```text
+Race
+Class
+Personality
+Character
+Origin
+Traits
+Story
+Quest History
+Dungeon History
+```
+
+---
+
+# 46. STAR 7 — ULTIMATE SKILL
+
+Ketika Hero mencapai:
+
+# ⭐⭐⭐⭐⭐⭐⭐
+
+Hero mendapatkan akses ke:
+
+# **ULTIMATE SKILL**
+
+Ultimate Skill merupakan skill tertinggi yang dimiliki Hero.
+
+```text
+⭐⭐⭐⭐⭐⭐
+       ↓
+STAR 7
+       ↓
+⭐⭐⭐⭐⭐⭐⭐
+       ↓
+ULTIMATE SKILL
+```
+
+Ultimate Skill juga dapat memiliki syarat tambahan:
+
+```text
+Complete Character Quest
+Clear Special Dungeon
+Defeat Ultimate Boss
+Collect Ultimate Skill Fragment
+Complete Hidden Achievement
+```
+
+---
+
+# 47. ULTIMATE SKILL
+
+Ultimate Skill harus terasa unik terhadap Hero.
+
+Ultimate dapat memiliki:
+
+```text
+Extreme Damage
+Unique Mechanic
+Transformation
+Massive AoE
+Party Effect
+Defensive Miracle
+Summoning
+Reality Alteration
+Special Character Ability
+Dungeon-Origin Power
+Quest-Origin Power
+```
+
+Jenis Ultimate ditentukan berdasarkan identitas Hero dan perkembangan ceritanya.
+
+---
+
+# 48. ULTIMATE SKILL EXAMPLE
+
+Contoh Warrior:
+
+```text
+ULTIMATE
+"King's Final Strike"
+
+Effect:
+The Hero releases a massive
+single-target attack.
+```
+
+Mage:
+
+```text
+ULTIMATE
+"Cataclysm"
+
+Effect:
+Massive area magic attack.
+```
+
+Support:
+
+```text
+ULTIMATE
+"Blessing of Dawn"
+
+Effect:
+Restores HP and grants a powerful
+temporary party-wide buff.
+```
+
+Ultimate dari Dungeon Quest:
+
+```text
+ULTIMATE
+"Throne of the Abyss"
+
+Condition:
+Reach the final floor of the Abyssal Dungeon
+and complete the Hero's personal quest.
+
+Effect:
+The Hero summons an abyssal domain
+that changes the rules of combat.
+```
+
+---
+
+# 49. UNIQUE ULTIMATE
+
+Ultimate Skill sebaiknya tidak sekadar:
+
+```text
+Bigger Damage
+```
+
+Tetapi memiliki hubungan dengan:
+
+```text
+Character
+Personality
+History
+Race
+Class
+Origin
+Story
+Quest Choices
+Dungeon Achievements
+```
+
+Contoh:
+
+Hero dari Elaria:
+
+```text
+Ultimate:
+"Heart of the Eternal Forest"
+```
+
+Hero dari Karak-Dur:
+
+```text
+Ultimate:
+"Forge of the First King"
+```
+
+Hero mantan Cult:
+
+```text
+Ultimate:
+"Sin of Eternal Night"
+```
+
+Hero yang menaklukkan Dungeon Abyss:
+
+```text
+Ultimate:
+"Throne of the Abyss"
+```
+
+---
+
+# 50. ULTIMATE SKILL AWAKENING
+
+Flow:
+
+```text
+STAR UP
+ ↓
+STAR 7
+ ↓
+CHARACTER CHECK
+ ↓
+QUEST CHECK
+ ↓
+DUNGEON CHECK
+ ↓
+ULTIMATE POOL
+ ↓
+AI GENERATION / CHARACTER DATA
+ ↓
+VALIDATION
+ ↓
+ULTIMATE UNLOCK
+```
+
+---
+
+# 51. STAR 6 → STAR 7
+
+Perjalanan:
+
+```text
+⭐⭐⭐⭐⭐
+   │
+   ▼
+⭐⭐⭐⭐⭐⭐
+   │
+   ▼
+RARE SKILL ACCESS
+   │
+   ├── Star Awakening
+   ├── Quest Reward
+   ├── Dungeon Reward
+   └── Boss Drop
+   │
+   ▼
+⭐⭐⭐⭐⭐⭐⭐
+   │
+   ▼
+ULTIMATE SKILL ACCESS
+   │
+   ├── Character Quest
+   ├── Special Dungeon
+   ├── Ultimate Boss
+   └── Hidden Achievement
+```
+
+Star 6 membuka fase Rare.
+
+Star 7 membuka fase Ultimate.
+
+---
+
+# 52. SKILL LEVEL
+
+Skill juga dapat memiliki Level.
+
+Contoh:
+
+```text
+Fireball Lv.1
+ ↓
+Fireball Lv.2
+ ↓
+Fireball Lv.3
+```
+
+Skill Level dapat meningkat melalui:
+
+```text
+Skill Material
+Skill Point
+Quest Reward
+Dungeon Reward
+Training
+Duplicate Skill Fragment
+Special Condition
+```
+
+Skill Level dapat meningkatkan:
+
+```text
+Damage
+Duration
+Healing
+Range
+Effect
+Cooldown
+Resource Efficiency
+```
+
+---
+
+# 53. SKILL UPGRADE
+
+Skill dapat berkembang melalui:
+
+```text
+Hero Level
+Skill Material
+Star Rank
+Skill Points
+Quest
+Dungeon
+Dungeon Boss
+Event
+Training
+Special Condition
+```
+
+Quest dan Dungeon dapat memberikan:
+
+```text
+Skill Upgrade Material
+Skill Fragment
+Skill Blueprint
+Skill Evolution Item
+```
+
+---
+
+# 54. SKILL POINT
+
+Hero dapat memperoleh Skill Point.
+
+```text
+LEVEL UP
+ ↓
+SKILL POINT
+ ↓
+SKILL UPGRADE
+```
+
+Skill Point juga dapat diperoleh dari:
+
+```text
+Quest
+Dungeon
+Dungeon Achievement
+Boss Clear
+Event
+Training
+```
+
+Skill Point dapat dikelola oleh Character Growth System.
+
+---
+
+# 55. SKILL LIMIT
+
+Skill tidak dapat dinaikkan tanpa batas.
+
+Contoh:
+
+```text
+Basic Skill
+Max Lv.5
+
+Advanced Skill
+Max Lv.10
+
+Quest Skill
+Max Lv.5
+
+Dungeon Skill
+Max Lv.5
+
+Rare Skill
+Max Lv.5
+
+Ultimate
+Max Lv.3
+```
+
+Konfigurasi dapat diubah.
+
+---
+
+# 56. COMBAT INTEGRATION
+
+Basic Combat System membaca Skill Hero.
+
+```text
+HERO
+ ↓
+CURRENT STATS
+ ↓
+CURRENT SKILLS
+ ↓
+QUEST ACQUIRED SKILLS
+ ↓
+DUNGEON ACQUIRED SKILLS
+ ↓
+EMOTIONAL STATE
+ ↓
+AI COMBAT
+ ↓
+ACTION
+```
+
+AI menentukan kapan Skill digunakan berdasarkan kondisi pertempuran.
+
+---
+
+# 57. EMOTIONAL EFFECT ON SKILL
+
+Emotional State dapat memengaruhi penggunaan Skill.
+
+Contoh:
+
+```text
+ANGER HIGH
+ ↓
+Aggressive Skill Preference
+```
+
+```text
+FEAR HIGH
+ ↓
+Defensive Skill Preference
+```
+
+```text
+CONFIDENCE HIGH
+ ↓
+Risky Skill Preference
+```
+
+```text
+DUNGEON TRAUMA HIGH
+ ↓
+Avoidance of Dungeon-Related Skill
+```
+
+Namun Emotional System tidak boleh mengubah Skill secara permanen tanpa mekanisme khusus.
+
+---
+
+# 58. FAIRY OBSERVATION
+
+AI Fairy memonitor perkembangan Skill.
+
+Contoh:
+
+> **"Master, HERO-000125 has reached Level 30."**
+
+> **"Their attack power increased significantly."**
+
+> **"A new Skill Potential has also been detected."**
+
+Jika Quest memberikan Skill:
+
+> **"Master, the Quest has been completed. HERO-000125 has learned a new Skill."**
+
+Jika Dungeon memberikan Skill:
+
+> **"Master, the Dungeon reward contains a Skill."**
+
+> **"HERO-000125 has acquired a new Dungeon Skill."**
+
+Jika Boss menjatuhkan Skill:
+
+> **"Master, the defeated Boss has dropped a Skill."**
+
+Jika Rare Skill terbuka:
+
+> **"Master, something unusual has happened. HERO-000125 has awakened a Rare Skill."**
+
+Jika Ultimate terbuka:
+
+> **"Master... HERO-000125 has reached Star 7."**
+
+> **"An Ultimate Skill has awakened."**
+
+---
+
+# 59. GAME STATE UPDATE
+
+Setiap Level Up:
+
+```text
+LEVEL UP
+ ↓
+GAME STATE SYSTEM
+ ↓
+STAT UPDATE
+ ↓
+SKILL CHECK
+ ↓
+EMOTIONAL CHECK
+ ↓
+CHARACTER UPDATE
+ ↓
+DATABASE
+ ↓
+FAIRY REPORT
+```
+
+Setiap Quest Skill:
+
+```text
+QUEST COMPLETE
+ ↓
+REWARD VALIDATION
+ ↓
+SKILL UNLOCK
+ ↓
+HERO UPDATE
+ ↓
+GAME STATE
+ ↓
+DATABASE
+ ↓
+FAIRY REPORT
+```
+
+Setiap Dungeon Skill:
+
+```text
+DUNGEON EVENT
+ ↓
+FLOOR / QUEST / BOSS RESULT
+ ↓
+REWARD CHECK
+ ↓
+RNG / GUARANTEED CHECK
+ ↓
+SKILL UNLOCK
+ ↓
+HERO UPDATE
+ ↓
+GAME STATE
+ ↓
+DATABASE
+ ↓
+FAIRY REPORT
+```
+
+---
+
+# 60. DATABASE UPDATE
+
+Database mencatat:
+
+```text
+Hero ID
+Previous Level
+New Level
+Previous Stats
+New Stats
+Skill Unlocked
+Skill Level
+Star Rank
+Rare Skill
+Ultimate Skill
+Growth RNG
+Unlock Method
+Source Quest ID
+Source Dungeon ID
+Source Boss ID
+Timestamp
+```
+
+---
+
+# 61. LEVEL UP HISTORY
+
+Contoh:
+
+```text
+LEVELUP-000001
+
+Hero:
+HERO-000125
+
+Previous Level:
+24
+
+New Level:
+25
+
+ATK:
+150 → 157
+
+DEF:
+120 → 123
+
+Skill:
+None
+
+Timestamp:
+GAME TIME
+```
+
+---
+
+# 62. QUEST SKILL HISTORY
+
+```text
+SKILL-AWAKEN-000003
+
+Hero:
+HERO-000125
+
+Skill:
+SKILL-000601
+
+Type:
+QUEST SKILL
+
+Source Quest:
+QUEST-000045
+
+Method:
+QUEST REWARD
+
+Status:
+UNLOCKED
+```
+
+---
+
+# 63. DUNGEON SKILL HISTORY
+
+```text
+SKILL-AWAKEN-000004
+
+Hero:
+HERO-000125
+
+Skill:
+SKILL-000702
+
+Type:
+DUNGEON SKILL
+
+Source Dungeon:
+DUNGEON-000012
+
+Source Floor:
+40
+
+Source Boss:
+BOSS-000088
+
+Method:
+BOSS DROP
+
+RNG:
+SUCCESS
+
+Status:
+UNLOCKED
+```
+
+---
+
+# 64. RARE SKILL HISTORY
+
+```text
+SKILL-AWAKEN-000001
+
+Hero:
+HERO-000125
+
+Star:
+6
+
+Skill:
+SKILL-000501
+
+Type:
+RARE
+
+Method:
+STAR 6 AWAKENING
+
+RNG:
+SUCCESS
+```
+
+---
+
+# 65. ULTIMATE HISTORY
+
+```text
+SKILL-AWAKEN-000002
+
+Hero:
+HERO-000125
+
+Star:
+7
+
+Skill:
+SKILL-000999
+
+Type:
+ULTIMATE
+
+Method:
+STAR 7 AWAKENING
+
+Status:
+UNLOCKED
+```
+
+---
+
+# 66. HERO GROWTH LOOP
+
+```text
+                 HERO
+                  │
+                  ▼
+                 EXP
+                  │
+                  ▼
+               LEVEL UP
+                  │
+        ┌─────────┴─────────┐
+        ▼                   ▼
+    STAT GROWTH         SKILL CHECK
+        │                   │
+        │             ┌─────┴─────┐
+        │             ▼           ▼
+        │         UNLOCK       NOTHING
+        │             │
+        └──────┬──────┘
+               ▼
+          HERO STRONGER
+               │
+               ▼
+             QUEST
+               │
+               ▼
+          QUEST REWARD
+               │
+               ▼
+          SKILL UNLOCK
+               │
+               ▼
+             DUNGEON
+               │
+               ▼
+       FLOOR / BOSS / QUEST
+               │
+               ▼
+          SKILL REWARD
+               │
+               ▼
+             STAR UP
+               │
+        ┌──────┴──────┐
+        ▼             ▼
+      STAR 6        STAR 7
+        │             │
+        ▼             ▼
+    RARE SKILL    ULTIMATE SKILL
+```
+
+---
+
+# 67. COMPLETE STAR & LEVEL ARCHITECTURE
+
+```text
+RECRUITMENT
+     │
+     ▼
+    HERO
+     │
+     ▼
+   STAR 1
+     │
+     ▼
+   LEVEL UP
+     │
+     ├── STAT GROWTH
+     ├── SKILL CHECK
+     └── EXP
+     │
+     ▼
+   QUEST
+     │
+     ├── QUEST EXP
+     ├── QUEST ITEM
+     ├── QUEST SKILL
+     └── QUEST ACHIEVEMENT
+     │
+     ▼
+   DUNGEON
+     │
+     ├── FLOOR REWARD
+     ├── DUNGEON QUEST
+     ├── BOSS REWARD
+     ├── SKILL DROP
+     └── HIDDEN SKILL
+     │
+     ▼
+   STAR UP
+     │
+     ▼
+   STAR 2
+     │
+     ▼
+   LEVEL UP
+     │
+     ▼
+   STAR 3
+     │
+     ▼
+   LEVEL UP
+     │
+     ▼
+   STAR 4
+     │
+     ▼
+   LEVEL UP
+     │
+     ▼
+   STAR 5
+     │
+     ▼
+   LEVEL UP
+     │
+     ▼
+   STAR 6
+     │
+     ▼
+  RARE SKILL
+     │
+     ├── STAR AWAKENING
+     ├── QUEST REWARD
+     ├── DUNGEON REWARD
+     └── BOSS DROP
+     │
+     ▼
+   LEVEL UP
+     │
+     ▼
+   STAR 7
+     │
+     ▼
+ULTIMATE SKILL
+```
+
+---
+
+# 68. AI DEVELOPMENT ARCHITECTURE
+
+```text
+CHARACTER DATA
+      │
+      ▼
+AI CHARACTER
+      │
+      ├── Personality
+      ├── Emotional State
+      ├── Growth Preference
+      ├── Combat Preference
+      ├── Quest Preference
+      └── Dungeon Preference
+      │
+      ▼
+LEVEL UP
+      │
+      ▼
+STAT SYSTEM
+      │
+      ▼
+QUEST SYSTEM
+      │
+      ▼
+DUNGEON SYSTEM
+      │
+      ▼
+SKILL SYSTEM
+      │
+      ▼
+RNG SYSTEM
+      │
+      ▼
+RARE / ULTIMATE
+      │
+      ▼
+GAME STATE
+      │
+      ▼
+DATABASE
+```
+
+---
+
+# 69. AI SKILL BALANCING
+
+AI dapat membantu membuat Skill, tetapi Skill harus melewati:
+
+```text
+AI GENERATION
+ ↓
+RULE VALIDATION
+ ↓
+STAT VALIDATION
+ ↓
+RARITY VALIDATION
+ ↓
+QUEST VALIDATION
+ ↓
+DUNGEON VALIDATION
+ ↓
+COMBAT VALIDATION
+ ↓
+GAME STATE
+ ↓
+DATABASE
+```
+
+AI tidak boleh menghasilkan Skill yang:
+
+```text
+Infinite Damage
+Infinite HP
+Infinite Mana
+Infinite Skill Use
+Impossible Cooldown
+Game Breaking Effect
+```
+
+kecuali sistem secara eksplisit mengizinkannya.
+
+---
+
+# 70. SKILL RARITY
+
+Skill memiliki rarity:
+
+```text
+COMMON
+UNCOMMON
+RARE
+EPIC
+LEGENDARY
+ULTIMATE
+```
+
+Skill dari Quest atau Dungeon dapat memiliki rarity:
+
+```text
+COMMON
+UNCOMMON
+RARE
+EPIC
+LEGENDARY
+```
+
+Star 6 berhubungan dengan:
+
+```text
+RARE+
+```
+
+Star 7 berhubungan dengan:
+
+```text
+ULTIMATE
+```
+
+---
+
+# 71. HERO IDENTITY
+
+Skill harus tetap sesuai dengan identitas Hero.
+
+```text
+HERO
+ │
+ ├── Race
+ ├── Class
+ ├── Origin
+ ├── Personality
+ ├── History
+ ├── Traits
+ ├── Faction
+ ├── Quest History
+ └── Dungeon History
+        │
+        ▼
+    SKILL POOL
+```
+
+Dengan demikian, dua Hero dengan Class yang sama tetap dapat memiliki Skill yang berbeda.
+
+Quest dan Dungeon dapat memperluas Skill Pool berdasarkan pengalaman Hero.
+
+---
+
+# 72. NO DUPLICATE SKILL PROBLEM
+
+Recruitment tidak menghasilkan duplicate Hero.
+
+Namun dua Hero berbeda dapat memiliki Skill yang mirip.
+
+Sistem harus membedakan:
+
+```text
+Same Skill ID
+```
+
+dan:
+
+```text
+Similar Skill Effect
+```
+
+Skill unik Hero tetap menggunakan Skill ID tersendiri.
+
+Skill yang diperoleh dari Dungeon dapat memiliki efek serupa dengan Skill Hero lain, tetapi tetap dapat memiliki:
+
+```text
+Different Skill ID
+Different Source
+Different Animation
+Different Scaling
+Different Lore
+```
+
+---
+
+# 73. EVENT + SKILL
+
+Event dapat membuka Skill khusus.
+
+Contoh:
+
+```text
+TOWER EVENT
+ ↓
+SPECIAL FLOOR MISSION
+ ↓
+HERO CONDITION
+ ↓
+SKILL AWAKENING
+```
+
+Skill Event dapat bersifat:
+
+```text
+Temporary
+Permanent
+Hidden
+Rare
+Ultimate
+```
+
+Sesuai konfigurasi Event System.
+
+---
+
+# 74. FLOOR + SKILL DEVELOPMENT
+
+Tower Floor dapat memberikan:
+
+```text
+EXP
+Skill Material
+Skill Unlock
+Skill Awakening
+Skill Fragment
+Star Up Material
+Special Event
+```
+
+Semua reward diproses melalui:
+
+```text
+RNG SYSTEM
+ ↓
+GAME STATE SYSTEM
+ ↓
+INVENTORY / HERO
+ ↓
+DATABASE
+ ↓
+AI FAIRY REPORT
+```
+
+---
+
+# 75. TRAINING GROUND + LEVEL
+
+Training Ground dapat memberikan Hero:
+
+```text
+EXP
+Stat Growth
+Skill Experience
+Combat Experience
+Skill Point
+```
+
+Namun hasil Training tetap harus mengikuti:
+
+```text
+Training System
+AI Character
+Game State
+```
+
+AI Fairy akan melaporkan perubahan setelah Training selesai/reset.
+
+---
+
+# 76. HERO SYNTHESIS + LEVEL
+
+Hero Synthesis memberikan EXP.
+
+```text
+SACRIFICE HERO
+      ↓
+HERO SYNTHESIS
+      ↓
+EXP
+      ↓
+TARGET HERO
+      ↓
+LEVEL UP
+      ↓
+STAT GROWTH
+      ↓
+SKILL CHECK
+```
+
+Dengan demikian, Hero Synthesis dapat secara tidak langsung membuka Skill baru melalui Level Up.
+
+Hero Synthesis juga dapat memberikan:
+
+```text
+Skill Point
+Skill Material
+Skill Fragment
+```
+
+sesuai konfigurasi.
+
+---
+
+# 77. FINAL HERO GROWTH MODEL
+
+```text
+                HERO
+                  │
+                  ▼
+              RECRUITMENT
+                  │
+                  ▼
+              STAR RANK
+                  │
+                  ▼
+                LEVEL
+                  │
+         ┌────────┼────────┐
+         ▼        ▼        ▼
+       STATS    SKILLS    TRAITS
+         │        │        │
+         │        ├── LEVEL
+         │        ├── QUEST
+         │        ├── DUNGEON
+         │        ├── BOSS
+         │        └── EVENT
+         │
+         └────────┬────────┘
+                  ▼
+             STAR UP
+                  │
+         ┌────────┴────────┐
+         ▼                 ▼
+      STAR 6             STAR 7
+         │                 │
+         ▼                 ▼
+    RARE SKILL        ULTIMATE SKILL
+         │                 │
+         └────────┬────────┘
+                  ▼
+             ADVANCED HERO
+                  │
+                  ▼
+                PARTY
+                  │
+                  ▼
+                TOWER
+                  │
+                  ▼
+               DUNGEON
+                  │
+                  ▼
+               COMBAT
+                  │
+                  ▼
+              MORE EXP
+                  │
+                  └──────────► LEVEL UP
+```
+
+---
+
+# 78. FINAL RULES
+
+### RULE 01
+
+> Hero yang naik Level akan mengalami peningkatan Stat.
+
+### RULE 02
+
+> Besarnya peningkatan Stat mengikuti Base Stat, Growth Type, Star Rank, dan konfigurasi sistem.
+
+### RULE 03
+
+> Level Up dapat memicu pemeriksaan Skill Unlock.
+
+### RULE 04
+
+> Skill dapat diperoleh melalui Level Up, Quest, Dungeon, Dungeon Floor, Boss Battle, Event, Achievement, dan Special Condition.
+
+### RULE 05
+
+> Quest dapat memberikan Skill secara langsung, melalui Skill Fragment, Blueprint, Choice, atau Awakening Condition.
+
+### RULE 06
+
+> Dungeon dapat memberikan Skill melalui Dungeon Quest, Floor Reward, Hidden Room, Boss Drop, dan Dungeon Achievement.
+
+### RULE 07
+
+> Skill wajib dari Quest atau Dungeon tidak menggunakan RNG kecuali sistem secara eksplisit menetapkan peluang.
+
+### RULE 08
+
+> Hidden, Potential, dan Drop Skill dapat menggunakan RNG.
+
+### RULE 09
+
+> Star Up meningkatkan Growth Potential dan Maximum Level.
+
+### RULE 10
+
+> Hero yang mencapai **Star 6** mendapatkan akses ke **Rare Skill System**.
+
+### RULE 11
+
+> Hero yang mencapai **Star 7** mendapatkan akses ke **Ultimate Skill System**.
+
+### RULE 12
+
+> Rare Skill harus lebih unik dan kuat dibanding Skill normal.
+
+### RULE 13
+
+> Ultimate Skill harus menjadi kemampuan khas Hero dan berkaitan dengan identitas karakter.
+
+### RULE 14
+
+> Quest dan Dungeon dapat membuka Skill yang tidak tersedia melalui Level Up biasa.
+
+### RULE 15
+
+> AI dapat membantu membuat Skill, Quest Reward, dan Dungeon Reward, tetapi semuanya harus melewati validasi sistem.
+
+### RULE 16
+
+> Emotional State dapat memengaruhi cara Hero menggunakan Skill dalam Combat, bukan secara sembarangan mengubah data Skill.
+
+### RULE 17
+
+> Semua perubahan Level, Stat, Skill, Quest Reward, Dungeon Reward, dan Star harus melalui Game State System.
+
+### RULE 18
+
+> Semua perubahan permanen disimpan dalam Database System.
+
+### RULE 19
+
+> AI Fairy melaporkan perkembangan penting kepada Master.
+
+---
+
+# 🌟 CORE PHILOSOPHY
+
+> **Level membuat Hero berkembang.**
+
+> **Quest memberikan pengalaman dan membuka kemampuan baru.**
+
+> **Dungeon menguji Hero dan menyimpan Skill yang tidak dapat diperoleh di tempat lain.**
+
+> **Star membuat potensi Hero semakin tinggi.**
+
+> **Skill membuat setiap Hero memiliki identitasnya sendiri.**
+
+> **Star 6 membuka kekuatan yang langka.**
+
+> **Star 7 membangkitkan Ultimate Skill.**
+
+Dan pada akhirnya:
+
+```text
+LEVEL
++
+STAT
++
+SKILL
++
+QUEST
++
+DUNGEON
++
+STAR
++
+PERSONALITY
++
+EMOTION
++
+EXPERIENCE
+=
+UNIQUE HERO
+```
+
+Setiap Hero tidak hanya menjadi karakter dengan angka yang lebih tinggi.
+
+Mereka menjadi individu yang **berkembang, belajar, menyelesaikan Quest, menaklukkan Dungeon, mendapatkan kemampuan baru, dan akhirnya dapat membangkitkan kekuatan unik mereka sendiri.**
