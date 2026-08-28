@@ -1,0 +1,1587 @@
+# 🆔 AETHERIA — ID SYSTEM
+
+> **Everything that exists in Aetheria must have an identity.**
+>
+> The ID System provides a unique identity for every persistent entity in the game.
+>
+> Every registered ID can be stored, retrieved, updated, and referenced through the **Database System**.
+
+---
+
+# 📌 1. OVERVIEW
+
+The **ID System** is responsible for generating, assigning, validating, and managing unique identifiers for entities within Aetheria.
+
+The system is used by:
+
+```text
+Master
+Character
+NPC
+Enemy
+Item
+```
+
+and can later be expanded to:
+
+```text
+Faction
+Location
+Quest
+Event
+Dungeon
+Floor
+Party
+Equipment
+Skill
+Story
+World
+```
+
+The fundamental relationship is:
+
+```text
+ENTITY
+   ↓
+ID SYSTEM
+   ↓
+UNIQUE ID
+   ↓
+DATABASE SYSTEM
+   ↓
+PERSISTENT DATA
+```
+
+---
+
+# 🎯 2. PURPOSE
+
+The ID System exists to prevent ambiguity between entities.
+
+For example, multiple characters can have the same display name:
+
+```text
+Alex
+Alex
+Alex
+```
+
+Their identities remain different:
+
+```text
+CHAR_000001
+CHAR_000145
+CHAR_000872
+```
+
+Therefore:
+
+> **Name is not identity.**
+
+The ID is the permanent identity of the entity.
+
+---
+
+# 🧠 3. CORE PRINCIPLE
+
+Every persistent entity must have a unique ID.
+
+```text
+MASTER_000001
+CHAR_000001
+NPC_000001
+ENEMY_000001
+ITEM_000001
+```
+
+The ID should remain stable even when the entity changes.
+
+For example:
+
+```text
+CHAR_000001
+
+Name:
+Arden
+
+Level:
+10
+```
+
+Later:
+
+```text
+CHAR_000001
+
+Name:
+Arden
+
+Level:
+50
+```
+
+The ID remains:
+
+```text
+CHAR_000001
+```
+
+---
+
+# 🏗️ 4. ID SYSTEM ARCHITECTURE
+
+```text
+                         ID SYSTEM
+                            │
+             ┌──────────────┼──────────────┐
+             │              │              │
+             ▼              ▼              ▼
+         GENERATOR      VALIDATOR       REGISTRY
+             │              │              │
+             └──────────────┼──────────────┘
+                            │
+                            ▼
+                       UNIQUE ID
+                            │
+                            ▼
+                     DATABASE SYSTEM
+```
+
+The ID System generates and validates identity.
+
+The Database System stores the entity associated with that identity.
+
+---
+
+# 🗂️ 5. ENTITY TYPES
+
+The initial ID System supports five major entity types:
+
+```text
+ID SYSTEM
+│
+├── MASTER
+├── CHARACTER
+├── NPC
+├── ENEMY
+└── ITEM
+```
+
+---
+
+# 👑 6. MASTER ID
+
+The player-controlled Master receives a unique ID.
+
+Format:
+
+```text
+MASTER_XXXXXX
+```
+
+Example:
+
+```text
+MASTER_000001
+MASTER_000002
+MASTER_000003
+```
+
+Example data:
+
+```text
+MASTER_000001
+
+Name:
+The Master
+
+Level:
+15
+
+Rank:
+C
+
+CurrentFloor:
+15
+```
+
+The Master ID is used by:
+
+```text
+Master System
+Game Manager
+Game State System
+Database System
+Quest System
+Party System
+Inventory System
+Story System
+Relationship System
+```
+
+---
+
+# 🧬 7. CHARACTER ID
+
+Every recruitable Hero/Character receives a unique ID.
+
+Format:
+
+```text
+CHAR_XXXXXX
+```
+
+Example:
+
+```text
+CHAR_000001
+CHAR_000002
+CHAR_000003
+```
+
+Example:
+
+```text
+CHAR_000001
+
+Name:
+Arden
+
+Race:
+Human
+
+Origin:
+Valeria
+
+Class:
+Knight
+
+Star:
+4
+
+Level:
+25
+```
+
+The Character ID represents the individual character, not merely their character template.
+
+---
+
+# 👤 8. NPC ID
+
+Every persistent NPC receives a unique ID.
+
+Format:
+
+```text
+NPC_XXXXXX
+```
+
+Example:
+
+```text
+NPC_000001
+NPC_000002
+NPC_000003
+```
+
+Example:
+
+```text
+NPC_000001
+
+Name:
+Elias
+
+Race:
+Human
+
+Occupation:
+Blacksmith
+
+Location:
+LOCATION_ELYSIUM
+
+Status:
+ALIVE
+```
+
+NPC IDs are important because NPCs can have persistent states.
+
+For example:
+
+```text
+NPC_000001
+```
+
+can change from:
+
+```text
+ALIVE
+```
+
+to:
+
+```text
+INJURED
+```
+
+and eventually:
+
+```text
+DEAD
+```
+
+The ID remains unchanged.
+
+---
+
+# 👹 9. ENEMY ID
+
+Enemies that need persistent identity receive an Enemy ID.
+
+Format:
+
+```text
+ENEMY_XXXXXX
+```
+
+Example:
+
+```text
+ENEMY_000001
+ENEMY_000002
+ENEMY_000003
+```
+
+Example:
+
+```text
+ENEMY_000001
+
+Name:
+Corrupted Knight
+
+Race:
+Human
+
+Type:
+ELITE
+
+Level:
+25
+
+Floor:
+15
+
+Status:
+ACTIVE
+```
+
+Enemy IDs are especially important for enemies that can persist between states.
+
+For example:
+
+```text
+Enemy defeated
+Enemy escaped
+Enemy relocated
+Enemy respawned
+Enemy transformed
+Enemy became a boss
+```
+
+---
+
+# 🎒 10. ITEM ID
+
+Every item definition receives a unique ID.
+
+Format:
+
+```text
+ITEM_XXXXXX
+```
+
+Example:
+
+```text
+ITEM_000001
+ITEM_000002
+ITEM_000003
+```
+
+Example:
+
+```text
+ITEM_000001
+
+Name:
+Ancient Iron
+
+Type:
+MATERIAL
+
+Rarity:
+COMMON
+
+BaseValue:
+100
+```
+
+The Item ID identifies the item type.
+
+Inventory ownership is stored separately.
+
+Example:
+
+```text
+ITEM_000001
+       │
+       ▼
+INVENTORY
+       │
+       ▼
+MASTER_000001
+       │
+       ▼
+Quantity: 25
+```
+
+---
+
+# 🧩 11. ENTITY ID VS INSTANCE ID
+
+Aetheria should distinguish between an **Entity Definition ID** and an **Entity Instance ID** when necessary.
+
+Example:
+
+```text
+ENEMY TYPE
+
+ENEMY_TYPE_CORRUPTED_KNIGHT
+```
+
+This defines what the enemy is.
+
+An individual spawned enemy can then have:
+
+```text
+ENEMY_000451
+```
+
+Therefore:
+
+```text
+ENEMY TYPE
+     │
+     ▼
+Corrupted Knight
+     │
+     ├── ENEMY_000451
+     ├── ENEMY_000452
+     └── ENEMY_000453
+```
+
+This distinction is useful for procedural enemies.
+
+The same principle can apply to:
+
+```text
+Character Template
+NPC Template
+Item Definition
+Enemy Template
+```
+
+---
+
+# 🏷️ 12. ID FORMAT
+
+The standard format is:
+
+```text
+PREFIX_NUMBER
+```
+
+Example:
+
+```text
+MASTER_000001
+CHAR_000001
+NPC_000001
+ENEMY_000001
+ITEM_000001
+```
+
+Recommended structure:
+
+```text
+PREFIX = Entity Type
+NUMBER = Unique Sequential Identifier
+```
+
+---
+
+# 📋 13. ID PREFIX TABLE
+
+| Entity    | Prefix   | Example         |
+| --------- | -------- | --------------- |
+| Master    | `MASTER` | `MASTER_000001` |
+| Character | `CHAR`   | `CHAR_000001`   |
+| NPC       | `NPC`    | `NPC_000001`    |
+| Enemy     | `ENEMY`  | `ENEMY_000001`  |
+| Item      | `ITEM`   | `ITEM_000001`   |
+
+Future prefixes:
+
+| Entity    | Prefix    | Example          |
+| --------- | --------- | ---------------- |
+| Faction   | `FACTION` | `FACTION_000001` |
+| Location  | `LOC`     | `LOC_000001`     |
+| Quest     | `QUEST`   | `QUEST_000001`   |
+| Event     | `EVENT`   | `EVENT_000001`   |
+| Tower     | `TOWER`   | `TOWER_000001`   |
+| Floor     | `FLOOR`   | `FLOOR_000001`   |
+| Party     | `PARTY`   | `PARTY_000001`   |
+| Equipment | `EQUIP`   | `EQUIP_000001`   |
+| Skill     | `SKILL`   | `SKILL_000001`   |
+
+---
+
+# 🔢 14. UNIQUE ID RULE
+
+An ID must never be duplicated within the same entity namespace.
+
+Valid:
+
+```text
+CHAR_000001
+CHAR_000002
+CHAR_000003
+```
+
+Invalid:
+
+```text
+CHAR_000001
+CHAR_000001
+```
+
+Different entity types can have the same numeric sequence.
+
+For example:
+
+```text
+CHAR_000001
+NPC_000001
+ITEM_000001
+```
+
+are valid because their prefixes define different namespaces.
+
+---
+
+# 🔒 15. ID IMMUTABILITY
+
+Once an ID has been assigned, it should normally never change.
+
+Example:
+
+```text
+CHAR_000001
+```
+
+The following may change:
+
+```text
+Name
+Level
+Class
+Star
+Faction
+Location
+Equipment
+Relationship
+Status
+```
+
+But:
+
+```text
+CharacterID
+```
+
+remains unchanged.
+
+This ensures that database references remain valid.
+
+---
+
+# 🗄️ 16. DATABASE RELATIONSHIP
+
+Every ID is stored in the Database System.
+
+Example:
+
+```text
+ID SYSTEM
+    │
+    ▼
+CHAR_000001
+    │
+    ▼
+DATABASE
+    │
+    └── Character Data
+```
+
+The database can then retrieve:
+
+```text
+CHAR_000001
+```
+
+and return its complete state.
+
+---
+
+# 🔄 17. GAME STATE UPDATE
+
+The **Game State System** is responsible for updating entity data.
+
+Example:
+
+```text
+CHAR_000001
+Level = 25
+```
+
+Hero gains EXP.
+
+```text
+GAME STATE SYSTEM
+        │
+        ▼
+Level = 26
+```
+
+Then:
+
+```text
+GAME STATE SYSTEM
+        │
+        ▼
+DATABASE SYSTEM
+        │
+        ▼
+CHAR_000001
+Level = 26
+```
+
+The ID itself does not change.
+
+---
+
+# 🧠 18. GAME MANAGER RELATIONSHIP
+
+The Game Manager coordinates the ID System.
+
+```text
+GAME MANAGER
+      │
+      ▼
+ID SYSTEM
+      │
+      ├── Generate ID
+      ├── Validate ID
+      └── Find Entity
+      │
+      ▼
+GAME STATE SYSTEM
+      │
+      ▼
+DATABASE SYSTEM
+```
+
+Example:
+
+```text
+Recruit System
+      │
+      ▼
+New Hero
+      │
+      ▼
+ID System
+      │
+      ▼
+CHAR_000125
+      │
+      ▼
+Game State System
+      │
+      ▼
+Character State
+      │
+      ▼
+Database System
+```
+
+---
+
+# 🎲 19. RECRUIT SYSTEM EXAMPLE
+
+When the Master recruits a new Hero:
+
+```text
+MASTER_000001
+       │
+       ▼
+RECRUIT SYSTEM
+       │
+       ▼
+RNG RESULT
+       │
+       ▼
+NEW CHARACTER
+       │
+       ▼
+ID SYSTEM
+       │
+       ▼
+CHAR_000125
+       │
+       ▼
+CHARACTER STATE
+       │
+       ▼
+DATABASE
+```
+
+The new Hero is now permanently identifiable.
+
+---
+
+# ⚔️ 20. ENEMY SPAWN EXAMPLE
+
+When an enemy appears:
+
+```text
+ENEMY TYPE
+Corrupted Knight
+       │
+       ▼
+ID SYSTEM
+       │
+       ▼
+ENEMY_000451
+       │
+       ▼
+ENEMY STATE
+       │
+       ▼
+DATABASE
+```
+
+If the enemy is temporary and does not require persistence, the implementation may use a runtime-only identifier.
+
+However, important enemies should receive persistent IDs.
+
+Examples:
+
+```text
+Boss
+Elite
+Named Enemy
+Quest Enemy
+Story Enemy
+Recurring Enemy
+Faction Commander
+```
+
+---
+
+# 🎒 21. ITEM EXAMPLE
+
+When an item is obtained:
+
+```text
+ITEM_000015
+       │
+       ▼
+Inventory System
+       │
+       ▼
+MASTER_000001
+       │
+       ▼
+Quantity +1
+       │
+       ▼
+Game State System
+       │
+       ▼
+Database System
+```
+
+The item definition remains:
+
+```text
+ITEM_000015
+```
+
+while the inventory state changes.
+
+---
+
+# 👤 22. NPC EXAMPLE
+
+NPC state:
+
+```text
+NPC_000012
+```
+
+Initial:
+
+```text
+Status:
+ALIVE
+
+Location:
+LOC_000015
+```
+
+Event occurs:
+
+```text
+Cult Attack
+```
+
+Game State changes:
+
+```text
+Status:
+INJURED
+```
+
+Database update:
+
+```text
+NPC_000012
+Status = INJURED
+```
+
+Later:
+
+```text
+NPC_000012
+Status = DEAD
+```
+
+The database preserves this history.
+
+---
+
+# 🔗 23. ENTITY REFERENCES
+
+IDs allow systems to reference each other without duplicating complete data.
+
+Example:
+
+```text
+QUEST_000015
+       │
+       ├── MasterID
+       │      └── MASTER_000001
+       │
+       ├── CharacterID
+       │      └── CHAR_000125
+       │
+       ├── NPCID
+       │      └── NPC_000012
+       │
+       ├── EnemyID
+       │      └── ENEMY_000451
+       │
+       └── ItemID
+              └── ITEM_000015
+```
+
+This creates a connected data structure.
+
+---
+
+# 🧬 24. ID REGISTRY
+
+The ID System should maintain an ID Registry.
+
+Example:
+
+```text
+ID REGISTRY
+
+MASTER
+├── MASTER_000001
+└── MASTER_000002
+
+CHARACTER
+├── CHAR_000001
+├── CHAR_000002
+└── CHAR_000125
+
+NPC
+├── NPC_000001
+└── NPC_000012
+
+ENEMY
+├── ENEMY_000001
+└── ENEMY_000451
+
+ITEM
+├── ITEM_000001
+├── ITEM_000002
+└── ITEM_000015
+```
+
+The registry prevents accidental duplicate IDs.
+
+---
+
+# 🔍 25. ID LOOKUP
+
+Other systems can request an entity using its ID.
+
+Example:
+
+```text
+Find:
+
+CHAR_000125
+```
+
+ID System:
+
+```text
+ID FOUND
+```
+
+Database System:
+
+```text
+LOAD CHAR_000125
+```
+
+Result:
+
+```text
+Character Data
+```
+
+If the ID does not exist:
+
+```text
+ID NOT FOUND
+```
+
+The system should return an appropriate error instead of creating an unexpected entity.
+
+---
+
+# ⚠️ 26. ID VALIDATION
+
+Every ID should pass validation.
+
+Valid:
+
+```text
+CHAR_000125
+```
+
+Invalid examples:
+
+```text
+CHAR
+CHAR_ABC
+CHAR_12
+CHAR_000125_EXTRA
+```
+
+depending on the implementation rules.
+
+Validation should check:
+
+```text
+Prefix
+Format
+Length
+Existence
+Uniqueness
+Namespace
+```
+
+---
+
+# 🗑️ 27. DELETE RULE
+
+An ID should generally not be reused after deletion.
+
+Example:
+
+```text
+CHAR_000125
+```
+
+Character dies permanently.
+
+The record may become:
+
+```text
+Status:
+DEAD
+```
+
+rather than physically deleting the database record.
+
+If the record must be deleted:
+
+```text
+CHAR_000125
+```
+
+should remain reserved.
+
+The next character becomes:
+
+```text
+CHAR_000126
+```
+
+not:
+
+```text
+CHAR_000125
+```
+
+This prevents historical references from becoming ambiguous.
+
+---
+
+# 💀 28. DEATH AND PERSISTENCE
+
+Important entities should retain their IDs after death.
+
+Example:
+
+```text
+CHAR_000125
+Status:
+DEAD
+```
+
+This allows the game to remember:
+
+```text
+Character died
+Character's quests
+Character relationships
+Character history
+Character achievements
+Character involvement in events
+```
+
+The same principle applies to:
+
+```text
+NPC
+Enemy
+Faction
+Boss
+```
+
+where persistent history is required.
+
+---
+
+# 🧾 29. ID HISTORY
+
+The system can optionally record ID history.
+
+Example:
+
+```text
+ENTITY HISTORY
+
+EntityID:
+CHAR_000125
+
+Created:
+Game Day 12
+
+Recruitment:
+Floor 15
+
+Current Status:
+DEAD
+
+Death Event:
+EVENT_00451
+
+Last Location:
+FLOOR_020
+```
+
+This information can be stored in the Database System.
+
+---
+
+# 🔄 30. ID LIFECYCLE
+
+Every persistent entity follows:
+
+```text
+CREATE
+   │
+   ▼
+GENERATE ID
+   │
+   ▼
+REGISTER ID
+   │
+   ▼
+CREATE STATE
+   │
+   ▼
+SAVE DATABASE
+   │
+   ▼
+UPDATE STATE
+   │
+   ▼
+SAVE DATABASE
+   │
+   ▼
+RETIRED / DELETED
+```
+
+The ID itself remains reserved.
+
+---
+
+# 🏗️ 31. ID SYSTEM MODULES
+
+Recommended architecture:
+
+```text
+ID SYSTEM
+│
+├── IDManager
+│
+├── IDGenerator
+│
+├── IDValidator
+│
+├── IDRegistry
+│
+├── IDResolver
+│
+├── IDHistory
+└── IDPersistence
+```
+
+### IDManager
+
+Central coordinator.
+
+### IDGenerator
+
+Creates new IDs.
+
+### IDValidator
+
+Validates IDs.
+
+### IDRegistry
+
+Tracks assigned IDs.
+
+### IDResolver
+
+Finds the entity associated with an ID.
+
+### IDHistory
+
+Tracks historical identity information.
+
+### IDPersistence
+
+Ensures registry data can survive game restarts.
+
+---
+
+# 💾 32. DATABASE STORAGE
+
+The ID Registry itself should be stored in the Database System.
+
+Example:
+
+```text
+ID_DATABASE
+
+EntityType
+EntityID
+CreatedAt
+Status
+```
+
+Example:
+
+```text
+CHARACTER | CHAR_000001 | CREATED | ACTIVE
+CHARACTER | CHAR_000002 | CREATED | DEAD
+NPC       | NPC_000001  | CREATED | ACTIVE
+ITEM      | ITEM_000001 | CREATED | ACTIVE
+ENEMY     | ENEMY_000451| CREATED | DEFEATED
+MASTER    | MASTER_000001| CREATED| ACTIVE
+```
+
+---
+
+# 🔄 33. GAME STATE → ID → DATABASE
+
+The standard architecture is:
+
+```text
+PLAYER / SYSTEM ACTION
+        │
+        ▼
+GAME MANAGER
+        │
+        ▼
+GAME STATE SYSTEM
+        │
+        ▼
+ENTITY CREATED / UPDATED
+        │
+        ▼
+ID SYSTEM
+        │
+        ▼
+ENTITY ID
+        │
+        ▼
+DATABASE SYSTEM
+        │
+        ▼
+PERSISTENT DATA
+```
+
+---
+
+# 🧠 34. DATABASE → ID → GAME STATE
+
+When loading:
+
+```text
+DATABASE
+   │
+   ▼
+DATABASE SYSTEM
+   │
+   ▼
+ENTITY ID
+   │
+   ▼
+ID SYSTEM
+   │
+   ▼
+GAME STATE SYSTEM
+   │
+   ▼
+GAME MANAGER
+   │
+   ▼
+GAME WORLD
+```
+
+This allows the game to reconstruct the world from persistent data.
+
+---
+
+# 🌎 35. WORLD SIMULATION CONNECTION
+
+The ID System is especially important for the World Simulation.
+
+Example:
+
+```text
+Cult attacks village
+        │
+        ▼
+NPC_000012 injured
+NPC_000013 dead
+NPC_000014 escaped
+        │
+        ▼
+Game State System
+        │
+        ▼
+Database System
+```
+
+The world can therefore remember exactly **which individuals** were affected.
+
+Not just:
+
+```text
+"3 NPCs died."
+```
+
+but:
+
+```text
+NPC_000013 died.
+```
+
+This enables deeper simulation.
+
+---
+
+# 🤖 36. AI FAIRY CONNECTION
+
+The AI Fairy can use IDs to identify entities.
+
+Example:
+
+```text
+AI FAIRY
+
+Master:
+MASTER_000001
+
+Current Party:
+CHAR_000001
+CHAR_000014
+CHAR_000021
+
+Target Enemy:
+ENEMY_000451
+```
+
+This allows AI recommendations to reference exact entities.
+
+---
+
+# 🧭 37. MASTER + CHARACTER + NPC + ENEMY + ITEM
+
+The core entity relationship can be represented as:
+
+```text
+                         MASTER
+                    MASTER_000001
+                           │
+              ┌────────────┼────────────┐
+              │            │            │
+              ▼            ▼            ▼
+           HEROES         NPCs        ITEMS
+              │            │            │
+       CHAR_000001      NPC_000001    ITEM_000001
+       CHAR_000002      NPC_000002    ITEM_000002
+       CHAR_000003      NPC_000003    ITEM_000003
+              │
+              ▼
+           ENEMIES
+              │
+       ENEMY_000001
+       ENEMY_000002
+       ENEMY_000003
+```
+
+All of these are connected through IDs and stored through the Database System.
+
+---
+
+# 🔐 38. ID SECURITY AND INTEGRITY
+
+The system must prevent:
+
+```text
+Duplicate ID
+Invalid ID
+Unknown ID
+Accidental ID Reuse
+Broken References
+Missing Entity
+Unauthorized ID Modification
+```
+
+An ID should be treated as a protected identity field.
+
+Other systems should modify entity data, not arbitrarily modify its ID.
+
+---
+
+# 📈 39. FUTURE EXPANSION
+
+The ID System can later support:
+
+```text
+WORLD_ID
+FACTION_ID
+LOCATION_ID
+TOWER_ID
+FLOOR_ID
+QUEST_ID
+EVENT_ID
+PARTY_ID
+EQUIPMENT_ID
+SKILL_ID
+DIALOGUE_ID
+STORY_ID
+ACHIEVEMENT_ID
+SAVE_ID
+```
+
+Eventually:
+
+```text
+EVERY IMPORTANT ENTITY
+        ↓
+UNIQUE ID
+        ↓
+DATABASE
+```
+
+---
+
+# 🧱 40. COMPLETE AETHERIA ID ARCHITECTURE
+
+```text
+                         ID SYSTEM
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+      MASTER            CHARACTER             NPC
+        │                   │                   │
+MASTER_000001        CHAR_000001          NPC_000001
+MASTER_000002        CHAR_000002          NPC_000002
+        │                   │                   │
+        └───────────────────┼───────────────────┘
+                            │
+                            ▼
+                          ENEMY
+                            │
+                     ENEMY_000001
+                     ENEMY_000002
+                            │
+                            ▼
+                           ITEM
+                            │
+                      ITEM_000001
+                      ITEM_000002
+                            │
+                            ▼
+                     DATABASE SYSTEM
+                            │
+                            ▼
+                    PERSISTENT STORAGE
+```
+
+---
+
+# 🔄 41. COMPLETE SYSTEM FLOW
+
+```text
+                         AETHERIA
+                            │
+                            ▼
+                    GAME MANAGER
+                            │
+                            ▼
+                  GAME STATE SYSTEM
+                            │
+                            ▼
+                    ENTITY ACTION
+                            │
+               ┌────────────┼────────────┐
+               │            │            │
+               ▼            ▼            ▼
+             CREATE       UPDATE       DELETE
+               │            │            │
+               └────────────┼────────────┘
+                            │
+                            ▼
+                        ID SYSTEM
+                            │
+               ┌────────────┼────────────┐
+               │            │            │
+               ▼            ▼            ▼
+            GENERATE      VALIDATE     RESOLVE
+               │            │            │
+               └────────────┼────────────┘
+                            ▼
+                     DATABASE SYSTEM
+                            │
+                            ▼
+                    PERSISTENT DATA
+```
+
+---
+
+# ✨ 42. FINAL PRINCIPLE
+
+Aetheria follows this rule:
+
+> **Every important entity has an identity.**
+
+```text
+MASTER
+CHARACTER
+NPC
+ENEMY
+ITEM
+```
+
+Each receives a unique ID.
+
+```text
+MASTER_000001
+CHAR_000001
+NPC_000001
+ENEMY_000001
+ITEM_000001
+```
+
+The Game State System controls the state of those entities.
+
+The Database System stores those states.
+
+The ID System connects everything.
+
+Therefore:
+
+```text
+CORE WORLD
+     ↓
+GAME MANAGER
+     ↓
+GAME STATE SYSTEM
+     ↓
+ENTITY
+     ↓
+ID SYSTEM
+     ↓
+DATABASE SYSTEM
+     ↓
+PERSISTENT MEMORY
+```
+
+> **The ID identifies the entity.**
+>
+> **The Game State defines its current condition.**
+>
+> **The Database remembers it.**
+
+This creates the foundation for a persistent Aetheria where a character, NPC, enemy, or item can be individually tracked throughout the entire history of the world.
