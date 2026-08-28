@@ -790,7 +790,6 @@ Gem
 Ticket
 Item
 Equipment
-EXP
 Special Material
 Special Ticket
 ```
@@ -854,7 +853,6 @@ Gem
 Ticket
 Item
 Equipment
-EXP
 Material
 Special Item
 ```
@@ -872,7 +870,6 @@ Reward Pool:
 
 Gold       50%
 Item       25%
-EXP        15%
 Gem         7%
 Ticket      3%
 ```
@@ -884,7 +881,6 @@ Quest Type
 Quest Difficulty
 Quest Rank
 Floor
-Master Level
 Event
 ```
 
@@ -897,7 +893,6 @@ RNG probabilities can depend on Game State.
 Example:
 
 ```text
-Master Level
 Floor
 Quest Rank
 Difficulty
@@ -1399,7 +1394,7 @@ Expected:
 ```text
 ⭐       ≈ 79%
 ⭐⭐      ≈ 20%
-⭐⭐⭐      ≈ 1%
+⭐⭐⭐     ≈ 1%
 ```
 
 Actual results will naturally vary.
