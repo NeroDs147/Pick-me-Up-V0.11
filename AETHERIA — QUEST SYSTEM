@@ -1,0 +1,2224 @@
+# 📜 AETHERIA — QUEST SYSTEM
+
+> **A Quest is not simply an objective.**
+>
+> Every Quest is a part of the world.
+>
+> Completing a Quest can change Heroes, factions, resources, relationships, events, Town facilities, and even the state of the Tower itself.
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+Quest System adalah sistem yang menghasilkan, mengatur, menjalankan, dan menyelesaikan berbagai misi yang diberikan kepada **Master, Party, Hero, NPC, atau fasilitas Town Square**.
+
+Quest terhubung langsung dengan:
+
+```text
+CORE WORLD BUILDING
+GAME STATE SYSTEM
+DATABASE SYSTEM
+ID SYSTEM
+TIME SYSTEM
+RNG SYSTEM
+MASTER SYSTEM
+CHARACTER / HERO SYSTEM
+AI CHARACTER + EMOTIONAL SYSTEM
+AI FAIRY
+ITEM + INVENTORY SYSTEM
+PARTY SYSTEM
+BASIC COMBAT SYSTEM
+TRAINING GROUND
+TOWN SQUARE
+RECRUITMENT SYSTEM
+STAR UP SYSTEM
+EVENT SYSTEM
+DUNGEON / TOWER SYSTEM
+WORLD EXPLORATION
+```
+
+Quest tidak berdiri sendiri.
+
+```text
+QUEST
+  ↓
+GAME STATE
+  ↓
+WORLD / HERO / PARTY / TOWN / FLOOR
+  ↓
+CONSEQUENCE
+  ↓
+DATABASE
+```
+
+---
+
+# 2. QUEST PHILOSOPHY
+
+Quest di Aetheria tidak hanya digunakan untuk memberikan:
+
+```text
+EXP
+Gold
+Gem
+Ticket
+Item
+```
+
+Quest juga dapat menghasilkan perubahan dunia.
+
+Contoh:
+
+```text
+Quest
+ ↓
+Save NPC
+ ↓
+NPC joins Town
+ ↓
+Town Facility unlocked
+ ↓
+Facility gets Leader
+ ↓
+Facility becomes operational
+ ↓
+New Quest becomes available
+```
+
+Dengan demikian, Quest dapat menjadi bagian dari **World Simulation**.
+
+---
+
+# 3. QUEST HIERARCHY
+
+Struktur utama:
+
+```text
+QUEST SYSTEM
+│
+├── Main Quest
+├── Floor Quest
+├── Dungeon Quest
+├── Exploration Quest
+├── Daily Quest
+├── Weekly Quest
+├── Event Quest
+├── Character Quest
+├── Faction Quest
+├── Town Quest
+├── Training Quest
+├── Hidden Quest
+└── Emergency Quest
+```
+
+Jenis Quest dapat dikembangkan kembali oleh Game State System.
+
+---
+
+# 4. MAIN QUEST
+
+Main Quest merupakan jalur utama perjalanan Master.
+
+Tujuan utamanya berkaitan dengan:
+
+```text
+Tower of Rebirth
+Nythar
+Cult of Eternal Night
+Pact
+World Rebirth
+```
+
+Contoh:
+
+```text
+MAIN QUEST 001
+
+Title:
+The First Step
+
+Objective:
+Reach Floor 1.
+
+Reward:
+Master EXP
+Gold
+Gem
+Basic Item
+```
+
+---
+
+# 5. MAIN STORY QUEST
+
+Main Quest dapat membuka bagian cerita dunia.
+
+Contoh:
+
+```text
+Reach Floor 10
+      ↓
+Discover Ancient Ruin
+      ↓
+Story Event
+      ↓
+Quest
+      ↓
+Discover Cult Activity
+      ↓
+World State Change
+```
+
+Story Quest dapat membuka:
+
+```text
+New Floor
+New NPC
+New Character
+New Town Facility
+New Faction
+New Event
+New Exploration Area
+```
+
+---
+
+# 6. FLOOR QUEST
+
+Floor Quest berhubungan langsung dengan Tower.
+
+Setiap lantai dapat memiliki Quest tersendiri.
+
+```text
+FLOOR 01
+├── Main Floor Quest
+├── Exploration Quest
+├── Hidden Quest
+└── Event Quest
+
+FLOOR 02
+├── Main Floor Quest
+├── Exploration Quest
+└── Hidden Quest
+```
+
+Quest mengikuti kondisi lantai.
+
+---
+
+# 7. FLOOR QUEST CONDITION
+
+Quest dapat dipengaruhi oleh:
+
+```text
+Floor Number
+Destruction Level
+Enemy State
+World State
+Faction State
+Previous Quest
+Party Condition
+Time
+Event
+```
+
+Contoh:
+
+```text
+Floor 25
+Destruction Level:
+75%
+
+Quest:
+"Save the Remaining Scholars"
+```
+
+Jika Destruction Level berubah:
+
+```text
+Quest Condition
+↓
+GAME STATE
+↓
+Quest may change
+```
+
+---
+
+# 8. DUNGEON QUEST
+
+Dungeon Quest muncul ketika Master memasuki Dungeon.
+
+Contoh:
+
+```text
+ENTER DUNGEON
+      ↓
+QUEST GENERATED
+      ↓
+CLEAR DUNGEON
+      ↓
+BOSS
+      ↓
+REWARD
+```
+
+Objective dapat berupa:
+
+```text
+Defeat Enemy
+Defeat Boss
+Protect NPC
+Collect Item
+Reach Area
+Survive
+Escort
+Investigate
+```
+
+---
+
+# 9. RAID BOSS QUEST
+
+Tower memiliki fitur Raid Boss.
+
+Quest dapat dibuat:
+
+```text
+RAID BOSS
+     ↓
+QUEST
+     ↓
+PARTY / MULTI-PARTY
+     ↓
+BOSS BATTLE
+     ↓
+RESULT
+     ↓
+RNG REWARD
+```
+
+Reward diproses melalui RNG System.
+
+---
+
+# 10. WORLD EXPLORATION QUEST
+
+Explored World merupakan bagian dunia Aetheria sebelum kehancuran.
+
+Quest dapat membawa Master menemukan:
+
+```text
+Old Kingdom
+Ruined City
+Ancient Battlefield
+Lost Academy
+Ancient Temple
+Old Guild
+Abandoned Village
+Ancient Civilization
+```
+
+Quest dapat mengungkap sejarah dunia.
+
+---
+
+# 11. EXPLORATION QUEST
+
+Contoh:
+
+```text
+EXPLORATION QUEST
+
+Title:
+Echoes of Elysium
+
+Objective:
+Explore the remains of Elysium.
+
+Possible Discovery:
+Ancient Document
+Survivor
+Artifact
+Enemy
+Cult Cell
+Hidden Location
+```
+
+Hasil Exploration dapat mengubah Game State.
+
+---
+
+# 12. DAILY QUEST
+
+Daily Quest merupakan Quest yang dapat diperbarui berdasarkan Game Time.
+
+Contoh:
+
+```text
+DAILY QUEST
+
+Complete 3 Battles
+Train 3 Heroes
+Collect Resources
+Complete 1 Dungeon
+Visit Town Square
+```
+
+Reset mengikuti:
+
+```text
+TIME SYSTEM
+```
+
+---
+
+# 13. WEEKLY QUEST
+
+Weekly Quest memiliki periode lebih panjang.
+
+Contoh:
+
+```text
+Complete 20 Battles
+Clear 5 Floors
+Complete 10 Quests
+Train Heroes
+Defeat Raid Boss
+Explore 3 Locations
+```
+
+Reset:
+
+```text
+TIME SYSTEM
+ ↓
+WEEKLY RESET
+ ↓
+QUEST RESET
+```
+
+---
+
+# 14. EVENT QUEST
+
+Event System dapat membuat Quest khusus.
+
+```text
+EVENT
+ ↓
+EVENT QUEST
+ ↓
+SPECIAL CONDITION
+ ↓
+REWARD
+```
+
+Event Quest dapat membuka:
+
+```text
+Special Item
+Character
+Story
+Skill
+Star Up Material
+Rare Skill
+Ultimate-related Event
+```
+
+---
+
+# 15. CHARACTER QUEST
+
+Setiap Hero dapat memiliki Character Quest.
+
+Quest ini berhubungan dengan:
+
+```text
+Character History
+Personality
+Emotion
+Origin
+Race
+Faction
+Relationship
+```
+
+Contoh:
+
+```text
+CHARACTER QUEST
+
+Hero:
+HERO-000125
+
+Title:
+The Last Knight
+
+Objective:
+Return to the ruins of Valeria.
+```
+
+Quest dapat membuka cerita pribadi Hero.
+
+---
+
+# 16. CHARACTER QUEST & EMOTION
+
+Character Quest dapat memengaruhi Emotional State.
+
+Contoh:
+
+```text
+Quest:
+Visit destroyed homeland
+
+Hero:
+Sadness +++
+Anger ++
+Stress +
+```
+
+AI Character membaca perubahan tersebut.
+
+```text
+QUEST RESULT
+     ↓
+EMOTIONAL STATE
+     ↓
+AI CHARACTER
+     ↓
+BEHAVIOR CHANGE
+```
+
+---
+
+# 17. CHARACTER QUEST REWARD
+
+Reward tidak selalu berupa item.
+
+Dapat berupa:
+
+```text
+Relationship
+Trust
+Trait
+Skill
+Character Knowledge
+Hidden Memory
+Stat Bonus
+Special Ability
+```
+
+---
+
+# 18. FACTION QUEST
+
+Faction Quest berhubungan dengan organisasi.
+
+Contoh:
+
+```text
+Valeria Survivors
+Elaria Survivors
+Karak-Dur Survivors
+Beastfolk Clan
+Demon Survivors
+Adventurer Guild
+Merchant Guild
+Cult of Eternal Night
+```
+
+Quest dapat meningkatkan:
+
+```text
+Faction Reputation
+Faction Influence
+Faction Trust
+Faction Hostility
+```
+
+---
+
+# 19. TOWN QUEST
+
+Town Square dapat menghasilkan Quest.
+
+Contoh:
+
+```text
+TOWN
+ ↓
+BLACKSMITH
+ ↓
+MATERIAL SHORTAGE
+ ↓
+QUEST
+ ↓
+COLLECT IRON
+ ↓
+INVENTORY
+ ↓
+CRAFTING
+```
+
+Town Quest dapat membantu perkembangan fasilitas.
+
+---
+
+# 20. FACILITY LEADER CONDITION
+
+Sesuai sistem Town Square:
+
+> **Jika sebuah fasilitas belum memiliki Leader/Pengurus, fasilitas tersebut belum dapat berjalan secara normal.**
+
+Quest dapat digunakan untuk mendapatkan Leader.
+
+```text
+FACILITY
+ ↓
+NO LEADER
+ ↓
+FACILITY INACTIVE
+ ↓
+QUEST
+ ↓
+FIND / ASSIGN HERO
+ ↓
+LEADER
+ ↓
+FACILITY ACTIVE
+```
+
+---
+
+# 21. FACILITY QUEST
+
+Contoh:
+
+```text
+BLACKSMITH QUEST
+
+Requirement:
+Blacksmith Leader assigned.
+
+Objective:
+Collect:
+Iron ×20
+Coal ×10
+
+Reward:
+Facility EXP
+Crafting Unlock
+```
+
+Jika belum ada Leader:
+
+```text
+QUEST LOCKED
+```
+
+atau:
+
+```text
+QUEST:
+Find a Blacksmith Leader
+```
+
+---
+
+# 22. TRAINING QUEST
+
+Training Ground dapat memiliki Quest.
+
+Contoh:
+
+```text
+TRAINING QUEST
+
+Objective:
+Train 5 Heroes.
+
+Reward:
+EXP
+Training Material
+Gold
+```
+
+Hero yang mengikuti Training tetap diproses oleh Training Ground System.
+
+Setelah Training:
+
+```text
+TRAINING RESULT
+ ↓
+GAME STATE
+ ↓
+HERO DATA
+ ↓
+DATABASE
+ ↓
+FAIRY REPORT
+```
+
+---
+
+# 23. RECRUITMENT QUEST
+
+Quest dapat memberikan kesempatan recruitment.
+
+Contoh:
+
+```text
+QUEST COMPLETE
+      ↓
+RECRUITMENT TOKEN
+      ↓
+RECRUITMENT SYSTEM
+      ↓
+RNG SYSTEM
+      ↓
+NEW HERO
+```
+
+Hero hasil recruitment tetap mengikuti:
+
+```text
+CHARACTER SYSTEM
+RNG SYSTEM
+ID SYSTEM
+DATABASE SYSTEM
+```
+
+---
+
+# 24. NO DUPLICATE HERO
+
+Jika Quest menghasilkan Recruitment:
+
+```text
+QUEST
+ ↓
+RECRUITMENT
+ ↓
+RNG
+ ↓
+CHARACTER SELECTION
+ ↓
+CHECK HERO DATABASE
+```
+
+Jika Hero sudah dimiliki:
+
+```text
+DUPLICATE DETECTED
+       ↓
+REROLL
+```
+
+Sistem tidak boleh membuat duplicate Hero ID untuk karakter yang sama.
+
+---
+
+# 25. QUEST REWARD SYSTEM
+
+Reward utama dapat berupa:
+
+```text
+Master EXP
+Hero EXP
+Gold
+Gem
+Summon Ticket
+Special Ticket
+Item
+Equipment
+Material
+Skill Material
+Star Up Material
+Character
+Relationship
+Faction Reputation
+Town Resource
+```
+
+---
+
+# 26. REWARD + RNG SYSTEM
+
+Reward dapat bersifat:
+
+```text
+FIXED
+```
+
+atau:
+
+```text
+RNG
+```
+
+Contoh:
+
+```text
+Quest Reward
+
+Guaranteed:
+Gold ×1000
+
+RNG:
+Item ×1
+```
+
+Flow:
+
+```text
+QUEST COMPLETE
+ ↓
+REWARD GENERATOR
+ ↓
+RNG SYSTEM
+ ↓
+REWARD RESULT
+ ↓
+INVENTORY
+```
+
+---
+
+# 27. ITEM REWARD
+
+Item yang diperoleh Quest otomatis masuk ke Inventory.
+
+```text
+QUEST
+ ↓
+ITEM REWARD
+ ↓
+ITEM ID
+ ↓
+INVENTORY
+ ↓
+DATABASE
+```
+
+Item memiliki:
+
+```text
+Item ID
+Item Name
+Quantity
+Source
+Value
+Effect
+```
+
+---
+
+# 28. GOLD / GEM / TICKET REWARD
+
+Currency reward juga langsung disinkronkan.
+
+```text
+QUEST
+ ↓
+REWARD
+ ↓
+GAME STATE
+ ↓
+MASTER DATA
+ ↓
+DATABASE
+```
+
+Contoh:
+
+```text
+Gold:
+10,000 → 11,000
+
+Gem:
+500 → 550
+
+Ticket:
+3 → 4
+```
+
+AI Fairy melaporkan hasil kepada Master.
+
+---
+
+# 29. QUEST COMPLETION
+
+Flow utama:
+
+```text
+QUEST ACTIVE
+      ↓
+OBJECTIVE TRACKING
+      ↓
+OBJECTIVE COMPLETE
+      ↓
+VALIDATION
+      ↓
+QUEST COMPLETE
+      ↓
+REWARD GENERATION
+      ↓
+RNG
+      ↓
+GAME STATE UPDATE
+      ↓
+DATABASE UPDATE
+      ↓
+FAIRY REPORT
+```
+
+---
+
+# 30. QUEST VALIDATION
+
+Quest tidak langsung dianggap selesai hanya karena kondisi terlihat terpenuhi.
+
+Game State System memvalidasi:
+
+```text
+Quest ID
+Master ID
+Hero ID
+Party ID
+Floor ID
+Required Objective
+Current Game State
+Time
+Event State
+```
+
+Jika valid:
+
+```text
+QUEST COMPLETED
+```
+
+Jika tidak:
+
+```text
+QUEST FAILED / REMAINS ACTIVE
+```
+
+---
+
+# 31. QUEST ID
+
+Setiap Quest memiliki ID unik.
+
+```text
+QUEST-000001
+QUEST-000002
+QUEST-000003
+```
+
+Quest ID disimpan dalam Database.
+
+---
+
+# 32. QUEST DATA
+
+Contoh:
+
+```text
+QUEST ID:
+QUEST-000125
+
+Title:
+Echoes of Elysium
+
+Type:
+Exploration
+
+Status:
+ACTIVE
+
+Required Floor:
+10
+
+Objective:
+Explore Elysium Ruins
+
+Reward:
+Gold
+Gem
+Item
+Story Progress
+```
+
+---
+
+# 33. QUEST HISTORY
+
+Setiap Quest memiliki history.
+
+```text
+QUEST HISTORY
+
+Quest ID:
+QUEST-000125
+
+Status:
+COMPLETED
+
+Started:
+Day 120
+
+Completed:
+Day 121
+
+Master ID:
+MASTER-000001
+
+Party:
+PARTY-001
+
+Floor:
+10
+```
+
+---
+
+# 34. QUEST STATE
+
+Quest memiliki state:
+
+```text
+LOCKED
+AVAILABLE
+ACTIVE
+COMPLETED
+FAILED
+EXPIRED
+CANCELLED
+```
+
+Flow:
+
+```text
+LOCKED
+  ↓
+AVAILABLE
+  ↓
+ACTIVE
+  ↓
+COMPLETED
+```
+
+atau:
+
+```text
+ACTIVE
+  ↓
+FAILED
+```
+
+---
+
+# 35. QUEST OBJECTIVE SYSTEM
+
+Satu Quest dapat memiliki beberapa Objective.
+
+```text
+QUEST
+│
+├── Objective 1
+├── Objective 2
+├── Objective 3
+└── Final Objective
+```
+
+Contoh:
+
+```text
+Save the Survivor
+
+1. Reach Ruins
+2. Defeat Cult Members
+3. Find Survivor
+4. Protect Survivor
+5. Return to Town
+```
+
+---
+
+# 36. OBJECTIVE TRACKING
+
+Game State System terus memonitor kondisi.
+
+```text
+PLAYER ACTION
+ ↓
+GAME STATE
+ ↓
+OBJECTIVE CHECK
+ ↓
+PROGRESS UPDATE
+```
+
+Contoh:
+
+```text
+Defeat Cult Members
+
+3 / 10
+```
+
+Setelah Combat:
+
+```text
+3 / 10
+ ↓
+5 / 10
+```
+
+---
+
+# 37. QUEST FAILURE
+
+Quest dapat gagal jika kondisi tertentu terjadi.
+
+Contoh:
+
+```text
+NPC dies
+Time expires
+Party defeated
+Required item destroyed
+Floor event changes
+World State changes
+```
+
+Quest Failure dapat memengaruhi dunia.
+
+---
+
+# 38. QUEST CONSEQUENCE
+
+Tidak semua Quest dapat diulang.
+
+Contoh:
+
+```text
+QUEST:
+Save the Village
+
+Success:
+Village survives.
+
+Failure:
+Village destroyed.
+
+Game State:
+WORLD STATE CHANGED
+```
+
+Konsekuensi dapat membuka jalur cerita berbeda.
+
+---
+
+# 39. BRANCHING QUEST
+
+Quest dapat memiliki pilihan.
+
+```text
+QUEST
+   ↓
+CHOICE
+ ┌─┴──────────┐
+ ▼            ▼
+HELP         IGNORE
+ │            │
+ ▼            ▼
+Village      Village
+Survives     Falls
+```
+
+Pilihan Master dapat memengaruhi:
+
+```text
+World State
+Faction
+Character
+Relationship
+Future Quest
+Event
+Town
+```
+
+---
+
+# 40. HIDDEN QUEST
+
+Hidden Quest tidak selalu terlihat oleh Master.
+
+Trigger dapat berasal dari:
+
+```text
+Character Behavior
+Emotional State
+Location
+Time
+Item
+Faction Reputation
+Previous Quest
+Random Event
+Floor State
+```
+
+Contoh:
+
+```text
+Hero enters ruined city
+        ↓
+Memory Trigger
+        ↓
+Hidden Quest
+        ↓
+"Remember the Fallen"
+```
+
+---
+
+# 41. EMERGENCY QUEST
+
+Game State System dapat menghasilkan Emergency Quest.
+
+Contoh:
+
+```text
+Cult Attack
+     ↓
+GAME STATE
+     ↓
+EMERGENCY QUEST
+```
+
+Contoh:
+
+```text
+EMERGENCY QUEST
+
+"Defend the Town"
+
+Time Limit:
+30 Minutes
+
+Objective:
+Defeat Cult Attackers.
+```
+
+---
+
+# 42. AI QUEST GENERATION
+
+AI dapat membantu menghasilkan Quest berdasarkan kondisi dunia.
+
+```text
+GAME STATE
+     ↓
+AI QUEST GENERATOR
+     ↓
+QUEST PROPOSAL
+     ↓
+VALIDATION
+     ↓
+QUEST SYSTEM
+```
+
+AI dapat menghasilkan:
+
+```text
+Quest Title
+Quest Description
+Objective
+NPC Interaction
+Possible Event
+Possible Reward
+Story Context
+```
+
+Tetapi AI tidak boleh melewati validasi Game State System.
+
+---
+
+# 43. AI QUEST LIMITATION
+
+AI tidak boleh secara langsung:
+
+```text
+Change Database
+Give Unlimited Reward
+Create Invalid Hero
+Change Floor State
+Change Master Rank
+Bypass Quest Requirement
+```
+
+AI hanya mengusulkan.
+
+```text
+AI
+ ↓
+PROPOSAL
+ ↓
+GAME STATE
+ ↓
+VALIDATION
+ ↓
+EXECUTION
+```
+
+---
+
+# 44. QUEST + AI CHARACTER
+
+AI Character dapat memengaruhi Quest.
+
+Contoh:
+
+```text
+Hero hates Cult
+     ↓
+AI Character
+     ↓
+Quest decision
+     ↓
+Hero may refuse / accept / react differently
+```
+
+Quest tidak selalu menghasilkan respons yang sama dari setiap Hero.
+
+---
+
+# 45. QUEST + EMOTIONAL SYSTEM
+
+Emotional State dapat memengaruhi:
+
+```text
+Quest Acceptance
+Dialogue
+Decision
+Combat Behavior
+Relationship
+Quest Outcome
+```
+
+Contoh:
+
+```text
+Hero Fear:
+HIGH
+
+Quest:
+Attack Cult Stronghold
+
+Possible Result:
+Hero refuses to participate.
+```
+
+Atau:
+
+```text
+Hero Anger:
+HIGH
+
+Possible:
+Hero aggressively supports the mission.
+```
+
+---
+
+# 46. QUEST + PARTY SYSTEM
+
+Quest dapat menentukan Party requirement.
+
+Contoh:
+
+```text
+Required Party:
+1 Party
+
+Maximum:
+5 Heroes
+```
+
+Quest khusus dapat meminta:
+
+```text
+Tank
+Healer
+Mage
+Specific Race
+Specific Hero
+Specific Faction
+```
+
+---
+
+# 47. QUEST + MASTER
+
+Master menerima Quest melalui:
+
+```text
+Game Master System
+Town
+NPC
+Floor
+Event
+Character
+Faction
+AI Fairy
+World Event
+```
+
+Quest tetap tercatat berdasarkan:
+
+```text
+MASTER ID
+QUEST ID
+```
+
+---
+
+# 48. AI FAIRY QUEST REPORT
+
+Fairy menjadi penghubung informasi kepada Master.
+
+Contoh:
+
+> **Fairy:**
+> "Master, a new quest has appeared."
+
+> **Fairy:**
+> "Quest: Echoes of Elysium."
+
+Saat selesai:
+
+> **Fairy:**
+> "Master, the quest has been completed."
+
+> **Fairy:**
+> "The reward has been processed."
+
+> **Fairy:**
+> "Gold and items have been synchronized with the Inventory."
+
+---
+
+# 49. QUEST + DATABASE
+
+Database menyimpan:
+
+```text
+Quest ID
+Master ID
+Hero ID
+Party ID
+NPC ID
+Floor ID
+Event ID
+Quest Type
+Quest Status
+Objectives
+Progress
+Reward
+Start Time
+Completion Time
+Failure Time
+Quest History
+```
+
+---
+
+# 50. QUEST + TIME SYSTEM
+
+Quest dapat menggunakan waktu.
+
+```text
+Start Time
+End Time
+Duration
+Deadline
+Daily Reset
+Weekly Reset
+Event Period
+```
+
+Contoh:
+
+```text
+Quest Duration:
+2 Hours
+```
+
+Jika waktu habis:
+
+```text
+ACTIVE
+ ↓
+TIME CHECK
+ ↓
+EXPIRED
+```
+
+---
+
+# 51. QUEST + FLOOR DESTRUCTION
+
+Destruction Level dapat memengaruhi Quest.
+
+Contoh:
+
+```text
+Floor 50
+Destruction:
+70%
+```
+
+Quest:
+
+```text
+"Save the Remaining Survivors"
+```
+
+Jika Destruction meningkat:
+
+```text
+70%
+ ↓
+85%
+```
+
+Quest dapat berubah:
+
+```text
+"Save the Remaining Survivors"
+```
+
+menjadi:
+
+```text
+"Find the Survivors Before the City Collapses"
+```
+
+---
+
+# 52. QUEST + WORLD STATE
+
+World State menjadi sumber kondisi Quest.
+
+```text
+WORLD STATE
+ ↓
+QUEST CONDITION
+ ↓
+QUEST GENERATION
+```
+
+Quest kemudian dapat mengubah World State:
+
+```text
+QUEST
+ ↓
+RESULT
+ ↓
+WORLD STATE CHANGE
+```
+
+Terjadi loop:
+
+```text
+WORLD
+ ↓
+QUEST
+ ↓
+PLAYER
+ ↓
+RESULT
+ ↓
+WORLD
+```
+
+---
+
+# 53. QUEST + EVENT SYSTEM
+
+Quest dapat memicu Event.
+
+```text
+QUEST COMPLETE
+ ↓
+EVENT TRIGGER
+ ↓
+EVENT
+ ↓
+GAME STATE
+```
+
+Contoh:
+
+```text
+Complete Cult Investigation
+ ↓
+Cult Counterattack Event
+```
+
+---
+
+# 54. QUEST + STAR UP
+
+Quest tertentu dapat memberikan:
+
+```text
+Star Up Material
+```
+
+atau membuka:
+
+```text
+Star Up Requirement
+```
+
+Contoh:
+
+```text
+Quest:
+Trial of the Hero
+
+Reward:
+Star Core
+```
+
+Kemudian:
+
+```text
+STAR UP SYSTEM
+ ↓
+Hero Star Increase
+```
+
+---
+
+# 55. QUEST + STAR 6 / STAR 7
+
+Quest tertentu dapat menjadi syarat perkembangan tingkat tinggi.
+
+Contoh:
+
+```text
+Hero reaches Star 6
+      ↓
+Rare Skill
+      ↓
+Character Quest
+      ↓
+Rare Skill Evolution
+```
+
+Untuk Star 7:
+
+```text
+Hero reaches Star 7
+      ↓
+Ultimate Awakening
+      ↓
+Special Quest
+      ↓
+Ultimate Development
+```
+
+Quest tidak harus selalu menjadi syarat, tetapi dapat digunakan untuk membuat perkembangan Hero lebih bermakna.
+
+---
+
+# 56. QUEST + INVENTORY
+
+Semua item yang diperoleh Quest:
+
+```text
+QUEST REWARD
+ ↓
+ITEM ID
+ ↓
+INVENTORY
+ ↓
+DATABASE
+```
+
+Tidak boleh ada item reward yang hanya muncul di layar tanpa masuk ke Inventory.
+
+---
+
+# 57. REWARD SYNCHRONIZATION
+
+Semua reward wajib melewati:
+
+```text
+QUEST SYSTEM
+ ↓
+GAME STATE SYSTEM
+ ↓
+REWARD VALIDATION
+ ↓
+INVENTORY / MASTER / HERO
+ ↓
+DATABASE
+ ↓
+AI FAIRY
+```
+
+---
+
+# 58. QUEST COMPLETE TRANSACTION
+
+Untuk mencegah reward ganda:
+
+```text
+QUEST COMPLETE REQUEST
+        ↓
+CHECK QUEST STATUS
+        ↓
+ALREADY COMPLETED?
+      /       \
+    YES        NO
+     │          │
+     ▼          ▼
+  REJECT      PROCESS
+                 │
+                 ▼
+             GIVE REWARD
+                 │
+                 ▼
+          MARK COMPLETED
+                 │
+                 ▼
+              DATABASE
+```
+
+Quest yang sudah selesai tidak boleh memberikan reward lagi kecuali Quest memang bersifat repeatable.
+
+---
+
+# 59. REPEATABLE QUEST
+
+Quest dapat memiliki:
+
+```text
+Repeatable:
+YES / NO
+```
+
+Jika:
+
+```text
+YES
+```
+
+maka Quest dapat muncul kembali berdasarkan:
+
+```text
+Daily
+Weekly
+Event
+Reset
+Game State
+```
+
+---
+
+# 60. QUEST PRIORITY
+
+Quest memiliki Priority.
+
+```text
+CRITICAL
+HIGH
+NORMAL
+LOW
+```
+
+Contoh:
+
+```text
+Cult Attack
+→ CRITICAL
+
+Main Story
+→ HIGH
+
+Character Quest
+→ NORMAL
+
+Resource Quest
+→ LOW
+```
+
+Priority menentukan cara Quest ditampilkan kepada Master.
+
+---
+
+# 61. COMPLETE QUEST ARCHITECTURE
+
+```text
+                         QUEST SYSTEM
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+       STORY               WORLD              SYSTEM
+          │                   │                   │
+          ▼                   ▼                   ▼
+       MAIN              EXPLORATION           DAILY
+       FLOOR              FACTION              WEEKLY
+       CHARACTER          TOWN                 EVENT
+       DUNGEON            EMERGENCY            HIDDEN
+          │                   │                   │
+          └───────────────────┼───────────────────┘
+                              ▼
+                       GAME STATE SYSTEM
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+            HERO            WORLD            PARTY
+              │               │               │
+              ▼               ▼               ▼
+           COMBAT           EVENT          TRAINING
+              │               │               │
+              └───────────────┼───────────────┘
+                              ▼
+                         QUEST RESULT
+                              │
+                       ┌──────┴──────┐
+                       ▼             ▼
+                    SUCCESS        FAILURE
+                       │             │
+                       ▼             ▼
+                    REWARD       CONSEQUENCE
+                       │             │
+                       └──────┬──────┘
+                              ▼
+                         GAME STATE
+                              │
+                              ▼
+                           DATABASE
+                              │
+                              ▼
+                          AI FAIRY
+                              │
+                              ▼
+                           MASTER
+```
+
+---
+
+# 62. QUEST DATA RELATIONSHIP
+
+```text
+MASTER ID
+   │
+   └── QUEST ID
+          │
+          ├── FLOOR ID
+          ├── PARTY ID
+          ├── HERO ID
+          ├── NPC ID
+          ├── EVENT ID
+          ├── FACTION ID
+          └── REWARD ID
+```
+
+Semua ID mengikuti **ID System**.
+
+---
+
+# 63. QUEST DATABASE RECORD
+
+Contoh:
+
+```text
+QUEST ID:
+QUEST-000501
+
+MASTER ID:
+MASTER-000001
+
+TYPE:
+CHARACTER
+
+HERO ID:
+HERO-000125
+
+FLOOR ID:
+FLOOR-010
+
+STATUS:
+ACTIVE
+
+OBJECTIVE:
+Find the Lost Knight
+
+PROGRESS:
+2 / 3
+
+START TIME:
+DAY 125
+
+DEADLINE:
+DAY 127
+```
+
+---
+
+# 64. QUEST RESULT RECORD
+
+```text
+QUEST RESULT
+
+Quest ID:
+QUEST-000501
+
+Result:
+SUCCESS
+
+Master ID:
+MASTER-000001
+
+Hero ID:
+HERO-000125
+
+Reward:
+Gold ×1000
+Item ×2
+Hero EXP +500
+
+World Effect:
+Faction Reputation +10
+
+Database:
+UPDATED
+```
+
+---
+
+# 65. MASTER QUEST LOG
+
+Master memiliki Quest Log.
+
+```text
+QUEST LOG
+│
+├── Active
+├── Completed
+├── Failed
+├── Hidden
+├── Event
+└── Expired
+```
+
+Quest Log menggunakan:
+
+```text
+QUEST ID
+```
+
+sebagai referensi.
+
+---
+
+# 66. QUEST CHAIN
+
+Quest dapat terhubung menjadi Chain.
+
+```text
+QUEST 001
+    ↓
+QUEST 002
+    ↓
+QUEST 003
+    ↓
+QUEST 004
+    ↓
+MAJOR EVENT
+```
+
+Quest Chain dapat menjadi bagian dari:
+
+```text
+Main Story
+Character Story
+Faction Story
+Town Development
+Cult Investigation
+Tower Story
+```
+
+---
+
+# 67. QUEST GENERATION LOOP
+
+```text
+GAME STATE
+    ↓
+WORLD CONDITION
+    ↓
+QUEST GENERATOR
+    ↓
+AI / RULE SYSTEM
+    ↓
+QUEST VALIDATION
+    ↓
+QUEST CREATED
+    ↓
+MASTER
+    ↓
+QUEST ACTION
+    ↓
+GAME STATE
+    ↓
+QUEST RESULT
+    ↓
+DATABASE
+```
+
+---
+
+# 68. FINAL SYSTEM INTEGRATION
+
+```text
+                         AETHERIA
+                            │
+                            ▼
+                     CORE WORLD STATE
+                            │
+                            ▼
+                    GAME STATE SYSTEM
+                            │
+             ┌──────────────┼──────────────┐
+             │              │              │
+             ▼              ▼              ▼
+           MASTER          WORLD          HERO
+             │              │              │
+             └──────────────┼──────────────┘
+                            ▼
+                       QUEST SYSTEM
+                            │
+       ┌────────────────────┼────────────────────┐
+       │                    │                    │
+       ▼                    ▼                    ▼
+      NPC                 PARTY               TOWN
+       │                    │                    │
+       ▼                    ▼                    ▼
+    FACTION              COMBAT             TRAINING
+       │                    │                    │
+       └────────────────────┼────────────────────┘
+                            ▼
+                         QUEST RESULT
+                            │
+                ┌───────────┼───────────┐
+                ▼           ▼           ▼
+              HERO        ITEM        WORLD
+                │           │           │
+                ▼           ▼           ▼
+             DATABASE    INVENTORY   GAME STATE
+                │           │           │
+                └───────────┼───────────┘
+                            ▼
+                         AI FAIRY
+                            │
+                            ▼
+                          MASTER
+```
+
+---
+
+# 69. CORE RULES
+
+### RULE 01
+
+> Setiap Quest memiliki QUEST ID unik.
+
+### RULE 02
+
+> Quest selalu memiliki State.
+
+### RULE 03
+
+> Quest Objective divalidasi oleh Game State System.
+
+### RULE 04
+
+> Quest dapat memengaruhi Hero, Party, NPC, Faction, Town, Floor, Event, dan World State.
+
+### RULE 05
+
+> Reward Quest diproses melalui Reward System dan dapat menggunakan RNG System.
+
+### RULE 06
+
+> Semua Item Reward otomatis masuk ke Inventory.
+
+### RULE 07
+
+> Gold, Gem, Ticket, dan resource lainnya langsung disinkronkan ke Database.
+
+### RULE 08
+
+> Semua perubahan Hero akibat Quest menggunakan HERO ID.
+
+### RULE 09
+
+> Semua perubahan NPC menggunakan NPC ID.
+
+### RULE 10
+
+> Semua Quest menggunakan Master ID untuk mencatat kepemilikan/progress Master.
+
+### RULE 11
+
+> Quest yang telah selesai tidak boleh memberikan reward dua kali kecuali Repeatable Quest.
+
+### RULE 12
+
+> AI dapat membantu menghasilkan Quest, tetapi tidak boleh melewati validasi Game State System.
+
+### RULE 13
+
+> Quest dapat menghasilkan perubahan dunia permanen.
+
+### RULE 14
+
+> Quest dapat memiliki konsekuensi berbeda berdasarkan keputusan Master.
+
+### RULE 15
+
+> Time System mengontrol deadline, reset, dan expiry Quest.
+
+### RULE 16
+
+> AI Character dan Emotional System dapat memengaruhi bagaimana Hero merespons Quest.
+
+### RULE 17
+
+> AI Fairy melaporkan Quest baru, progress, completion, reward, dan konsekuensi penting kepada Master.
+
+### RULE 18
+
+> Semua perubahan permanen dari Quest disimpan di Database System.
+
+---
+
+# 🌑 CORE QUEST LOOP
+
+```text
+                  WORLD STATE
+                      │
+                      ▼
+                 QUEST CREATED
+                      │
+                      ▼
+                    MASTER
+                      │
+                      ▼
+                 ACCEPT QUEST
+                      │
+                      ▼
+                 PARTY / HERO
+                      │
+                      ▼
+               QUEST OBJECTIVE
+                      │
+          ┌───────────┼───────────┐
+          ▼           ▼           ▼
+        COMBAT      EXPLORE      TALK
+          │           │           │
+          └───────────┼───────────┘
+                      ▼
+                 GAME STATE
+                      │
+                      ▼
+                VALIDATION
+                      │
+                ┌─────┴─────┐
+                ▼           ▼
+             SUCCESS       FAIL
+                │           │
+                ▼           ▼
+             REWARD     CONSEQUENCE
+                │           │
+                └─────┬─────┘
+                      ▼
+                   DATABASE
+                      │
+                      ▼
+                  AI FAIRY
+                      │
+                      ▼
+                    MASTER
+                      │
+                      ▼
+                 WORLD CHANGES
+                      │
+                      └──────────► NEW QUEST
+```
+
+---
+
+# ✨ FINAL PRINCIPLE
+
+> **Quest bukan sekadar daftar tugas.**
+
+Quest adalah salah satu mekanisme utama yang membuat **Aetheria menjadi dunia yang hidup**.
+
+Master mengambil keputusan.
+
+Hero bereaksi.
+
+Party bertindak.
+
+NPC memiliki kepentingan.
+
+Faction berubah.
+
+Town berkembang.
+
+Tower berubah.
+
+Event muncul.
+
+Reward diperoleh.
+
+Dan semua perubahan tersebut kembali masuk ke:
+
+```text
+GAME STATE SYSTEM
+        ↓
+DATABASE SYSTEM
+        ↓
+WORLD SIMULATION
+```
+
+Sehingga:
+
+> **Setiap Quest yang diselesaikan dapat menjadi bagian dari sejarah Aetheria.**
+
+```text
+QUEST
+  ↓
+ACTION
+  ↓
+CONSEQUENCE
+  ↓
+WORLD STATE
+  ↓
+NEW QUEST
+  ↓
+NEW STORY
+```
+
+Dengan arsitektur ini, Quest System menjadi **penghubung aktif antara gameplay dan World Simulation**, bukan hanya sistem pemberian hadiah.
