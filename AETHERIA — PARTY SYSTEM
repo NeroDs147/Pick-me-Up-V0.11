@@ -1,0 +1,2133 @@
+# ⚔️ AETHERIA — PARTY SYSTEM
+
+> **A Party is not simply a group of Heroes.**
+>
+> **It is a team with a leader, composition, relationships, roles, and combat behavior.**
+
+The **Party System** manages the formation and organization of Heroes before and during missions.
+
+A Party consists of a maximum of:
+
+# **5 Heroes**
+
+The Master controls the overall Party structure, while certain Parties allow a designated Leader to organize their own members.
+
+---
+
+# 1. PARTY SYSTEM OVERVIEW
+
+The Party System manages:
+
+```text
+Party Creation
+Party Slots
+Hero Assignment
+Party Leader
+Party Composition
+Combat Formation
+Party Roles
+Party Restrictions
+Party State
+Party Relationships
+Party AI
+Party Deployment
+```
+
+The Party System connects directly to:
+
+```text
+Master System
+Character / Hero System
+AI Character System
+Basic Combat System
+AI Fairy
+Game State System
+Database System
+ID System
+Floor System
+Event System
+Inventory System
+```
+
+---
+
+# 2. PARTY STRUCTURE
+
+Aetheria supports multiple Parties.
+
+Basic structure:
+
+```text
+MASTER
+  │
+  ├── PARTY 1
+  │
+  ├── PARTY 2
+  │
+  ├── PARTY 3
+  │
+  ├── PARTY 4
+  │
+  └── PARTY ...
+```
+
+Each Party has its own:
+
+```text
+Party ID
+Party Name
+Leader
+Members
+Formation
+Party State
+Combat State
+Mission State
+```
+
+---
+
+# 3. PARTY MEMBER LIMIT
+
+Each Party has a maximum of:
+
+```text
+5 Heroes
+```
+
+Example:
+
+```text
+PARTY 1
+
+Slot 1 → Leader
+Slot 2 → Hero
+Slot 3 → Hero
+Slot 4 → Hero
+Slot 5 → Hero
+```
+
+A Party can contain fewer than 5 Heroes.
+
+Example:
+
+```text
+PARTY 2
+
+Slot 1 → Leader
+Slot 2 → Hero
+Slot 3 → Hero
+Slot 4 → Empty
+Slot 5 → Empty
+```
+
+---
+
+# 4. PARTY SLOT
+
+Each Party contains five possible Hero slots.
+
+```text
+┌───────────────────────────────┐
+│            PARTY              │
+├───────────────────────────────┤
+│ SLOT 1 → Leader               │
+│ SLOT 2 → Member               │
+│ SLOT 3 → Member               │
+│ SLOT 4 → Member               │
+│ SLOT 5 → Member               │
+└───────────────────────────────┘
+```
+
+Slot position can affect:
+
+```text
+Formation
+Target Priority
+Protection
+Combat Position
+AI Behavior
+Skill Range
+```
+
+---
+
+# 5. PARTY 1 & PARTY 2
+
+Party 1 and Party 2 are special Parties.
+
+They have a designated:
+
+# **Party Leader**
+
+The Leader is selected by the Master.
+
+After being appointed, the Leader can manage the composition of their own Party.
+
+```text
+MASTER
+   │
+   ▼
+APPOINT LEADER
+   │
+   ▼
+PARTY LEADER
+   │
+   ▼
+SELECT PARTY MEMBERS
+   │
+   ▼
+PARTY COMPOSITION
+```
+
+---
+
+# 6. MASTER AUTHORITY
+
+The Master remains the highest authority.
+
+The Master can:
+
+```text
+Create Party
+Disband Party
+Assign Leader
+Remove Leader
+Change Leader
+Move Hero
+Remove Hero
+Add Hero
+Lock Party
+Unlock Party
+Deploy Party
+Recall Party
+```
+
+For Party 1 and Party 2, the Master can delegate composition management to the Leader.
+
+---
+
+# 7. PARTY LEADER AUTHORITY
+
+The Leader of Party 1 or Party 2 can manage their own composition.
+
+The Leader can:
+
+```text
+Select Members
+Remove Members
+Change Formation
+Set Combat Roles
+Recommend Members
+Request Hero
+Organize Position
+```
+
+However:
+
+> **The Party Leader cannot override the Master's authority.**
+
+The Master can always change the Party.
+
+---
+
+# 8. PARTY LEADER SELECTION
+
+The Master selects one Hero as Leader.
+
+Requirements:
+
+```text
+Hero must belong to the Master
+Hero must be available
+Hero must not be locked
+Hero must not be assigned to another incompatible Party
+```
+
+Example:
+
+```text
+MASTER
+
+Assign:
+
+Hero ID:
+HERO-000021
+
+Role:
+PARTY LEADER
+
+Party:
+PARTY-001
+```
+
+---
+
+# 9. PARTY LEADER CHARACTERISTICS
+
+The Leader is not necessarily the strongest Hero.
+
+Leadership can depend on:
+
+```text
+Personality
+Leadership Trait
+Experience
+Morale
+Trust
+Relationship
+Combat Ability
+Strategic Ability
+AI Behavior
+Master Decision
+```
+
+A weak Hero can still become a good Leader.
+
+A powerful Hero may be a poor Leader.
+
+---
+
+# 10. PARTY 1 COMPOSITION
+
+Party 1 allows:
+
+```text
+Master
+   ↓
+Assign Leader
+   ↓
+Leader manages composition
+```
+
+Example:
+
+```text
+PARTY 1
+
+Leader:
+Leon
+
+Members selected by Leon:
+
+Aria
+Mira
+Kael
+Riven
+```
+
+The AI Leader evaluates available Heroes before creating the composition.
+
+---
+
+# 11. PARTY 2 COMPOSITION
+
+Party 2 follows the same special rule.
+
+```text
+MASTER
+   ↓
+ASSIGN PARTY 2 LEADER
+   ↓
+LEADER
+   ↓
+SELECT MEMBERS
+```
+
+Party 2 can therefore have a different tactical identity from Party 1.
+
+---
+
+# 12. PARTY 3+
+
+Starting from:
+
+# **Party 3**
+
+Party composition is controlled directly by the Master.
+
+```text
+PARTY 3+
+     │
+     ▼
+MASTER
+     │
+     ▼
+SELECT HEROES
+     │
+     ▼
+CREATE COMPOSITION
+```
+
+The Party Leader delegation system does not automatically apply to Party 3 and above.
+
+---
+
+# 13. PARTY AUTHORITY MODEL
+
+```text
+                    MASTER
+                       │
+          ┌────────────┼────────────┐
+          │            │            │
+          ▼            ▼            ▼
+       PARTY 1       PARTY 2      PARTY 3+
+          │            │            │
+          ▼            ▼            ▼
+       LEADER        LEADER       MASTER
+          │            │            │
+          ▼            ▼            ▼
+    COMPOSITION   COMPOSITION   COMPOSITION
+```
+
+This creates two different management models.
+
+---
+
+# 14. PARTY MANAGEMENT TYPES
+
+## Leader Managed
+
+Applies to:
+
+```text
+Party 1
+Party 2
+```
+
+Composition:
+
+```text
+Master → Leader → Members
+```
+
+---
+
+## Master Managed
+
+Applies to:
+
+```text
+Party 3
+Party 4
+Party 5
+...
+```
+
+Composition:
+
+```text
+Master → Members
+```
+
+---
+
+# 15. PARTY COMPOSITION
+
+A Party can contain different combat roles.
+
+Example:
+
+```text
+SLOT 1
+Tank / Leader
+
+SLOT 2
+Fighter
+
+SLOT 3
+Mage
+
+SLOT 4
+Healer
+
+SLOT 5
+Support / Archer
+```
+
+However, the system does not force a fixed class composition.
+
+---
+
+# 16. FREE COMPOSITION
+
+The Master or authorized Party Leader can create different compositions.
+
+Example:
+
+### Balanced
+
+```text
+Tank
+Fighter
+Mage
+Healer
+Support
+```
+
+### Offensive
+
+```text
+Fighter
+Fighter
+Mage
+Archer
+Assassin
+```
+
+### Defensive
+
+```text
+Tank
+Tank
+Healer
+Support
+Mage
+```
+
+### Magic
+
+```text
+Mage
+Mage
+Healer
+Support
+Magic Fighter
+```
+
+---
+
+# 17. AI PARTY COMPOSITION
+
+For Party 1 and Party 2, the Leader can use AI to evaluate available Heroes.
+
+The Leader AI checks:
+
+```text
+Hero Level
+Hero Star
+Role
+Skills
+Equipment
+Element
+Personality
+Emotional State
+Morale
+Relationship
+Compatibility
+Combat History
+Current Condition
+```
+
+The Leader then proposes a Party composition.
+
+---
+
+# 18. LEADER AI EXAMPLE
+
+Available Heroes:
+
+```text
+Hero A → Tank
+Hero B → Mage
+Hero C → Healer
+Hero D → Archer
+Hero E → Assassin
+Hero F → Fighter
+Hero G → Support
+```
+
+Leader AI evaluates:
+
+```text
+Enemy Type
+Floor Difficulty
+Destruction Level
+Party Survivability
+Damage Output
+Healing
+Synergy
+```
+
+Then creates:
+
+```text
+Tank
+Fighter
+Mage
+Healer
+Support
+```
+
+---
+
+# 19. MASTER OVERRIDE
+
+The Master can override the Leader's decision.
+
+Example:
+
+Leader AI:
+
+```text
+Recommended:
+
+Tank
+Fighter
+Mage
+Healer
+Support
+```
+
+Master:
+
+```text
+Override:
+
+Tank
+Fighter
+Fighter
+Mage
+Assassin
+```
+
+The Party follows the Master's final order.
+
+---
+
+# 20. PARTY FORMATION
+
+The Party System supports formation.
+
+Basic example:
+
+```text
+             ENEMY
+               ↓
+
+       [ SLOT 1 ]
+          TANK
+
+   [ SLOT 2 ]   [ SLOT 3 ]
+   FIGHTER       FIGHTER
+
+   [ SLOT 4 ]   [ SLOT 5 ]
+    MAGE          HEALER
+```
+
+Formation can influence AI decisions.
+
+---
+
+# 21. FRONTLINE
+
+Heroes positioned in the frontline are more likely to:
+
+```text
+Receive attacks
+Protect backline
+Engage enemies
+Block enemies
+Control enemy movement
+```
+
+---
+
+# 22. BACKLINE
+
+Backline Heroes may focus on:
+
+```text
+Ranged attacks
+Magic
+Healing
+Support
+Buffs
+Debuffs
+```
+
+---
+
+# 23. PARTY ROLE
+
+Party roles are determined by Character/Hero data.
+
+Possible roles:
+
+```text
+Tank
+Fighter
+Warrior
+Assassin
+Archer
+Mage
+Healer
+Support
+Controller
+Summoner
+Hybrid
+```
+
+The system remains extensible.
+
+---
+
+# 24. PARTY SYNERGY
+
+Party members can have synergy.
+
+Synergy can be influenced by:
+
+```text
+Race
+Faction
+Personality
+Relationship
+Skills
+Elements
+Combat Roles
+History
+Character Events
+Trust
+```
+
+Example:
+
+```text
+Hero A trusts Hero B.
+
+Hero A:
+Protect B
+
+Hero B:
+Receives increased cooperation behavior.
+```
+
+---
+
+# 25. PARTY CONFLICT
+
+Party members may also conflict.
+
+Possible causes:
+
+```text
+Personality Conflict
+Faction Conflict
+Race Conflict
+Historical Conflict
+Low Trust
+Former Enemy
+Cult Background
+Emotional State
+```
+
+Example:
+
+```text
+Former Cult Member
+       +
+Victim of Cult
+       ↓
+High Conflict Potential
+```
+
+The AI Character System handles the behavioral consequences.
+
+---
+
+# 26. PARTY MORALE
+
+Party morale is influenced by individual Heroes.
+
+```text
+Hero Morale
+      ↓
+Party Morale
+      ↓
+Party AI Behavior
+```
+
+Possible Party Morale:
+
+```text
+Excellent
+High
+Normal
+Low
+Critical
+Broken
+```
+
+---
+
+# 27. PARTY EMOTIONAL STATE
+
+The Party does not replace individual emotions.
+
+Instead:
+
+```text
+Individual Emotion
+        ↓
+Party Emotional Condition
+        ↓
+Party Behavior
+```
+
+Example:
+
+```text
+Leader:
+Determined
+
+3 Members:
+Confident
+
+1 Member:
+Fear
+
+Party State:
+Stable
+```
+
+Another:
+
+```text
+Leader:
+Fear
+
+2 Members:
+Panic
+
+1 Member:
+Angry
+
+1 Member:
+Desperate
+
+Party State:
+Unstable
+```
+
+---
+
+# 28. PARTY AI
+
+The Party AI manages coordination between Heroes.
+
+It evaluates:
+
+```text
+Leader Command
+Master Command
+Party Formation
+Hero AI
+Enemy AI
+Hero Emotion
+Party Morale
+Enemy Threat
+Floor State
+Destruction Level
+```
+
+---
+
+# 29. PARTY AI HIERARCHY
+
+```text
+MASTER
+   │
+   ▼
+PARTY COMMAND
+   │
+   ▼
+PARTY LEADER
+   │
+   ▼
+PARTY AI
+   │
+   ├── HERO AI
+   ├── FORMATION
+   ├── TARGETING
+   └── COORDINATION
+```
+
+For Party 3+:
+
+```text
+MASTER
+   │
+   ▼
+PARTY COMMAND
+   │
+   ▼
+PARTY AI
+   │
+   └── HERO AI
+```
+
+---
+
+# 30. MASTER COMMAND
+
+The Master can issue commands to the entire Party.
+
+Examples:
+
+```text
+Attack
+Defend
+Retreat
+Focus Boss
+Protect Target
+Hold Position
+Advance
+Use Skills
+Conserve Resources
+```
+
+---
+
+# 31. PARTY LEADER COMMAND
+
+For Party 1 and Party 2, the Leader can issue internal tactical decisions.
+
+Example:
+
+```text
+Master:
+Attack Boss.
+
+Leader:
+Tank → Protect Mage
+Mage → Attack Boss
+Healer → Heal Tank
+Archer → Target Weak Point
+Assassin → Flank
+```
+
+The Leader translates the Master's broad command into tactical behavior.
+
+---
+
+# 32. MASTER VS LEADER
+
+Authority:
+
+```text
+MASTER
+   ↓
+Highest Authority
+
+PARTY LEADER
+   ↓
+Tactical Authority
+
+HERO AI
+   ↓
+Individual Action
+```
+
+The Leader cannot intentionally contradict a direct Master command unless the Hero's AI/emotional system causes a behavioral reaction permitted by the game rules.
+
+---
+
+# 33. PARTY DEPLOYMENT
+
+A Party must be deployed before entering a mission.
+
+```text
+SELECT FLOOR
+      ↓
+SELECT PARTY
+      ↓
+CHECK MEMBERS
+      ↓
+CHECK CONDITION
+      ↓
+CHECK FORMATION
+      ↓
+CHECK EQUIPMENT
+      ↓
+DEPLOY
+```
+
+---
+
+# 34. PARTY VALIDATION
+
+Before deployment:
+
+```text
+Party Exists?
+        ↓
+Members Valid?
+        ↓
+Maximum 5?
+        ↓
+Heroes Available?
+        ↓
+Heroes Alive / Eligible?
+        ↓
+Formation Valid?
+        ↓
+Mission Requirements?
+        ↓
+DEPLOY
+```
+
+---
+
+# 35. MULTIPLE PARTY DEPLOYMENT
+
+Some missions can allow multiple Parties.
+
+Example:
+
+```text
+FLOOR MISSION
+
+Party 1
+   ↓
+Frontline
+
+Party 2
+   ↓
+Support
+
+Party 3
+   ↓
+Secondary Objective
+```
+
+The exact number of deployable Parties depends on the Floor/Mission rules.
+
+---
+
+# 36. PARTY SWITCHING
+
+If a mission supports multiple Parties, the Master may be able to switch between Parties.
+
+Example:
+
+```text
+PARTY 1
+Main Battle
+     ↓
+Critical Situation
+     ↓
+Switch
+     ↓
+PARTY 2
+Support Battle
+```
+
+Party switching is controlled by the Mission System.
+
+---
+
+# 37. PARTY CONDITION
+
+Each Party maintains a temporary state.
+
+```text
+Party HP Condition
+Party Morale
+Party Status
+Party Formation
+Party Position
+Party Mission State
+Party Combat State
+```
+
+Individual Hero conditions remain stored separately.
+
+---
+
+# 38. PARTY + BASIC COMBAT SYSTEM
+
+The Party System prepares the combat group.
+
+```text
+PARTY SYSTEM
+      ↓
+PARTY COMPOSITION
+      ↓
+FORMATION
+      ↓
+BASIC COMBAT SYSTEM
+      ↓
+HERO AI
+      ↓
+BATTLE
+```
+
+The Party System does not calculate individual damage.
+
+That remains the responsibility of the Combat System.
+
+---
+
+# 39. PARTY + CHARACTER SYSTEM
+
+The Party System references Hero data.
+
+```text
+PARTY
+ │
+ ├── Hero ID
+ ├── Hero ID
+ ├── Hero ID
+ ├── Hero ID
+ └── Hero ID
+```
+
+The Party does not duplicate the complete Hero database.
+
+It stores references to Heroes.
+
+---
+
+# 40. PARTY + ID SYSTEM
+
+Every Party also receives a unique Party ID.
+
+Example:
+
+```text
+PARTY-000001
+PARTY-000002
+PARTY-000003
+```
+
+Hero references:
+
+```text
+HERO-000001
+HERO-000015
+HERO-000027
+HERO-000043
+HERO-000051
+```
+
+---
+
+# 41. PARTY DATA
+
+Basic Party structure:
+
+```text
+Party ID
+
+Party Name
+
+Party Type
+
+Party Leader ID
+
+Member IDs[]
+
+Formation
+
+Party Role
+
+Party Morale
+
+Party State
+
+Mission State
+
+Combat State
+
+Created Time
+
+Updated Time
+```
+
+---
+
+# 42. PARTY TYPE
+
+Possible values:
+
+```text
+STANDARD
+LEADER_MANAGED
+MASTER_MANAGED
+SPECIAL
+EVENT
+```
+
+Default:
+
+```text
+PARTY 1 → LEADER_MANAGED
+PARTY 2 → LEADER_MANAGED
+PARTY 3+ → MASTER_MANAGED
+```
+
+---
+
+# 43. PARTY DATABASE
+
+Party information is stored in the Database System.
+
+Example:
+
+```text
+PARTY DATABASE
+
+Party ID
+Master ID
+Party Type
+Leader ID
+Member IDs
+Formation
+Party State
+Morale
+Mission State
+Created Time
+Updated Time
+```
+
+---
+
+# 44. DATABASE UPDATE
+
+Party changes are synchronized through the Game State System.
+
+```text
+MASTER / LEADER ACTION
+        ↓
+PARTY SYSTEM
+        ↓
+GAME STATE SYSTEM
+        ↓
+DATABASE SYSTEM
+```
+
+Example:
+
+```text
+Leader changes Hero.
+
+Party:
+Hero A → removed
+Hero B → added
+
+        ↓
+
+Game State Update
+
+        ↓
+
+Database Update
+```
+
+---
+
+# 45. GAME STATE SYNCHRONIZATION
+
+The Game State System monitors:
+
+```text
+Party Created
+Party Deleted
+Leader Changed
+Member Added
+Member Removed
+Formation Changed
+Party Deployed
+Party Returned
+Party Defeated
+Party Victory
+Party Morale Changed
+Party State Changed
+```
+
+---
+
+# 46. PARTY + AI FAIRY
+
+The AI Fairy can observe Party conditions.
+
+The Fairy monitors:
+
+```text
+Party Formation
+Party Morale
+Hero Condition
+Party Synergy
+Party Conflict
+Enemy Threat
+Destruction Level
+Mission Status
+```
+
+---
+
+# 47. FAIRY PARTY REPORT
+
+Example:
+
+> **"Master, Party 1's formation is stable, but the frontline is taking heavy damage."**
+
+Another:
+
+> **"Master, Party 2 has strong offensive potential, but there is no dedicated healer."**
+
+Another:
+
+> **"Master, the relationship between two members is creating tension. Their combat cooperation may decrease."**
+
+---
+
+# 48. PARTY + DESTRUCTION LEVEL
+
+Party difficulty is affected by the current Floor's Destruction Level.
+
+```text
+FLOOR
+  ↓
+DESTRUCTION LEVEL
+  ↓
+ENVIRONMENT
+  ↓
+ENEMY
+  ↓
+PARTY PRESSURE
+  ↓
+PARTY AI
+```
+
+Higher destruction can cause:
+
+```text
+Higher Stress
+Higher Fear
+Lower Morale
+More Enemy Pressure
+More Environmental Hazards
+More Party Conflicts
+```
+
+---
+
+# 49. PARTY + FLOOR SYSTEM
+
+When entering a Floor:
+
+```text
+FLOOR STATE
+      ↓
+MISSION
+      ↓
+PARTY REQUIREMENT
+      ↓
+PARTY VALIDATION
+      ↓
+PARTY DEPLOYMENT
+```
+
+Some Floors may require:
+
+```text
+Specific Race
+Specific Role
+Specific Hero
+Minimum Party Size
+Special Condition
+Event Character
+```
+
+---
+
+# 50. PARTY + EVENT SYSTEM
+
+Party actions can trigger events.
+
+Examples:
+
+```text
+Leader Event
+Party Conflict
+Friendship Event
+Character Memory
+Battle Event
+Formation Event
+Hero Awakening
+Special Floor Event
+```
+
+Example:
+
+```text
+Party enters ruined Elysium.
+
+Former Imperial Knight is present.
+
+Event Trigger:
+MEMORY EVENT
+```
+
+---
+
+# 51. PARTY + CHARACTER RELATIONSHIP
+
+Relationships can influence composition.
+
+Example:
+
+```text
+Hero A
+Trust → Hero B: HIGH
+
+Hero C
+Trust → Hero B: LOW
+```
+
+AI may evaluate this when creating Party 1 or Party 2.
+
+A Leader may therefore prefer:
+
+```text
+A + B
+```
+
+instead of:
+
+```text
+C + B
+```
+
+---
+
+# 52. PARTY CREATION FLOW
+
+```text
+MASTER
+  ↓
+CREATE PARTY
+  ↓
+GENERATE PARTY ID
+  ↓
+SELECT PARTY TYPE
+  ↓
+ASSIGN LEADER
+  ↓
+ADD MEMBERS
+  ↓
+SET FORMATION
+  ↓
+VALIDATE PARTY
+  ↓
+GAME STATE
+  ↓
+DATABASE
+```
+
+---
+
+# 53. PARTY 1 CREATION
+
+```text
+CREATE PARTY 1
+      ↓
+MASTER SELECTS LEADER
+      ↓
+LEADER RECEIVES AUTHORITY
+      ↓
+LEADER AI EVALUATES HEROES
+      ↓
+COMPOSITION CREATED
+      ↓
+MASTER APPROVES
+      ↓
+PARTY 1 READY
+```
+
+The Master may manually modify the result.
+
+---
+
+# 54. PARTY 2 CREATION
+
+```text
+CREATE PARTY 2
+      ↓
+MASTER SELECTS LEADER
+      ↓
+LEADER AI
+      ↓
+SELECT MEMBERS
+      ↓
+FORMATION
+      ↓
+MASTER APPROVAL
+      ↓
+PARTY 2 READY
+```
+
+---
+
+# 55. PARTY 3+ CREATION
+
+```text
+CREATE PARTY
+      ↓
+MASTER SELECTS HEROES
+      ↓
+SET FORMATION
+      ↓
+SET ROLES
+      ↓
+VALIDATE
+      ↓
+PARTY READY
+```
+
+No Leader composition delegation is required.
+
+---
+
+# 56. PARTY MEMBER REPLACEMENT
+
+A Hero can be replaced.
+
+Example:
+
+```text
+Party 1
+
+Slot 3:
+Hero A
+
+       ↓
+
+Remove Hero A
+
+       ↓
+
+Leader AI recommends Hero B
+
+       ↓
+
+Hero B assigned
+```
+
+The Master can override the recommendation.
+
+---
+
+# 57. HERO AVAILABILITY
+
+A Hero may not always be available.
+
+Possible states:
+
+```text
+AVAILABLE
+IN_PARTY
+IN_MISSION
+INJURED
+RECOVERING
+LOCKED
+DEAD
+EVENT_LOCKED
+```
+
+Party System checks this before assignment.
+
+---
+
+# 58. HERO CANNOT BE DUPLICATED
+
+The same Hero ID cannot occupy two Party slots simultaneously unless the game explicitly creates a special clone/summon mechanic.
+
+Example:
+
+```text
+HERO-000021
+
+PARTY 1 → YES
+
+PARTY 2 → NO
+```
+
+This follows the unique Hero identity rules of the Character System.
+
+---
+
+# 59. PARTY MEMBER LIMIT RULE
+
+Hard rule:
+
+```text
+MAX PARTY MEMBERS = 5
+```
+
+Attempt:
+
+```text
+6th Hero
+   ↓
+REJECT
+   ↓
+Fairy / System Notification
+```
+
+Example:
+
+> **"Master, Party 1 already contains the maximum number of Heroes."**
+
+---
+
+# 60. PARTY LEADER REMOVAL
+
+If a Party Leader becomes unavailable:
+
+```text
+Leader
+  ↓
+Unavailable
+  ↓
+Leadership Check
+  ↓
+Temporary Leader / Master Intervention
+```
+
+The exact replacement behavior is controlled by the Game State System.
+
+---
+
+# 61. LEADER DEATH DURING MISSION
+
+If the Leader dies during combat:
+
+```text
+LEADER DEATH
+      ↓
+PARTY STATE UPDATE
+      ↓
+PARTY AI CHECK
+      ↓
+TEMPORARY COMMANDER
+      ↓
+COMBAT CONTINUES
+```
+
+The Party does not automatically end unless the mission rules require it.
+
+---
+
+# 62. TEMPORARY LEADER
+
+A temporary Leader can be selected based on:
+
+```text
+Leadership Trait
+Experience
+Morale
+Combat Ability
+AI Personality
+Master Rules
+```
+
+Example:
+
+```text
+Original Leader:
+Dead
+
+Party AI:
+Selects Hero B
+
+Hero B:
+Temporary Leader
+```
+
+After the mission, the Master can assign a permanent Leader.
+
+---
+
+# 63. PARTY DEFEAT
+
+Party defeat occurs when mission rules determine that the Party can no longer continue.
+
+Possible conditions:
+
+```text
+All Heroes Defeated
+Mission Objective Failed
+Retreat Failure
+Special Boss Condition
+Floor Event
+```
+
+The Game State System determines the final state.
+
+---
+
+# 64. PARTY VICTORY
+
+After successful completion:
+
+```text
+PARTY VICTORY
+      ↓
+COMBAT RESULT
+      ↓
+EXP
+      ↓
+LOOT RNG
+      ↓
+REWARD
+      ↓
+INVENTORY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY REPORT
+```
+
+---
+
+# 65. PARTY REWARD
+
+The Party System does not independently generate rewards.
+
+It receives results from:
+
+```text
+Combat System
+RNG System
+Quest System
+Event System
+Floor System
+```
+
+Then synchronizes the result.
+
+---
+
+# 66. PARTY EXPERIENCE
+
+Hero EXP is handled by the Character/Progression System.
+
+Party System only provides the context:
+
+```text
+Party
+   ↓
+Mission
+   ↓
+Combat
+   ↓
+Hero Participation
+   ↓
+EXP
+```
+
+---
+
+# 67. PARTY HISTORY
+
+The Database can store Party history.
+
+Example:
+
+```text
+PARTY-000001
+
+Mission:
+Floor 17
+
+Result:
+Victory
+
+Members:
+5
+
+Leader:
+HERO-000021
+
+Enemies Defeated:
+24
+
+Casualties:
+0
+
+Injuries:
+2
+
+Important Events:
+1
+```
+
+---
+
+# 68. PARTY ANALYTICS
+
+The system can later calculate:
+
+```text
+Win Rate
+Mission Success
+Damage Contribution
+Healing Contribution
+Survival Rate
+Leader Performance
+Party Synergy
+Party Conflict
+Floor Performance
+```
+
+This data can help AI Leaders improve future compositions.
+
+---
+
+# 69. AI LEADER LEARNING
+
+Party 1 and Party 2 Leaders can use historical data.
+
+Example:
+
+```text
+Previous Mission
+
+Party composition:
+Tank
+Fighter
+Mage
+Healer
+Archer
+
+Result:
+Victory
+
+AI LEADER
+      ↓
+Learns composition performance
+      ↓
+Future recommendation improves
+```
+
+The exact machine-learning implementation can be added later.
+
+---
+
+# 70. PARTY RECOMMENDATION
+
+The AI Leader can provide:
+
+```text
+Recommended Hero
+Recommended Formation
+Recommended Role
+Recommended Skill Setup
+Recommended Equipment
+Recommended Strategy
+```
+
+But:
+
+> **Recommendation does not equal automatic selection.**
+
+The Master retains final authority.
+
+---
+
+# 71. MASTER PARTY MENU
+
+The Party Menu can display:
+
+```text
+PARTY 1
+Leader
+Members
+Formation
+Morale
+Condition
+Combat Power
+Synergy
+Mission
+```
+
+Example:
+
+```text
+┌───────────────────────────────┐
+│ PARTY 1                       │
+├───────────────────────────────┤
+│ Leader: Leon                  │
+│                               │
+│ 1. Leon       Leader          │
+│ 2. Aria       Fighter         │
+│ 3. Mira       Mage            │
+│ 4. Kael       Healer          │
+│ 5. Riven      Archer          │
+│                               │
+│ Morale: HIGH                  │
+│ Status: READY                 │
+└───────────────────────────────┘
+```
+
+---
+
+# 72. PARTY MANAGEMENT MENU
+
+```text
+PARTY MENU
+
+├── Party 1
+│   ├── Leader
+│   ├── Members
+│   ├── Formation
+│   ├── AI Recommendation
+│   └── Mission
+│
+├── Party 2
+│   ├── Leader
+│   ├── Members
+│   ├── Formation
+│   ├── AI Recommendation
+│   └── Mission
+│
+├── Party 3
+│   ├── Members
+│   ├── Formation
+│   └── Mission
+│
+└── Party Management
+```
+
+---
+
+# 73. PARTY DATA FLOW
+
+```text
+CHARACTER DATABASE
+       ↓
+AVAILABLE HEROES
+       ↓
+PARTY SYSTEM
+       ↓
+PARTY COMPOSITION
+       ↓
+FORMATION
+       ↓
+MISSION
+       ↓
+COMBAT
+       ↓
+RESULT
+       ↓
+GAME STATE
+       ↓
+DATABASE
+```
+
+---
+
+# 74. COMPLETE SYSTEM INTEGRATION
+
+```text
+                         MASTER
+                           │
+                           ▼
+                     PARTY SYSTEM
+                           │
+            ┌──────────────┼──────────────┐
+            │              │              │
+            ▼              ▼              ▼
+         PARTY 1        PARTY 2        PARTY 3+
+            │              │              │
+            ▼              ▼              ▼
+         LEADER          LEADER         MASTER
+            │              │              │
+            └──────────────┼──────────────┘
+                           ▼
+                    PARTY COMPOSITION
+                           │
+                           ▼
+                       HERO AI
+                           │
+                           ▼
+                 BASIC COMBAT SYSTEM
+                           │
+            ┌──────────────┼──────────────┐
+            │              │              │
+            ▼              ▼              ▼
+           RNG          DESTRUCTION      EVENT
+                           │
+                           ▼
+                    GAME STATE SYSTEM
+                           │
+                  ┌────────┴────────┐
+                  ▼                 ▼
+              DATABASE          AI FAIRY
+                                     │
+                                     ▼
+                                  MASTER
+```
+
+---
+
+# 75. PARTY SYSTEM RULES
+
+### Rule 1
+
+> **Maximum 5 Heroes per Party.**
+
+### Rule 2
+
+> **Party 1 and Party 2 have a Leader appointed by the Master.**
+
+### Rule 3
+
+> **The Leader of Party 1 and Party 2 may create their own Party composition.**
+
+### Rule 4
+
+> **The Master always retains final authority.**
+
+### Rule 5
+
+> **Party 3 and above are directly composed by the Master.**
+
+### Rule 6
+
+> **A Hero cannot normally occupy multiple Party slots simultaneously.**
+
+### Rule 7
+
+> **Party composition does not duplicate Hero data. It references Hero IDs.**
+
+### Rule 8
+
+> **Party state is synchronized through the Game State System.**
+
+### Rule 9
+
+> **Persistent Party data is stored in the Database System.**
+
+### Rule 10
+
+> **Combat behavior is handled by the Combat and AI systems.**
+
+### Rule 11
+
+> **The AI Fairy observes Party conditions and reports important information to the Master.**
+
+### Rule 12
+
+> **Party difficulty is influenced by the Floor and Destruction Level.**
+
+---
+
+# 76. FINAL PARTY ARCHITECTURE
+
+```text
+                         MASTER
+                            │
+                            ▼
+                      PARTY SYSTEM
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+     PARTY 1             PARTY 2             PARTY 3+
+        │                   │                   │
+     LEADER              LEADER              MASTER
+        │                   │                   │
+        ▼                   ▼                   ▼
+   AI COMPOSITION      AI COMPOSITION      MANUAL
+        │                   │              COMPOSITION
+        └───────────────────┼───────────────────┘
+                            ▼
+                      MAX 5 HEROES
+                            │
+                            ▼
+                       FORMATION
+                            │
+                            ▼
+                         HERO AI
+                            │
+                            ▼
+                     BASIC COMBAT
+                            │
+                ┌───────────┼───────────┐
+                ▼           ▼           ▼
+              ENEMY       RNG       DESTRUCTION
+                │           │           │
+                └───────────┼───────────┘
+                            ▼
+                      BATTLE RESULT
+                            │
+                            ▼
+                    GAME STATE SYSTEM
+                            │
+                 ┌──────────┴──────────┐
+                 ▼                     ▼
+             DATABASE               AI FAIRY
+                                         │
+                                         ▼
+                                      MASTER
+```
+
+---
+
+# 🌑 FINAL DESIGN PRINCIPLE
+
+The Party System is designed so that the Master does not have to manually micromanage every Hero.
+
+For **Party 1 and Party 2**:
+
+```text
+MASTER
+   ↓
+Choose Leader
+   ↓
+Leader understands available Heroes
+   ↓
+Leader creates composition
+   ↓
+AI evaluates synergy
+   ↓
+Party enters mission
+```
+
+For **Party 3 and above**:
+
+```text
+MASTER
+   ↓
+Choose Heroes
+   ↓
+Create composition
+   ↓
+Set formation
+   ↓
+Deploy
+```
+
+The result is a Party System where different Parties can develop their own identities.
+
+```text
+PARTY 1
+→ Leader-driven
+
+PARTY 2
+→ Leader-driven
+
+PARTY 3+
+→ Master-driven
+```
+
+The Party therefore becomes more than a collection of five Heroes.
+
+It becomes:
+
+> **A living team whose composition, leadership, relationships, emotions, AI behavior, and combat history can evolve together as the Master climbs the Tower of Rebirth.**
