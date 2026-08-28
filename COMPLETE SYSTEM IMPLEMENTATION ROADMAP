@@ -1,0 +1,1691 @@
+# 🌑 AETHERIA — COMPLETE SYSTEM IMPLEMENTATION ROADMAP
+
+> **Roadmap ini menjadi urutan resmi untuk membangun seluruh sistem Aetheria.**
+>
+> Setiap system harus mengikuti dependency system sebelumnya.
+>
+> **Core → Data → Time → State → AI → Gameplay → World → Progression → Advanced Simulation**
+
+---
+
+# 0. CORE FOUNDATION
+
+Tahap pertama adalah membangun fondasi yang tidak bergantung pada gameplay.
+
+```text
+CORE WORLD BUILDING
+        │
+        ├── ID SYSTEM
+        │
+        ├── DATABASE SYSTEM
+        │
+        └── GAME MANAGER SYSTEM
+```
+
+### Install:
+
+```text
+01. CORE WORLD BUILDING
+02. ID SYSTEM
+03. DATABASE SYSTEM
+04. GAME MANAGER SYSTEM
+```
+
+### Tujuan
+
+Membentuk struktur dasar:
+
+```text
+World
+Master
+Hero
+NPC
+Enemy
+Item
+Faction
+Town
+Dungeon
+Floor
+Quest
+Event
+```
+
+---
+
+# 1. TIME & WORLD STATE FOUNDATION
+
+Setelah database tersedia, sistem waktu dan perubahan dunia dapat dibangun.
+
+```text
+DATABASE
+    │
+    ▼
+TIME SYSTEM
+    │
+    ▼
+GAME STATE SYSTEM
+```
+
+### Install:
+
+```text
+05. TIME SYSTEM
+06. GAME STATE SYSTEM
+```
+
+Game State System menjadi pusat sinkronisasi.
+
+---
+
+# 2. RANDOM GENERATION FOUNDATION
+
+Setelah Game State tersedia, RNG dapat dibangun.
+
+```text
+GAME STATE
+     │
+     ▼
+RNG SYSTEM
+```
+
+### Install:
+
+```text
+07. RNG SYSTEM
+```
+
+RNG menjadi dasar:
+
+```text
+Character Generation
+Recruitment
+Loot
+Floor Reward
+Quest Reward
+Event Reward
+World Exploration
+Boss Raid Reward
+Item Generation
+```
+
+---
+
+# 3. MASTER SYSTEM
+
+Master harus tersedia sebelum gameplay management dibangun.
+
+```text
+GAME STATE
+     │
+     ▼
+MASTER SYSTEM
+```
+
+### Install:
+
+```text
+08. MASTER SYSTEM
+```
+
+Master memiliki:
+
+```text
+Master ID
+Master Level
+Master EXP
+Master Progression
+Master Rank
+Unlocked System
+```
+
+---
+
+# 4. CHARACTER FOUNDATION
+
+Setelah RNG dan Master tersedia, Character/Hero System dapat dibuat.
+
+```text
+RNG SYSTEM
+     │
+     ▼
+CHARACTER SYSTEM
+     │
+     ▼
+DATABASE
+```
+
+### Install:
+
+```text
+09. CHARACTER / HERO SYSTEM
+10. AI CHARACTER / HERO SYSTEM
+11. EMOTIONAL SYSTEM
+```
+
+---
+
+# 5. AI FAIRY
+
+AI Fairy dibangun setelah Hero AI dan Game State tersedia.
+
+```text
+GAME STATE
+     │
+CHARACTER AI
+     │
+EMOTIONAL SYSTEM
+     │
+     ▼
+AI FAIRY
+```
+
+### Install:
+
+```text
+12. AI FAIRY SYSTEM
+```
+
+Fairy berfungsi sebagai:
+
+```text
+Observer
+Reporter
+Assistant
+Warning System
+Simulation Interpreter
+Master Advisor
+```
+
+---
+
+# 6. INVENTORY & ITEM FOUNDATION
+
+Setelah Character dan RNG tersedia:
+
+```text
+RNG
+ │
+ ▼
+ITEM
+ │
+ ▼
+INVENTORY
+ │
+ ▼
+DATABASE
+```
+
+### Install:
+
+```text
+13. ITEM SYSTEM
+14. INVENTORY SYSTEM
+```
+
+Item dapat berasal dari:
+
+```text
+Recruitment
+Quest
+Dungeon
+Floor Reward
+Enemy Loot
+Event
+World Exploration
+Boss Raid
+Crafting
+```
+
+---
+
+# 7. RECRUITMENT SYSTEM
+
+Recruitment bergantung pada:
+
+```text
+RNG
+Character
+Item
+Inventory
+Master
+Database
+```
+
+### Install:
+
+```text
+15. RECRUITMENT SYSTEM
+```
+
+### Recruitment Method
+
+```text
+GOLD
+STAR 1–3
+
+TICKET
+STAR 2–3
+
+GEM
+STAR 1–4
+
+SPECIAL TICKET
+STAR 5
+```
+
+Recruitment wajib:
+
+```text
+RNG
+   ↓
+CHARACTER GENERATION
+   ↓
+DUPLICATE CHECK
+   ↓
+HERO ID
+   ↓
+DATABASE
+   ↓
+INVENTORY / HERO COLLECTION
+```
+
+---
+
+# 8. PARTY SYSTEM
+
+Setelah Hero dan Recruitment tersedia:
+
+```text
+MASTER
+  │
+  ▼
+HERO COLLECTION
+  │
+  ▼
+PARTY SYSTEM
+```
+
+### Install:
+
+```text
+16. PARTY SYSTEM
+```
+
+### Rule
+
+Party maksimal:
+
+```text
+5 HERO
+```
+
+Party 1 dan 2:
+
+```text
+Master
+ ↓
+Assign Leader
+ ↓
+Leader
+ ↓
+Create Composition
+```
+
+Party 3+:
+
+```text
+Master
+ ↓
+Create Party
+ ↓
+Assign Members
+```
+
+---
+
+# 9. TRAINING GROUND
+
+Setelah Party tersedia:
+
+```text
+PARTY
+  │
+  ▼
+TRAINING GROUND
+  │
+  ▼
+HERO DEVELOPMENT
+```
+
+### Install:
+
+```text
+17. TRAINING GROUND SYSTEM
+```
+
+Semua Hero yang masuk Party wajib mengikuti Training Ground sesuai aturan game.
+
+---
+
+# 10. STAR UP & HERO PROGRESSION
+
+Setelah Character, RNG, Party, dan Training tersedia:
+
+```text
+CHARACTER
+   │
+   ▼
+STAR UP
+   │
+   ▼
+SYNTHESIS
+   │
+   ▼
+LEVEL
+   │
+   ▼
+STAT / SKILL
+```
+
+### Install:
+
+```text
+18. STAR UP SYSTEM
+19. HERO SYNTHESIS SYSTEM
+20. HERO LEVEL & STAT SYSTEM
+21. HERO SKILL SYSTEM
+```
+
+### Progression
+
+```text
+STAR 1
+ ↓
+STAR 2
+ ↓
+STAR 3
+ ↓
+STAR 4
+ ↓
+STAR 5
+ ↓
+STAR 6
+ ↓
+RARE SKILL
+ ↓
+STAR 7
+ ↓
+ULTIMATE SKILL
+```
+
+---
+
+# 11. HERO DATA PERSISTENCE
+
+Semua perubahan Hero harus disimpan.
+
+```text
+HERO
+ │
+ ├── Level
+ ├── Star
+ ├── Stats
+ ├── Skills
+ ├── Rare Skill
+ ├── Ultimate
+ ├── Emotion
+ ├── Memory
+ └── Relationship
+          │
+          ▼
+      HERO ID
+          │
+          ▼
+      DATABASE
+```
+
+### Install:
+
+```text
+22. HERO STATE DATABASE SYSTEM
+```
+
+Hero tidak boleh kehilangan perubahan setelah:
+
+```text
+Level Up
+Star Up
+Skill Unlock
+Stat Change
+Relationship Change
+Emotion Change
+```
+
+---
+
+# 12. BASIC COMBAT
+
+Setelah Hero AI dan Emotional System siap:
+
+```text
+HERO AI
+   │
+EMOTION
+   │
+PARTY
+   │
+   ▼
+COMBAT
+```
+
+### Install:
+
+```text
+23. BASIC COMBAT SYSTEM
+```
+
+Combat menggunakan:
+
+```text
+Character AI
+Emotion
+Stats
+Skills
+Party Composition
+Enemy AI
+Battle Condition
+```
+
+---
+
+# 13. EVENT SYSTEM
+
+Event dapat dibangun setelah:
+
+```text
+Game State
+Time
+Character
+Quest
+World
+RNG
+```
+
+tersedia.
+
+### Install:
+
+```text
+24. EVENT SYSTEM
+```
+
+Event dapat memengaruhi:
+
+```text
+Hero
+NPC
+Faction
+Town
+Dungeon
+Quest
+World
+Master
+```
+
+---
+
+# 14. QUEST SYSTEM
+
+Quest menjadi layer gameplay yang menghubungkan banyak sistem.
+
+### Install:
+
+```text
+25. QUEST SYSTEM
+```
+
+Quest terhubung dengan:
+
+```text
+Hero
+Dungeon
+Town
+Exploration
+Master EXP
+Gold
+Gem
+Ticket
+Item
+Event
+World State
+```
+
+---
+
+# 15. DUNGEON SYSTEM
+
+Setelah Combat, Quest, Event, RNG dan World State tersedia:
+
+```text
+MASTER
+  │
+  ▼
+DUNGEON
+  │
+  ▼
+TOWER
+```
+
+### Install:
+
+```text
+26. DUNGEON SYSTEM
+```
+
+Tower:
+
+```text
+FLOOR 1
+ ↓
+FLOOR 2
+ ↓
+...
+ ↓
+FLOOR 100
+```
+
+---
+
+# 16. FLOOR PROGRESSION
+
+Dungeon harus memiliki progression state.
+
+```text
+FLOOR
+ │
+ ├── Difficulty
+ ├── Destruction Level
+ ├── Enemy
+ ├── Quest
+ ├── Event
+ ├── Loot
+ └── Reward
+```
+
+### Install:
+
+```text
+27. FLOOR PROGRESSION SYSTEM
+```
+
+Difficulty mengikuti:
+
+```text
+CORE WORLD BUILDING
+        +
+DESTRUCTION LEVEL
+        +
+GAME STATE
+```
+
+---
+
+# 17. WORLD EXPLORATION
+
+World Exploration menjadi fitur Dungeon.
+
+```text
+DUNGEON
+   │
+   ▼
+WORLD EXPLORATION
+```
+
+### Install:
+
+```text
+28. WORLD EXPLORATION SYSTEM
+```
+
+Exploration menggunakan:
+
+```text
+Time
+RNG
+Character
+Party
+Quest
+World State
+Enemy
+NPC
+Item
+Lore
+```
+
+---
+
+# 18. BOSS RAID
+
+Boss Raid menjadi fitur Dungeon lainnya.
+
+```text
+DUNGEON
+   │
+   ├── WORLD EXPLORATION
+   │
+   └── BOSS RAID
+```
+
+### Install:
+
+```text
+29. BOSS RAID SYSTEM
+```
+
+Boss Raid menggunakan:
+
+```text
+Party
+Hero AI
+Combat
+Boss AI
+Emotion
+RNG
+Floor State
+Destruction Level
+Reward
+```
+
+---
+
+# 19. TOWN SQUARE
+
+Town Square dibangun setelah:
+
+```text
+Hero
+NPC
+Inventory
+Item
+Party
+Quest
+Time
+Game State
+AI
+```
+
+tersedia.
+
+### Install:
+
+```text
+30. TOWN SQUARE SYSTEM
+```
+
+---
+
+# 20. TOWN FACILITY SYSTEM
+
+Setiap fasilitas harus mempunyai Leader.
+
+```text
+FACILITY
+    │
+    ├── LEADER
+    │
+    └── SUPPORT HERO/NPC
+```
+
+Rule:
+
+```text
+NO LEADER
+     ↓
+FACILITY INACTIVE
+```
+
+Jika Leader tersedia:
+
+```text
+LEADER
+  ↓
+AI MANAGEMENT
+  ↓
+FACILITY ACTIVE
+```
+
+### Install:
+
+```text
+31. TOWN FACILITY SYSTEM
+```
+
+---
+
+# 21. AUTOMATIC CRAFTING
+
+Crafting menggunakan:
+
+```text
+Town Facility
+Leader
+AI
+Inventory
+Item
+RNG
+Database
+```
+
+### Install:
+
+```text
+32. AI CRAFTING SYSTEM
+```
+
+Flow:
+
+```text
+MATERIAL
+   ↓
+INVENTORY
+   ↓
+CRAFTING
+   ↓
+AI
+   ↓
+RNG
+   ↓
+ITEM
+   ↓
+INVENTORY
+```
+
+---
+
+# 22. WORLD SIMULATION
+
+Setelah seluruh gameplay foundation tersedia:
+
+```text
+WORLD
+ │
+ ├── NPC
+ ├── Faction
+ ├── Town
+ ├── Hero
+ ├── Enemy
+ ├── Events
+ └── Cult
+```
+
+### Install:
+
+```text
+33. WORLD SIMULATION SYSTEM
+34. FACTION SYSTEM
+35. NPC SIMULATION SYSTEM
+```
+
+---
+
+# 23. CULT OF ETERNAL NIGHT
+
+Faction khusus untuk antagonis utama.
+
+### Install:
+
+```text
+36. CULT SYSTEM
+```
+
+Cult dapat menjalankan:
+
+```text
+Ritual
+Infiltration
+Recruitment
+Artifact Hunting
+Corruption
+Political Manipulation
+Enemy Creation
+```
+
+---
+
+# 24. DESTRUCTION SYSTEM
+
+Core World Building menggunakan Destruction Level.
+
+### Install:
+
+```text
+37. DESTRUCTION LEVEL SYSTEM
+```
+
+Contoh:
+
+```text
+Floor 1
+50% Destruction
+
+Floor 50
+High Destruction
+
+Floor 99
+Maximum Ruin
+
+Floor 100
+Nythar Domain
+```
+
+Destruction memengaruhi:
+
+```text
+Enemy
+Environment
+NPC
+Quest
+Resource
+Event
+World State
+Dungeon Difficulty
+```
+
+---
+
+# 25. SKIP DAY SYSTEM
+
+Skip Day baru dipasang setelah Time, AI, Town, Quest, Event, Dungeon, dan World Simulation tersedia.
+
+### Install:
+
+```text
+38. SKIP DAY SYSTEM
+```
+
+Skip Day menjalankan:
+
+```text
+TIME
+ ↓
+HERO
+ ↓
+TRAINING
+ ↓
+TOWN
+ ↓
+CRAFTING
+ ↓
+QUEST
+ ↓
+EVENT
+ ↓
+NPC
+ ↓
+FACTION
+ ↓
+EXPLORATION
+ ↓
+WORLD STATE
+ ↓
+DATABASE
+ ↓
+FAIRY REPORT
+```
+
+---
+
+# 26. GAME STATE FINAL INTEGRATION
+
+Game State menjadi pusat seluruh sistem.
+
+```text
+                         GAME STATE
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+      MASTER                HERO                  WORLD
+        │                     │                     │
+      PARTY                 AI                    TOWN
+        │                     │                     │
+     DUNGEON              EMOTION                NPC
+        │                     │                     │
+       QUEST              TRAINING              FACTION
+        │                     │                     │
+      EVENT               COMBAT                 CULT
+        │                     │                     │
+        └─────────────────────┼─────────────────────┘
+                              │
+                              ▼
+                         DATABASE
+```
+
+---
+
+# 27. DATABASE FINAL STRUCTURE
+
+Database menjadi sumber persistence.
+
+```text
+DATABASE
+│
+├── MASTER
+│
+├── HERO
+│
+├── NPC
+│
+├── ENEMY
+│
+├── ITEM
+│
+├── INVENTORY
+│
+├── PARTY
+│
+├── TOWN
+│
+├── FACILITY
+│
+├── QUEST
+│
+├── EVENT
+│
+├── DUNGEON
+│
+├── FLOOR
+│
+├── RAID
+│
+├── EXPLORATION
+│
+├── FACTION
+│
+├── WORLD STATE
+│
+├── TIME STATE
+│
+├── EMOTIONAL STATE
+│
+├── RELATIONSHIP
+│
+└── GAME STATE
+```
+
+---
+
+# 28. COMPLETE DEPENDENCY TREE
+
+```text
+CORE WORLD BUILDING
+        │
+        ├── ID SYSTEM
+        │      │
+        │      ▼
+        │  DATABASE SYSTEM
+        │      │
+        │      ▼
+        │ GAME MANAGER
+        │      │
+        │      ▼
+        └── TIME SYSTEM
+               │
+               ▼
+        GAME STATE SYSTEM
+               │
+       ┌───────┼────────┐
+       ▼       ▼        ▼
+      RNG    MASTER    WORLD
+       │       │        │
+       ▼       │        │
+   CHARACTER   │        │
+       │       │        │
+       ▼       │        │
+    HERO AI    │        │
+       │       │        │
+       ▼       │        │
+    EMOTION    │        │
+       │       │        │
+       └───────┼────────┘
+               ▼
+          AI FAIRY
+               │
+       ┌───────┼─────────────┐
+       ▼       ▼             ▼
+    ITEM    RECRUIT       QUEST
+       │       │             │
+       ▼       ▼             ▼
+ INVENTORY  PARTY         EVENT
+               │             │
+               ▼             │
+          TRAINING           │
+               │             │
+               ▼             │
+           STAR UP            │
+               │             │
+               ▼             │
+        HERO PROGRESSION      │
+               │              │
+               └──────┬───────┘
+                      ▼
+                   COMBAT
+                      │
+                      ▼
+                  DUNGEON
+                 /        \
+                ▼          ▼
+         EXPLORATION     RAID
+                │          │
+                └────┬─────┘
+                     ▼
+                 TOWN SQUARE
+                     │
+                     ▼
+                  CRAFTING
+                     │
+                     ▼
+             WORLD SIMULATION
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+         NPC       FACTION     CULT
+          │          │          │
+          └──────────┼──────────┘
+                     ▼
+              DESTRUCTION
+                     │
+                     ▼
+                SKIP DAY
+                     │
+                     ▼
+              GAME STATE
+                     │
+                     ▼
+                  DATABASE
+```
+
+---
+
+# 29. IMPLEMENTATION PHASES
+
+## PHASE 1 — FOUNDATION
+
+```text
+01 Core World Building
+02 ID System
+03 Database System
+04 Game Manager
+05 Time System
+06 Game State System
+```
+
+**Status Target:**
+
+```text
+WORLD CAN EXIST
+DATA CAN BE SAVED
+TIME CAN PASS
+STATE CAN CHANGE
+```
+
+---
+
+## PHASE 2 — AI & DATA
+
+```text
+07 RNG
+08 Master
+09 Character
+10 Hero AI
+11 Emotional System
+12 AI Fairy
+13 Item
+14 Inventory
+```
+
+**Status Target:**
+
+```text
+CHARACTER CAN EXIST
+ITEM CAN EXIST
+AI CAN THINK
+FAIRY CAN OBSERVE
+DATA CAN BE STORED
+```
+
+---
+
+## PHASE 3 — HERO GAMEPLAY
+
+```text
+15 Recruitment
+16 Party
+17 Training Ground
+18 Star Up
+19 Hero Synthesis
+20 Level / Stat
+21 Skill
+22 Hero State Database
+```
+
+**Status Target:**
+
+```text
+RECRUIT
+ ↓
+PARTY
+ ↓
+TRAIN
+ ↓
+LEVEL
+ ↓
+STAR UP
+ ↓
+SKILL
+```
+
+---
+
+## PHASE 4 — COMBAT
+
+```text
+23 Basic Combat
+24 Event
+25 Quest
+```
+
+**Status Target:**
+
+```text
+HERO
+ ↓
+PARTY
+ ↓
+COMBAT
+ ↓
+QUEST
+ ↓
+EVENT
+```
+
+---
+
+## PHASE 5 — DUNGEON
+
+```text
+26 Dungeon
+27 Floor Progression
+28 World Exploration
+29 Boss Raid
+```
+
+**Status Target:**
+
+```text
+TOWER
+ ↓
+FLOOR
+ ↓
+EXPLORATION
+ ↓
+COMBAT
+ ↓
+BOSS
+ ↓
+REWARD
+```
+
+---
+
+## PHASE 6 — TOWN
+
+```text
+30 Town Square
+31 Town Facility
+32 AI Crafting
+```
+
+**Status Target:**
+
+```text
+TOWN
+ ↓
+LEADER
+ ↓
+FACILITY
+ ↓
+AI
+ ↓
+CRAFTING
+ ↓
+INVENTORY
+```
+
+---
+
+## PHASE 7 — WORLD SIMULATION
+
+```text
+33 World Simulation
+34 Faction
+35 NPC Simulation
+36 Cult
+37 Destruction Level
+```
+
+**Status Target:**
+
+```text
+WORLD
+ ↓
+NPC
+ ↓
+FACTION
+ ↓
+CULT
+ ↓
+DESTRUCTION
+ ↓
+GAME STATE
+```
+
+---
+
+## PHASE 8 — TIME SIMULATION
+
+```text
+38 Skip Day
+```
+
+Skip Day menjadi salah satu sistem terakhir karena membutuhkan hampir seluruh sistem sebelumnya.
+
+---
+
+# 30. FINAL SYSTEM ARCHITECTURE
+
+Setelah seluruh sistem terpasang:
+
+```text
+                         AETHERIA
+                            │
+                            ▼
+                  CORE WORLD BUILDING
+                            │
+                            ▼
+                       GAME MANAGER
+                            │
+                            ▼
+                    GAME STATE SYSTEM
+                            │
+          ┌─────────────────┼─────────────────┐
+          │                 │                 │
+          ▼                 ▼                 ▼
+       MASTER             HERO              WORLD
+          │                 │                 │
+          ▼                 ▼                 ▼
+       PARTY              AI               TOWN
+          │                 │                 │
+          ▼                 ▼                 ▼
+      DUNGEON           EMOTION            NPC
+          │                 │                 │
+          ▼                 ▼                 ▼
+      EXPLORATION       TRAINING           FACTION
+          │                 │                 │
+          ▼                 ▼                 ▼
+        RAID             STAR UP             CULT
+          │                 │                 │
+          └─────────────────┼─────────────────┘
+                            ▼
+                           RNG
+                            │
+                            ▼
+                         EVENTS
+                            │
+                            ▼
+                          QUEST
+                            │
+                            ▼
+                        REWARDS
+                            │
+                            ▼
+                        INVENTORY
+                            │
+                            ▼
+                        DATABASE
+                            │
+                            ▼
+                        AI FAIRY
+                            │
+                            ▼
+                          MASTER
+```
+
+---
+
+# 31. GOLDEN RULE OF IMPLEMENTATION
+
+Seluruh sistem Aetheria harus mengikuti aturan:
+
+```text
+CORE WORLD
+     ↓
+ID
+     ↓
+DATABASE
+     ↓
+GAME MANAGER
+     ↓
+TIME
+     ↓
+GAME STATE
+     ↓
+RNG
+     ↓
+CHARACTER
+     ↓
+AI
+     ↓
+GAMEPLAY
+     ↓
+WORLD SIMULATION
+     ↓
+DATABASE
+```
+
+Tidak boleh:
+
+```text
+Gameplay
+   ↓
+langsung
+Database
+```
+
+Semua perubahan harus melewati:
+
+```text
+GAME STATE SYSTEM
+```
+
+---
+
+# 32. MASTER DATA FLOW
+
+```text
+MASTER ACTION
+      │
+      ▼
+GAME MANAGER
+      │
+      ▼
+GAME STATE SYSTEM
+      │
+      ├── Validate
+      ├── Calculate
+      ├── RNG
+      ├── AI
+      ├── Event
+      └── Consequence
+      │
+      ▼
+NEW GAME STATE
+      │
+      ▼
+DATABASE
+      │
+      ▼
+AI FAIRY
+      │
+      ▼
+MASTER REPORT
+```
+
+---
+
+# 33. FINAL INSTALLATION ORDER
+
+Urutan final yang digunakan sebagai checklist:
+
+```text
+[01] CORE WORLD BUILDING
+[02] ID SYSTEM
+[03] DATABASE SYSTEM
+[04] GAME MANAGER SYSTEM
+[05] TIME SYSTEM
+[06] GAME STATE SYSTEM
+
+[07] RNG SYSTEM
+[08] MASTER SYSTEM
+[09] CHARACTER / HERO SYSTEM
+[10] AI CHARACTER / HERO SYSTEM
+[11] EMOTIONAL SYSTEM
+[12] AI FAIRY
+
+[13] ITEM SYSTEM
+[14] INVENTORY SYSTEM
+[15] RECRUITMENT SYSTEM
+[16] PARTY SYSTEM
+[17] TRAINING GROUND SYSTEM
+
+[18] STAR UP SYSTEM
+[19] HERO SYNTHESIS SYSTEM
+[20] HERO LEVEL / STAT SYSTEM
+[21] HERO SKILL SYSTEM
+[22] HERO STATE DATABASE
+
+[23] BASIC COMBAT SYSTEM
+[24] EVENT SYSTEM
+[25] QUEST SYSTEM
+
+[26] DUNGEON SYSTEM
+[27] FLOOR PROGRESSION SYSTEM
+[28] WORLD EXPLORATION SYSTEM
+[29] BOSS RAID SYSTEM
+
+[30] TOWN SQUARE SYSTEM
+[31] TOWN FACILITY SYSTEM
+[32] AI CRAFTING SYSTEM
+
+[33] WORLD SIMULATION SYSTEM
+[34] FACTION SYSTEM
+[35] NPC SIMULATION SYSTEM
+[36] CULT SYSTEM
+[37] DESTRUCTION LEVEL SYSTEM
+
+[38] SKIP DAY SYSTEM
+
+[39] FINAL GAME STATE INTEGRATION
+[40] FINAL DATABASE SYNCHRONIZATION
+[41] FINAL AI FAIRY REPORTING
+[42] FULL SYSTEM TEST
+```
+
+---
+
+# 34. FINAL TEST
+
+Sebelum Aetheria dianggap siap dimainkan, lakukan test:
+
+```text
+CREATE MASTER
+      ↓
+GENERATE ID
+      ↓
+DATABASE
+      ↓
+RECRUIT HERO
+      ↓
+CHECK DUPLICATE
+      ↓
+ADD INVENTORY
+      ↓
+CREATE PARTY
+      ↓
+TRAIN HERO
+      ↓
+LEVEL UP
+      ↓
+STAR UP
+      ↓
+UNLOCK SKILL
+      ↓
+ENTER FLOOR
+      ↓
+COMBAT
+      ↓
+WIN
+      ↓
+RNG REWARD
+      ↓
+INVENTORY
+      ↓
+QUEST UPDATE
+      ↓
+EVENT UPDATE
+      ↓
+TOWN UPDATE
+      ↓
+WORLD STATE UPDATE
+      ↓
+FAIRY REPORT
+      ↓
+DATABASE SAVE
+```
+
+Kemudian test:
+
+```text
+SKIP DAY
+      ↓
+TIME ADVANCE
+      ↓
+TRAINING
+      ↓
+TOWN
+      ↓
+CRAFTING
+      ↓
+QUEST
+      ↓
+EVENT
+      ↓
+NPC
+      ↓
+FACTION
+      ↓
+WORLD
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY REPORT
+```
+
+---
+
+# 🌑 END GOAL
+
+Jika seluruh roadmap selesai, Aetheria akan memiliki struktur:
+
+```text
+                 ┌───────────────────┐
+                 │   CORE WORLD      │
+                 └─────────┬─────────┘
+                           │
+                 ┌─────────▼─────────┐
+                 │   GAME MANAGER    │
+                 └─────────┬─────────┘
+                           │
+                 ┌─────────▼─────────┐
+                 │   GAME STATE      │
+                 └─────────┬─────────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+        ▼                  ▼                  ▼
+      MASTER             HERO               WORLD
+        │                  │                  │
+        ▼                  ▼                  ▼
+      PARTY              AI                  TOWN
+        │                  │                  │
+        ▼                  ▼                  ▼
+    DUNGEON            EMOTION             NPC
+        │                  │                  │
+        ▼                  ▼                  ▼
+   EXPLORATION          TRAINING           FACTION
+        │                  │                  │
+        ▼                  ▼                  ▼
+      RAID              STAR UP             CULT
+        │                  │                  │
+        └──────────────────┼──────────────────┘
+                           ▼
+                          RNG
+                           │
+                           ▼
+                        EVENTS
+                           │
+                           ▼
+                         QUEST
+                           │
+                           ▼
+                       REWARDS
+                           │
+                           ▼
+                      INVENTORY
+                           │
+                           ▼
+                       DATABASE
+                           │
+                           ▼
+                       AI FAIRY
+                           │
+                           ▼
+                         MASTER
+```
+
+> **The Master controls the world.**
+>
+> **The Game State System controls the consequences.**
+>
+> **The Database remembers everything.**
+>
+> **The AI makes the world move.**
+>
+> **The RNG creates uncertainty.**
+>
+> **And the Tower decides how far the Master can go.**
+
+---
+
+# 🚀 DEVELOPMENT PRINCIPLE
+
+Aetheria tidak dibangun sebagai kumpulan fitur yang berdiri sendiri.
+
+Aetheria dibangun sebagai:
+
+```text
+ONE CONNECTED WORLD
+```
+
+dengan:
+
+```text
+CORE WORLD
+      +
+GAME STATE
+      +
+DATABASE
+      +
+AI
+      +
+RNG
+      +
+CHARACTER
+      +
+GAMEPLAY
+      +
+WORLD SIMULATION
+```
+
+sehingga setiap tindakan Master dapat menghasilkan **perubahan nyata yang tersimpan dan dapat memengaruhi masa depan dunia.**
