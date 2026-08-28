@@ -1,0 +1,2624 @@
+# 🌑 AETHERIA — AI CHARACTER / HERO + EMOTIONAL SYSTEM
+
+> **A Hero is not a machine.**
+>
+> A Hero can fear, trust, hate, admire, regret, hope, become angry, lose motivation, and change because of what happens inside the Tower.
+>
+> The **AI Character / Hero + Emotional System** is responsible for simulating the psychological and behavioral state of every Hero in Aetheria.
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+The AI Character / Hero + Emotional System manages:
+
+```text
+Character AI
+Emotion
+Mood
+Personality
+Motivation
+Fear
+Stress
+Morale
+Trust
+Loyalty
+Relationship
+Memory
+Trauma
+Decision Making
+Behavior
+Reaction
+Dialogue Behavior
+Combat Behavior
+Social Behavior
+Event Response
+```
+
+The system does not replace the Character System.
+
+Instead:
+
+```text
+CHARACTER SYSTEM
+        ↓
+CHARACTER DATA
+        ↓
+AI + EMOTIONAL SYSTEM
+        ↓
+BEHAVIOR
+        ↓
+ACTION
+        ↓
+GAME STATE SYSTEM
+```
+
+---
+
+# 2. SYSTEM POSITION
+
+The AI Character / Hero + Emotional System sits between the Hero's internal data and the world simulation.
+
+```text
+                         CHARACTER SYSTEM
+                                │
+                                ▼
+                       CHARACTER STATE
+                                │
+          ┌─────────────────────┼─────────────────────┐
+          │                     │                     │
+          ▼                     ▼                     ▼
+     PERSONALITY             MEMORY              RELATIONSHIP
+          │                     │                     │
+          └─────────────────────┼─────────────────────┘
+                                ▼
+                    AI + EMOTIONAL SYSTEM
+                                │
+                    ┌───────────┼───────────┐
+                    │           │           │
+                    ▼           ▼           ▼
+                 EMOTION      MOOD        AI DECISION
+                    │           │           │
+                    └───────────┼───────────┘
+                                ▼
+                           HERO ACTION
+                                │
+                                ▼
+                       GAME STATE SYSTEM
+                                │
+                                ▼
+                         DATABASE SYSTEM
+```
+
+---
+
+# 3. CORE PRINCIPLE
+
+The system follows:
+
+```text
+EVENT
+ ↓
+PERCEPTION
+ ↓
+EMOTIONAL RESPONSE
+ ↓
+EMOTIONAL STATE
+ ↓
+AI EVALUATION
+ ↓
+DECISION
+ ↓
+ACTION
+ ↓
+CONSEQUENCE
+ ↓
+MEMORY
+ ↓
+FUTURE BEHAVIOR
+```
+
+This creates a continuous character simulation loop.
+
+---
+
+# 4. CHARACTER AI
+
+Every Hero has an AI profile.
+
+The AI determines how the Hero responds to situations.
+
+Example:
+
+```text
+Hero:
+Aria
+
+Class:
+Knight
+
+Personality:
+Brave
+Loyal
+Proud
+
+Fear:
+Failure
+
+Motivation:
+Protect the Master
+
+Current Emotion:
+Angry
+
+Current Mood:
+Determined
+
+Loyalty:
+85
+
+Stress:
+40
+```
+
+The AI combines all of these values before making a decision.
+
+---
+
+# 5. AI INPUTS
+
+The AI can receive information from:
+
+```text
+Character Data
+Personality
+Traits
+Emotion
+Mood
+Memory
+Relationship
+Loyalty
+Motivation
+Fear
+Stress
+Morale
+HP
+MP
+Status
+Party Condition
+Master Command
+Enemy Condition
+Mission Objective
+Floor State
+World State
+Faction State
+Time State
+Event State
+```
+
+---
+
+# 6. AI DECISION MODEL
+
+Basic decision flow:
+
+```text
+                  CURRENT SITUATION
+                         │
+                         ▼
+                  PERCEPTION
+                         │
+        ┌────────────────┼────────────────┐
+        │                │                │
+        ▼                ▼                ▼
+    PERSONALITY       EMOTION          MEMORY
+        │                │                │
+        └────────────────┼────────────────┘
+                         ▼
+                    MOTIVATION
+                         │
+                         ▼
+                       FEAR
+                         │
+                         ▼
+                     RELATION
+                         │
+                         ▼
+                   AI EVALUATION
+                         │
+                         ▼
+                     DECISION
+                         │
+                         ▼
+                      ACTION
+```
+
+---
+
+# 7. PERSONALITY SYSTEM
+
+Personality is a long-term behavioral characteristic.
+
+Example traits:
+
+```text
+Brave
+Cowardly
+Calm
+Aggressive
+Kind
+Cruel
+Loyal
+Greedy
+Proud
+Humble
+Curious
+Suspicious
+Optimistic
+Pessimistic
+Serious
+Playful
+Patient
+Impatient
+Compassionate
+Ruthless
+```
+
+A Hero can possess multiple personality traits.
+
+Example:
+
+```text
+PERSONALITY
+
+Brave       +80
+Loyal       +90
+Proud       +60
+Patient     +30
+Suspicious  +70
+```
+
+---
+
+# 8. PERSONALITY STRENGTH
+
+Personality traits should have intensity.
+
+Example:
+
+```text
+Brave
+0–20   Weak
+21–40  Low
+41–60  Moderate
+61–80  Strong
+81–100 Extreme
+```
+
+This allows two Heroes to have the same trait but behave differently.
+
+---
+
+# 9. PERSONALITY IS NOT EMOTION
+
+Personality and emotion are different.
+
+Example:
+
+```text
+Personality:
+Calm
+
+Current Emotion:
+Angry
+```
+
+The Hero is normally calm but is currently angry because of an event.
+
+Another example:
+
+```text
+Personality:
+Brave
+
+Current Emotion:
+Fear
+```
+
+The Hero is naturally brave but can still become afraid.
+
+---
+
+# 10. EMOTIONAL SYSTEM
+
+The Emotional System manages the Hero's temporary psychological condition.
+
+Core emotions:
+
+```text
+Joy
+Sadness
+Anger
+Fear
+Surprise
+Disgust
+Trust
+Anticipation
+```
+
+Additional emotional states:
+
+```text
+Love
+Hatred
+Guilt
+Shame
+Hope
+Despair
+Grief
+Pride
+Relief
+Anxiety
+Frustration
+Determination
+Loneliness
+Confusion
+```
+
+---
+
+# 11. EMOTION INTENSITY
+
+Each emotion has an intensity value.
+
+```text
+0–20
+Very Low
+
+21–40
+Low
+
+41–60
+Moderate
+
+61–80
+High
+
+81–100
+Extreme
+```
+
+Example:
+
+```text
+ANGER = 75
+FEAR = 20
+SADNESS = 10
+HOPE = 85
+```
+
+The strongest emotional states can influence AI behavior significantly.
+
+---
+
+# 12. MULTIPLE EMOTIONS
+
+A Hero can experience multiple emotions simultaneously.
+
+Example:
+
+```text
+Hero:
+Aria
+
+Anger       70
+Fear        45
+Sadness     60
+Hope        80
+Determination 90
+```
+
+The AI does not simply select one emotion.
+
+Instead, the emotional profile becomes a combined state.
+
+---
+
+# 13. DOMINANT EMOTION
+
+The system can calculate the dominant emotion.
+
+Example:
+
+```text
+Anger        70
+Fear         45
+Sadness      60
+Hope         80
+Determination 90
+```
+
+Dominant:
+
+```text
+DETERMINATION
+```
+
+The dominant emotion has greater influence on immediate decisions.
+
+---
+
+# 14. MOOD SYSTEM
+
+Emotion is usually short-term.
+
+Mood is a longer-lasting condition.
+
+Example:
+
+```text
+EVENT
+ ↓
+SADNESS
+ ↓
+Repeated sadness
+ ↓
+Mood becomes:
+DEPRESSED
+```
+
+Possible moods:
+
+```text
+Happy
+Calm
+Neutral
+Focused
+Excited
+Sad
+Depressed
+Angry
+Irritated
+Anxious
+Fearful
+Confident
+Hopeful
+Hopeless
+Determined
+Exhausted
+```
+
+---
+
+# 15. EMOTION VS MOOD
+
+```text
+EMOTION
+Short-term
+        ↓
+Seconds / Minutes / Hours
+
+MOOD
+Longer-term
+        ↓
+Hours / Days / Events
+```
+
+Example:
+
+```text
+Hero sees enemy
+ ↓
+Fear +40
+```
+
+After surviving:
+
+```text
+Fear decreases
+```
+
+But repeated traumatic encounters may cause:
+
+```text
+Anxiety Mood
+```
+
+---
+
+# 16. EMOTIONAL DECAY
+
+Emotions can naturally decrease over time.
+
+Example:
+
+```text
+ANGER 80
+   ↓
+Time
+   ↓
+ANGER 65
+   ↓
+Time
+   ↓
+ANGER 45
+   ↓
+Time
+   ↓
+ANGER 20
+```
+
+However, some emotions can remain because of:
+
+```text
+Memory
+Trauma
+Relationship
+Personality
+Environment
+Repeated Events
+```
+
+---
+
+# 17. EMOTIONAL TRIGGERS
+
+Emotions are generated by triggers.
+
+Examples:
+
+```text
+Victory
+Defeat
+Death
+Injury
+Betrayal
+Praise
+Insult
+Failure
+Success
+Master Command
+Hero Death
+NPC Death
+Quest Failure
+Quest Success
+Meeting Enemy
+Meeting Friend
+Discovering Homeland
+Finding Family
+Losing Family
+Cult Encounter
+Tower Event
+```
+
+---
+
+# 18. EMOTIONAL EVENT PROCESSING
+
+```text
+EVENT
+ ↓
+TRIGGER
+ ↓
+CHARACTER PERCEPTION
+ ↓
+PERSONALITY MODIFIER
+ ↓
+RELATIONSHIP MODIFIER
+ ↓
+MEMORY MODIFIER
+ ↓
+EMOTIONAL CHANGE
+ ↓
+MOOD UPDATE
+ ↓
+AI UPDATE
+```
+
+---
+
+# 19. EXAMPLE — HERO DEATH
+
+Suppose a Hero's close companion dies.
+
+```text
+COMPANION DEATH
+      ↓
+PERCEPTION
+      ↓
+GRIEF +80
+      ↓
+SADNESS +70
+      ↓
+ANGER +40
+      ↓
+HOPE -30
+      ↓
+MORALE -25
+```
+
+The Hero may then:
+
+```text
+Become quieter
+Seek revenge
+Avoid dangerous missions
+Become protective
+Lose motivation
+Become stronger
+Develop hatred toward the enemy
+```
+
+The exact behavior depends on personality and AI.
+
+---
+
+# 20. MEMORY SYSTEM
+
+Important emotional events create memories.
+
+Example:
+
+```text
+EVENT:
+Master saved Hero.
+
+MEMORY:
+"Master saved my life."
+
+EMOTIONAL VALUE:
+Trust +25
+Loyalty +20
+Gratitude +40
+```
+
+Another:
+
+```text
+EVENT:
+Master sacrificed another Hero.
+
+MEMORY:
+"Master allowed my companion to die."
+
+EMOTIONAL VALUE:
+Trust -30
+Fear +20
+Anger +40
+```
+
+---
+
+# 21. MEMORY TYPES
+
+Memories can be classified:
+
+```text
+Positive Memory
+Negative Memory
+Traumatic Memory
+Important Memory
+Social Memory
+Combat Memory
+Family Memory
+Faction Memory
+Master Memory
+Tower Memory
+```
+
+---
+
+# 22. MEMORY IMPORTANCE
+
+Each memory has importance.
+
+```text
+1–20
+Minor
+
+21–40
+Normal
+
+41–60
+Important
+
+61–80
+Major
+
+81–100
+Critical
+```
+
+Critical memories have long-term influence.
+
+---
+
+# 23. MEMORY DECAY
+
+Minor memories can weaken over time.
+
+```text
+Memory Strength
+100
+ ↓
+90
+ ↓
+75
+ ↓
+60
+```
+
+However:
+
+```text
+Critical Memory
+```
+
+may remain permanently.
+
+Examples:
+
+```text
+Family Death
+Master Betrayal
+Major Victory
+Homeland Discovery
+Companion Death
+Tower Trauma
+```
+
+---
+
+# 24. TRAUMA SYSTEM
+
+Extreme negative experiences can create Trauma.
+
+Possible causes:
+
+```text
+Companion Death
+Repeated Defeat
+Torture
+Betrayal
+Massacre
+Homeland Destruction
+Cult Encounter
+Near Death
+Master Betrayal
+Repeated Failure
+```
+
+Trauma can affect:
+
+```text
+Fear
+Stress
+Morale
+Decision Making
+Combat Behavior
+Dialogue
+Relationship
+Sleep / Recovery
+Mission Preference
+```
+
+---
+
+# 25. TRAUMA EXAMPLE
+
+```text
+Hero:
+Former Valeria Knight
+
+Event:
+Entire Knight Order destroyed.
+
+Result:
+
+Trauma +80
+Fear of Cult +60
+Anger toward Cult +70
+Stress +50
+```
+
+When encountering the Cult again:
+
+```text
+Cult Encounter
+      ↓
+Trauma Trigger
+      ↓
+Fear ↑
+Anger ↑
+Stress ↑
+      ↓
+AI Recalculation
+```
+
+The Hero may become:
+
+```text
+Extremely aggressive
+```
+
+or:
+
+```text
+Attempt to retreat
+```
+
+depending on personality.
+
+---
+
+# 26. STRESS SYSTEM
+
+Stress represents psychological pressure.
+
+```text
+0–20
+Relaxed
+
+21–40
+Normal
+
+41–60
+Stressed
+
+61–80
+Highly Stressed
+
+81–100
+Critical
+```
+
+Stress can increase from:
+
+```text
+Combat
+Low HP
+Companion Death
+Mission Failure
+Long Missions
+Lack of Rest
+Fear
+Trauma
+Dangerous Floors
+Master Decisions
+```
+
+---
+
+# 27. STRESS EFFECT
+
+High stress can cause:
+
+```text
+Reduced concentration
+AI instability
+Poor decisions
+Aggression
+Fear
+Retreat
+Disobedience
+Emotional breakdown
+```
+
+Low stress can result in:
+
+```text
+Better decision making
+Stable AI
+Higher morale
+Better cooperation
+```
+
+---
+
+# 28. MORALE SYSTEM
+
+Morale represents the Hero's willingness to continue fighting.
+
+```text
+0–20
+Broken
+
+21–40
+Low
+
+41–60
+Normal
+
+61–80
+High
+
+81–100
+Inspired
+```
+
+Morale can be affected by:
+
+```text
+Victory
+Defeat
+Master Leadership
+Companion Survival
+Companion Death
+Food
+Rest
+Rewards
+Relationship
+Mission Difficulty
+Floor Destruction
+```
+
+---
+
+# 29. MORALE + COMBAT
+
+Example:
+
+```text
+Morale 90
+ ↓
+Hero fights aggressively
+```
+
+```text
+Morale 30
+ ↓
+Hero becomes cautious
+```
+
+```text
+Morale 10
+ ↓
+Possible retreat / refusal
+```
+
+---
+
+# 30. TRUST SYSTEM
+
+Trust measures how much a Hero believes another character.
+
+Targets can include:
+
+```text
+Master
+Hero
+NPC
+Faction
+```
+
+Example:
+
+```text
+Master Trust = 90
+Hero A Trust = 70
+Hero B Trust = 20
+Cult Trust = 0
+```
+
+Trust affects:
+
+```text
+Cooperation
+Dialogue
+Commands
+Teamwork
+Information Sharing
+Loyalty
+Conflict
+```
+
+---
+
+# 31. LOYALTY SYSTEM
+
+Loyalty is different from Trust.
+
+```text
+TRUST
+"Do I believe you?"
+
+LOYALTY
+"Will I stand with you?"
+```
+
+A Hero may:
+
+```text
+Trust Master = 80
+Loyalty = 40
+```
+
+They believe the Master but are not yet completely committed.
+
+---
+
+# 32. FEAR SYSTEM
+
+Every Hero can possess individual fears.
+
+Example:
+
+```text
+Fear:
+
+Death            30
+Darkness         60
+Cult             90
+Demons           10
+Betrayal         70
+Failure          80
+```
+
+Fear is affected by personality.
+
+A brave Hero may suppress fear.
+
+A cowardly Hero may amplify fear.
+
+---
+
+# 33. MOTIVATION SYSTEM
+
+Motivation determines what drives the Hero.
+
+Examples:
+
+```text
+Protect Master
+Protect Family
+Survive
+Rebuild Homeland
+Seek Revenge
+Find Survivor
+Destroy Cult
+Recover Knowledge
+Protect Race
+Become Stronger
+```
+
+Motivation influences AI priority.
+
+---
+
+# 34. MOTIVATION PRIORITY
+
+Example:
+
+```text
+Hero Motivation:
+
+Protect Master       95
+Rebuild Homeland     80
+Revenge              60
+Survival             50
+```
+
+If the Master is in danger:
+
+```text
+Protect Master
+      ↓
+Highest Priority
+      ↓
+Hero ignores normal caution
+      ↓
+Attempts rescue
+```
+
+---
+
+# 35. AI PRIORITY SYSTEM
+
+The AI can evaluate actions using priority.
+
+Example:
+
+```text
+ACTION A:
+Attack Enemy
+
+ACTION B:
+Protect Master
+
+ACTION C:
+Retreat
+
+ACTION D:
+Help Injured Ally
+```
+
+The AI evaluates:
+
+```text
+Personality
+Emotion
+Motivation
+Fear
+Relationship
+Loyalty
+HP
+Stress
+Morale
+Mission
+```
+
+Then calculates an action score.
+
+Conceptually:
+
+```text
+ACTION SCORE =
+Personality
++ Motivation
++ Relationship
++ Emotion
++ Situation
+- Fear
+- Stress
+```
+
+The exact formula should be configurable.
+
+---
+
+# 36. AI BEHAVIOR TYPES
+
+Possible behavior profiles:
+
+```text
+Aggressive
+Defensive
+Balanced
+Cautious
+Protective
+Supportive
+Strategic
+Reckless
+Cowardly
+Opportunistic
+Loyal
+Independent
+```
+
+These profiles influence decision weights.
+
+---
+
+# 37. AI COMBAT DECISION
+
+Example:
+
+```text
+Enemy HP = 20%
+
+Hero:
+Aggressive
+Brave
+High Morale
+
+AI:
+Attack
+```
+
+Another:
+
+```text
+Enemy HP = 90%
+
+Hero:
+Cautious
+Low HP
+High Fear
+
+AI:
+Retreat
+```
+
+Another:
+
+```text
+Master HP = 15%
+
+Hero:
+Protective
+Loyal
+
+AI:
+Defend Master
+```
+
+---
+
+# 38. MASTER COMMAND
+
+The Master can issue commands.
+
+Examples:
+
+```text
+Attack
+Defend
+Retreat
+Protect
+Focus Target
+Hold Position
+Use Skill
+Follow
+```
+
+The Hero AI evaluates the command.
+
+Commands are not necessarily absolute if the game design allows Hero autonomy.
+
+---
+
+# 39. COMMAND RESPONSE
+
+Example:
+
+```text
+MASTER:
+Attack!
+
+Hero:
+Brave
+Loyal
+Morale 90
+
+Result:
+Accept Command
+```
+
+Another:
+
+```text
+MASTER:
+Attack!
+
+Hero:
+Fear 95
+HP 10%
+Stress 90
+
+Result:
+Possible Refusal
+```
+
+The final result depends on the game's command-authority rules.
+
+---
+
+# 40. HERO AUTONOMY
+
+Each Hero can have an autonomy level.
+
+```text
+0–20
+Highly Obedient
+
+21–40
+Mostly Obedient
+
+41–60
+Balanced
+
+61–80
+Independent
+
+81–100
+Highly Independent
+```
+
+High autonomy means the Hero is more likely to make decisions independently.
+
+---
+
+# 41. EMOTIONAL CONFLICT
+
+Heroes can experience conflicting emotions.
+
+Example:
+
+```text
+Master orders retreat.
+
+Hero wants revenge.
+
+Motivation:
+Revenge +90
+
+Loyalty:
+Master +80
+
+Fear:
++30
+
+Conflict:
+Revenge vs Loyalty
+```
+
+The AI must resolve the conflict.
+
+Possible result:
+
+```text
+Retreats reluctantly.
+```
+
+or:
+
+```text
+Disobeys and attacks.
+```
+
+---
+
+# 42. EMOTIONAL STATE MACHINE
+
+A simplified emotional state machine:
+
+```text
+                   CALM
+                    │
+          ┌─────────┼─────────┐
+          ▼         ▼         ▼
+        HAPPY      FEAR      ANGER
+          │         │         │
+          ▼         ▼         ▼
+       EXCITED    PANIC    RAGE
+          │         │         │
+          └─────────┼─────────┘
+                    ▼
+                  STRESS
+                    │
+             ┌──────┴──────┐
+             ▼             ▼
+           HOPE          DESPAIR
+```
+
+The actual system can support much more complex transitions.
+
+---
+
+# 43. EMOTIONAL STATE UPDATE
+
+Emotional state can update when:
+
+```text
+Event occurs
+Time passes
+Memory activates
+Relationship changes
+Mission changes
+Floor changes
+Master acts
+Hero acts
+Companion acts
+NPC interacts
+Faction changes
+```
+
+---
+
+# 44. TIME SYSTEM CONNECTION
+
+Emotions are connected to the Time System.
+
+Example:
+
+```text
+EVENT
+ ↓
+SADNESS +50
+ ↓
+Time passes
+ ↓
+SADNESS -10
+ ↓
+Rest
+ ↓
+SADNESS -20
+```
+
+Some emotions can become stronger if not resolved.
+
+```text
+Grief
+ ↓
+No recovery
+ ↓
+Repeated triggers
+ ↓
+Long-term sadness
+```
+
+---
+
+# 45. GAME STATE SYSTEM CONNECTION
+
+The Game State System is responsible for recording important emotional changes.
+
+```text
+AI / EMOTIONAL SYSTEM
+        ↓
+EMOTIONAL CHANGE
+        ↓
+GAME STATE SYSTEM
+        ↓
+CHARACTER STATE
+        ↓
+WORLD CONSEQUENCE
+```
+
+Example:
+
+```text
+Hero loses companion
+ ↓
+Grief
+ ↓
+AI changes
+ ↓
+Hero refuses dangerous mission
+ ↓
+Mission composition changes
+ ↓
+Game State updates
+```
+
+---
+
+# 46. EVENT SYSTEM CONNECTION
+
+Events can directly manipulate emotional states.
+
+Example:
+
+```text
+EVENT:
+Hero discovers destroyed homeland.
+
+Event Effect:
+
+Sadness +70
+Anger +30
+Hope -20
+Trauma +50
+```
+
+The emotional system processes the result.
+
+---
+
+# 47. CHARACTER RELATIONSHIP CONNECTION
+
+Relationships influence emotional reactions.
+
+Example:
+
+```text
+Hero A
+Relationship with Hero B:
+90
+```
+
+If Hero B dies:
+
+```text
+Grief +80
+```
+
+Another Hero:
+
+```text
+Relationship with Hero B:
+10
+```
+
+may only receive:
+
+```text
+Sadness +5
+```
+
+---
+
+# 48. MASTER RELATIONSHIP
+
+Master actions have emotional consequences.
+
+Positive:
+
+```text
+Master saves Hero
+ ↓
+Trust +
+Loyalty +
+Gratitude +
+Hope +
+```
+
+Negative:
+
+```text
+Master abandons Hero
+ ↓
+Trust -
+Loyalty -
+Anger +
+Fear +
+```
+
+Repeated behavior can permanently alter the relationship.
+
+---
+
+# 49. HERO-TO-HERO EMOTIONS
+
+Heroes can emotionally affect one another.
+
+Example:
+
+```text
+Hero A
+ ↓
+Encourages Hero B
+ ↓
+Hero B
+Morale +10
+Hope +10
+Trust +5
+```
+
+Another:
+
+```text
+Hero A insults Hero B
+ ↓
+Hero B
+Anger +20
+Trust -10
+```
+
+This can create interpersonal conflict.
+
+---
+
+# 50. PARTY EMOTIONAL DYNAMICS
+
+A party can have a collective emotional atmosphere.
+
+Example:
+
+```text
+Party Morale = 80
+Party Stress = 20
+Party Trust = 75
+```
+
+A major event can change the entire party:
+
+```text
+Boss defeats party
+ ↓
+Party Morale -30
+Party Stress +40
+```
+
+---
+
+# 51. PARTY LEADER INFLUENCE
+
+A Hero with high leadership can influence others.
+
+Example:
+
+```text
+Leader:
+Morale 90
+
+Party:
+Morale +10
+Stress -5
+```
+
+A leader with low morale can negatively influence the party.
+
+---
+
+# 52. EMOTIONAL CONTAGION
+
+Emotions can spread between characters.
+
+Example:
+
+```text
+Hero A:
+Panic 90
+
+Party nearby
+      ↓
+Emotional Contagion
+      ↓
+Hero B Fear +10
+Hero C Stress +15
+Hero D Anxiety +8
+```
+
+Likewise:
+
+```text
+Hero A:
+Hope 90
+
+Party
+ ↓
+Morale increases
+```
+
+---
+
+# 53. HERO DIALOGUE AI
+
+Emotion can affect dialogue style.
+
+Example:
+
+```text
+CALM:
+"We should think about this carefully."
+
+ANGRY:
+"Enough. We're going."
+
+AFRAID:
+"I... don't think we can win."
+
+HOPEFUL:
+"We've survived this far. We can continue."
+
+GRIEVING:
+"Just... give me a moment."
+```
+
+Dialogue should use:
+
+```text
+Personality
+Emotion
+Mood
+Relationship
+Memory
+Context
+```
+
+---
+
+# 54. EMOTIONAL DIALOGUE FLOW
+
+```text
+DIALOGUE EVENT
+      ↓
+CHARACTER STATE
+      ↓
+PERSONALITY
+      ↓
+EMOTION
+      ↓
+RELATIONSHIP
+      ↓
+MEMORY
+      ↓
+AI DIALOGUE SELECTION
+      ↓
+RESPONSE
+```
+
+---
+
+# 55. AI + STORY
+
+Character behavior can influence the story.
+
+Example:
+
+```text
+Hero becomes highly loyal
+        ↓
+Special Event unlocked
+```
+
+Or:
+
+```text
+Hero develops hatred toward Cult
+        ↓
+Character Quest
+        ↓
+Cult-related Event
+```
+
+Or:
+
+```text
+Hero loses hope
+        ↓
+Refuses mission
+        ↓
+Alternative Event
+```
+
+---
+
+# 56. AI + QUEST
+
+Quest participation can depend on emotional state.
+
+Example:
+
+```text
+Quest:
+Attack Cult Fortress
+
+Hero:
+Fear of Cult = 95
+Stress = 90
+
+Result:
+Hero may refuse.
+```
+
+Another:
+
+```text
+Hero:
+Hatred of Cult = 95
+
+Result:
+Hero strongly wants to participate.
+```
+
+---
+
+# 57. AI + TOWER
+
+The Tower itself affects emotions.
+
+Higher floors can generate:
+
+```text
+Fear
+Stress
+Exhaustion
+Despair
+Hope
+Determination
+```
+
+Example:
+
+```text
+Floor 10
+Stress +10
+
+Floor 50
+Stress +30
+
+Floor 90
+Stress +60
+
+Floor 99
+Stress +90
+```
+
+Values should ultimately be controlled by Floor State / Game State configuration.
+
+---
+
+# 58. DESTRUCTION LEVEL EFFECT
+
+The Tower's Destruction Level can modify emotional pressure.
+
+```text
+Destruction Level
+        ↓
+Environmental Pressure
+        ↓
+Fear / Stress
+        ↓
+Emotion
+        ↓
+AI
+```
+
+Example:
+
+```text
+Floor 80
+Destruction = Critical
+
+Hero:
+Stress +20
+Fear +15
+```
+
+---
+
+# 59. EMOTIONAL RESILIENCE
+
+Heroes can possess emotional resilience.
+
+Example:
+
+```text
+Resilience = 80
+```
+
+High resilience:
+
+```text
+Emotional damage reduced
+Faster recovery
+Lower trauma accumulation
+```
+
+Low resilience:
+
+```text
+Higher stress
+Higher fear
+Longer recovery
+Higher trauma
+```
+
+---
+
+# 60. EMOTIONAL RECOVERY
+
+Recovery can occur through:
+
+```text
+Rest
+Time
+Food
+Safe Environment
+Companion Interaction
+Master Interaction
+Successful Mission
+Personal Event
+Quest
+Character Story
+Comfort
+Victory
+```
+
+Example:
+
+```text
+Safe Town
+ ↓
+Stress -20
+Fear -10
+Morale +15
+```
+
+---
+
+# 61. CHARACTER SUPPORT
+
+Some Heroes can have support-oriented personalities or skills.
+
+They can influence:
+
+```text
+Morale
+Stress
+Fear
+Hope
+Trust
+Recovery
+```
+
+Example:
+
+```text
+Healer / Priest
++
+Compassionate Personality
++
+High Trust
+
+→
+Party Stress Reduction
+```
+
+---
+
+# 62. EMOTIONAL THRESHOLDS
+
+Certain emotional thresholds can trigger behavior.
+
+Example:
+
+```text
+Fear > 80
+→ Panic Behavior
+
+Stress > 90
+→ Breakdown Risk
+
+Morale < 20
+→ Retreat Risk
+
+Anger > 85
+→ Aggressive Behavior
+
+Hope < 15
+→ Despair Behavior
+
+Loyalty > 90
+→ Extreme Protective Behavior
+```
+
+---
+
+# 63. EMOTIONAL BREAKDOWN
+
+Extreme stress can trigger a breakdown.
+
+Possible effects:
+
+```text
+Freeze
+Panic
+Cry
+Retreat
+Disobey
+Become Aggressive
+Lose Concentration
+```
+
+The exact result depends on personality and AI profile.
+
+---
+
+# 64. EMOTIONAL GROWTH
+
+Emotional experiences can change Heroes.
+
+Example:
+
+```text
+Cowardly Hero
+ ↓
+Survives multiple dangerous missions
+ ↓
+Bravery increases
+ ↓
+Confidence increases
+ ↓
+Fear decreases
+```
+
+Or:
+
+```text
+Brave Hero
+ ↓
+Repeated traumatic losses
+ ↓
+Fear increases
+ ↓
+Confidence decreases
+```
+
+Thus personality can evolve rather than remain completely static.
+
+---
+
+# 65. PERSONALITY EVOLUTION
+
+Personality evolution should be gradual.
+
+```text
+Experience
+ ↓
+Memory
+ ↓
+Repeated Emotional Response
+ ↓
+Behavior Pattern
+ ↓
+Personality Adjustment
+```
+
+Example:
+
+```text
+Repeated Betrayal
+ ↓
+Suspicion increases
+ ↓
+Trust decreases
+ ↓
+Hero becomes more suspicious
+```
+
+---
+
+# 66. HERO DEVELOPMENT LOOP
+
+```text
+EXPERIENCE
+    ↓
+EMOTION
+    ↓
+MEMORY
+    ↓
+BEHAVIOR
+    ↓
+REPEATED BEHAVIOR
+    ↓
+PERSONALITY CHANGE
+    ↓
+NEW AI BEHAVIOR
+```
+
+---
+
+# 67. AI + RNG SYSTEM
+
+RNG should not randomly control every emotional decision.
+
+RNG can introduce uncertainty.
+
+Example:
+
+```text
+AI Decision:
+Attack = 70%
+Defend = 20%
+Retreat = 10%
+
+RNG
+ ↓
+Selected:
+Defend
+```
+
+The AI creates the probability distribution.
+
+RNG selects the final action when appropriate.
+
+---
+
+# 68. AI + RNG SAFETY
+
+Important:
+
+> RNG should not completely override character personality.
+
+Example:
+
+```text
+Hero Fear = 95
+
+Attack probability:
+5%
+
+Retreat:
+75%
+
+Defend:
+20%
+```
+
+RNG operates within the AI-generated behavioral boundaries.
+
+---
+
+# 69. EMOTIONAL RNG EVENTS
+
+Some emotional events can use RNG.
+
+Example:
+
+```text
+Event:
+Hero remembers past.
+
+RNG
+ ↓
+Memory Trigger
+ ↓
+Emotion
+```
+
+Another:
+
+```text
+Exploration
+ ↓
+Random Encounter
+ ↓
+Old Friend
+ ↓
+Emotional Reaction
+```
+
+---
+
+# 70. DATABASE STRUCTURE
+
+The emotional state must be stored in the Database System.
+
+Example:
+
+```text
+CHARACTER_EMOTIONAL_DATA
+
+Character ID
+Current Emotion
+Emotion Intensity
+Mood
+Stress
+Morale
+Fear
+Hope
+Anger
+Sadness
+Trust
+Loyalty
+Motivation
+Resilience
+Trauma
+Emotional Stability
+Last Emotional Update
+```
+
+---
+
+# 71. MEMORY DATABASE
+
+```text
+CHARACTER_MEMORY
+
+Memory ID
+Character ID
+Memory Type
+Event ID
+Description
+Importance
+Emotional Value
+Created Time
+Last Triggered
+Memory Strength
+Permanent Flag
+```
+
+---
+
+# 72. AI PROFILE DATABASE
+
+```text
+CHARACTER_AI_PROFILE
+
+Character ID
+AI Type
+Aggression
+Caution
+Loyalty
+Autonomy
+Bravery
+Leadership
+Risk Tolerance
+Sociality
+Strategic Ability
+Emotional Resilience
+Decision Style
+```
+
+---
+
+# 73. EMOTIONAL UPDATE FLOW
+
+```text
+EVENT
+ ↓
+EMOTIONAL SYSTEM
+ ↓
+CALCULATE EMOTIONAL CHANGE
+ ↓
+UPDATE CHARACTER STATE
+ ↓
+UPDATE MOOD
+ ↓
+UPDATE AI
+ ↓
+GAME STATE SYSTEM
+ ↓
+DATABASE SYSTEM
+```
+
+---
+
+# 74. AI DECISION UPDATE FLOW
+
+```text
+CURRENT SITUATION
+       ↓
+LOAD CHARACTER STATE
+       ↓
+LOAD EMOTIONAL STATE
+       ↓
+LOAD MEMORY
+       ↓
+LOAD RELATIONSHIP
+       ↓
+LOAD PERSONALITY
+       ↓
+LOAD MOTIVATION
+       ↓
+LOAD FEAR
+       ↓
+AI EVALUATION
+       ↓
+DECISION
+       ↓
+ACTION
+```
+
+---
+
+# 75. COMPLETE CHARACTER AI LOOP
+
+```text
+                    WORLD EVENT
+                         │
+                         ▼
+                    PERCEPTION
+                         │
+                         ▼
+                  EMOTIONAL SYSTEM
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+          ▼              ▼              ▼
+       EMOTION          MOOD          MEMORY
+          │              │              │
+          └──────────────┼──────────────┘
+                         ▼
+                    CHARACTER AI
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+          ▼              ▼              ▼
+     PERSONALITY      MOTIVATION       FEAR
+          │              │              │
+          └──────────────┼──────────────┘
+                         ▼
+                     DECISION
+                         │
+                         ▼
+                       ACTION
+                         │
+                         ▼
+                    CONSEQUENCE
+                         │
+                         ▼
+                       MEMORY
+                         │
+                         └───────────────►
+```
+
+---
+
+# 76. COMPLETE AETHERIA SYSTEM CONNECTION
+
+```text
+                           GAME MANAGER
+                                │
+                                ▼
+                       GAME STATE SYSTEM
+                                │
+       ┌────────────────────────┼────────────────────────┐
+       │                        │                        │
+       ▼                        ▼                        ▼
+ CHARACTER SYSTEM           EVENT SYSTEM             TIME SYSTEM
+       │                        │                        │
+       └───────────────┬────────┴───────────────┬────────┘
+                       │                        │
+                       ▼                        ▼
+                AI CHARACTER SYSTEM      EMOTIONAL SYSTEM
+                       │                        │
+                       ├──────────┬─────────────┤
+                       │          │             │
+                       ▼          ▼             ▼
+                  PERSONALITY   MEMORY      RELATIONSHIP
+                       │          │             │
+                       └──────────┼─────────────┘
+                                  ▼
+                              HERO AI
+                                  │
+                                  ▼
+                               ACTION
+                                  │
+                                  ▼
+                           GAME STATE UPDATE
+                                  │
+                                  ▼
+                           DATABASE SYSTEM
+```
+
+---
+
+# 77. SYSTEM RESPONSIBILITY
+
+The AI Character / Hero + Emotional System is responsible for:
+
+```text
+✓ Character AI
+✓ Decision Making
+✓ Personality Processing
+✓ Emotion
+✓ Mood
+✓ Stress
+✓ Morale
+✓ Fear
+✓ Hope
+✓ Motivation
+✓ Loyalty Influence
+✓ Trust Influence
+✓ Memory Influence
+✓ Trauma
+✓ Emotional Recovery
+✓ Emotional Contagion
+✓ Behavioral Response
+✓ Combat Behavior
+✓ Social Behavior
+✓ Dialogue Behavior
+✓ Command Response
+✓ Personality Evolution
+```
+
+---
+
+# 78. SYSTEM DOES NOT OWN
+
+This system should not directly own:
+
+```text
+✗ Hero Identity
+✗ Hero ID Generation
+✗ Database Engine
+✗ RNG Engine
+✗ Global World State
+✗ Tower Generation
+✗ Quest Generation
+✗ Event Generation
+✗ Master Progression
+✗ Inventory
+```
+
+Those belong to their respective systems.
+
+---
+
+# 79. SYSTEM AUTHORITY
+
+Recommended hierarchy:
+
+```text
+                    GAME MANAGER
+                         │
+                         ▼
+                 GAME STATE SYSTEM
+                         │
+                         ▼
+                CHARACTER SYSTEM
+                         │
+                         ▼
+             AI + EMOTIONAL SYSTEM
+                         │
+            ┌────────────┼────────────┐
+            │            │            │
+            ▼            ▼            ▼
+        PERSONALITY    MEMORY      RELATIONSHIP
+            │            │            │
+            └────────────┼────────────┘
+                         ▼
+                       HERO
+                         │
+                         ▼
+                      ACTION
+                         │
+                         ▼
+                 GAME STATE UPDATE
+                         │
+                         ▼
+                   DATABASE SAVE
+```
+
+---
+
+# 80. FINAL CHARACTER INTELLIGENCE MODEL
+
+A Hero's decision should not be based only on:
+
+```text
+ATK
+DEF
+HP
+SKILL
+```
+
+Instead:
+
+```text
+                 HERO
+                  │
+       ┌──────────┼──────────┐
+       │          │          │
+    BODY       MIND       HISTORY
+       │          │          │
+      Stats    Emotion     Memory
+      HP       Mood        Trauma
+      Mana     Personality Relationships
+      Status   Motivation  Experiences
+       │          │          │
+       └──────────┼──────────┘
+                  ▼
+                 AI
+                  │
+                  ▼
+              DECISION
+                  │
+                  ▼
+                ACTION
+                  │
+                  ▼
+             CONSEQUENCE
+                  │
+                  ▼
+               MEMORY
+                  │
+                  ▼
+          FUTURE BEHAVIOR
+```
+
+---
+
+# 81. THE HERO LIVING LOOP
+
+```text
+             EXPERIENCE
+                  ↓
+               EMOTION
+                  ↓
+                MEMORY
+                  ↓
+             PERSONALITY
+                  ↓
+                  AI
+                  ↓
+               DECISION
+                  ↓
+                ACTION
+                  ↓
+             CONSEQUENCE
+                  ↓
+               EXPERIENCE
+                  ↺
+```
+
+This creates a continuous character simulation.
+
+---
+
+# 🌑 82. CORE PHILOSOPHY
+
+The goal of this system is not to make Heroes behave randomly.
+
+The goal is to make their behavior **understandable**.
+
+The player should eventually be able to think:
+
+> "She did that because she remembers what happened on Floor 27."
+
+or:
+
+> "He refused because he is terrified of the Cult."
+
+or:
+
+> "She ignored the Master's order because her motivation to protect her companion was stronger."
+
+or:
+
+> "He became stronger after losing his family."
+
+The player should feel that:
+
+# **The Hero remembers.**
+
+# **The Hero feels.**
+
+# **The Hero decides.**
+
+# **The Hero changes.**
+
+---
+
+# ✨ 83. FINAL AETHERIA AI LOOP
+
+```text
+                         AETHERIA WORLD
+                              │
+                              ▼
+                            EVENT
+                              │
+                              ▼
+                         HERO PERCEIVES
+                              │
+                              ▼
+                     EMOTIONAL PROCESSING
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+          ▼                   ▼                   ▼
+      PERSONALITY           MEMORY            RELATIONSHIP
+          │                   │                   │
+          └───────────────────┼───────────────────┘
+                              ▼
+                         AI EVALUATION
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+          ▼                   ▼                   ▼
+       MOTIVATION            FEAR              STRESS
+          │                   │                   │
+          └───────────────────┼───────────────────┘
+                              ▼
+                           DECISION
+                              │
+                              ▼
+                            ACTION
+                              │
+                              ▼
+                         CONSEQUENCE
+                              │
+              ┌───────────────┼───────────────┐
+              │               │               │
+              ▼               ▼               ▼
+           EMOTION         MEMORY         RELATIONSHIP
+              │               │               │
+              └───────────────┼───────────────┘
+                              ▼
+                     GAME STATE SYSTEM
+                              │
+                              ▼
+                       DATABASE SYSTEM
+                              │
+                              └───────────────►
+```
+
+> **In Aetheria, the player does not control a collection of numbers.**
+>
+> **The player leads a group of individuals.**
+>
+> Every Hero enters the Tower with a past.
+>
+> Every decision creates a memory.
+>
+> Every memory can change emotion.
+>
+> Every emotion can influence behavior.
+>
+> Every behavior can change the world.
+>
+> And the world remembers.
