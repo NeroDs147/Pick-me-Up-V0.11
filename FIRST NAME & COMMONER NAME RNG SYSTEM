@@ -1,0 +1,1780 @@
+# FIRST NAME & COMMONER NAME RNG SYSTEM
+
+## Overview
+
+First Name & Commoner Name RNG System adalah sistem pembentukan nama karakter berdasarkan:
+
+```text
+Race
+ ↓
+Gender
+ ↓
+Region
+ ↓
+Culture
+ ↓
+Name Pool
+ ↓
+RNG
+ ↓
+First Name
+```
+
+Sistem ini digunakan untuk menghasilkan nama karakter secara otomatis.
+
+Fokus utama sistem:
+
+* First Name
+* Nama rakyat biasa
+* Nama karakter NPC
+* Nama karakter hasil Recruit RNG
+* Nama karakter hasil World Exploration
+* Nama karakter Dungeon
+* Nama karakter Town
+* Nama karakter Event
+* Nama karakter Enemy/NPC
+
+Sistem ini **tidak menggunakan Family Name bangsawan untuk karakter Commoner**.
+
+---
+
+# 1. NAME STRUCTURE
+
+Struktur dasar:
+
+```text
+Character
+    ↓
+Race
+    ↓
+Gender
+    ↓
+Background
+    ↓
+Name RNG
+```
+
+Untuk rakyat biasa:
+
+```text
+First Name
+```
+
+Contoh:
+
+```text
+Kael
+Lina
+Aron
+Mira
+Daren
+Elia
+```
+
+Untuk bangsawan:
+
+```text
+First Name + Family Name
+```
+
+Contoh:
+
+```text
+Kael Ravencrest
+Elira Ravencrest
+```
+
+---
+
+# 2. ALPHABET SYSTEM
+
+Name Generator menggunakan seluruh alfabet Latin:
+
+```text
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+```
+
+Lowercase:
+
+```text
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z
+```
+
+---
+
+# 3. ALPHABET NAME GENERATION
+
+Alphabet tidak digunakan dengan cara:
+
+```text
+A = 1
+B = 2
+C = 3
+```
+
+melainkan digunakan sebagai sumber pembentukan kombinasi nama.
+
+Contoh:
+
+```text
+A + r + i + a
+↓
+Aria
+```
+
+```text
+K + a + e + l
+↓
+Kael
+```
+
+```text
+L + i + n + a
+↓
+Lina
+```
+
+---
+
+# 4. NAME COMPONENT
+
+Nama dapat dibentuk dari beberapa komponen:
+
+```text
+Prefix
++
+Core
++
+Suffix
+```
+
+Contoh:
+
+```text
+Ka + el
+```
+
+menjadi:
+
+```text
+Kael
+```
+
+atau:
+
+```text
+Lin + a
+```
+
+menjadi:
+
+```text
+Lina
+```
+
+Struktur generator:
+
+```text
+Name
+│
+├── Prefix
+├── Core
+└── Suffix
+```
+
+---
+
+# 5. VOWEL POOL
+
+Vokal utama:
+
+```text
+A
+E
+I
+O
+U
+```
+
+Vokal tambahan untuk variasi fantasy:
+
+```text
+AE
+AI
+AO
+EA
+EI
+EO
+IA
+IE
+IO
+OA
+OE
+OI
+UA
+UE
+UI
+```
+
+---
+
+# 6. CONSONANT POOL
+
+Konsonan utama:
+
+```text
+B
+C
+D
+F
+G
+H
+J
+K
+L
+M
+N
+P
+Q
+R
+S
+T
+V
+W
+X
+Y
+Z
+```
+
+Combination:
+
+```text
+CH
+SH
+TH
+PH
+KH
+GH
+KR
+DR
+TR
+BR
+GR
+FR
+CL
+BL
+ST
+SK
+SL
+SW
+WR
+```
+
+---
+
+# 7. COMMON NAME PREFIX
+
+Prefix dapat digunakan untuk membuat nama rakyat biasa.
+
+```text
+A
+Al
+Ar
+Ba
+Be
+Bel
+Ca
+Cal
+Da
+Dar
+De
+El
+Em
+Er
+Fa
+Fel
+Ga
+Gar
+Ha
+Hel
+Il
+Ja
+Ka
+Kal
+La
+Le
+Li
+Ma
+Mar
+Me
+Na
+Ne
+No
+Or
+Pa
+Ra
+Re
+Ri
+Ro
+Sa
+Se
+Si
+Ta
+Te
+Va
+Ve
+Vi
+Wa
+Ya
+Za
+```
+
+---
+
+# 8. COMMON NAME CORE
+
+Core:
+
+```text
+an
+ar
+as
+el
+en
+er
+ia
+il
+in
+ir
+is
+la
+le
+li
+lor
+mar
+mel
+mir
+na
+nel
+ran
+ren
+ria
+rin
+ros
+sel
+sin
+tar
+tel
+ven
+ver
+win
+yan
+zel
+```
+
+---
+
+# 9. COMMON NAME SUFFIX
+
+Suffix:
+
+```text
+a
+ah
+ai
+an
+ar
+el
+en
+er
+ia
+ian
+iel
+in
+is
+on
+or
+ra
+ren
+rin
+sa
+se
+ta
+ter
+us
+ya
+yn
+```
+
+---
+
+# 10. SIMPLE NAME GENERATION
+
+Basic formula:
+
+```text
+Prefix
++
+Core
++
+Suffix
+```
+
+Example:
+
+```text
+Ka + el
+= Kael
+```
+
+```text
+Ma + rin
+= Marin
+```
+
+```text
+El + ia
+= Elia
+```
+
+```text
+Da + ren
+= Daren
+```
+
+---
+
+# 11. HUMAN COMMONER NAMES
+
+## Male
+
+```text
+Aron
+Alden
+Alric
+Arlen
+Bren
+Cal
+Caren
+Daren
+Darin
+Evan
+Eren
+Fel
+Garen
+Gavin
+Halen
+Ilan
+Jaren
+Kael
+Kalen
+Loren
+Marek
+Marin
+Naren
+Orin
+Ralen
+Rian
+Ronan
+Saren
+Taren
+Valen
+Waren
+Yaren
+Zaren
+```
+
+## Female
+
+```text
+Alia
+Aria
+Ayla
+Bella
+Celia
+Dalia
+Elia
+Elina
+Fara
+Felia
+Galia
+Hana
+Iria
+Jalia
+Kara
+Lena
+Lia
+Lina
+Mira
+Nalia
+Nera
+Oria
+Rena
+Ria
+Sera
+Talia
+Vera
+Yara
+Zelia
+```
+
+---
+
+# 12. HUMAN NEUTRAL NAMES
+
+```text
+Aren
+Aris
+Aven
+Ciel
+Darin
+Eren
+Iris
+Jalen
+Kiran
+Lior
+Maren
+Neris
+Orin
+Riven
+Soren
+Tarin
+Valen
+Varen
+Yorin
+Zerin
+```
+
+---
+
+# 13. COMMONER NAME POOL
+
+Rakyat biasa dapat menggunakan nama sederhana.
+
+```text
+Ari
+Ben
+Cale
+Dan
+Eli
+Finn
+Garen
+Hale
+Ian
+Jin
+Kane
+Lio
+Milo
+Nate
+Oren
+Pax
+Rin
+Sam
+Taro
+Venn
+Will
+Yen
+Zan
+```
+
+Female:
+
+```text
+Ana
+Bela
+Cira
+Dena
+Ela
+Fia
+Gina
+Hera
+Ina
+Jena
+Kira
+Luna
+Mena
+Nia
+Ola
+Pia
+Rina
+Sia
+Tina
+Vina
+Yuna
+Zia
+```
+
+---
+
+# 14. ELF COMMONER NAMES
+
+```text
+Ael
+Aelin
+Aeris
+Alen
+Elan
+Elir
+Eren
+Fael
+Faen
+Ilan
+Leth
+Lior
+Mael
+Nael
+Rael
+Sael
+Tael
+Vael
+Yel
+Zael
+```
+
+Female:
+
+```text
+Aelia
+Aelin
+Aeris
+Elia
+Elira
+Faelia
+Iria
+Laelia
+Lethia
+Maelia
+Naelia
+Raelia
+Saelia
+Vaelia
+Ylira
+```
+
+---
+
+# 15. DWARF COMMONER NAMES
+
+```text
+Borin
+Bran
+Dorin
+Dren
+Durin
+Garin
+Grom
+Harkin
+Korin
+Marn
+Orin
+Rurik
+Thar
+Thorin
+Torin
+Varn
+Brak
+Dorn
+Grim
+Hald
+```
+
+Female:
+
+```text
+Bera
+Dora
+Drena
+Gara
+Hilda
+Kara
+Mara
+Nara
+Runa
+Thora
+Vera
+```
+
+---
+
+# 16. BEASTKIN COMMONER NAMES
+
+```text
+Rin
+Rinor
+Kara
+Karin
+Tora
+Tarin
+Lyn
+Lyna
+Mira
+Miran
+Raka
+Rakan
+Sera
+Serin
+Vara
+Varin
+Nira
+Narin
+Kira
+Kiran
+```
+
+---
+
+# 17. ORC COMMONER NAMES
+
+```text
+Brak
+Brug
+Drog
+Garn
+Gor
+Grak
+Grum
+Harg
+Krag
+Morg
+Rag
+Rok
+Thrak
+Ugar
+Urg
+Varg
+Zug
+```
+
+Female:
+
+```text
+Braka
+Gara
+Graka
+Hara
+Kara
+Morga
+Raga
+Thara
+Vara
+Zara
+```
+
+---
+
+# 18. GOBLIN COMMONER NAMES
+
+```text
+Bik
+Bok
+Dik
+Gik
+Gog
+Grik
+Kik
+Mik
+Nok
+Pik
+Rik
+Sik
+Tik
+Zik
+```
+
+Female:
+
+```text
+Bika
+Gika
+Kika
+Mika
+Nika
+Pika
+Rika
+Sika
+Tika
+Zika
+```
+
+---
+
+# 19. LIZARDFOLK COMMONER NAMES
+
+```text
+Akar
+Azar
+Dakar
+Kazar
+Rakar
+Sakar
+Tazar
+Vakar
+Zakar
+Kesh
+Resh
+Sesh
+Tesh
+Vesh
+Zesh
+```
+
+Female:
+
+```text
+Akara
+Azara
+Dakara
+Kazara
+Rakara
+Sakara
+Tazara
+Vesra
+Zara
+```
+
+---
+
+# 20. MERFOLK COMMONER NAMES
+
+```text
+Aren
+Ariel
+Cora
+Darin
+Eren
+Lio
+Maren
+Neris
+Orin
+Riel
+Saren
+Tarin
+Varen
+```
+
+Female:
+
+```text
+Ariel
+Celia
+Dalia
+Elia
+Lira
+Mara
+Neria
+Olia
+Rhea
+Sera
+Talia
+```
+
+---
+
+# 21. FAIRY COMMONER NAMES
+
+```text
+Ari
+Eli
+Fae
+Lumi
+Miri
+Neli
+Piri
+Rumi
+Seli
+Tiri
+Vivi
+Yli
+```
+
+Female:
+
+```text
+Aelia
+Felia
+Lilia
+Lumi
+Milia
+Nelia
+Rilia
+Selia
+Talia
+Vilia
+```
+
+---
+
+# 22. DEMON COMMONER NAMES
+
+```text
+Azek
+Brael
+Darek
+Drak
+Grael
+Kael
+Khar
+Malek
+Narek
+Rhaz
+Sarek
+Varek
+Zarek
+```
+
+Female:
+
+```text
+Aza
+Dara
+Kaela
+Mara
+Nara
+Raza
+Sera
+Vara
+Zara
+```
+
+---
+
+# 23. VAMPIRE COMMONER NAMES
+
+```text
+Alen
+Arven
+Cael
+Darian
+Eren
+Lucan
+Marek
+Nolan
+Raven
+Silas
+Valen
+```
+
+Female:
+
+```text
+Elena
+Iris
+Lilia
+Lucia
+Mira
+Neria
+Selene
+Vera
+```
+
+---
+
+# 24. ANGEL COMMONER NAMES
+
+```text
+Ael
+Ariel
+Cael
+Elior
+Elion
+Iriel
+Lior
+Nael
+Rael
+Seren
+Uriel
+```
+
+Female:
+
+```text
+Aelia
+Ariel
+Celina
+Elia
+Iria
+Liora
+Serena
+Uriela
+```
+
+---
+
+# 25. DRAGONKIN COMMONER NAMES
+
+```text
+Araz
+Draz
+Kael
+Kraz
+Rhaz
+Traz
+Vark
+Zarek
+Zhar
+```
+
+Female:
+
+```text
+Aza
+Draza
+Kara
+Raza
+Vara
+Zara
+```
+
+---
+
+# 26. NAME LENGTH RULE
+
+Recommended length:
+
+```text
+Minimum:
+3 characters
+
+Recommended:
+4–8 characters
+
+Maximum:
+12 characters
+```
+
+Examples:
+
+```text
+Ari
+Kael
+Daren
+Mariel
+Valeron
+```
+
+Avoid:
+
+```text
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+```
+
+---
+
+# 27. NAME VALIDATION
+
+Generated name harus memenuhi:
+
+```text
+1. Tidak kosong
+2. Minimal 3 karakter
+3. Maksimal 12 karakter
+4. Tidak menggunakan angka
+5. Tidak menggunakan simbol aneh
+6. Tidak hanya terdiri dari consonant
+7. Tidak hanya terdiri dari vowel
+8. Tidak terlalu banyak huruf yang sama
+```
+
+Invalid:
+
+```text
+Kkkkk
+Aaaaaaaa
+ZXQRT
+12345
+```
+
+---
+
+# 28. DUPLICATE NAME
+
+Duplicate First Name **diperbolehkan**.
+
+Contoh:
+
+```text
+Kael
+Kael
+Kael
+```
+
+Ketiga karakter tetap berbeda:
+
+```text
+CHR-000001
+Kael
+
+CHR-000204
+Kael
+
+CHR-001821
+Kael
+```
+
+Database membedakan menggunakan:
+
+```text
+Character_ID
+```
+
+---
+
+# 29. NAME RANDOMIZATION
+
+RNG dapat memilih berdasarkan:
+
+```text
+Race
++
+Gender
++
+Region
++
+Culture
++
+Background
+```
+
+Contoh:
+
+```text
+Race:
+Human
+
+Gender:
+Male
+
+Background:
+Commoner
+
+Region:
+Northern Kingdom
+
+↓
+Human Male Commoner Pool
+
+↓
+RNG
+
+↓
+Daren
+```
+
+---
+
+# 30. COMMONER NAME RULE
+
+Commoner tidak otomatis mempunyai Family Name.
+
+Contoh:
+
+```text
+Daren
+Lina
+Kael
+Mira
+Orin
+```
+
+Bukan:
+
+```text
+Daren Ravencrest
+Lina Ravencrest
+```
+
+kecuali karakter tersebut memiliki background yang memang mengizinkan Family Name.
+
+---
+
+# 31. NAME WITH OCCUPATION
+
+Nama dapat dikombinasikan dengan pekerjaan.
+
+```text
+Daren
+Blacksmith
+
+Lina
+Farmer
+
+Orin
+Merchant
+
+Mira
+Healer
+```
+
+Database:
+
+```text
+Character_ID
+First_Name
+Race
+Gender
+Background
+Occupation
+```
+
+---
+
+# 32. NAME WITH REGION
+
+Setiap region dapat mempunyai style nama berbeda.
+
+```text
+Northern Kingdom
+    ↓
+Daren
+Kael
+Rurik
+Loren
+
+Southern Kingdom
+    ↓
+Aren
+Mira
+Talia
+Sera
+
+Eastern Empire
+    ↓
+Kiran
+Rina
+Valen
+Neris
+
+Western Kingdom
+    ↓
+Aron
+Elia
+Garen
+Lena
+```
+
+---
+
+# 33. NAME CULTURE
+
+Name Pool dapat dibagi berdasarkan culture:
+
+```text
+Human
+├── Northern
+├── Southern
+├── Eastern
+├── Western
+└── Central
+
+Elf
+├── High Elf
+├── Wood Elf
+└── Dark Elf
+
+Dwarf
+├── Mountain
+├── Deep
+└── Iron
+
+Beastkin
+├── Wolf
+├── Fox
+├── Cat
+├── Lion
+└── Tiger
+```
+
+---
+
+# 34. RNG PRIORITY
+
+Prioritas generator:
+
+```text
+1. Race
+2. Gender
+3. Culture
+4. Region
+5. Background
+6. Name Pool
+7. RNG
+8. Validation
+9. Duplicate Check
+10. Final Name
+```
+
+---
+
+# 35. COMPLETE RNG FLOW
+
+```text
+CHARACTER GENERATOR
+        │
+        ↓
+      RACE
+        │
+        ↓
+     GENDER
+        │
+        ↓
+     CULTURE
+        │
+        ↓
+     REGION
+        │
+        ↓
+   BACKGROUND
+        │
+        ↓
+    NAME POOL
+        │
+        ↓
+       RNG
+        │
+        ↓
+   NAME VALIDATION
+        │
+        ↓
+   DUPLICATE CHECK
+        │
+        ↓
+   FINAL CHARACTER
+```
+
+---
+
+# 36. FINAL CHARACTER EXAMPLE
+
+```text
+================================
+CHARACTER GENERATED
+================================
+
+Character_ID:
+CHR-002381
+
+First_Name:
+Daren
+
+Race:
+Human
+
+Gender:
+Male
+
+Culture:
+Central
+
+Region:
+Kingdom A
+
+Background:
+Commoner
+
+Occupation:
+Blacksmith
+
+Family_ID:
+NULL
+
+Family_Name:
+NULL
+
+================================
+```
+
+Final display:
+
+```text
+Daren
+```
+
+---
+
+# 37. NOBLE CHARACTER EXAMPLE
+
+Jika background berubah:
+
+```text
+Background:
+Noble
+```
+
+maka:
+
+```text
+First Name RNG
+      ↓
+Kael
+      ↓
+Family RNG
+      ↓
+Ravencrest
+```
+
+Hasil:
+
+```text
+Kael Ravencrest
+```
+
+---
+
+# 38. DATABASE STRUCTURE
+
+Recommended:
+
+```text
+CHARACTER
+│
+├── Character_ID
+├── First_Name
+├── Gender
+├── Race
+├── Culture_ID
+├── Region_ID
+├── Background_ID
+├── Occupation_ID
+├── Family_ID
+└── Name_Pool_ID
+```
+
+Untuk Commoner:
+
+```text
+Family_ID = NULL
+```
+
+Untuk Noble:
+
+```text
+Family_ID = FAM-XXXXXX
+```
+
+---
+
+# 39. NAME POOL DATABASE
+
+Setiap nama sebaiknya memiliki ID.
+
+```text
+NAME_POOL
+│
+├── Name_ID
+├── Name
+├── Race
+├── Gender
+├── Culture
+├── Region
+├── Background_Type
+└── Weight
+```
+
+Contoh:
+
+```text
+Name_ID:
+NAME-000001
+
+Name:
+Daren
+
+Race:
+Human
+
+Gender:
+Male
+
+Culture:
+Central
+
+Region:
+Kingdom_A
+
+Background:
+Commoner
+
+Weight:
+100
+```
+
+---
+
+# 40. WEIGHT SYSTEM
+
+Nama tidak harus mempunyai peluang yang sama.
+
+Contoh:
+
+```text
+Kael
+Weight: 100
+
+Daren
+Weight: 80
+
+Loren
+Weight: 60
+
+Valen
+Weight: 20
+```
+
+Semakin tinggi Weight:
+
+```text
+Higher Weight
+      ↓
+Higher RNG Probability
+```
+
+Nama langka:
+
+```text
+Weight: 5
+```
+
+Nama umum:
+
+```text
+Weight: 100
+```
+
+---
+
+# 41. RARITY OF NAMES
+
+Nama juga dapat mempunyai rarity:
+
+```text
+Common
+Uncommon
+Rare
+Very Rare
+Unique
+Ancient
+```
+
+Contoh:
+
+```text
+Daren
+Common
+
+Valen
+Uncommon
+
+Aelion
+Rare
+
+Elyndor
+Very Rare
+```
+
+---
+
+# 42. IMPORTANT RULE
+
+Nama **tidak menentukan Star atau Combat Power**.
+
+```text
+Name
+ ↓
+Identity
+```
+
+bukan:
+
+```text
+Name
+ ↓
+Power
+```
+
+Combat power ditentukan oleh Character System:
+
+```text
+Level
+Star
+Class
+Stats
+Skills
+Talent
+Traits
+Equipment
+```
+
+---
+
+# 43. SYSTEM CONNECTION
+
+```text
+FIRST NAME RNG
+       │
+       ├── Character System
+       ├── Recruit System
+       ├── NPC System
+       ├── Town System
+       ├── World Exploration
+       ├── Dungeon System
+       ├── Quest System
+       ├── Event System
+       └── Family System
+```
+
+---
+
+# 44. FINAL RULES
+
+```text
+RULE 01
+Every character must have a unique Character_ID.
+
+RULE 02
+First Name may be duplicated.
+
+RULE 03
+Commoner normally uses First Name only.
+
+RULE 04
+Noble/Royal characters may receive Family Name.
+
+RULE 05
+Family Name is generated by Family RNG.
+
+RULE 06
+First Name is generated by Name Pool RNG.
+
+RULE 07
+Name Pool depends on Race, Gender, Culture,
+Region, and Background.
+
+RULE 08
+Name duplication is allowed.
+
+RULE 09
+Duplicate names do not mean duplicate characters.
+
+RULE 10
+Character_ID is the primary identity.
+
+RULE 11
+Name does not determine combat power.
+
+RULE 12
+Every generated name must pass validation.
+
+RULE 13
+Name Pool should support Weight/Rarity.
+
+RULE 14
+The system should support future expansion
+to additional races, cultures, and regions.
+```
+
+---
+
+# 45. SYSTEM SUMMARY
+
+```text
+                    CHARACTER
+                        │
+                        ↓
+                       RACE
+                        │
+                        ↓
+                      GENDER
+                        │
+                        ↓
+                     CULTURE
+                        │
+                        ↓
+                      REGION
+                        │
+                        ↓
+                   BACKGROUND
+                        │
+              ┌─────────┴─────────┐
+              ↓                   ↓
+          COMMONER              NOBLE
+              │                   │
+              ↓                   ↓
+       First Name RNG       First Name RNG
+                                  │
+                                  ↓
+                            Family RNG
+                                  │
+                                  ↓
+                         Family Name / House
+                                  │
+                                  ↓
+                         Final Character
+```
+
+**Core Principle:**
+
+```text
+Commoner
+→ First Name
+
+Noble
+→ First Name + Family Name
+
+Royal
+→ First Name + Royal Family
+
+Imperial
+→ First Name + Imperial Family
+```
+
+README ini sudah dibuat supaya **First Name Generator tidak bercampur dengan Family/Noble System**. Jadi nanti saat membuat ribuan karakter RNG, sistem bisa menghasilkan rakyat biasa dalam jumlah sangat besar tanpa harus memberikan nama keluarga bangsawan kepada mereka.
