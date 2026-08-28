@@ -1,0 +1,2268 @@
+# ⏩ AETHERIA — SKIP DAY SYSTEM
+
+> **The Master does not always need to witness every moment.**
+>
+> **Sometimes, one day must simply pass.**
+>
+> Skip Day System memungkinkan Master melewati waktu hingga hari berikutnya tanpa harus memainkan setiap aktivitas secara manual.
+>
+> Namun waktu yang dilewati bukan waktu kosong.
+>
+> **Dunia tetap berjalan.**
+>
+> Setiap kali terjadi **Daily Reset**, AI Fairy wajib membuat laporan kepada Master. Sistem ini terhubung dengan seluruh sistem Aetheria yang aktif, termasuk Time System, Hero System, Party System, Character System, Emotional System, Training Ground System, Town Square System, Crafting System, Inventory System, Quest System, Event System, RNG System, NPC System, Faction System, Cult System, Dungeon System, World Exploration System, Boss Raid System, Recovery System, Game State System, Database System, dan sistem lain yang terdaftar dalam sesi Aetheria.
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+**Skip Day System** adalah sistem simulasi waktu yang memungkinkan Master melewati satu hari atau beberapa hari.
+
+Skip Day bukan berarti game berhenti.
+
+Ketika Master melakukan Skip Day:
+
+```text
+MASTER
+   │
+   ▼
+SKIP DAY
+   │
+   ▼
+TIME SYSTEM
+   │
+   ▼
+DAILY SIMULATION
+   │
+   ├── Hero System
+   ├── Party System
+   ├── Character System
+   ├── Emotional System
+   ├── Training Ground System
+   ├── Town Square System
+   ├── Crafting System
+   ├── Inventory System
+   ├── Quest System
+   ├── Event System
+   ├── Dungeon System
+   ├── World Exploration System
+   ├── Boss Raid System
+   ├── Faction System
+   ├── Cult System
+   ├── NPC System
+   ├── Recovery System
+   ├── RNG System
+   └── World State
+   │
+   ▼
+DAILY RESET
+   │
+   ▼
+ALL SYSTEMS UPDATE
+   │
+   ▼
+GAME STATE SYSTEM
+   │
+   ▼
+DATABASE SYSTEM
+   │
+   ▼
+AI FAIRY DAILY REPORT
+   │
+   ▼
+NEXT DAY
+```
+
+---
+
+# 2. PURPOSE
+
+Skip Day digunakan ketika Master ingin:
+
+* Menunggu Training selesai
+* Menunggu Crafting selesai
+* Menunggu Event
+* Menunggu Quest
+* Menunggu Recovery Hero
+* Menunggu World Event
+* Menunggu Raid
+* Menunggu fasilitas Town Square selesai
+* Menunggu aktivitas NPC
+* Menunggu ekspedisi selesai
+* Menunggu perubahan Faction
+* Menunggu perkembangan Cult
+* Melanjutkan simulasi dunia
+* Menjalankan Daily Reset
+
+Master tidak perlu mengontrol setiap aktivitas secara manual, tetapi seluruh konsekuensi waktu tetap dihitung oleh sistem.
+
+---
+
+# 3. BASIC RULE
+
+Ketika Master memilih:
+
+```text
+SKIP 1 DAY
+```
+
+maka Time System akan menjalankan:
+
+```text
+CURRENT DAY
+      ↓
+SIMULATE 24 HOURS
+      ↓
+DAILY EVENTS
+      ↓
+DAILY RESET
+      ↓
+ALL SYSTEMS UPDATE
+      ↓
+STATE VALIDATION
+      ↓
+FAIRY DAILY REPORT
+      ↓
+NEXT DAY
+```
+
+Daily Reset wajib terjadi setiap kali satu hari penuh selesai dilewati.
+
+---
+
+# 4. SKIP OPTIONS
+
+Master dapat memilih:
+
+```text
+Skip 1 Day
+Skip 3 Days
+Skip 7 Days
+Skip 14 Days
+Skip 30 Days
+```
+
+Jumlah maksimum Skip dapat dibatasi oleh:
+
+```text
+Master Progression
+Game State
+Current Event
+Current Mission
+Dungeon State
+Raid State
+Story Condition
+World Condition
+System Restriction
+```
+
+Untuk Skip beberapa hari, sistem tetap wajib menjalankan proses Daily Reset pada setiap hari yang dilewati.
+
+Contoh:
+
+```text
+Skip 3 Days
+   ↓
+Day 1 Simulation
+   ↓
+Daily Reset 1
+   ↓
+Fairy Report 1
+   ↓
+Day 2 Simulation
+   ↓
+Daily Reset 2
+   ↓
+Fairy Report 2
+   ↓
+Day 3 Simulation
+   ↓
+Daily Reset 3
+   ↓
+Fairy Report 3
+   ↓
+Next Day
+```
+
+---
+
+# 5. SKIP DAY PROCESS
+
+Ketika Master melakukan Skip Day:
+
+```text
+STEP 01
+Master confirms Skip
+
+        ↓
+
+STEP 02
+System checks current state
+
+        ↓
+
+STEP 03
+Time System advances
+
+        ↓
+
+STEP 04
+All connected systems simulate activity
+
+        ↓
+
+STEP 05
+RNG events are processed
+
+        ↓
+
+STEP 06
+Daily Reset is executed
+
+        ↓
+
+STEP 07
+All system states are updated
+
+        ↓
+
+STEP 08
+Game State calculates and validates changes
+
+        ↓
+
+STEP 09
+Database synchronization
+
+        ↓
+
+STEP 10
+AI Fairy generates mandatory daily report
+
+        ↓
+
+STEP 11
+New Day begins
+```
+
+---
+
+# 6. PRE-SKIP VALIDATION
+
+Sebelum Skip Day dimulai, sistem melakukan pemeriksaan.
+
+```text
+SKIP DAY REQUEST
+       ↓
+VALIDATION
+       │
+       ├── Active Mission?
+       ├── Active Combat?
+       ├── Active Raid?
+       ├── Critical Event?
+       ├── Story Event?
+       ├── Hero Condition?
+       ├── Town Activity?
+       ├── Dungeon State?
+       ├── World Exploration?
+       └── Other Restrictions?
+```
+
+Jika kondisi tertentu tidak mengizinkan Skip:
+
+```text
+SKIP DENIED
+```
+
+Fairy memberikan alasan kepada Master.
+
+Contoh:
+
+> **Fairy:**
+> "Master, Skip Day cannot be activated while the current Raid is still in progress."
+
+Jika Skip diizinkan:
+
+```text
+SKIP APPROVED
+   ↓
+TIME SIMULATION STARTED
+```
+
+---
+
+# 7. ACTIVE COMBAT RESTRICTION
+
+Skip Day tidak dapat digunakan ketika:
+
+```text
+Active Combat
+Active Boss Raid
+Critical Battle
+Important Story Battle
+```
+
+Karena Combat menggunakan:
+
+```text
+BASIC COMBAT SYSTEM
+HERO AI
+BOSS AI
+EMOTIONAL SYSTEM
+CHARACTER SYSTEM
+GAME STATE SYSTEM
+```
+
+Combat harus diselesaikan terlebih dahulu atau memiliki aturan khusus dari Game State.
+
+---
+
+# 8. DAILY SIMULATION
+
+Selama Skip Day, sistem mensimulasikan aktivitas dunia.
+
+```text
+DAY SIMULATION
+│
+├── Morning
+├── Afternoon
+├── Evening
+└── Night
+```
+
+Setiap periode dapat memicu aktivitas berbeda dari seluruh sistem yang terhubung.
+
+---
+
+# 9. DAILY RESET
+
+**Daily Reset** adalah proses resmi pergantian hari dalam Aetheria.
+
+Daily Reset wajib dijalankan setiap kali waktu mencapai akhir hari.
+
+```text
+END OF DAY
+    ↓
+DAILY RESET
+    │
+    ├── Time Update
+    ├── Daily Quest Reset
+    ├── Daily Resource Check
+    ├── Hero State Update
+    ├── Emotional State Update
+    ├── Training Update
+    ├── Town Update
+    ├── Crafting Update
+    ├── Event Update
+    ├── NPC Update
+    ├── Faction Update
+    ├── Dungeon Update
+    ├── Exploration Update
+    ├── Raid Update
+    ├── World State Update
+    ├── RNG Resolution
+    ├── Game State Validation
+    ├── Database Synchronization
+    └── Fairy Daily Report
+```
+
+Tidak ada Daily Reset yang boleh selesai tanpa laporan Fairy kepada Master.
+
+---
+
+# 10. MANDATORY FAIRY DAILY REPORT
+
+Setiap Daily Reset wajib menghasilkan laporan dari AI Fairy.
+
+Laporan harus dibuat meskipun:
+
+```text
+Tidak ada Event besar
+Tidak ada Reward
+Tidak ada Hero yang berubah
+Tidak ada Quest yang selesai
+Tidak ada aktivitas penting
+```
+
+Dalam kondisi tersebut, Fairy tetap harus melaporkan bahwa tidak ada perubahan signifikan.
+
+Contoh:
+
+> **Fairy:**
+> "Master, Daily Reset completed. No critical events occurred today."
+
+> **Fairy:**
+> "All connected systems have been synchronized."
+
+---
+
+# 11. FAIRY REPORT TIMING
+
+AI Fairy wajib membuat laporan pada kondisi berikut:
+
+```text
+Setelah setiap Daily Reset
+Setelah setiap hari dalam Multi-Day Skip
+Sebelum hari berikutnya dimulai
+Setelah Database Synchronization selesai
+Ketika terjadi Critical Event
+Ketika Skip Day dihentikan
+Ketika terjadi perubahan besar pada World State
+```
+
+Urutan wajib:
+
+```text
+DAILY SIMULATION
+      ↓
+DAILY RESET
+      ↓
+GAME STATE VALIDATION
+      ↓
+DATABASE SYNCHRONIZATION
+      ↓
+FAIRY DAILY REPORT
+      ↓
+NEXT DAY
+```
+
+---
+
+# 12. HERO DAILY SIMULATION
+
+Hero yang berada di Party dapat mengalami perubahan:
+
+```text
+HP
+Energy/Condition
+Emotion
+Stress
+Training Progress
+Relationship
+Experience
+Status
+Personal Activity
+Memory
+Injury
+Recovery
+```
+
+Catatan:
+
+> Jika sistem Aetheria tidak menggunakan Energy sebagai resource Master, Skip Day tidak boleh menciptakan Energy Master secara otomatis.
+
+Hero tetap mengikuti aturan:
+
+```text
+CHARACTER SYSTEM
+HERO SYSTEM
+PARTY SYSTEM
+EMOTIONAL SYSTEM
+AI SYSTEM
+GAME STATE SYSTEM
+```
+
+---
+
+# 13. TRAINING GROUND
+
+Semua Hero yang telah masuk Party mengikuti aturan:
+
+```text
+TRAINING GROUND SYSTEM
+```
+
+Ketika Skip Day dilakukan:
+
+```text
+PARTY
+   ↓
+TRAINING GROUND
+   ↓
+TRAINING SIMULATION
+   ↓
+HERO DEVELOPMENT
+   ↓
+DAILY RESET
+   ↓
+FAIRY REPORT
+```
+
+Training dapat menghasilkan:
+
+```text
+EXP
+Stat Development
+Skill Progress
+Condition Change
+Emotion Change
+Relationship Change
+Memory Update
+```
+
+Hasilnya ditentukan oleh:
+
+```text
+AI
+Character State
+Training Type
+Training Duration
+Party Composition
+Emotional State
+RNG
+Game State
+```
+
+---
+
+# 14. FAIRY TRAINING REPORT
+
+Perubahan Training harus dimasukkan ke Daily Report.
+
+Contoh:
+
+> **Fairy:**
+> "Training Ground simulation completed."
+
+> **Fairy:**
+> "Party 1 completed 2 training sessions."
+
+> **Fairy:**
+> "Hero ID HERO-000124 gained experience."
+
+> **Fairy:**
+> "Hero ID HERO-000127 showed increased confidence."
+
+> **Fairy:**
+> "Hero ID HERO-000130 experienced emotional fatigue."
+
+---
+
+# 15. TOWN SQUARE SIMULATION
+
+Town Square tetap berjalan selama Skip Day.
+
+Fasilitas:
+
+```text
+Town Square
+│
+├── Blacksmith
+├── Workshop
+├── Market
+├── Guild
+├── Training Facility
+├── Inn
+├── Laboratory
+└── Other Facilities
+```
+
+Setiap fasilitas hanya dapat berjalan jika:
+
+```text
+Facility Exists
++
+Leader Assigned
+```
+
+Jika tidak ada Leader:
+
+```text
+FACILITY
+   ↓
+NO LEADER
+   ↓
+FACILITY INACTIVE
+```
+
+Skip Day tidak boleh memaksa fasilitas bekerja tanpa pengurus.
+
+---
+
+# 16. FACILITY LEADER SIMULATION
+
+Jika fasilitas memiliki Leader:
+
+```text
+FACILITY
+   ↓
+LEADER
+   ↓
+AI MANAGEMENT
+   ↓
+WORKERS / SUPPORT HERO
+   ↓
+FACILITY ACTIVITY
+   ↓
+DAILY RESET
+   ↓
+FAIRY REPORT
+```
+
+Leader dapat menarik Hero lain yang belum masuk Party untuk membantu fasilitas sesuai aturan Town Square System.
+
+---
+
+# 17. AUTOMATIC CRAFTING
+
+Crafting dapat berjalan otomatis selama Skip Day.
+
+```text
+CRAFTING REQUEST
+      ↓
+MATERIAL CHECK
+      ↓
+INVENTORY
+      ↓
+AI CRAFTING
+      ↓
+RNG / CRAFT RESULT
+      ↓
+ITEM GENERATED
+      ↓
+GAME STATE
+      ↓
+INVENTORY
+      ↓
+DAILY RESET
+      ↓
+FAIRY REPORT
+```
+
+Jika material tidak mencukupi:
+
+```text
+CRAFTING STOPPED
+```
+
+Status tersebut harus dicatat dalam Daily Log dan dilaporkan jika relevan.
+
+---
+
+# 18. INVENTORY UPDATE
+
+Semua hasil aktivitas harus masuk melalui:
+
+```text
+GAME STATE SYSTEM
+```
+
+Contoh:
+
+```text
+Crafting
+Loot
+Quest Reward
+Town Production
+Event Reward
+Training Reward
+Exploration Reward
+Raid Reward
+```
+
+kemudian:
+
+```text
+GAME STATE
+   ↓
+INVENTORY
+   ↓
+DATABASE
+   ↓
+FAIRY DAILY REPORT
+```
+
+---
+
+# 19. GOLD / GEM / TICKET
+
+Skip Day dapat menghasilkan:
+
+```text
+Gold
+Gem
+Summon Ticket
+Special Ticket
+```
+
+hanya jika aktivitas yang berjalan memang memberikan reward tersebut.
+
+Sistem tidak boleh memberikan resource secara gratis hanya karena Skip Day.
+
+Semua perubahan resource harus:
+
+```text
+Validated by Game State
+Saved to Database
+Included in Fairy Report
+```
+
+---
+
+# 20. QUEST SIMULATION
+
+Quest yang memiliki aktivitas selama waktu berjalan dapat diperbarui.
+
+```text
+QUEST
+ ↓
+TIME PASSES
+ ↓
+CONDITION CHECK
+ ↓
+QUEST STATE UPDATE
+ ↓
+DAILY RESET
+ ↓
+FAIRY REPORT
+```
+
+Contoh:
+
+```text
+Quest:
+Train Hero for 3 Days
+
+Day 1
+→ Progress 1/3
+
+Day 2
+→ Progress 2/3
+
+Day 3
+→ Progress 3/3
+```
+
+---
+
+# 21. DAILY QUEST
+
+Daily Quest mengikuti:
+
+```text
+TIME SYSTEM
+QUEST SYSTEM
+GAME STATE SYSTEM
+```
+
+Pada pergantian hari:
+
+```text
+DAY RESET
+   ↓
+OLD DAILY QUEST RESOLUTION
+   ↓
+REWARD / FAILURE CHECK
+   ↓
+DAILY QUEST RESET
+   ↓
+NEW DAILY QUEST
+   ↓
+FAIRY DAILY REPORT
+```
+
+Quest yang belum selesai mengikuti aturan Quest System.
+
+---
+
+# 22. WEEKLY QUEST
+
+Skip Day juga dapat menyebabkan Weekly Quest mengalami progress.
+
+```text
+DAY
+ ↓
+DAY
+ ↓
+DAY
+ ↓
+...
+ ↓
+WEEK RESET
+ ↓
+WEEKLY QUEST UPDATE
+ ↓
+FAIRY DAILY REPORT
+```
+
+Jika Weekly Reset terjadi pada hari tersebut, Fairy wajib mencantumkannya dalam laporan.
+
+---
+
+# 23. EVENT SYSTEM
+
+Event yang sedang aktif tetap berjalan.
+
+Contoh:
+
+```text
+EVENT
+Duration:
+Day 10 → Day 20
+```
+
+Jika Master melakukan:
+
+```text
+Skip 5 Days
+```
+
+maka:
+
+```text
+Day 10
+ ↓
+Skip
+ ↓
+Day 15
+```
+
+Event akan berada pada:
+
+```text
+Day 15
+```
+
+Setiap perubahan Event harus diproses dan dilaporkan pada Daily Report.
+
+---
+
+# 24. EVENT CONSEQUENCE
+
+Event dapat menghasilkan perubahan selama Skip Day.
+
+Contoh:
+
+```text
+EVENT
+ ↓
+RNG
+ ↓
+NPC EVENT
+ ↓
+FACTION CHANGE
+ ↓
+WORLD STATE CHANGE
+ ↓
+GAME STATE
+ ↓
+DATABASE
+ ↓
+FAIRY REPORT
+```
+
+Event tertentu bahkan dapat berubah tanpa intervensi langsung Master.
+
+---
+
+# 25. RANDOM EVENT
+
+Skip Day dapat menjalankan:
+
+```text
+RNG SYSTEM
+```
+
+untuk menghasilkan Random Event.
+
+Contoh:
+
+```text
+Merchant Arrival
+NPC Encounter
+Town Incident
+Monster Attack
+Rare Discovery
+Character Interaction
+Resource Discovery
+Cult Activity
+World Event
+```
+
+RNG tetap harus mengikuti:
+
+```text
+CORE WORLD BUILDING
+GAME STATE
+FLOOR STATE
+FACTION STATE
+CHARACTER STATE
+EVENT STATE
+```
+
+---
+
+# 26. CHARACTER RANDOM EVENTS
+
+Hero yang sedang tidak melakukan aktivitas utama dapat mengalami event.
+
+Contoh:
+
+```text
+Hero
+ ↓
+Personal Event
+ ↓
+AI Decision
+ ↓
+Character State
+ ↓
+Emotional System
+ ↓
+Daily Report
+```
+
+Kemungkinan:
+
+```text
+Friendship ↑
+Stress ↑
+Confidence ↑
+Conflict
+Training Motivation
+New Relationship
+New Memory
+```
+
+Event dapat memengaruhi Emotional System dan harus disimpan berdasarkan Hero ID.
+
+---
+
+# 27. EMOTIONAL SIMULATION
+
+Emosi Hero tetap berkembang selama Skip Day.
+
+Contoh:
+
+```text
+Hero is isolated
+      ↓
+Loneliness ↑
+```
+
+atau:
+
+```text
+Hero trains with trusted companion
+      ↓
+Confidence ↑
+Relationship ↑
+```
+
+AI Character menentukan respons berdasarkan:
+
+```text
+Personality
+Memory
+Relationship
+Current Emotion
+Experience
+Environment
+Character State
+```
+
+Perubahan emosional penting harus dilaporkan oleh Fairy.
+
+---
+
+# 28. NPC SIMULATION
+
+NPC juga dapat menjalankan aktivitas.
+
+```text
+NPC
+ ↓
+Occupation
+ ↓
+Daily Routine
+ ↓
+AI Decision
+ ↓
+NPC State
+ ↓
+Daily Reset
+ ↓
+Fairy Report
+```
+
+NPC dapat:
+
+```text
+Trade
+Work
+Move
+Talk
+Join Facility
+Leave Facility
+Create Event
+Interact with Hero
+Change Faction Relation
+```
+
+---
+
+# 29. FACTION SIMULATION
+
+Faction tetap berjalan selama waktu dilewati.
+
+```text
+FACTION
+ ↓
+AI / GAME STATE
+ ↓
+FACTION ACTION
+ ↓
+WORLD STATE
+ ↓
+DAILY RESET
+ ↓
+FAIRY REPORT
+```
+
+Contoh:
+
+```text
+Cult Activity ↑
+```
+
+dapat menyebabkan:
+
+```text
+Cult Influence ↑
+Town Danger ↑
+Enemy Spawn ↑
+Quest Created
+Faction Relation Changed
+```
+
+---
+
+# 30. CULT SIMULATION
+
+Cult of Eternal Night dapat melakukan aktivitas selama Master Skip Day.
+
+Contoh:
+
+```text
+Cult Cell
+ ↓
+Secret Operation
+ ↓
+RNG
+ ↓
+Game State
+ ↓
+World State
+ ↓
+Fairy Daily Report
+```
+
+Kemungkinan:
+
+```text
+Artifact Theft
+Recruitment Attempt
+Ritual
+Infiltration
+NPC Corruption
+Enemy Movement
+Faction Expansion
+```
+
+Recruitment Attempt tidak otomatis menjadi Hero baru tanpa mengikuti Recruitment System dan keputusan Master.
+
+---
+
+# 31. DUNGEON SIMULATION
+
+Dungeon dapat mengalami perubahan waktu.
+
+Namun:
+
+> Dungeon tidak boleh menyelesaikan Floor secara otomatis hanya karena Master melakukan Skip Day.
+
+Dungeon progression tetap membutuhkan:
+
+```text
+Master Action
+Party Action
+Quest Condition
+Dungeon Rule
+Game State
+```
+
+Kecuali Dungeon memiliki aktivitas background yang memang dirancang berjalan otomatis.
+
+Jika Dungeon mengalami perubahan selama Skip Day, perubahan tersebut harus masuk ke Daily Report.
+
+---
+
+# 32. WORLD EXPLORATION
+
+World Exploration dapat menggunakan waktu.
+
+Contoh:
+
+```text
+EXPEDITION
+Duration:
+3 Days
+```
+
+Master:
+
+```text
+Start Expedition
+      ↓
+Skip 3 Days
+      ↓
+Expedition Complete
+      ↓
+Daily Reset
+      ↓
+Fairy Report
+```
+
+Hasil:
+
+```text
+Location Found
+Item
+Material
+NPC
+Lore
+Enemy Encounter
+Quest
+Rare Discovery
+```
+
+Hasil menggunakan:
+
+```text
+RNG SYSTEM
+WORLD EXPLORATION SYSTEM
+GAME STATE SYSTEM
+```
+
+---
+
+# 33. BOSS RAID
+
+Boss Raid tidak boleh berjalan bebas selama Skip Day jika:
+
+```text
+Raid Session Active
+```
+
+Raid harus mengikuti aturan:
+
+```text
+BOSS RAID SYSTEM
+COMBAT SYSTEM
+GAME STATE SYSTEM
+```
+
+Jika Raid memiliki background progression:
+
+```text
+Raid Event
+ ↓
+Time Passes
+ ↓
+Game State
+ ↓
+Daily Reset
+ ↓
+Fairy Report
+```
+
+maka hasilnya dapat diproses sesuai aturan Raid.
+
+---
+
+# 34. RECOVERY SYSTEM
+
+Hero dapat mengalami recovery selama waktu berjalan.
+
+Contoh:
+
+```text
+Injured Hero
+ ↓
+Skip Day
+ ↓
+Recovery
+ ↓
+Condition Improved
+ ↓
+Daily Reset
+ ↓
+Fairy Report
+```
+
+Namun recovery tergantung pada:
+
+```text
+Character Condition
+Treatment
+Facility
+Medical Support
+Inn
+Training
+Game Rules
+Game State
+```
+
+---
+
+# 35. MASTER STATE
+
+Master juga memiliki state.
+
+Namun Skip Day tidak otomatis menaikkan:
+
+```text
+Master Level
+```
+
+tanpa sumber EXP.
+
+Master dapat memperoleh:
+
+```text
+Master EXP
+```
+
+jika aktivitas yang dilakukan selama simulasi memang memberikan EXP.
+
+Semua perubahan Master harus diproses melalui:
+
+```text
+MASTER SYSTEM
+GAME STATE SYSTEM
+DATABASE SYSTEM
+FAIRY DAILY REPORT
+```
+
+---
+
+# 36. TIME SYSTEM CONNECTION
+
+Skip Day merupakan extension dari:
+
+```text
+TIME SYSTEM
+```
+
+Flow:
+
+```text
+CURRENT TIME
+     ↓
+SKIP DAY REQUEST
+     ↓
+TIME ADVANCEMENT
+     ↓
+DAILY SIMULATION
+     ↓
+DAILY RESET
+     ↓
+FAIRY DAILY REPORT
+     ↓
+NEXT DAY
+```
+
+Time System tetap menjadi sumber utama waktu.
+
+---
+
+# 37. CONNECTION TO ALL AETHERIA SYSTEMS
+
+Skip Day System harus terhubung dengan semua sistem yang aktif dalam sesi Aetheria.
+
+```text
+SKIP DAY SYSTEM
+      │
+      ├── Time System
+      ├── Master System
+      ├── Hero System
+      ├── Character System
+      ├── Party System
+      ├── Emotional System
+      ├── AI System
+      ├── Training Ground System
+      ├── Town Square System
+      ├── Facility System
+      ├── Crafting System
+      ├── Inventory System
+      ├── Quest System
+      ├── Event System
+      ├── RNG System
+      ├── NPC System
+      ├── Faction System
+      ├── Cult System
+      ├── Dungeon System
+      ├── World Exploration System
+      ├── Boss Raid System
+      ├── Combat System
+      ├── Recovery System
+      ├── World State System
+      ├── Game State System
+      ├── Database System
+      └── AI Fairy System
+```
+
+Tidak ada sistem yang boleh mengubah state secara langsung tanpa melewati Game State System.
+
+---
+
+# 38. GAME STATE SYSTEM
+
+Semua hasil Skip Day harus diproses melalui:
+
+```text
+GAME STATE SYSTEM
+```
+
+Game State melakukan:
+
+```text
+Validation
+State Calculation
+Conflict Resolution
+Event Processing
+Reward Validation
+Character Update
+Hero Update
+Master Update
+World Update
+Faction Update
+Quest Update
+Inventory Update
+Daily Reset Resolution
+```
+
+---
+
+# 39. DATABASE SYNCHRONIZATION
+
+Setelah simulasi:
+
+```text
+SKIP DAY
+   ↓
+SIMULATION
+   ↓
+DAILY RESET
+   ↓
+GAME STATE
+   ↓
+VALIDATION
+   ↓
+DATABASE UPDATE
+   ↓
+FAIRY DAILY REPORT
+```
+
+Data yang dapat diperbarui:
+
+```text
+Master
+Hero
+NPC
+Enemy
+Item
+Inventory
+Quest
+Event
+Faction
+Town
+Dungeon
+Raid
+World
+Time
+Relationship
+Emotion
+Memory
+Recovery
+Training
+Crafting
+Exploration
+```
+
+---
+
+# 40. ID SYSTEM
+
+Semua perubahan harus menggunakan ID.
+
+Contoh:
+
+```text
+MASTER-000001
+HERO-000001
+NPC-000001
+ENEMY-000001
+ITEM-000001
+QUEST-000001
+EVENT-000001
+RAID-000001
+FLOOR-000001
+FACTION-000001
+TOWN-000001
+FACILITY-000001
+```
+
+Tidak boleh menggunakan nama sebagai primary identity.
+
+Fairy harus menggunakan ID ketika melaporkan perubahan penting agar tidak terjadi ambiguitas.
+
+---
+
+# 41. RNG SAFETY
+
+RNG selama Skip Day harus menggunakan:
+
+```text
+RNG SYSTEM
+```
+
+Tetapi RNG tidak boleh:
+
+```text
+Ignore Game State
+Ignore Character Rules
+Ignore World Rules
+Create Invalid Character
+Create Duplicate Hero
+Generate Impossible Item
+Break Story State
+Ignore Faction State
+Ignore Event State
+```
+
+Semua hasil RNG harus divalidasi sebelum masuk ke Database.
+
+---
+
+# 42. RECRUITMENT RESTRICTION
+
+Skip Day tidak otomatis melakukan Recruitment.
+
+Recruitment tetap dilakukan melalui:
+
+```text
+RECRUITMENT SYSTEM
+```
+
+Jika terdapat Event yang menghasilkan recruitment opportunity:
+
+```text
+EVENT
+ ↓
+RECRUITMENT OPPORTUNITY
+ ↓
+MASTER DECISION
+```
+
+Master tetap memiliki keputusan akhir.
+
+---
+
+# 43. NO DUPLICATE HERO
+
+Jika Random Event atau Recruitment menghasilkan Hero:
+
+```text
+RNG
+ ↓
+CHARACTER SYSTEM
+ ↓
+CHECK HERO ID
+ ↓
+DUPLICATE?
+```
+
+Jika duplicate:
+
+```text
+REJECT
+ ↓
+RNG REGENERATE
+```
+
+Hal ini mengikuti aturan:
+
+```text
+RECRUITMENT SYSTEM
++
+CHARACTER SYSTEM
++
+DATABASE SYSTEM
+```
+
+---
+
+# 44. AI FAIRY DAILY REPORT
+
+Setelah setiap Daily Reset selesai, Fairy wajib memberikan laporan kepada Master.
+
+Format:
+
+```text
+DAILY REPORT
+
+Day:
+XXX
+
+Reset Status:
+Completed
+
+Time:
+06:00 → 06:00
+
+World State:
+Updated / No Major Change
+
+Master:
+Updated / No Change
+
+Heroes:
+X Changes
+
+Training:
+Completed / None
+
+Emotional State:
+X Changes
+
+Town:
+Updated / No Change
+
+Crafting:
+X Items / None
+
+Inventory:
+X Changes
+
+Quest:
+X Updated
+
+Events:
+X Events
+
+NPC:
+X Changes
+
+Faction:
+X Changes
+
+Cult:
+X Activities
+
+Dungeon:
+Updated / No Change
+
+World Exploration:
+Completed / Active / None
+
+Boss Raid:
+Updated / None
+
+Recovery:
+X Heroes
+
+Rewards:
+Generated / None
+
+Critical Events:
+X
+
+Database:
+Synchronized
+
+Next Day:
+Day XXX
+```
+
+---
+
+# 45. FAIRY REPORT REQUIREMENT
+
+Fairy tidak boleh melewati laporan Daily Reset.
+
+Jika tidak ada perubahan:
+
+```text
+DAILY REPORT
+Day:
+XXX
+
+Status:
+No significant changes
+
+All systems:
+Synchronized
+
+Critical Events:
+None
+```
+
+Contoh:
+
+> **Fairy:**
+> "Master, Daily Reset for Day 128 is complete."
+
+> **Fairy:**
+> "All connected systems have been processed and synchronized."
+
+> **Fairy:**
+> "No critical events or major changes occurred."
+
+---
+
+# 46. IMPORTANT EVENT PRIORITY
+
+Fairy dapat mengatur tingkat detail laporan menggunakan:
+
+```text
+EVENT PRIORITY
+```
+
+Namun laporan Daily Reset tetap wajib dibuat.
+
+### Critical
+
+```text
+Hero Death
+Raid Failure
+Major World Event
+Town Destruction
+Important Story Event
+Major Faction Change
+Critical Emotional Breakdown
+Major Dungeon Change
+```
+
+### High
+
+```text
+Rare Item
+Rare Character Event
+Major Quest Progress
+Important Relationship Change
+Major Crafting Result
+Important NPC Change
+```
+
+### Normal
+
+```text
+Training
+Crafting
+Routine NPC Activity
+Minor Resource Gain
+Minor Emotional Change
+Routine Town Activity
+```
+
+---
+
+# 47. FAIRY ALERT
+
+Jika terjadi sesuatu yang penting:
+
+```text
+SKIP DAY
+   ↓
+CRITICAL EVENT
+   ↓
+PAUSE SIMULATION
+   ↓
+FAIRY ALERT
+   ↓
+MASTER DECISION
+```
+
+Contoh:
+
+> **Fairy:**
+> "Master, an emergency event has occurred in Town Square."
+
+> **Fairy:**
+> "The simulation has been paused."
+
+Master dapat memilih:
+
+```text
+Investigate
+Ignore
+Send Hero
+Cancel Skip
+Continue
+```
+
+---
+
+# 48. SKIP INTERRUPTION
+
+Skip Day dapat dihentikan jika:
+
+```text
+Critical Event
+Major Story Event
+Emergency
+Raid Emergency
+Hero Crisis
+Town Crisis
+World Crisis
+Faction Crisis
+```
+
+Flow:
+
+```text
+SKIP DAY
+   ↓
+SIMULATION
+   ↓
+CRITICAL EVENT
+   ↓
+PAUSE
+   ↓
+FAIRY ALERT
+   ↓
+MASTER DECISION
+```
+
+Jika Skip dihentikan sebelum satu hari selesai:
+
+```text
+PARTIAL DAY
+   ↓
+STATE VALIDATION
+   ↓
+DATABASE SAVE
+   ↓
+FAIRY INTERRUPTION REPORT
+```
+
+Daily Reset hanya dilakukan jika waktu benar-benar mencapai akhir hari.
+
+---
+
+# 49. MULTI-DAY SKIP
+
+Jika Master memilih:
+
+```text
+Skip 30 Days
+```
+
+sistem tidak boleh melewati Daily Reset.
+
+Sistem harus melakukan:
+
+```text
+Day 1
+ ↓
+Daily Simulation
+ ↓
+Daily Reset
+ ↓
+Fairy Report
+ ↓
+Day 2
+ ↓
+Daily Simulation
+ ↓
+Daily Reset
+ ↓
+Fairy Report
+ ↓
+Day 3
+ ↓
+...
+ ↓
+Day 30
+ ↓
+Daily Simulation
+ ↓
+Daily Reset
+ ↓
+Fairy Report
+ ↓
+Next Day
+```
+
+Jika terjadi Critical Event, Multi-Day Skip dapat dihentikan dan menunggu keputusan Master.
+
+---
+
+# 50. OPTIMIZED SIMULATION
+
+Untuk menghindari beban sistem yang terlalu besar:
+
+```text
+NORMAL DAY
+→ Full Simulation
+
+SKIPPED DAY
+→ Simplified Simulation
+```
+
+Namun aktivitas penting tetap dihitung.
+
+```text
+Critical State
+Character State
+Hero State
+Master State
+Quest
+Event
+Reward
+World State
+Faction State
+NPC State
+Town State
+Dungeon State
+Raid State
+```
+
+tidak boleh dilewati tanpa diproses.
+
+Daily Reset dan Fairy Report juga tidak boleh dilewati.
+
+---
+
+# 51. DAILY RNG SEED
+
+Setiap hari dapat memiliki:
+
+```text
+DAY SEED
+```
+
+Contoh:
+
+```text
+DAY-000128
+```
+
+Seed digunakan untuk menjaga konsistensi simulasi.
+
+Dengan demikian:
+
+```text
+Same State
++
+Same Rules
++
+Same Seed
+=
+Same Result
+```
+
+kecuali terdapat perubahan Game State.
+
+Daily RNG Seed harus dicatat dalam Daily Log.
+
+---
+
+# 52. SAVE POINT
+
+Setelah Daily Reset selesai:
+
+```text
+DAILY RESET COMPLETE
+        ↓
+GAME STATE VALIDATION
+        ↓
+DATABASE SAVE
+        ↓
+SAVE POINT CREATED
+        ↓
+FAIRY DAILY REPORT
+        ↓
+NEXT DAY
+```
+
+Hal ini membantu menjaga konsistensi data dunia.
+
+---
+
+# 53. DAILY LOG
+
+Setiap Daily Reset menghasilkan log.
+
+```text
+DAY LOG
+
+Day:
+128
+
+Time:
+06:00 → 06:00
+
+Daily Reset:
+Completed
+
+Training:
+Completed
+
+Crafting:
+12 Items
+
+Quest:
+3 Updated
+
+Events:
+2
+
+Character Changes:
+5
+
+Emotional Changes:
+3
+
+NPC Changes:
+4
+
+Faction Changes:
+1
+
+World Changes:
+3
+
+Rewards:
+Generated
+
+Database:
+Synchronized
+
+Fairy Report:
+Delivered
+```
+
+---
+
+# 54. SYSTEM CONNECTION
+
+```text
+                       TIME SYSTEM
+                            │
+                            ▼
+                     SKIP DAY SYSTEM
+                            │
+          ┌─────────────────┼─────────────────┐
+          │                 │                 │
+          ▼                 ▼                 ▼
+       HERO AI          TOWN SQUARE       WORLD STATE
+          │                 │                 │
+          ▼                 ▼                 ▼
+      TRAINING          CRAFTING          FACTION
+          │                 │                 │
+          ▼                 ▼                 ▼
+     EMOTIONAL          INVENTORY           NPC
+          │                 │                 │
+          └─────────────────┼─────────────────┘
+                            ▼
+                           RNG
+                            │
+          ┌─────────────────┼─────────────────┐
+          ▼                 ▼                 ▼
+        QUEST             EVENT            DUNGEON
+          │                 │                 │
+          ▼                 ▼                 ▼
+    EXPLORATION          RAID             RECOVERY
+          │                 │                 │
+          └─────────────────┼─────────────────┘
+                            ▼
+                       DAILY RESET
+                            │
+                            ▼
+                    GAME STATE SYSTEM
+                            │
+                            ▼
+                     DATABASE SYSTEM
+                            │
+                            ▼
+                        AI FAIRY
+                            │
+                            ▼
+                    MANDATORY DAILY REPORT
+                            │
+                            ▼
+                          MASTER
+```
+
+---
+
+# 55. COMPLETE FLOW
+
+```text
+MASTER
+  │
+  ▼
+SELECT SKIP DAY
+  │
+  ▼
+CONFIRM
+  │
+  ▼
+VALIDATION
+  │
+  ├── Active Combat?
+  ├── Active Raid?
+  ├── Critical Event?
+  ├── Story Restriction?
+  ├── Dungeon Restriction?
+  └── Other Restriction?
+  │
+  ▼
+TIME SYSTEM
+  │
+  ▼
+DAY SIMULATION
+  │
+  ├── Master
+  ├── Hero
+  ├── Party
+  ├── Character
+  ├── Emotional State
+  ├── Training
+  ├── Town
+  ├── Crafting
+  ├── Inventory
+  ├── Quest
+  ├── Event
+  ├── NPC
+  ├── Faction
+  ├── Cult
+  ├── Dungeon
+  ├── Exploration
+  ├── Boss Raid
+  ├── Recovery
+  ├── World State
+  └── RNG
+  │
+  ▼
+CRITICAL EVENT?
+  │
+  ├── YES → PAUSE → FAIRY ALERT → MASTER
+  │
+  └── NO
+       │
+       ▼
+DAILY RESET
+       │
+       ▼
+ALL SYSTEMS UPDATE
+       │
+       ▼
+GAME STATE SYSTEM
+       │
+       ▼
+STATE VALIDATION
+       │
+       ▼
+DATABASE SYSTEM
+       │
+       ▼
+SAVE POINT
+       │
+       ▼
+AI FAIRY DAILY REPORT
+       │
+       ▼
+NEXT DAY
+```
+
+---
+
+# 56. CORE RULES
+
+### RULE 01
+
+Skip Day menggunakan Time System sebagai sumber waktu.
+
+### RULE 02
+
+Skip Day bukan sekadar mempercepat animasi.
+
+### RULE 03
+
+Dunia tetap berjalan selama Skip Day.
+
+### RULE 04
+
+Skip Day harus terhubung dengan semua sistem Aetheria yang aktif dalam sesi.
+
+### RULE 05
+
+Semua perubahan diproses melalui Game State System.
+
+### RULE 06
+
+Database hanya diperbarui setelah Game State melakukan validasi.
+
+### RULE 07
+
+Daily Reset wajib dijalankan setiap kali satu hari selesai.
+
+### RULE 08
+
+Setiap Daily Reset wajib menghasilkan laporan Fairy kepada Master.
+
+### RULE 09
+
+Fairy tetap wajib membuat laporan meskipun tidak ada perubahan signifikan.
+
+### RULE 10
+
+Multi-Day Skip tidak boleh melewati Daily Reset.
+
+### RULE 11
+
+Setiap hari dalam Multi-Day Skip wajib memiliki Daily Report masing-masing.
+
+### RULE 12
+
+Hero tetap mengikuti AI Character dan Emotional System.
+
+### RULE 13
+
+Hero Party tetap mengikuti Training Ground System.
+
+### RULE 14
+
+Town Square hanya berjalan jika fasilitas memiliki Leader.
+
+### RULE 15
+
+Crafting menggunakan material dari Inventory.
+
+### RULE 16
+
+Loot dan reward tetap menggunakan RNG System.
+
+### RULE 17
+
+Quest dan Event tetap mengalami perkembangan selama waktu berjalan.
+
+### RULE 18
+
+World Exploration dapat berjalan selama durasi ekspedisinya memang menggunakan waktu.
+
+### RULE 19
+
+Active Combat dapat membatasi Skip Day.
+
+### RULE 20
+
+Active Raid dapat membatasi Skip Day.
+
+### RULE 21
+
+Critical Event dapat menghentikan Skip Day.
+
+### RULE 22
+
+Recruitment tidak dilakukan otomatis hanya karena Skip Day.
+
+### RULE 23
+
+Hero hasil Recruitment tetap tidak boleh duplicate.
+
+### RULE 24
+
+Semua perubahan Character disimpan berdasarkan Hero ID.
+
+### RULE 25
+
+Semua Item disimpan berdasarkan Item ID.
+
+### RULE 26
+
+AI Fairy harus memberikan laporan setelah setiap Daily Reset.
+
+### RULE 27
+
+Fairy wajib memberikan alert apabila terjadi kejadian penting atau kritis.
+
+### RULE 28
+
+Skip Day tidak boleh menghasilkan resource tanpa sumber yang valid.
+
+### RULE 29
+
+RNG tidak boleh melanggar Core World Building.
+
+### RULE 30
+
+Skip Day tidak boleh melewati aturan Game State.
+
+### RULE 31
+
+Setiap hari menghasilkan Daily Log.
+
+### RULE 32
+
+Setiap Daily Log harus mencatat status Fairy Report.
+
+### RULE 33
+
+Tidak ada hari yang boleh dianggap selesai sebelum Database Synchronization dan Fairy Daily Report selesai.
+
+---
+
+# 57. FINAL CONCEPT
+
+Skip Day System membuat Aetheria terasa seperti **dunia yang benar-benar hidup**.
+
+```text
+MASTER
+   │
+   ▼
+SKIP DAY
+   │
+   ▼
+24 HOURS PASS
+   │
+   ├── Heroes train
+   ├── Characters interact
+   ├── Emotions change
+   ├── Town operates
+   ├── Crafting progresses
+   ├── Quests advance
+   ├── Events occur
+   ├── NPCs act
+   ├── Factions move
+   ├── Cults operate
+   ├── Dungeons evolve
+   ├── Raids progress
+   ├── Exploration continues
+   ├── Recovery occurs
+   └── World changes
+   │
+   ▼
+DAILY RESET
+   │
+   ▼
+GAME STATE
+   │
+   ▼
+DATABASE
+   │
+   ▼
+FAIRY DAILY REPORT
+   │
+   ▼
+MASTER
+```
+
+> **The Master may skip the day.**
+>
+> **But the world never skips its consequences.**
+>
+> **And every reset must be reported.**
