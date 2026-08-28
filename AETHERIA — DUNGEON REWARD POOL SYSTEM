@@ -1,0 +1,1506 @@
+# 🎁 AETHERIA — DUNGEON REWARD POOL SYSTEM
+
+> **No EXP.**
+>
+> Victory does not grant experience.
+>
+> Victory grants resources, equipment, artifacts, and opportunities.
+
+Reward System menggunakan **RNG System** sebagai dasar pembentukan hadiah.
+
+Reward tidak ditentukan secara tetap.
+
+```text
+DUNGEON / EXPLORATION / RAID BOSS
+                ↓
+          VICTORY RESULT
+                ↓
+            RNG SYSTEM
+                ↓
+          REWARD POOL
+                ↓
+       GAME STATE SYSTEM
+                ↓
+        VALIDATION RESULT
+                ↓
+        INVENTORY DATABASE
+                ↓
+            AI FAIRY
+                ↓
+             MASTER
+```
+
+---
+
+# 1. REWARD CATEGORIES
+
+Semua reward dibagi menjadi:
+
+```text
+REWARD
+│
+├── Currency
+│   ├── Gold
+│   ├── Gem
+│   ├── Summon Ticket
+│   └── Special Ticket
+│
+├── Equipment
+│   ├── Weapon
+│   ├── Armor
+│   ├── Helmet
+│   ├── Gloves
+│   ├── Boots
+│   └── Accessory
+│
+├── Material
+│   ├── Metal
+│   ├── Wood
+│   ├── Stone
+│   ├── Crystal
+│   ├── Monster Material
+│   └── Magical Material
+│
+├── Consumable
+│   ├── Potion
+│   ├── Food
+│   ├── Scroll
+│   └── Temporary Item
+│
+├── Artifact
+│
+├── Crafting Recipe
+│
+├── Character-related Item
+│
+└── Special Reward
+```
+
+---
+
+# 2. NO EXP RULE
+
+Aetheria tidak menggunakan EXP sebagai reward dungeon.
+
+Tidak ada:
+
+```text
+Enemy
+↓
+EXP
+```
+
+Tidak ada:
+
+```text
+Floor Clear
+↓
+EXP
+```
+
+Tidak ada:
+
+```text
+Raid Boss
+↓
+EXP
+```
+
+Sebagai gantinya:
+
+```text
+Victory
+↓
+RNG Reward
+↓
+Resources / Items / Equipment / Special Rewards
+```
+
+---
+
+# 3. REWARD QUALITY
+
+Reward memiliki rarity.
+
+```text
+COMMON
+UNCOMMON
+RARE
+EPIC
+LEGENDARY
+UNIQUE
+MYTHIC
+```
+
+Rarity yang lebih tinggi memiliki probability lebih kecil.
+
+---
+
+# 4. DUNGEON REWARD
+
+Dungeon biasa berfokus pada:
+
+```text
+Gold
+Materials
+Equipment
+Consumables
+Gem
+Ticket
+Crafting Items
+```
+
+Contoh Reward Pool:
+
+```text
+DUNGEON NORMAL
+
+Common:
+Gold
+Iron
+Wood
+Stone
+Potion
+Food
+
+Uncommon:
+Rare Material
+Equipment
+Crafting Component
+
+Rare:
+Gem
+Summon Ticket
+Rare Equipment
+
+Epic:
+Epic Equipment
+Rare Artifact
+
+Legendary:
+Legendary Equipment
+Legendary Artifact
+```
+
+---
+
+# 5. FLOOR CLEAR REWARD
+
+Ketika Master menyelesaikan Floor:
+
+```text
+FLOOR CLEAR
+     ↓
+RNG
+     ↓
+FLOOR REWARD
+```
+
+Reward dapat terdiri dari:
+
+```text
+Gold
+Gem
+Summon Ticket
+Material
+Equipment
+Artifact
+Recipe
+Special Item
+```
+
+---
+
+# 6. FLOOR REWARD POOL
+
+Contoh:
+
+### Floor 1–10
+
+```text
+Gold
+Basic Material
+Common Equipment
+Potion
+Food
+Small Gem
+```
+
+### Floor 11–20
+
+```text
+Gold
+Material
+Uncommon Equipment
+Gem
+Summon Ticket
+Crafting Material
+```
+
+### Floor 21–30
+
+```text
+Gold
+Rare Material
+Rare Equipment
+Gem
+Summon Ticket
+Recipe
+```
+
+### Floor 31–40
+
+```text
+Rare Material
+Rare Equipment
+Epic Material
+Gem
+Ticket
+Artifact Fragment
+```
+
+### Floor 41–50
+
+```text
+Gold
+Epic Material
+Epic Equipment
+Gem
+Summon Ticket
+Artifact
+```
+
+### Floor 51–60
+
+```text
+Epic Material
+Epic Equipment
+Legendary Material
+Gem
+Special Ticket Fragment
+Artifact
+```
+
+### Floor 61–70
+
+```text
+Legendary Material
+Epic Equipment
+Legendary Equipment
+Gem
+Special Ticket
+Artifact
+```
+
+### Floor 71–80
+
+```text
+Legendary Equipment
+Legendary Artifact
+Rare Special Material
+Gem
+Special Ticket
+Ancient Recipe
+```
+
+### Floor 81–90
+
+```text
+Legendary Equipment
+Legendary Artifact
+Mythic Material
+Special Ticket
+Gem
+Ancient Artifact
+```
+
+### Floor 91–99
+
+```text
+Legendary Equipment
+Mythic Equipment
+Mythic Material
+Special Ticket
+Ancient Artifact
+Unique Item
+```
+
+### Floor 100
+
+```text
+Mythic Equipment
+Unique Artifact
+Ancient Artifact
+Special Ticket
+Rare Crafting Material
+World Rebirth Related Item
+```
+
+---
+
+# 7. FLOOR BONUS REWARD
+
+Setiap Floor dapat memiliki bonus pool.
+
+```text
+FLOOR CLEAR
+    ↓
+MAIN REWARD
+    +
+BONUS REWARD
+```
+
+Bonus dapat berupa:
+
+```text
+Gold
+Gem
+Material
+Equipment
+Ticket
+Artifact Fragment
+Recipe
+```
+
+Bonus chance dikontrol RNG.
+
+---
+
+# 8. WORLD EXPLORATION REWARD
+
+World Exploration berbeda dari dungeon combat.
+
+Fokus reward:
+
+```text
+Ancient Resources
+Lost Items
+Historical Artifacts
+Rare Materials
+Recipes
+Lore Items
+Equipment
+Treasure
+```
+
+---
+
+# 9. EXPLORATION REWARD POOL
+
+Exploration dapat menghasilkan:
+
+```text
+Ancient Coin
+Ancient Weapon
+Ancient Armor
+Lost Recipe
+Ancient Crystal
+Rare Material
+Old Map
+Artifact Fragment
+Historical Document
+Treasure Chest
+Gem
+Gold
+Ticket
+```
+
+---
+
+# 10. EXPLORATION DISCOVERY REWARD
+
+Exploration memiliki kemungkinan menemukan:
+
+```text
+DISCOVERY
+│
+├── Resource
+├── Treasure
+├── Ruin
+├── Ancient Equipment
+├── NPC
+├── Survivor
+├── Artifact
+├── Quest
+└── Secret Location
+```
+
+Tidak semua Exploration harus menghasilkan item.
+
+RNG dapat menghasilkan:
+
+```text
+No Significant Reward
+```
+
+Tetapi tetap dapat menghasilkan:
+
+```text
+Story Discovery
+World Information
+NPC Encounter
+Quest Unlock
+```
+
+---
+
+# 11. EXPLORATION TREASURE
+
+Treasure dapat memiliki tier:
+
+```text
+WOODEN CHEST
+IRON CHEST
+GOLDEN CHEST
+ANCIENT CHEST
+ROYAL CHEST
+MYTHIC CHEST
+```
+
+Semakin tinggi tier:
+
+```text
+Reward Quality ↑
+Reward Quantity ↑
+Rare Chance ↑
+```
+
+---
+
+# 12. EXPLORATION SECRET REWARD
+
+Rare RNG event:
+
+```text
+EXPLORATION
+     ↓
+RNG
+     ↓
+SECRET DISCOVERY
+```
+
+Possible:
+
+```text
+Lost Royal Weapon
+Ancient Spell
+Unique Artifact
+Forgotten Recipe
+Lost Civilization Item
+Hidden Dungeon Key
+Rare Character-related Item
+```
+
+---
+
+# 13. RAID BOSS REWARD
+
+Raid Boss memiliki reward paling tinggi dibandingkan Dungeon biasa.
+
+Reward dapat berupa:
+
+```text
+Boss Equipment
+Boss Material
+Legendary Material
+Artifact
+Gem
+Special Ticket
+Unique Item
+Crafting Recipe
+Rare Accessory
+```
+
+---
+
+# 14. RAID BOSS REWARD POOL
+
+```text
+RAID BOSS
+│
+├── Gold
+├── Gem
+├── Summon Ticket
+├── Special Ticket
+│
+├── Boss Material
+├── Rare Boss Material
+├── Legendary Boss Material
+│
+├── Boss Weapon
+├── Boss Armor
+├── Boss Accessory
+│
+├── Artifact
+├── Artifact Fragment
+│
+├── Ancient Recipe
+├── Unique Item
+└── Mythic Item
+```
+
+---
+
+# 15. BOSS MATERIAL
+
+Setiap Boss dapat mempunyai material khusus.
+
+Contoh:
+
+```text
+Nythar Spawn
+↓
+Shadow Core
+
+Dragon Boss
+↓
+Dragon Heart
+
+Demon Lord
+↓
+Demon Crown Fragment
+
+Ancient Golem
+↓
+Ancient Core
+```
+
+Material tersebut digunakan oleh:
+
+```text
+Crafting System
+Upgrade System
+Equipment System
+Artifact System
+```
+
+---
+
+# 16. RAID BOSS EQUIPMENT
+
+Boss memiliki equipment pool sendiri.
+
+Contoh:
+
+```text
+BOSS
+ ↓
+RNG
+ ↓
+BOSS EQUIPMENT
+```
+
+Possible:
+
+```text
+Boss Sword
+Boss Spear
+Boss Bow
+Boss Staff
+Boss Shield
+Boss Armor
+Boss Helmet
+Boss Ring
+Boss Necklace
+```
+
+Nama dan efek equipment dapat dibuat oleh AI.
+
+Namun:
+
+```text
+AI
+ ↓
+Equipment Definition
+ ↓
+RNG
+ ↓
+Economy / Stat Validation
+ ↓
+Database
+```
+
+---
+
+# 17. BOSS UNIQUE DROP
+
+Setiap Raid Boss dapat memiliki:
+
+```text
+UNIQUE DROP POOL
+```
+
+Contoh:
+
+```text
+Dragon Boss
+
+Unique Drop:
+Heart of the Ancient Dragon
+
+Chance:
+Very Low
+```
+
+Unique Drop tidak harus selalu jatuh.
+
+---
+
+# 18. RAID CHEST
+
+Raid Boss dapat memberikan Chest daripada item langsung.
+
+```text
+RAID BOSS
+ ↓
+RAID CHEST
+ ↓
+RNG
+ ↓
+REWARD
+```
+
+Chest tier:
+
+```text
+BOSS CHEST
+ELITE BOSS CHEST
+LEGENDARY BOSS CHEST
+ANCIENT BOSS CHEST
+MYTHIC BOSS CHEST
+```
+
+---
+
+# 19. CONTRIBUTION REWARD
+
+Jika Raid menggunakan beberapa party/hero:
+
+```text
+RAID PARTICIPANTS
+       ↓
+CONTRIBUTION
+       ↓
+REWARD RNG
+```
+
+Contribution dapat berdasarkan:
+
+```text
+Damage
+Survival
+Support
+Objective
+Mechanic Completion
+```
+
+Contribution tidak memberikan EXP.
+
+---
+
+# 20. PARTICIPATION REWARD
+
+Setiap peserta yang memenuhi syarat dapat memperoleh:
+
+```text
+Participation Reward
+```
+
+Contoh:
+
+```text
+Gold
+Material
+Basic Boss Fragment
+```
+
+---
+
+# 21. MVP REWARD
+
+Raid dapat memiliki MVP reward.
+
+```text
+MVP
+ ↓
+BONUS RNG
+```
+
+Possible:
+
+```text
+Gem
+Rare Material
+Equipment
+Artifact Fragment
+Ticket
+```
+
+MVP tidak harus selalu mendapatkan item terbaik.
+
+---
+
+# 22. RARE REWARD
+
+Rare reward menggunakan probability rendah.
+
+```text
+COMMON
+     ↓
+UNCOMMON
+     ↓
+RARE
+     ↓
+EPIC
+     ↓
+LEGENDARY
+     ↓
+UNIQUE
+     ↓
+MYTHIC
+```
+
+RNG menentukan hasil berdasarkan:
+
+```text
+Floor
+Dungeon Type
+Raid Tier
+Boss Tier
+Destruction Level
+Event
+Difficulty
+Reward Pool
+```
+
+---
+
+# 23. RNG REWARD FORMULA
+
+Konsep dasar:
+
+```text
+Reward Result =
+Base Reward Pool
+×
+Dungeon Modifier
+×
+Floor Modifier
+×
+Difficulty Modifier
+×
+World State Modifier
+×
+Event Modifier
+×
+RNG
+```
+
+Semua modifier memiliki batas.
+
+---
+
+# 24. DESTRUCTION LEVEL MODIFIER
+
+Core World Building memiliki Destruction Level.
+
+Destruction dapat memengaruhi reward.
+
+Contoh:
+
+```text
+Destruction 50%
+→ x1.00
+
+Destruction 60%
+→ x1.05
+
+Destruction 70%
+→ x1.10
+
+Destruction 80%
+→ x1.20
+
+Destruction 90%
+→ x1.35
+```
+
+Namun Destruction tidak otomatis berarti reward selalu lebih banyak.
+
+Beberapa resource justru dapat menjadi lebih langka.
+
+---
+
+# 25. RESOURCE SCARCITY
+
+Contoh:
+
+```text
+WORLD DESTRUCTION ↑
+        ↓
+RESOURCE SUPPLY ↓
+        ↓
+RESOURCE DROP CHANCE ↓
+        ↓
+MARKET VALUE ↑
+```
+
+Dengan demikian ekonomi tetap mengikuti kondisi dunia.
+
+---
+
+# 26. REWARD WEIGHT
+
+Setiap reward mempunyai weight.
+
+Contoh:
+
+```text
+Gold
+Weight: 40
+
+Material
+Weight: 30
+
+Equipment
+Weight: 15
+
+Gem
+Weight: 8
+
+Ticket
+Weight: 5
+
+Artifact
+Weight: 2
+```
+
+RNG menggunakan weight tersebut untuk memilih reward.
+
+---
+
+# 27. REWARD QUANTITY RNG
+
+Bukan hanya jenis reward yang random.
+
+Jumlah juga dapat random.
+
+Contoh:
+
+```text
+IRON
+
+Minimum:
+2
+
+Maximum:
+8
+```
+
+RNG:
+
+```text
+Result:
+5
+```
+
+---
+
+# 28. MULTI-REWARD
+
+Satu kemenangan dapat memberikan beberapa reward.
+
+```text
+VICTORY
+ ↓
+RNG
+ ↓
+Reward Slot 1
+Reward Slot 2
+Reward Slot 3
+```
+
+Contoh:
+
+```text
+Gold × 350
+Iron × 5
+Potion × 2
+```
+
+---
+
+# 29. REWARD SLOT
+
+Setiap aktivitas memiliki jumlah slot.
+
+### Normal Dungeon
+
+```text
+2–4 Slots
+```
+
+### High Floor Dungeon
+
+```text
+3–6 Slots
+```
+
+### Exploration
+
+```text
+1–5 Slots
+```
+
+### Raid Boss
+
+```text
+4–8 Slots
+```
+
+Nilai tersebut merupakan konfigurasi dan dapat diubah.
+
+---
+
+# 30. GUARANTEED REWARD
+
+Beberapa reward dapat memiliki guaranteed slot.
+
+Contoh:
+
+```text
+RAID BOSS
+
+Guaranteed:
+Boss Material ×1
+
+RNG:
+Additional Reward ×3
+```
+
+Dengan demikian Raid tidak terasa terlalu buruk ketika RNG gagal memberikan rare item.
+
+---
+
+# 31. PITY REWARD
+
+Untuk reward tertentu dapat digunakan pity system.
+
+Contoh:
+
+```text
+Legendary Drop
+      ↓
+Failed
+      ↓
+Pity Counter +1
+```
+
+Setelah batas tertentu:
+
+```text
+PITY LIMIT
+     ↓
+GUARANTEED LEGENDARY
+```
+
+Pity hanya digunakan jika dikonfigurasi.
+
+---
+
+# 32. NO DUPLICATE REWARD RULE
+
+Item unik tertentu tidak boleh diberikan dua kali jika:
+
+```text
+Unique = TRUE
+```
+
+Flow:
+
+```text
+RNG
+ ↓
+Unique Item
+ ↓
+CHECK INVENTORY
+ ↓
+Already Owned?
+ ├── YES → ROLL AGAIN
+ └── NO  → GIVE REWARD
+```
+
+Ini berbeda dengan material biasa yang boleh memiliki jumlah banyak.
+
+---
+
+# 33. REWARD OWNERSHIP
+
+Setiap reward yang diterima:
+
+```text
+Reward
+ ↓
+Item ID / Resource ID
+ ↓
+Master ID
+ ↓
+Inventory
+ ↓
+Database
+```
+
+Reward tidak boleh hanya disimpan sebagai nama.
+
+---
+
+# 34. REWARD ID
+
+Setiap reward memiliki:
+
+```text
+Reward ID
+```
+
+Contoh:
+
+```text
+REWARD-FLOOR-000001
+REWARD-EXPLORATION-000001
+REWARD-RAID-000001
+```
+
+---
+
+# 35. REWARD TRANSACTION
+
+Setiap reward menghasilkan transaction.
+
+```text
+TRANSACTION
+│
+├── Transaction ID
+├── Master ID
+├── Source
+├── Dungeon ID
+├── Floor ID
+├── Reward ID
+├── Item ID
+├── Quantity
+├── RNG Result
+├── Game Time
+└── Status
+```
+
+---
+
+# 36. FAIRY REPORT
+
+AI Fairy wajib melaporkan reward setelah aktivitas selesai.
+
+Contoh:
+
+```text
+[FAIRY REPORT]
+
+Mission Complete.
+
+Floor:
+27
+
+Result:
+Victory.
+
+Reward generated:
+
+Gold × 840
+Iron × 7
+Rare Crystal × 2
+Gem × 15
+
+All rewards have been synchronized
+with the Inventory Database.
+```
+
+---
+
+# 37. EXPLORATION FAIRY REPORT
+
+```text
+[FAIRY OBSERVATION]
+
+Exploration completed.
+
+Location:
+Ruined Aurelia District
+
+Discovery:
+Ancient Storage Chamber
+
+RNG Result:
+Rare Treasure
+
+Obtained:
+
+Ancient Crystal ×2
+Gold ×620
+Lost Engineering Blueprint ×1
+
+Inventory synchronization:
+COMPLETE
+```
+
+---
+
+# 38. RAID FAIRY REPORT
+
+```text
+[FAIRY RAID REPORT]
+
+Raid Boss defeated.
+
+Boss:
+Ancient Dragon
+
+Contribution:
+HIGH
+
+Reward generated:
+
+Dragon Scale ×8
+Dragon Heart ×1
+Gold ×4,250
+Gem ×50
+
+Rare Drop:
+Ancient Dragon Ring ×1
+
+Inventory synchronization:
+COMPLETE
+```
+
+---
+
+# 39. REWARD SYNCHRONIZATION
+
+Semua reward:
+
+```text
+Dungeon
+Exploration
+Raid Boss
+Quest
+Event
+Enemy Loot
+```
+
+langsung disinkronkan.
+
+```text
+ACTIVITY
+   ↓
+REWARD RNG
+   ↓
+GAME STATE
+   ↓
+VALIDATION
+   ↓
+DATABASE
+   ↓
+INVENTORY
+   ↓
+FAIRY REPORT
+```
+
+Tidak boleh:
+
+```text
+Reward Generated
+      ↓
+Temporary Data
+      ↓
+Forgotten
+```
+
+---
+
+# 40. DATABASE STRUCTURE
+
+Reward history:
+
+```text
+REWARD_DATABASE
+│
+├── Reward_ID
+├── Activity_ID
+├── Dungeon_ID
+├── Floor_ID
+├── Raid_ID
+├── Master_ID
+├── Source_Type
+├── Reward_Type
+├── Item_ID
+├── Resource_ID
+├── Quantity
+├── Rarity
+├── RNG_Result
+├── Timestamp
+└── Status
+```
+
+---
+
+# 41. REWARD SOURCE
+
+Source wajib dicatat.
+
+```text
+DUNGEON
+EXPLORATION
+RAID_BOSS
+ENEMY_LOOT
+QUEST
+EVENT
+SPECIAL_EVENT
+```
+
+Contoh:
+
+```text
+Source:
+RAID_BOSS
+
+Raid ID:
+RAID-00027
+```
+
+---
+
+# 42. REWARD GENERATION FLOW
+
+```text
+                 ACTIVITY
+                    │
+        ┌───────────┼───────────┐
+        │           │           │
+     DUNGEON    EXPLORATION   RAID
+        │           │           │
+        └───────────┼───────────┘
+                    ▼
+                 RNG SYSTEM
+                    │
+                    ▼
+              REWARD POOL
+                    │
+          ┌─────────┼─────────┐
+          │         │         │
+       Quantity   Rarity    Item
+          │         │         │
+          └─────────┼─────────┘
+                    ▼
+              GAME STATE
+                    │
+                    ▼
+                VALIDATE
+                    │
+                    ▼
+               DATABASE
+                    │
+                    ▼
+                INVENTORY
+                    │
+                    ▼
+                 FAIRY
+                    │
+                    ▼
+                 MASTER
+```
+
+---
+
+# 43. REWARD SYSTEM CONNECTION
+
+```text
+                         DUNGEON SYSTEM
+                              │
+                  ┌───────────┼───────────┐
+                  │           │           │
+               FLOOR      EXPLORATION    RAID
+                  │           │           │
+                  └───────────┼───────────┘
+                              ▼
+                         RNG SYSTEM
+                              │
+                              ▼
+                      REWARD SYSTEM
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+       ECONOMY             ITEM SYSTEM        EQUIPMENT
+          │                   │                   │
+          └───────────────────┼───────────────────┘
+                              ▼
+                       GAME STATE SYSTEM
+                              │
+                              ▼
+                        DATABASE SYSTEM
+                              │
+                              ▼
+                         INVENTORY
+                              │
+                              ▼
+                          AI FAIRY
+                              │
+                              ▼
+                           MASTER
+```
+
+---
+
+# 44. CORE RULES
+
+### RULE 01
+
+Aetheria tidak memberikan EXP sebagai Dungeon Reward.
+
+### RULE 02
+
+Dungeon Reward menggunakan RNG.
+
+### RULE 03
+
+World Exploration Reward menggunakan RNG.
+
+### RULE 04
+
+Raid Boss Reward menggunakan RNG.
+
+### RULE 05
+
+RNG hanya memilih dari Reward Pool yang valid.
+
+### RULE 06
+
+Reward memiliki Rarity.
+
+### RULE 07
+
+Reward dapat memiliki Quantity RNG.
+
+### RULE 08
+
+Reward dapat memiliki Multi-Slot.
+
+### RULE 09
+
+Reward tertentu dapat memiliki Guaranteed Drop.
+
+### RULE 10
+
+Reward tertentu dapat memiliki Pity System.
+
+### RULE 11
+
+Unique Item tidak boleh diduplikasi jika aturan item menetapkan Unique.
+
+### RULE 12
+
+Semua reward memiliki Reward ID.
+
+### RULE 13
+
+Semua item memiliki Item ID.
+
+### RULE 14
+
+Semua resource menggunakan Resource ID.
+
+### RULE 15
+
+Reward harus melewati Game State System.
+
+### RULE 16
+
+Reward yang valid langsung disinkronkan ke Database.
+
+### RULE 17
+
+Reward yang valid masuk ke Inventory.
+
+### RULE 18
+
+AI tidak boleh memberikan reward di luar Reward Pool.
+
+### RULE 19
+
+AI dapat membuat nama/deskripsi item, tetapi item tetap melewati validasi.
+
+### RULE 20
+
+Fairy wajib melaporkan hasil reward kepada Master.
+
+---
+
+# 45. FINAL DESIGN
+
+```text
+                  MASTER
+                    │
+                    ▼
+               DUNGEON TOWER
+                    │
+       ┌────────────┼────────────┐
+       │            │            │
+     FLOOR      EXPLORATION    RAID BOSS
+       │            │            │
+       └────────────┼────────────┘
+                    ▼
+                 RNG SYSTEM
+                    │
+                    ▼
+              REWARD POOL
+                    │
+        ┌───────────┼───────────┐
+        │           │           │
+     CURRENCY     ITEM       EQUIPMENT
+        │           │           │
+        └───────────┼───────────┘
+                    ▼
+              GAME STATE
+                    │
+                    ▼
+               VALIDATION
+                    │
+                    ▼
+                DATABASE
+                    │
+                    ▼
+                INVENTORY
+                    │
+                    ▼
+               AI FAIRY
+                    │
+                    ▼
+             REWARD REPORT
+                    │
+                    ▼
+                 MASTER
+```
+
+> **The Dungeon decides the challenge.**
+>
+> **RNG decides the possibility.**
+>
+> **The Reward Pool defines what can exist.**
+>
+> **Game State validates the result.**
+>
+> **Database remembers it.**
+>
+> **Inventory receives it.**
+>
+> **Fairy reports it.**
+>
+> **No EXP.**
+>
+> **Every victory creates something that can change the future of Aetheria.**
