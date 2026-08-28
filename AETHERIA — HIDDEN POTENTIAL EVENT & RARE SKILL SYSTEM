@@ -1,0 +1,2808 @@
+# 🎲 AETHERIA — HIDDEN POTENTIAL EVENT & RARE SKILL SYSTEM
+
+> **Not every Hero reveals their true potential.**
+>
+> **Some Heroes awaken only when everything is about to be lost.**
+>
+> A Hero may fight hundreds of battles without showing anything unusual.
+>
+> But when fear, desperation, rage, loyalty, grief, determination, or hope reaches a critical point, something buried inside the Hero may awaken.
+>
+> This system represents the rare possibility that a Hero discovers a **Hidden Potential Event** during an active Dungeon Mission.
+>
+> The event can temporarily or permanently unlock a **Rare Skill** capable of changing the course of battle.
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+The **Hidden Potential System** is a special RNG-driven character event system.
+
+Its purpose is to create rare, memorable moments where a Hero can awaken an unknown potential during a mission.
+
+The system connects:
+
+```text
+RNG SYSTEM
+      ↓
+HIDDEN POTENTIAL CHECK
+      ↓
+AI EMOTIONAL SYSTEM
+      ↓
+HERO CONDITION
+      ↓
+CORE WORLD BUILDING
+      ↓
+HIDDEN POTENTIAL EVENT
+      ↓
+RARE SKILL
+      ↓
+BATTLE STATE CHANGE
+      ↓
+GAME STATE SYSTEM
+      ↓
+DATABASE SYSTEM
+      ↓
+AI FAIRY REPORT
+```
+
+The system does **not** guarantee that every Hero will awaken a Hidden Potential.
+
+Even if the Hero satisfies all conditions, the RNG can still fail.
+
+---
+
+# 2. CORE PRINCIPLE
+
+The system follows one primary rule:
+
+> **Every Hero may possess hidden potential, but the awakening rate is fixed at 0.1% per eligible Hero evaluation.**
+
+Therefore:
+
+```text
+Hero enters Dungeon
+        ↓
+Hero participates in battle
+        ↓
+Emotional state changes
+        ↓
+Condition evaluated
+        ↓
+Hidden Potential RNG
+        ↓
+0.1% SUCCESS
+   OR
+99.9% FAIL
+```
+
+The base appearance rate is:
+
+```text
+Hidden Potential Event Rate:
+0.1%
+```
+
+Equivalent probability:
+
+```text
+0.1% = 1 in 1,000 eligible checks
+```
+
+Most checks should result in:
+
+```text
+NO AWAKENING
+```
+
+Only a very small percentage should produce:
+
+```text
+HIDDEN POTENTIAL EVENT
+```
+
+The 0.1% rate applies to the final RNG check after the Hero passes the required eligibility and condition gates.
+
+---
+
+# 3. EVERY HERO IS CHECKED INDIVIDUALLY
+
+The system must evaluate **every Hero individually**.
+
+Example:
+
+```text
+PARTY
+├── Hero A → Check → 0.1% Chance
+├── Hero B → Check → 0.1% Chance
+├── Hero C → Check → 0.1% Chance
+├── Hero D → Check → 0.1% Chance
+└── Hero E → Check → 0.1% Chance
+```
+
+The result for one Hero does not automatically affect another Hero.
+
+Example:
+
+```text
+Hero A → FAIL
+Hero B → FAIL
+Hero C → SUCCESS
+Hero D → FAIL
+Hero E → FAIL
+```
+
+Only Hero C awakens.
+
+---
+
+# 4. NO PARTY-WIDE RANDOM AWAKENING
+
+The system must not simply perform:
+
+```text
+Party
+ ↓
+RNG
+ ↓
+One Hero
+```
+
+Instead:
+
+```text
+Party
+ │
+ ├── Hero 1 → Individual Evaluation → 0.1%
+ ├── Hero 2 → Individual Evaluation → 0.1%
+ ├── Hero 3 → Individual Evaluation → 0.1%
+ ├── Hero 4 → Individual Evaluation → 0.1%
+ └── Hero 5 → Individual Evaluation → 0.1%
+```
+
+Every Hero has an independent Hidden Potential evaluation.
+
+For a five-Hero Party, if all five Heroes are eligible, the theoretical chance of at least one awakening in that evaluation cycle is approximately:
+
+```text
+1 - (0.999)^5 ≈ 0.499%
+```
+
+This does not mean an awakening is guaranteed or common.
+
+---
+
+# 5. HIDDEN POTENTIAL STATUS
+
+Each Hero can have:
+
+```text
+UNKNOWN
+     ↓
+DORMANT
+     ↓
+CONDITIONING
+     ↓
+AWAKENED
+```
+
+Meaning:
+
+### UNKNOWN
+
+The system has not yet established whether the Hero has a hidden potential.
+
+### DORMANT
+
+The Hero possesses a potential that has not awakened.
+
+### CONDITIONING
+
+The Hero is approaching the emotional and situational conditions required for awakening.
+
+### AWAKENED
+
+The Hero successfully triggered the Hidden Potential Event.
+
+---
+
+# 6. HIDDEN POTENTIAL IS NOT NORMAL SKILL PROGRESSION
+
+Normal skill progression:
+
+```text
+Hero Level
+   ↓
+Skill Unlock
+```
+
+Star progression:
+
+```text
+Star 6
+   ↓
+Rare Skill
+
+Star 7
+   ↓
+Ultimate Skill
+```
+
+Hidden Potential:
+
+```text
+Battle Condition
+      +
+Emotional State
+      +
+Hero Personality
+      +
+Core World Connection
+      +
+0.1% RNG
+      ↓
+Hidden Potential Event
+      ↓
+Rare Skill
+```
+
+Therefore Hidden Potential is a separate progression layer.
+
+---
+
+# 7. CORE WORLD BUILDING CONNECTION
+
+The Hidden Potential system must follow the:
+
+# **CORE WORLD BUILDING**
+
+The system must not generate random abilities that contradict the Hero's origin.
+
+Potential sources include:
+
+```text
+Bloodline
+Family
+Royal Heritage
+Noble House
+Ancient Civilization
+Military Training
+Religious Background
+Magic School
+Lost Kingdom
+Beastfolk Heritage
+Draconis Heritage
+Demon Heritage
+Ancient Artifact
+Forgotten Technique
+Historical Connection
+Personal Trauma
+Mastery
+Unknown Origin
+```
+
+---
+
+# 8. POTENTIAL TYPE
+
+Each Hero can have one or more potential categories.
+
+```text
+Combat Potential
+Magic Potential
+Leadership Potential
+Survival Potential
+Defensive Potential
+Offensive Potential
+Support Potential
+Tactical Potential
+Bloodline Potential
+Weapon Potential
+Elemental Potential
+Ancient Knowledge
+Forbidden Technique
+Instinctive Potential
+Emotional Awakening
+```
+
+The type is influenced by the Hero's Character Data.
+
+---
+
+# 9. HIDDEN POTENTIAL SEED
+
+Every Hero receives an internal potential seed.
+
+Example:
+
+```text
+Hero_ID:
+HERO-000421
+
+Potential Seed:
+HP-SEED-000421
+```
+
+The seed is stored in the Database.
+
+The seed determines the Hero's potential profile.
+
+However:
+
+> The seed does not guarantee awakening.
+
+It only defines the potential possibility.
+
+The final awakening rate remains:
+
+```text
+0.1% per eligible evaluation
+```
+
+---
+
+# 10. HIDDEN POTENTIAL PARAMETERS
+
+Example Hero data:
+
+```text
+Hero_ID
+Potential_Seed
+Potential_Type
+Potential_Rarity
+Potential_Status
+Potential_Compatibility
+Emotional_Trigger
+World_Connection
+Combat_Trigger
+Awakening_Rate
+Awakening_History
+Awakened_Skill_ID
+```
+
+Default configuration:
+
+```text
+Awakening_Rate:
+0.1%
+```
+
+---
+
+# 11. EMOTIONAL SYSTEM CONNECTION
+
+The Hero's emotional state is one of the most important conditions.
+
+Possible emotional states:
+
+```text
+Calm
+Focused
+Confident
+Happy
+Determined
+Hopeful
+Afraid
+Angry
+Sad
+Grieving
+Desperate
+Frustrated
+Protective
+Loyal
+Confused
+Panicked
+Exhausted
+Enraged
+```
+
+The AI Character System continuously evaluates these states.
+
+---
+
+# 12. EMOTIONAL INTENSITY
+
+Each emotion can have an intensity value.
+
+Example:
+
+```text
+Fear:
+35
+
+Anger:
+72
+
+Determination:
+91
+
+Hope:
+84
+
+Exhaustion:
+68
+```
+
+The system can evaluate combinations rather than only one emotion.
+
+Example:
+
+```text
+Determination > 80
+AND
+Fear > 60
+AND
+HP < 30%
+```
+
+This may activate an eligibility condition for the 0.1% RNG check.
+
+---
+
+# 13. EMOTIONAL COMPATIBILITY
+
+Different Heroes can have different emotional triggers.
+
+Example:
+
+### Hero A
+
+```text
+Trigger:
+Protective Instinct
+```
+
+### Hero B
+
+```text
+Trigger:
+Desperation
+```
+
+### Hero C
+
+```text
+Trigger:
+Anger
+```
+
+### Hero D
+
+```text
+Trigger:
+Loyalty
+```
+
+### Hero E
+
+```text
+Trigger:
+Fear transformed into determination
+```
+
+Therefore:
+
+```text
+Same Battle
++
+Different Heroes
+=
+Different Awakening Possibilities
+```
+
+The final rate for each eligible Hero remains:
+
+```text
+0.1%
+```
+
+---
+
+# 14. COMBAT CONDITION
+
+The system also evaluates the Hero's physical and combat condition.
+
+Possible parameters:
+
+```text
+HP
+MP
+Stamina
+Status Effects
+Cooldown State
+Position
+Enemy Pressure
+Ally Condition
+Party Survival
+Boss Phase
+Battle Duration
+Damage Taken
+Damage Dealt
+Critical Situation
+```
+
+---
+
+# 15. CRITICAL BATTLE CONDITION
+
+A Hidden Potential Event should generally require a meaningful battle situation.
+
+Examples:
+
+```text
+HP < 30%
+```
+
+or:
+
+```text
+Party Members Remaining ≤ 2
+```
+
+or:
+
+```text
+Boss HP < 20%
+```
+
+or:
+
+```text
+Hero is protecting another Hero
+```
+
+or:
+
+```text
+Hero is the final surviving frontline character
+```
+
+These are examples of possible triggers.
+
+The actual trigger is determined by the Hero's Hidden Potential configuration.
+
+Passing these conditions does not guarantee awakening.
+
+It only allows the Hero to enter the final:
+
+```text
+0.1% RNG CHECK
+```
+
+---
+
+# 16. EMOTIONAL + COMBAT CONDITION
+
+The strongest evaluation combines both.
+
+Example:
+
+```text
+Hero HP:
+18%
+
+Party:
+2 Heroes remaining
+
+Enemy:
+Boss Phase 3
+
+Emotion:
+Determination 94
+Fear 71
+
+Relationship:
+High with fallen Party Member
+
+World Connection:
+Ancient Knight Bloodline
+
+Potential Type:
+Defensive Awakening
+
+Final RNG Rate:
+0.1%
+```
+
+The system now performs the Hidden Potential RNG check.
+
+---
+
+# 17. RNG STRUCTURE
+
+The system uses multiple gates.
+
+```text
+GATE 1
+Potential Eligibility
+        ↓
+GATE 2
+Combat Condition
+        ↓
+GATE 3
+Emotional Condition
+        ↓
+GATE 4
+Core World Compatibility
+        ↓
+GATE 5
+0.1% Hidden Potential RNG
+        ↓
+GATE 6
+Event Trigger
+        ↓
+RARE SKILL
+```
+
+Failure at any gate results in:
+
+```text
+NO AWAKENING
+```
+
+The 0.1% rate is applied only after the Hero passes the required eligibility gates.
+
+---
+
+# 18. FIXED 0.1% RNG RATE
+
+The final awakening probability is:
+
+```text
+0.1%
+```
+
+This means:
+
+```text
+Successful eligible check:
+1 in 1,000
+```
+
+The system should be configured so that:
+
+```text
+Most eligible checks:
+NO AWAKENING
+```
+
+Even when:
+
+```text
+Emotional Condition = TRUE
+Combat Condition = TRUE
+World Compatibility = TRUE
+```
+
+the final RNG can still produce:
+
+```text
+FAIL
+```
+
+The conditions determine whether the Hero may roll.
+
+The RNG determines whether the Hero awakens.
+
+---
+
+# 19. RNG MODEL
+
+The final RNG model is:
+
+```text
+Eligibility:
+TRUE
+
+Combat Condition:
+TRUE
+
+Emotional Compatibility:
+TRUE
+
+World Compatibility:
+TRUE
+
+Final Awakening Rate:
+0.1%
+```
+
+Result:
+
+```text
+0.1% → SUCCESS
+99.9% → FAIL
+```
+
+Condition bonuses may influence eligibility or the quality of the resulting skill, but they must not increase the final awakening rate above 0.1%.
+
+---
+
+# 20. RNG MUST NOT BE GUARANTEED
+
+Bad design:
+
+```text
+10 Battles
+↓
+Guaranteed Awakening
+```
+
+Correct design:
+
+```text
+Battle 1 → FAIL
+Battle 2 → FAIL
+Battle 3 → FAIL
+Battle 4 → FAIL
+...
+Battle 50 → FAIL
+...
+Battle 100 → FAIL
+...
+Battle ??? → 0.1% POSSIBLE SUCCESS
+```
+
+There is no fixed pity counter unless a future system explicitly introduces one.
+
+The 0.1% rate does not accumulate into a guarantee.
+
+---
+
+# 21. NO NORMAL FARMING
+
+The Master should not be able to deliberately farm Hidden Potential by repeating an easy Floor.
+
+The system should consider:
+
+```text
+Battle Context
+Floor Difficulty
+Enemy Threat
+Hero Condition
+Emotional State
+World Context
+Event Context
+Mission Importance
+```
+
+Repeated low-risk battles should have extremely low value for Hidden Potential.
+
+The 0.1% roll should only occur when the Hero satisfies the required eligibility conditions.
+
+---
+
+# 22. DESTRUCTIVE WORLD CONNECTION
+
+The Core World Building can influence the awakening.
+
+Example:
+
+```text
+Hero:
+Aurelian Knight
+
+Floor:
+Ruined Aurelian Capital
+
+Condition:
+Hero discovers the remains of the old military command.
+
+Emotion:
+Grief + Determination
+
+Combat:
+Party is losing
+
+Potential:
+Ancient Aurelian Combat Technique
+
+Final RNG Rate:
+0.1%
+```
+
+The system may trigger:
+
+```text
+Hidden Potential Event
+```
+
+only if the final 0.1% roll succeeds.
+
+---
+
+# 23. HIDDEN POTENTIAL EVENT
+
+When RNG succeeds:
+
+```text
+0.1% RNG SUCCESS
+      ↓
+EVENT CREATED
+      ↓
+EVENT SYSTEM
+      ↓
+CHARACTER REACTION
+      ↓
+EMOTIONAL PEAK
+      ↓
+AWAKENING
+      ↓
+RARE SKILL
+```
+
+The Event System controls the narrative.
+
+---
+
+# 24. EVENT STRUCTURE
+
+Example:
+
+```text
+Hidden Potential Event ID:
+HPE-F023-HERO421-001
+
+Hero:
+HERO-000421
+
+Floor:
+023
+
+Trigger:
+Critical Battle
+
+Emotion:
+Determination + Fear
+
+World Connection:
+Aurelian Military Heritage
+
+Final RNG Rate:
+0.1%
+
+RNG Result:
+SUCCESS
+
+Result:
+Potential Awakening
+```
+
+---
+
+# 25. HIDDEN POTENTIAL EVENT NARRATIVE
+
+The event should feel like a story moment.
+
+Example:
+
+> The Hero's breathing becomes unstable.
+>
+> The enemy approaches.
+>
+> The remaining Party members are barely standing.
+>
+> For a moment, the Hero remembers an old lesson forgotten long ago.
+>
+> The Hero's fear does not disappear.
+>
+> Instead, the fear becomes determination.
+>
+> Something awakens.
+
+Then:
+
+```text
+SYSTEM
+   ↓
+Hidden Potential Activated
+```
+
+---
+
+# 26. EVENT MUST FIT THE HERO
+
+The narrative must be generated according to:
+
+```text
+Character Personality
+Character History
+Family
+Origin
+Faction
+Relationship
+Emotional State
+Current Mission
+Floor Story
+Core World Building
+```
+
+A disciplined knight should not suddenly behave like a reckless berserker unless the Character System supports that behavior.
+
+---
+
+# 27. AI GENERATION
+
+AI can generate:
+
+```text
+Event Narrative
+Dialogue
+Internal Thought
+Character Reaction
+Skill Awakening Description
+Battle Observation
+Fairy Report
+```
+
+However:
+
+> AI generation must operate within predefined system constraints.
+
+AI must not randomly rewrite permanent Hero data without passing through the Character/Game State system.
+
+AI also must not alter the fixed awakening rate:
+
+```text
+0.1%
+```
+
+---
+
+# 28. RARE SKILL GENERATION
+
+After awakening:
+
+```text
+Hidden Potential
+      ↓
+Potential Type
+      ↓
+Core World Building
+      ↓
+Character Data
+      ↓
+Skill Generation
+      ↓
+Skill Validation
+      ↓
+Rare Skill
+```
+
+The generated skill must match the Hero.
+
+---
+
+# 29. RARE SKILL REQUIREMENTS
+
+A Rare Skill should be:
+
+```text
+Character Appropriate
+World Appropriate
+Combat Appropriate
+Potential Appropriate
+Emotion Appropriate
+Not Overpowered Without Reason
+Unique or Extremely Rare
+```
+
+The skill's rarity comes from the event's extremely low appearance rate:
+
+```text
+0.1%
+```
+
+---
+
+# 30. RARE SKILL EXAMPLE
+
+Hero:
+
+```text
+Former Aurelian Knight
+```
+
+Potential:
+
+```text
+Ancient Guardian Instinct
+```
+
+Rare Skill:
+
+```text
+[LAST IMPERIAL GUARD]
+```
+
+Effect:
+
+```text
+When an ally is about to receive lethal damage,
+the Hero can automatically intercept the attack
+and temporarily increase defensive capability.
+```
+
+This is more appropriate than randomly giving the Hero an unrelated fire spell.
+
+---
+
+# 31. SKILL CAN CHANGE THE BATTLE
+
+The purpose of the Rare Skill is:
+
+> **To create a believable opportunity to reverse a losing battle.**
+
+Example:
+
+```text
+PARTY LOSING
+     ↓
+Hero Awakens
+     ↓
+Rare Skill Activated
+     ↓
+Enemy Formation Disrupted
+     ↓
+Party Regains Initiative
+     ↓
+Battle Continues
+```
+
+It does not automatically mean:
+
+```text
+INSTANT VICTORY
+```
+
+---
+
+# 32. BATTLE REVERSAL
+
+Possible effects:
+
+```text
+Emergency Defense
+Emergency Heal
+Counterattack
+Boss Weakness Reveal
+Enemy Debuff
+Ally Buff
+Barrier
+Mass Control
+Position Reversal
+Skill Reset
+Temporary Awakening
+Damage Negation
+Critical Attack
+Enemy Interrupt
+```
+
+The exact effect depends on the Hero.
+
+---
+
+# 33. BOSS BATTLE EXAMPLE
+
+```text
+BOSS HP:
+18%
+
+PARTY:
+2 Heroes alive
+
+Hero A:
+HP 12%
+
+Hero B:
+HP 31%
+
+Boss:
+Preparing Ultimate Attack
+```
+
+Hero A:
+
+```text
+Emotion:
+Fear 83
+Determination 96
+
+Condition:
+Critical
+
+Potential:
+Guardian Instinct
+
+Final RNG Rate:
+0.1%
+```
+
+RNG:
+
+```text
+SUCCESS
+```
+
+Event:
+
+```text
+HIDDEN POTENTIAL AWAKENING
+```
+
+Rare Skill:
+
+```text
+LAST IMPERIAL GUARD
+```
+
+Result:
+
+```text
+Boss Ultimate interrupted.
+Hero A survives.
+Hero B gets an opening.
+Combat state changes.
+```
+
+---
+
+# 34. DIFFERENT HEROES, DIFFERENT AWAKENINGS
+
+Example:
+
+```text
+Hero A
+Potential:
+Defense
+
+Rare Skill:
+Last Stand
+
+Hero B
+Potential:
+Magic
+
+Rare Skill:
+Forbidden Spell
+
+Hero C
+Potential:
+Leadership
+
+Rare Skill:
+Commander's Resolve
+
+Hero D
+Potential:
+Weapon
+
+Rare Skill:
+Ancient Weapon Mastery
+
+Hero E
+Potential:
+Support
+
+Rare Skill:
+Emergency Restoration
+```
+
+Each eligible Hero receives an independent:
+
+```text
+0.1% Awakening Chance
+```
+
+---
+
+# 35. MULTI-PARTY MISSION
+
+The system works independently across every active Party.
+
+```text
+FLOOR 40
+
+Party 1
+├── Hero A → Check → 0.1%
+├── Hero B → Check → 0.1%
+├── Hero C → Check → 0.1%
+├── Hero D → Check → 0.1%
+└── Hero E → Check → 0.1%
+
+Party 2
+├── Hero F → Check → 0.1%
+├── Hero G → Check → 0.1%
+├── Hero H → Check → 0.1%
+├── Hero I → Check → 0.1%
+└── Hero J → Check → 0.1%
+```
+
+A Hero in Party 2 can awaken even if no Hero in Party 1 does.
+
+---
+
+# 36. PARTY STATE DOES NOT GUARANTEE AWAKENING
+
+The system may consider:
+
+```text
+Party losing
+```
+
+as a condition.
+
+But:
+
+```text
+Party losing
+≠
+Guaranteed Awakening
+```
+
+Instead:
+
+```text
+Party losing
++
+Hero-specific condition
++
+Emotional condition
++
+World compatibility
++
+0.1% RNG
+=
+Possible Awakening
+```
+
+---
+
+# 37. HERO DEATH PROTECTION
+
+Hidden Potential must not automatically prevent death.
+
+If the Hero reaches a lethal condition before the event can activate:
+
+```text
+Hero Death
+```
+
+can still occur.
+
+The system should not create artificial immortality simply because a Hero possesses hidden potential.
+
+---
+
+# 38. EVENT TIMING
+
+The system can evaluate during:
+
+```text
+Combat Start
+Combat Turn
+Damage Received
+Ally Death
+Boss Phase Change
+Hero Critical HP
+Skill Failure
+Skill Success
+Enemy Ultimate
+Character Interaction
+Mission Event
+Exploration Event
+```
+
+However, the final 0.1% trigger must be controlled to avoid excessive checks.
+
+---
+
+# 39. EMOTIONAL PEAK DETECTION
+
+The AI Emotional System can detect a sudden emotional change.
+
+Example:
+
+```text
+Determination:
+54 → 92
+
+Fear:
+40 → 78
+
+Loyalty:
+65 → 95
+```
+
+This can create an:
+
+```text
+EMOTIONAL PEAK
+```
+
+The Hidden Potential System can then perform the 0.1% check.
+
+---
+
+# 40. EMOTIONAL CONTRADICTION
+
+Rare awakenings can occur when conflicting emotions reach high intensity.
+
+Example:
+
+```text
+Fear
++
+Determination
+```
+
+or:
+
+```text
+Grief
++
+Love
+```
+
+or:
+
+```text
+Anger
++
+Discipline
+```
+
+or:
+
+```text
+Despair
++
+Hope
+```
+
+These combinations can be more important than a single emotion.
+
+They do not increase the final rate above:
+
+```text
+0.1%
+```
+
+---
+
+# 41. CHARACTER PERSONALITY MODIFIER
+
+Personality influences the probability of certain events.
+
+Example:
+
+```text
+Brave
+→ Courage Awakening
+
+Protective
+→ Guardian Awakening
+
+Ambitious
+→ Power Awakening
+
+Analytical
+→ Tactical Awakening
+
+Loyal
+→ Support Awakening
+
+Traumatized
+→ Survival Awakening
+```
+
+Personality affects eligibility, potential type, and narrative compatibility.
+
+The final awakening rate remains:
+
+```text
+0.1%
+```
+
+---
+
+# 42. RELATIONSHIP MODIFIER
+
+Relationships can influence Hidden Potential.
+
+Example:
+
+```text
+Hero A protects Hero B.
+
+Hero B is critically injured.
+
+Hero A emotional state:
+Protective 97
+
+Relationship:
+Very High
+```
+
+Possible trigger:
+
+```text
+Hidden Potential Event
+```
+
+The relationship itself does not guarantee awakening.
+
+If the Hero becomes eligible, the final chance is:
+
+```text
+0.1%
+```
+
+---
+
+# 43. MASTER INFLUENCE
+
+The Master can indirectly influence conditions through:
+
+```text
+Party Composition
+Mission Selection
+Hero Assignment
+Equipment
+Formation
+Strategic Decisions
+Event Choices
+```
+
+However:
+
+> The Master cannot manually activate Hidden Potential.
+
+The Master also cannot increase the fixed rate above:
+
+```text
+0.1%
+```
+
+---
+
+# 44. FAIRY OBSERVATION
+
+The AI Fairy observes the battle.
+
+Before awakening:
+
+> **"Master, Hero A's emotional state is becoming unstable."**
+
+During the event:
+
+> **"Master, something is changing."**
+
+After activation:
+
+> **"Master, Hero A has triggered an unknown potential."**
+
+After skill awakening:
+
+> **"Master, a new Rare Skill has manifested."**
+
+---
+
+# 45. FAIRY MUST NOT REVEAL RNG
+
+The Fairy should not say:
+
+> "The RNG was 0.1%."
+
+Instead the Fairy reports the observable result.
+
+Example:
+
+> **"Master, I cannot identify the cause yet, but Hero A's behavior has changed."**
+
+Then:
+
+> **"Master, the Hero has awakened a previously unknown ability."**
+
+This keeps the system immersive.
+
+The exact 0.1% rate remains a system-level configuration.
+
+---
+
+# 46. FAIRY COMBAT OBSERVATION
+
+The Fairy continues reporting battle consequences.
+
+Example:
+
+> **"Master, the enemy's attack pattern has been interrupted."**
+
+> **"Hero A has created an opening."**
+
+> **"The Party's combat condition has improved."**
+
+> **"The Boss has entered a defensive state."**
+
+---
+
+# 47. GAME STATE UPDATE
+
+When awakening occurs:
+
+```text
+HIDDEN POTENTIAL EVENT
+        ↓
+GAME STATE SYSTEM
+        ↓
+Hero State Update
+        ↓
+Skill State Update
+        ↓
+Battle State Update
+        ↓
+Event State Update
+```
+
+---
+
+# 48. DATABASE UPDATE
+
+The permanent result is stored in the Database.
+
+Example:
+
+```text
+Hero_ID:
+HERO-000421
+
+Hidden_Potential_Status:
+AWAKENED
+
+Potential_Type:
+Guardian
+
+Potential_Event_ID:
+HPE-F023-HERO421-001
+
+Rare_Skill_ID:
+SKILL-R-000882
+
+Awakening_Rate:
+0.1%
+
+Awakened_Floor:
+23
+
+Awakened_Time:
+[Game Time]
+
+Awakening_Count:
+1
+```
+
+---
+
+# 49. SKILL DATA
+
+The new skill receives its own ID.
+
+```text
+Skill_ID:
+SKILL-R-000882
+
+Hero_ID:
+HERO-000421
+
+Skill_Type:
+RARE
+
+Source:
+HIDDEN_POTENTIAL
+
+Origin:
+Aurelian Heritage
+
+Unlock_Event:
+HPE-F023-HERO421-001
+
+Unlock_Rate:
+0.1%
+```
+
+The skill becomes permanently linked to the Hero ID.
+
+---
+
+# 50. NO GLOBAL SKILL SHARING
+
+If Hero A awakens:
+
+```text
+SKILL-R-000882
+```
+
+the skill automatically belongs to:
+
+```text
+HERO-000421
+```
+
+It does not automatically become available to every Hero.
+
+---
+
+# 51. CHARACTER SYSTEM INTEGRATION
+
+```text
+CHARACTER SYSTEM
+      ↓
+Hero Identity
+      ↓
+Origin
+      ↓
+Personality
+      ↓
+History
+      ↓
+Potential
+```
+
+The Hidden Potential System uses these values.
+
+---
+
+# 52. BASIC COMBAT INTEGRATION
+
+```text
+BASIC COMBAT SYSTEM
+       ↓
+Combat State
+       ↓
+Hero Condition
+       ↓
+Enemy Pressure
+       ↓
+Battle Event
+       ↓
+HIDDEN POTENTIAL CHECK
+       ↓
+0.1% RNG
+```
+
+The combat system executes the resulting skill.
+
+---
+
+# 53. EVENT SYSTEM INTEGRATION
+
+The Event System handles:
+
+```text
+Narrative
+Dialogue
+Character Reaction
+Event Choice
+Event Branch
+Awakening Scene
+```
+
+The Hidden Potential System handles:
+
+```text
+Eligibility
+0.1% RNG
+Potential Selection
+Skill Generation
+```
+
+---
+
+# 54. RNG SYSTEM INTEGRATION
+
+The RNG System handles the random component.
+
+```text
+Hero
+ ↓
+Potential Conditions
+ ↓
+RNG Request
+ ↓
+0.1% Roll
+ ↓
+RNG Result
+```
+
+Result:
+
+```text
+99.9% → FAIL
+```
+
+or:
+
+```text
+0.1% → SUCCESS
+```
+
+---
+
+# 55. RNG SHOULD BE SEEDED
+
+The RNG result should be reproducible for debugging.
+
+Example:
+
+```text
+Battle Session ID
++
+Hero ID
++
+Potential Seed
++
+Game State
+```
+
+can be used to generate the random evaluation seed.
+
+This helps prevent unexplained database inconsistencies.
+
+The seed must not alter the configured rate:
+
+```text
+0.1%
+```
+
+---
+
+# 56. ANTI-EXPLOIT DESIGN
+
+The system should prevent:
+
+```text
+Save Scumming
+Battle Restart Abuse
+Easy Floor Farming
+Artificial Emotion Farming
+Repeated Event Triggering
+Skill Duplication
+Reward Duplication
+```
+
+Potential checks must be associated with:
+
+```text
+Dungeon Session ID
+Hero ID
+Battle Instance
+Game State
+```
+
+---
+
+# 57. ONE-TIME AWAKENING
+
+By default:
+
+```text
+One Hidden Potential Awakening
+per Hero
+```
+
+Once awakened:
+
+```text
+Potential Status:
+AWAKENED
+```
+
+The same potential cannot trigger again.
+
+Future systems can introduce:
+
+```text
+Second Awakening
+Evolution
+Transcendence
+Ultimate Awakening
+```
+
+but those should be separate systems.
+
+---
+
+# 58. RARE SKILL RARITY
+
+Hidden Potential skills are categorized separately from normal skills.
+
+```text
+Normal Skill
+      ↓
+Advanced Skill
+      ↓
+Rare Skill
+      ↓
+Ultimate Skill
+```
+
+However:
+
+```text
+Rare Skill
+```
+
+does not automatically mean:
+
+```text
+Star 6 Skill
+```
+
+Hidden Potential Rare Skills are obtained through a different system with a:
+
+```text
+0.1% Awakening Rate
+```
+
+---
+
+# 59. STAR SYSTEM RELATIONSHIP
+
+Existing progression:
+
+```text
+STAR 6
+   ↓
+RARE SKILL
+
+STAR 7
+   ↓
+ULTIMATE SKILL
+```
+
+Hidden Potential:
+
+```text
+0.1% BATTLE EVENT
+   ↓
+HIDDEN POTENTIAL
+   ↓
+RARE SKILL
+```
+
+Therefore a Hero can potentially obtain a Rare Skill through:
+
+```text
+Star 6
+```
+
+or:
+
+```text
+Hidden Potential
+```
+
+but the skills do not have to be identical.
+
+---
+
+# 60. STAR 7 INTERACTION
+
+A Hidden Potential Event can also become a trigger for a future Star 7-related event.
+
+Example:
+
+```text
+Hero
+ ↓
+Hidden Potential Awakening
+ ↓
+Rare Skill
+ ↓
+Character Development
+ ↓
+Future Character Event
+ ↓
+Star 7 Progression
+```
+
+The systems remain separate.
+
+---
+
+# 61. WORLD-SPECIFIC SKILLS
+
+Core World Building can create special skill themes.
+
+Example:
+
+```text
+Aurelian Empire
+→ Imperial Martial Arts
+
+Draconis Dominion
+→ Dragon Blood Technique
+
+Karak-Dur
+→ Ancient Dwarven Forging Combat
+
+Beastfolk Realm
+→ Instinctive Beast Combat
+
+Atlantia
+→ Ancient Ocean Magic
+
+Demon Dominion
+→ Demonic Energy Technique
+```
+
+The actual skill must remain consistent with the Hero's identity.
+
+---
+
+# 62. HIDDEN POTENTIAL EVENT EXAMPLE — KNIGHT
+
+```text
+Hero:
+Aurelian Knight
+
+Floor:
+23
+
+Enemy:
+High-Level Corrupted Knight
+
+Hero Condition:
+HP 14%
+
+Party:
+3/5 alive
+
+Emotion:
+Fear 76
+Determination 95
+Loyalty 91
+
+World Connection:
+Aurelian Military Heritage
+
+Final RNG Rate:
+0.1%
+
+RNG:
+SUCCESS
+```
+
+Event:
+
+```text
+THE LAST OATH
+```
+
+Rare Skill:
+
+```text
+IMPERIAL GUARDIAN
+```
+
+Effect:
+
+```text
+Creates a temporary defensive formation
+that protects nearby allies and interrupts
+the enemy's next major attack.
+```
+
+Battle:
+
+```text
+PARTY LOSING
+      ↓
+AWAKENING
+      ↓
+DEFENSIVE REVERSAL
+      ↓
+BOSS ATTACK INTERRUPTED
+      ↓
+PARTY COUNTERATTACK
+```
+
+---
+
+# 63. HIDDEN POTENTIAL EVENT EXAMPLE — MAGE
+
+```text
+Hero:
+Ancient Magic Scholar
+
+Floor:
+47
+
+Condition:
+Mana nearly exhausted
+
+Boss:
+Reality-corrupted entity
+
+Emotion:
+Fear 82
+Curiosity 96
+Determination 87
+
+World Connection:
+Lost Magic Academy
+
+Final RNG Rate:
+0.1%
+
+RNG:
+SUCCESS
+```
+
+Rare Skill:
+
+```text
+ECHO OF THE LOST SPELL
+```
+
+Effect:
+
+```text
+Temporarily reconstructs a forgotten spell
+that can exploit the Boss's current weakness.
+```
+
+Result:
+
+```text
+Boss weakness discovered
+        ↓
+Damage window created
+        ↓
+Battle momentum changes
+```
+
+---
+
+# 64. HIDDEN POTENTIAL EVENT EXAMPLE — SUPPORT HERO
+
+```text
+Hero:
+Healer
+
+Party:
+4/5 members critically injured
+
+Emotion:
+Fear 88
+Protective 97
+Desperation 91
+
+Final RNG Rate:
+0.1%
+
+RNG:
+SUCCESS
+```
+
+Rare Skill:
+
+```text
+LAST LIGHT
+```
+
+Effect:
+
+```text
+Creates a temporary emergency recovery field
+for surviving Party members.
+```
+
+The skill does not fully restore everyone.
+
+It creates an opportunity to survive.
+
+---
+
+# 65. MULTIPLE AWAKENINGS IN ONE MISSION
+
+It is technically possible for more than one Hero to awaken during the same mission.
+
+Example:
+
+```text
+Party 1
+
+Hero A → FAIL
+Hero B → FAIL
+Hero C → SUCCESS
+Hero D → FAIL
+Hero E → FAIL
+```
+
+Rare case:
+
+```text
+Hero C → SUCCESS
+Hero E → SUCCESS
+```
+
+Each successful Hero must independently pass the:
+
+```text
+0.1% RNG
+```
+
+The combined probability should remain extremely low.
+
+---
+
+# 66. MULTIPLE AWAKENING CONTROL
+
+To prevent the system from becoming common:
+
+```text
+Party-Level Awakening Density
+```
+
+can be monitored.
+
+The system can apply diminishing probability after one awakening during the same Dungeon Session.
+
+The base rate for each eligible Hero remains:
+
+```text
+0.1%
+```
+
+This does not guarantee that another awakening cannot occur.
+
+It simply maintains the intended rarity.
+
+---
+
+# 67. FAILURE DATA
+
+Failed checks do not need to be exposed to the player.
+
+The system can internally record:
+
+```text
+Potential Check
+Final Rate:
+0.1%
+
+Result:
+FAIL
+```
+
+This is useful for analytics and balancing.
+
+The Hero should not know:
+
+> "I failed a 0.1% RNG roll."
+
+---
+
+# 68. AWAKENING HISTORY
+
+Each Hero can maintain:
+
+```text
+Potential Check Count
+Potential Event Count
+Awakening Count
+Rare Skill Count
+Awakening Floor
+Awakening Mission
+Awakening Event
+```
+
+Example:
+
+```text
+Hero:
+HERO-000421
+
+Checks:
+182
+
+Final Rate per Eligible Check:
+0.1%
+
+Successful Events:
+1
+
+Awakenings:
+1
+
+Rare Skills:
+1
+```
+
+---
+
+# 69. HIDDEN POTENTIAL LOG
+
+The Master can eventually view:
+
+```text
+Hero Profile
+   ↓
+Potential
+   ↓
+Status
+   ↓
+Awakening History
+   ↓
+Rare Skill
+```
+
+Before awakening:
+
+```text
+Hidden Potential:
+UNKNOWN
+```
+
+After awakening:
+
+```text
+Hidden Potential:
+AWAKENED
+```
+
+---
+
+# 70. DATABASE STRUCTURE
+
+Example:
+
+```text
+HIDDEN_POTENTIAL
+
+Potential_ID
+Hero_ID
+Potential_Seed
+Potential_Type
+Potential_Status
+Potential_Rarity
+Awakening_Rate
+Emotional_Trigger
+World_Connection
+Combat_Condition
+Awakening_Event_ID
+Awakened_Skill_ID
+Awakening_Floor_ID
+Awakening_Dungeon_ID
+Awakening_Time
+Created_Time
+Updated_Time
+```
+
+Default value:
+
+```text
+Awakening_Rate:
+0.1%
+```
+
+---
+
+# 71. HIDDEN POTENTIAL EVENT DATABASE
+
+```text
+HIDDEN_POTENTIAL_EVENT
+
+Event_ID
+Hero_ID
+Dungeon_Session_ID
+Floor_ID
+Battle_ID
+Trigger_Type
+Emotional_State
+Combat_State
+World_Context
+Awakening_Rate
+RNG_Result
+Event_Status
+Skill_ID
+Narrative_ID
+Created_Time
+```
+
+---
+
+# 72. RARE SKILL DATABASE
+
+```text
+RARE_SKILL
+
+Skill_ID
+Hero_ID
+Skill_Name
+Skill_Type
+Skill_Origin
+Skill_Description
+Skill_Effect
+Trigger
+Cooldown
+Duration
+Power
+World_Connection
+Awakening_Rate
+Generated_By_AI
+Validated
+Unlocked_Time
+```
+
+---
+
+# 73. GAME STATE SYNCHRONIZATION
+
+After successful awakening:
+
+```text
+HIDDEN POTENTIAL
+       ↓
+CHARACTER STATE
+       ↓
+SKILL STATE
+       ↓
+COMBAT STATE
+       ↓
+EVENT STATE
+       ↓
+GAME STATE SYSTEM
+       ↓
+DATABASE SYSTEM
+```
+
+The Game State System becomes the authoritative state controller.
+
+---
+
+# 74. INVENTORY INTERACTION
+
+If the Rare Skill produces an item or equipment:
+
+```text
+Hidden Potential
+      ↓
+Rare Skill
+      ↓
+Item / Equipment
+      ↓
+Inventory System
+      ↓
+Database
+```
+
+The item receives its own Item ID.
+
+---
+
+# 75. QUEST INTERACTION
+
+An awakening can trigger:
+
+```text
+Character Quest
+Hidden Quest
+World Quest
+Skill Quest
+Memory Quest
+Star Progression Quest
+```
+
+Example:
+
+```text
+Rare Skill Awakened
+      ↓
+Quest:
+"Understand the Forgotten Technique"
+```
+
+The Quest System manages the quest.
+
+---
+
+# 76. FAIRY REPORT AFTER MISSION
+
+At mission completion, the Fairy can summarize:
+
+> **"Master, today's mission produced an unusual event."**
+
+> **"Hero A awakened a previously unknown potential during the battle."**
+
+> **"The ability appears to be connected to the Hero's Aurelian heritage."**
+
+> **"A new Rare Skill has been registered to Hero A."**
+
+---
+
+# 77. FAIRY REPORT — MULTIPLE HEROES
+
+Example:
+
+> **"Master, I detected unusual changes in two Heroes."**
+
+> **"Hero A awakened a defensive ability."**
+
+> **"Hero D demonstrated a previously unknown magical technique."**
+
+> **"Both abilities have been synchronized with their respective Hero IDs."**
+
+---
+
+# 78. OBSERVATION LOG
+
+The Fairy can record:
+
+```text
+Mission
+Floor
+Hero
+Emotion
+Critical Event
+Potential Awakening
+Skill
+Battle Result
+```
+
+Example:
+
+```text
+FLOOR 63
+
+Hero:
+HERO-000421
+
+Observation:
+Hero reached critical physical condition.
+
+Emotion:
+Determination increased significantly.
+
+Event:
+Hidden Potential Awakening.
+
+Final Awakening Rate:
+0.1%
+
+Result:
+Rare Skill unlocked.
+
+Battle Result:
+Boss phase interrupted.
+```
+
+---
+
+# 79. SYSTEM FLOW — COMPLETE
+
+```text
+HERO ENTERS DUNGEON
+        ↓
+COMBAT
+        ↓
+AI EMOTIONAL SYSTEM
+        ↓
+EMOTIONAL STATE UPDATE
+        ↓
+COMBAT CONDITION UPDATE
+        ↓
+CORE WORLD CONTEXT
+        ↓
+HIDDEN POTENTIAL ELIGIBILITY
+        ↓
+0.1% RNG CHECK
+        │
+        ├─────────────── 99.9% FAIL
+        │                   ↓
+        │              NO AWAKENING
+        │
+        ▼
+      0.1% SUCCESS
+        ↓
+HIDDEN POTENTIAL EVENT
+        ↓
+EVENT NARRATIVE
+        ↓
+EMOTIONAL PEAK
+        ↓
+POTENTIAL AWAKENING
+        ↓
+RARE SKILL GENERATED
+        ↓
+SKILL VALIDATION
+        ↓
+COMBAT STATE UPDATE
+        ↓
+BATTLE REVERSAL
+        ↓
+CHARACTER STATE UPDATE
+        ↓
+GAME STATE SYSTEM
+        ↓
+DATABASE SYSTEM
+        ↓
+AI FAIRY
+        ↓
+MASTER
+```
+
+---
+
+# 80. COMPLETE HERO EVALUATION
+
+For every Hero:
+
+```text
+Hero_ID
+   ↓
+Potential Seed
+   ↓
+Character Data
+   ↓
+Personality
+   ↓
+Origin
+   ↓
+World Connection
+   ↓
+Current Emotion
+   ↓
+Emotional Intensity
+   ↓
+Relationship
+   ↓
+HP / MP / Stamina
+   ↓
+Combat Condition
+   ↓
+Enemy Condition
+   ↓
+Floor Condition
+   ↓
+Event Context
+   ↓
+Eligibility
+   ↓
+0.1% RNG
+```
+
+Result:
+
+```text
+NO AWAKENING
+```
+
+or:
+
+```text
+HIDDEN POTENTIAL
+```
+
+---
+
+# 81. SYSTEM RELATIONSHIP
+
+```text
+                    CORE WORLD BUILDING
+                            │
+                            ▼
+                     CHARACTER SYSTEM
+                            │
+                ┌───────────┴───────────┐
+                ▼                       ▼
+          CHARACTER AI             HERO DATA
+                │                       │
+                ▼                       ▼
+        EMOTIONAL SYSTEM        POTENTIAL DATA
+                │                       │
+                └───────────┬───────────┘
+                            ▼
+                     COMBAT SYSTEM
+                            │
+                            ▼
+                   HIDDEN POTENTIAL
+                            │
+                            ▼
+                       RNG SYSTEM
+                            │
+                     ┌──────┴──────┐
+                     │             │
+                 99.9% FAIL     0.1% SUCCESS
+                     │             │
+                     │             ▼
+                     │      EVENT SYSTEM
+                     │             │
+                     │             ▼
+                     │      RARE SKILL
+                     │             │
+                     │             ▼
+                     │      BATTLE REVERSAL
+                     │             │
+                     └──────┬──────┘
+                            ▼
+                    GAME STATE SYSTEM
+                            │
+                    ┌───────┴────────┐
+                    ▼                ▼
+                DATABASE         AI FAIRY
+                                     │
+                                     ▼
+                                   MASTER
+```
+
+---
+
+# 82. DESIGN RULES
+
+The Hidden Potential System must follow these rules:
+
+```text
+1. Every Hero is evaluated individually.
+
+2. The final awakening rate is exactly 0.1% per eligible Hero evaluation.
+
+3. Emotional condition matters.
+
+4. Combat condition matters.
+
+5. Character personality matters.
+
+6. Character history matters.
+
+7. Core World Building matters.
+
+8. RNG remains the final gate.
+
+9. Awakening is never guaranteed.
+
+10. Rare Skill must fit the Hero.
+
+11. AI cannot freely overwrite permanent data.
+
+12. Every awakened skill receives a Skill_ID.
+
+13. Every awakening is linked to a Hero_ID.
+
+14. Results are synchronized by Game State System.
+
+15. Permanent results are stored in Database System.
+
+16. Fairy reports important observable events.
+
+17. Hidden Potential does not automatically prevent death.
+
+18. Hidden Potential does not automatically guarantee victory.
+
+19. Repeated easy missions should not become an awakening farm.
+
+20. There is no automatic pity system.
+
+21. Condition bonuses must not increase the final rate above 0.1%.
+
+22. The system should create memorable moments rather
+    than become a normal skill-generation mechanic.
+```
+
+---
+
+# 83. FINAL DESIGN CONCEPT
+
+The purpose of this system is not to make Heroes randomly stronger.
+
+Its purpose is to create moments that feel like:
+
+> **"That Hero should have died here... but something awakened."**
+
+The ideal sequence is:
+
+```text
+PARTY LOSING
+      ↓
+HERO UNDER EXTREME PRESSURE
+      ↓
+EMOTIONAL STATE REACHES PEAK
+      ↓
+HERO'S HISTORY / WORLD CONNECTION RESONATES
+      ↓
+0.1% RNG
+      ↓
+HIDDEN POTENTIAL EVENT
+      ↓
+RARE SKILL
+      ↓
+BATTLE MOMENTUM CHANGES
+      ↓
+PARTY GETS ONE LAST CHANCE
+```
+
+The Hero does not become invincible.
+
+The Hero receives:
+
+# **ONE CHANCE TO CHANGE THE BATTLE.**
+
+---
+
+# 84. FINAL SYSTEM ARCHITECTURE
+
+```text
+                         AETHERIA CORE WORLD
+                                │
+                                ▼
+                       CHARACTER / HERO DATA
+                                │
+                                ▼
+                         HERO POTENTIAL SEED
+                                │
+                                ▼
+                         DUNGEON MISSION
+                                │
+                                ▼
+                             COMBAT
+                                │
+             ┌──────────────────┴──────────────────┐
+             ▼                                     ▼
+      AI CHARACTER                             ENEMY AI
+             │                                     │
+             ▼                                     ▼
+      EMOTIONAL STATE                       BATTLE PRESSURE
+             │                                     │
+             └──────────────────┬──────────────────┘
+                                ▼
+                     HIDDEN POTENTIAL CHECK
+                                │
+                         ELIGIBILITY GATES
+                                │
+                    ┌───────────┴───────────┐
+                    ▼                       ▼
+                99.9% FAIL               0.1% SUCCESS
+                    │                       │
+                    │                       ▼
+                    │                HIDDEN POTENTIAL
+                    │                     EVENT
+                    │                       │
+                    │                       ▼
+                    │                 RARE SKILL
+                    │                       │
+                    │                       ▼
+                    │                BATTLE REVERSAL
+                    │                       │
+                    └───────────┬───────────┘
+                                ▼
+                       GAME STATE SYSTEM
+                                │
+                ┌───────────────┼───────────────┐
+                ▼               ▼               ▼
+          CHARACTER STATE   COMBAT STATE    EVENT STATE
+                │               │               │
+                └───────────────┼───────────────┘
+                                ▼
+                         DATABASE SYSTEM
+                                │
+                                ▼
+                           AI FAIRY
+                                │
+                                ▼
+                              MASTER
+```
+
+> **Every Hero has a story.**
+>
+> **Every Hero has emotions.**
+>
+> **Every Hero has a possibility that even the Master does not know about.**
+>
+> **Most will never awaken it.**
+>
+> **The final awakening rate is only 0.1% for each eligible Hero evaluation.**
+>
+> **But when the Tower pushes a Hero beyond their limits, there is a very small chance that something buried within them will answer.**
+>
+> **And for one moment, a losing battle can change.**
