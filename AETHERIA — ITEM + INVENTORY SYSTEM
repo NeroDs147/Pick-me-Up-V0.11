@@ -1,0 +1,2402 @@
+# 🎒 AETHERIA — ITEM + INVENTORY SYSTEM
+
+> **Every item has a purpose.**
+>
+> **Every reward has a record.**
+>
+> **Every acquisition changes the Game State.**
+>
+> **And the Fairy reports what the Master receives.**
+
+The **Item + Inventory System** manages every item, resource, currency, reward, and collectible obtained by the Master throughout Aetheria.
+
+The system is responsible for:
+
+```text
+Item Creation
+Item Identity
+Item ID
+Item Name
+Item Description
+Item Effect
+Item Skill
+Item Rarity
+Item Type
+Item Source
+Item Acquisition
+Item Usage
+Item Quantity
+Inventory
+Currency
+Gold
+Gems
+Summon Tickets
+Special Tickets
+Floor Rewards
+Enemy Loot
+Quest Rewards
+Starter Package
+Database Synchronization
+Game State Synchronization
+AI Fairy Reporting
+```
+
+---
+
+# 1. SYSTEM POSITION
+
+The Item + Inventory System is connected to almost every major system in Aetheria.
+
+```text
+                         GAME MANAGER
+                              │
+                              ▼
+                      GAME STATE SYSTEM
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+             ▼                ▼                ▼
+        QUEST SYSTEM      FLOOR SYSTEM      EVENT SYSTEM
+             │                │                │
+             ▼                ▼                ▼
+        QUEST REWARD      FLOOR REWARD      EVENT REWARD
+             │                │                │
+             └────────────────┼────────────────┘
+                              │
+                              ▼
+                         RNG SYSTEM
+                              │
+                              ▼
+                         LOOT SYSTEM
+                              │
+                              ▼
+                    ITEM + INVENTORY SYSTEM
+                              │
+              ┌───────────────┼───────────────┐
+              │               │               │
+              ▼               ▼               ▼
+          DATABASE         GAME STATE       AI FAIRY
+              │               │               │
+              └───────────────┼───────────────┘
+                              ▼
+                            MASTER
+```
+
+---
+
+# 2. CORE PRINCIPLE
+
+Every reward received by the Master must pass through the Item + Inventory System.
+
+Sources include:
+
+```text
+Enemy Loot
+Floor Rewards
+Quest Rewards
+Event Rewards
+Recruitment Rewards
+Starter Package
+NPC Rewards
+Exploration Rewards
+Achievement Rewards
+System Rewards
+Special Events
+```
+
+The system must never allow rewards to bypass inventory/account synchronization.
+
+---
+
+# 3. ITEM CREATION WITH AI
+
+Item names, descriptions, effects, skills, and flavor text can be generated with AI.
+
+However:
+
+> **AI generates the content definition.**
+
+The actual game effect must be validated by the Item System.
+
+```text
+AI
+ ↓
+Generate Item Concept
+ ↓
+Item Validation
+ ↓
+Item System
+ ↓
+Item ID
+ ↓
+Database
+```
+
+AI may generate:
+
+```text
+Item Name
+Description
+Lore
+Skill Name
+Skill Description
+Visual Concept
+Flavor Text
+Possible Effect Concept
+```
+
+The system determines:
+
+```text
+Actual Effect Value
+Duration
+Cooldown
+Stack Limit
+Target
+Restrictions
+Rarity
+Drop Rate
+Economic Value
+```
+
+---
+
+# 4. AI ITEM GENERATION
+
+Example:
+
+AI generates:
+
+```text
+Name:
+Moonfire Elixir
+
+Type:
+Consumable
+
+Description:
+A mysterious potion containing condensed lunar mana.
+
+Skill:
+Moonfire Restoration
+
+Concept:
+Restores HP and temporarily increases Mana Recovery.
+```
+
+The Item System then validates:
+
+```text
+HP Recovery:
+25%
+
+Mana Recovery:
+10%
+
+Duration:
+30 seconds
+
+Cooldown:
+None
+```
+
+---
+
+# 5. AI MUST NOT DIRECTLY CONTROL GAME BALANCE
+
+AI-generated items must pass through validation.
+
+```text
+AI GENERATION
+      ↓
+ITEM VALIDATOR
+      ↓
+BALANCE CHECK
+      ↓
+GAME RULE CHECK
+      ↓
+ITEM SYSTEM
+      ↓
+DATABASE
+```
+
+This prevents AI from creating impossible or broken effects.
+
+---
+
+# 6. ITEM ID SYSTEM
+
+Every item receives a unique Item ID.
+
+Example:
+
+```text
+ITEM-000001
+ITEM-000002
+ITEM-000003
+ITEM-000004
+```
+
+The Item ID is permanent.
+
+The Item ID is used by:
+
+```text
+Inventory
+Loot
+Quest
+Floor Reward
+Database
+Game State
+AI Fairy
+Trading
+Crafting
+Equipment
+Item Usage
+Save System
+```
+
+---
+
+# 7. ITEM DATA
+
+Each item should contain:
+
+```text
+Item ID
+Item Name
+Item Type
+Item Category
+Rarity
+Description
+Lore
+Effect
+Skill
+Stack Limit
+Sell Value
+Source
+Acquisition Method
+Usage Requirement
+Level Requirement
+Class Restriction
+Race Restriction
+Duration
+Cooldown
+Created Time
+Last Updated
+```
+
+---
+
+# 8. ITEM TYPES
+
+Recommended categories:
+
+```text
+Consumable
+Equipment
+Weapon
+Armor
+Accessory
+Material
+Quest Item
+Crafting Material
+Artifact
+Relic
+Food
+Potion
+Scroll
+Book
+Currency Item
+Summon Item
+Special Item
+Event Item
+Key Item
+Unknown Item
+```
+
+---
+
+# 9. ITEM RARITY
+
+Items can use:
+
+```text
+Common
+Uncommon
+Rare
+Epic
+Legendary
+Mythic
+Ancient
+Divine
+Unique
+```
+
+Rarity is independent from Hero Star.
+
+Example:
+
+```text
+Hero:
+★★★★★
+
+Item:
+Legendary
+```
+
+---
+
+# 10. ITEM EFFECT SYSTEM
+
+Every usable item can contain an effect.
+
+Examples:
+
+```text
+Restore HP
+Restore MP
+Increase ATK
+Increase DEF
+Increase SPD
+Increase Critical Rate
+Increase Mana
+Increase EXP
+Increase Loyalty
+Reduce Stress
+Increase Morale
+Remove Debuff
+Apply Buff
+Summon Effect
+Teleport
+Unlock Area
+Trigger Event
+```
+
+---
+
+# 11. ITEM SKILL SYSTEM
+
+Some items contain special skills.
+
+Example:
+
+```text
+Item:
+Dragon Heart
+
+Skill:
+Dragon Awakening
+
+Effect:
+Temporarily increases elemental power.
+
+Duration:
+60 seconds
+```
+
+The skill can be activated according to item rules.
+
+---
+
+# 12. ITEM EFFECT TARGET
+
+Effects can target:
+
+```text
+Master
+Hero
+Party
+NPC
+Enemy
+Floor
+World
+Inventory
+Quest
+Event
+```
+
+Example:
+
+```text
+Potion
+→ Hero
+
+Party Scroll
+→ Entire Party
+
+Ancient Key
+→ Floor
+
+World Artifact
+→ World State
+```
+
+---
+
+# 13. INVENTORY SYSTEM
+
+The Inventory belongs to the Master.
+
+It stores:
+
+```text
+Items
+Equipment
+Materials
+Quest Items
+Event Items
+Consumables
+Special Items
+Summon Tickets
+Special Tickets
+```
+
+Currency is also tracked by the Master Account.
+
+---
+
+# 14. CURRENCY INVENTORY
+
+Aetheria uses several important currencies.
+
+```text
+GOLD
+GEMS
+SUMMON TICKET
+SPECIAL SUMMON TICKET
+```
+
+Additional currencies can be added later.
+
+---
+
+# 15. GOLD
+
+Gold is the primary currency.
+
+Gold can be obtained from:
+
+```text
+Enemy Loot
+Quest Rewards
+Floor Rewards
+Events
+NPC Rewards
+Exploration
+Selling Items
+Achievements
+System Rewards
+```
+
+Gold can be used for:
+
+```text
+Recruitment
+Item Purchases
+Equipment
+Crafting
+Upgrade
+Services
+Other Systems
+```
+
+---
+
+# 16. GEMS
+
+Gems are a premium resource.
+
+Gems can be obtained from:
+
+```text
+Quest
+Floor Reward
+Event
+Achievement
+Exploration
+System Reward
+Special Content
+```
+
+Gems can be used for:
+
+```text
+Gem Recruitment
+Special Features
+Other Future Systems
+```
+
+---
+
+# 17. SUMMON TICKET
+
+Summon Tickets are used by the Recruitment System.
+
+The current Recruitment System supports:
+
+```text
+Gold Recruitment
+Ticket Recruitment
+Gem Recruitment
+Special Ticket Recruitment
+```
+
+The Item System stores the number of tickets.
+
+---
+
+# 18. SPECIAL SUMMON TICKET
+
+Special Tickets are used for special recruitment.
+
+The current special recruitment allows:
+
+```text
+★★★★★
+```
+
+The Special Ticket is stored separately from normal tickets.
+
+---
+
+# 19. CURRENCY DATA
+
+Example:
+
+```text
+MASTER-000001
+
+Gold:
+125,500
+
+Gems:
+3,250
+
+Summon Tickets:
+24
+
+Special Tickets:
+2
+```
+
+These values are synchronized with the Database and Game State.
+
+---
+
+# 20. STARTER PACKAGE
+
+Every new Master receives a Starter Package.
+
+The package is designed to provide enough resources to begin playing.
+
+Example:
+
+```text
+STARTER PACKAGE
+
+Gold
+Gems
+Summon Tickets
+Basic Equipment
+Basic Consumables
+Basic Materials
+Beginner Items
+```
+
+The exact amount should be configurable through the Game Data configuration.
+
+---
+
+# 21. STARTER PACKAGE FLOW
+
+```text
+MASTER CREATION
+       ↓
+MASTER ID CREATED
+       ↓
+STARTER PACKAGE CHECK
+       ↓
+PACKAGE GENERATED
+       ↓
+ITEM INVENTORY
+       ↓
+GAME STATE UPDATE
+       ↓
+DATABASE SAVE
+       ↓
+AI FAIRY REPORT
+       ↓
+MASTER
+```
+
+---
+
+# 22. STARTER PACKAGE DUPLICATION PROTECTION
+
+The Starter Package must only be granted once.
+
+```text
+StarterPackageClaimed:
+TRUE / FALSE
+```
+
+If:
+
+```text
+FALSE
+```
+
+the package is granted.
+
+Then:
+
+```text
+StarterPackageClaimed = TRUE
+```
+
+The state is saved to the Database.
+
+---
+
+# 23. FAIRY STARTER PACKAGE REPORT
+
+When the package is received, the Fairy must report it.
+
+Example:
+
+> **"Master, your Starter Package has been delivered."**
+
+Then:
+
+```text
+Gold +10,000
+Gems +500
+Summon Ticket +10
+Basic Potion ×5
+Beginner Equipment ×1
+```
+
+The Fairy should summarize the contents.
+
+---
+
+# 24. REWARD ACQUISITION
+
+Every reward follows the same core flow.
+
+```text
+REWARD SOURCE
+      ↓
+REWARD GENERATED
+      ↓
+RNG SYSTEM
+      ↓
+ITEM VALIDATION
+      ↓
+ITEM + INVENTORY SYSTEM
+      ↓
+GAME STATE UPDATE
+      ↓
+DATABASE SYNCHRONIZATION
+      ↓
+AI FAIRY REPORT
+      ↓
+MASTER
+```
+
+---
+
+# 25. ENEMY LOOT
+
+When an enemy is defeated:
+
+```text
+ENEMY DEFEATED
+      ↓
+LOOT SYSTEM
+      ↓
+RNG SYSTEM
+      ↓
+ITEM RESULT
+      ↓
+INVENTORY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY
+```
+
+Example:
+
+```text
+Enemy:
+Cult Soldier
+
+Loot:
+Gold ×120
+Iron Ore ×2
+Unknown Fragment ×1
+```
+
+Fairy:
+
+> "Master, the Cult Soldier dropped 120 Gold, 2 Iron Ore, and an unidentified fragment."
+
+---
+
+# 26. FLOOR REWARD
+
+When a floor is cleared:
+
+```text
+FLOOR CLEAR
+      ↓
+FLOOR REWARD SYSTEM
+      ↓
+RNG SYSTEM
+      ↓
+REWARD
+      ↓
+INVENTORY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY
+```
+
+Example:
+
+```text
+Floor 10 Clear
+
+Rewards:
+Gold ×5,000
+Gem ×100
+Summon Ticket ×2
+Ancient Material ×1
+```
+
+Fairy:
+
+> "Master, Floor 10 has been cleared. Your rewards have been synchronized."
+
+---
+
+# 27. QUEST REWARD
+
+When a quest is completed:
+
+```text
+QUEST COMPLETE
+      ↓
+QUEST REWARD
+      ↓
+RNG / REWARD TABLE
+      ↓
+INVENTORY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY
+```
+
+Example:
+
+```text
+Quest:
+Save the Survivor
+
+Rewards:
+Gold ×2,000
+Gem ×50
+Potion ×3
+```
+
+---
+
+# 28. EVENT REWARD
+
+Event rewards use the same synchronization system.
+
+```text
+EVENT COMPLETE
+      ↓
+EVENT REWARD
+      ↓
+RNG
+      ↓
+INVENTORY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY
+```
+
+---
+
+# 29. NO UNSYNCHRONIZED REWARDS
+
+The game must not have:
+
+```text
+Reward
+ ↓
+Direct UI
+```
+
+without inventory synchronization.
+
+Correct:
+
+```text
+Reward
+ ↓
+Inventory
+ ↓
+Game State
+ ↓
+Database
+ ↓
+Fairy
+ ↓
+UI
+```
+
+This ensures the reward exists in the actual game data.
+
+---
+
+# 30. GAME STATE SYNCHRONIZATION
+
+The Game State System is responsible for maintaining the current runtime state.
+
+Example:
+
+```text
+Before:
+
+Gold = 10,000
+
+Reward:
+
+Gold +2,000
+
+After:
+
+Gold = 12,000
+```
+
+The Game State System records:
+
+```text
+Gold:
+10,000 → 12,000
+```
+
+---
+
+# 31. DATABASE SYNCHRONIZATION
+
+After the Game State changes:
+
+```text
+GAME STATE
+    ↓
+VALIDATED STATE
+    ↓
+DATABASE
+```
+
+The Database stores the persistent result.
+
+Example:
+
+```text
+Master ID:
+MASTER-000001
+
+Gold:
+12,000
+```
+
+---
+
+# 32. INVENTORY TRANSACTION
+
+Every acquisition should generate a transaction record.
+
+Example:
+
+```text
+TRANSACTION-000245
+
+Type:
+REWARD
+
+Source:
+QUEST-000041
+
+Master:
+MASTER-000001
+
+Item:
+ITEM-000213
+
+Quantity:
+3
+
+Time:
+Day 12
+18:32
+
+Status:
+SUCCESS
+```
+
+This creates a reliable history.
+
+---
+
+# 33. INVENTORY TRANSACTION TYPES
+
+```text
+REWARD
+LOOT
+PURCHASE
+SALE
+USE
+CRAFT
+UPGRADE
+QUEST
+EVENT
+FLOOR_REWARD
+STARTER_PACKAGE
+RECRUITMENT
+SYSTEM_GRANT
+ADMIN
+```
+
+---
+
+# 34. INVENTORY HISTORY
+
+The Master can view:
+
+```text
+Recently Obtained
+Recently Used
+Recently Sold
+Recently Crafted
+Recent Rewards
+Recent Loot
+Recent Quest Rewards
+Recent Floor Rewards
+```
+
+The Fairy can summarize important transactions.
+
+---
+
+# 35. FAIRY REWARD REPORTING
+
+The Fairy must report significant rewards.
+
+Priority:
+
+```text
+Legendary Item
+Mythic Item
+Ancient Item
+Divine Item
+Large Gold Reward
+Large Gem Reward
+Special Ticket
+Rare Material
+Quest Key Item
+Important Story Item
+```
+
+Common low-value items may be grouped.
+
+Example:
+
+> "Master, you obtained 14 common materials and one Rare Ancient Fragment."
+
+---
+
+# 36. FAIRY REPORT PRIORITY
+
+```text
+CRITICAL
+SPECIAL
+RARE
+IMPORTANT
+NORMAL
+COMMON
+```
+
+Common rewards can be summarized.
+
+---
+
+# 37. BATCH REWARD REPORT
+
+If the Master receives many items:
+
+```text
+Gold ×2,000
+Gold ×500
+Potion ×2
+Potion ×3
+Iron ×4
+Iron ×5
+```
+
+The Fairy should report:
+
+> "Master, you received 2,500 Gold, 5 Potions, and 9 Iron."
+
+This avoids excessive notifications.
+
+---
+
+# 38. IMPORTANT ITEM ALERT
+
+If an important item is obtained:
+
+> "Master, an Ancient Artifact has been obtained. I recommend checking its properties before using it."
+
+---
+
+# 39. ITEM IDENTIFICATION
+
+Some loot can initially be unidentified.
+
+Example:
+
+```text
+ITEM-UNKNOWN-00031
+
+Name:
+Unknown Artifact
+
+Description:
+Unable to identify.
+
+Status:
+UNIDENTIFIED
+```
+
+The item can later be identified through:
+
+```text
+Fairy Analysis
+Quest
+NPC
+Appraisal
+Ancient Knowledge
+Character Skill
+System Unlock
+```
+
+---
+
+# 40. FAIRY ITEM ANALYSIS
+
+The Fairy can analyze unidentified items.
+
+Example:
+
+> "Master, I can partially identify this artifact. Its origin appears to be connected to the old Karak-Dur civilization."
+
+The Fairy can provide:
+
+```text
+Estimated Type
+Origin
+Possible Effect
+Rarity Estimate
+Danger
+Known Information
+Unknown Information
+```
+
+---
+
+# 41. ITEM USE FLOW
+
+When an item is used:
+
+```text
+MASTER USE ITEM
+       ↓
+ITEM VALIDATION
+       ↓
+TARGET VALIDATION
+       ↓
+EFFECT VALIDATION
+       ↓
+APPLY EFFECT
+       ↓
+REMOVE ITEM
+       ↓
+GAME STATE UPDATE
+       ↓
+DATABASE
+       ↓
+FAIRY
+```
+
+---
+
+# 42. ITEM CONSUMPTION
+
+Example:
+
+```text
+Potion ×5
+
+Use 1
+
+Potion:
+5 → 4
+
+Hero HP:
+45% → 70%
+```
+
+The Game State records both changes.
+
+---
+
+# 43. ITEM STACKING
+
+Items may be stackable.
+
+Example:
+
+```text
+Potion ×50
+Iron Ore ×999
+Gold ×125,000
+```
+
+Non-stackable items:
+
+```text
+Unique Artifact
+Legendary Weapon
+Special Equipment
+Quest Key
+```
+
+---
+
+# 44. ITEM UNIQUE DATA
+
+Unique items can have individual IDs.
+
+Example:
+
+```text
+Item Definition:
+ITEM-000451
+
+Instance:
+INSTANCE-00000982
+```
+
+This allows individual equipment to possess:
+
+```text
+Durability
+Enhancement
+Owner
+History
+Random Stats
+Acquisition Source
+```
+
+---
+
+# 45. ITEM SOURCE TRACKING
+
+Every item should remember where it came from.
+
+Possible sources:
+
+```text
+Enemy
+Floor
+Quest
+Event
+NPC
+Shop
+Crafting
+Starter Package
+System
+Exploration
+Achievement
+```
+
+Example:
+
+```text
+Item:
+Dragon Fang
+
+Source:
+Floor 72 Boss
+
+Acquired:
+Day 34
+```
+
+---
+
+# 46. ITEM VALUE
+
+Each item can have a value.
+
+However:
+
+> **Item value can be context-dependent.**
+
+For example:
+
+```text
+Iron Ore
+
+Merchant Value:
+100 Gold
+
+Crafting Value:
+High
+
+Dwarf Faction Value:
+Very High
+
+Quest Value:
+Critical
+```
+
+Therefore, the Item System should support multiple value types.
+
+---
+
+# 47. ITEM VALUE TYPES
+
+```text
+Base Value
+Market Value
+Shop Value
+Sell Value
+Crafting Value
+Quest Value
+Faction Value
+Event Value
+Story Value
+```
+
+---
+
+# 48. ITEM + FACTION
+
+Some items can have special importance to factions.
+
+Example:
+
+```text
+Ancient Elven Relic
+
+Elaria:
+Highly Valuable
+
+Dwarves:
+Moderate Value
+
+Cult:
+Potentially Dangerous
+```
+
+This can influence quests, NPC interactions, and events.
+
+---
+
+# 49. ITEM + CHARACTER
+
+Characters can have preferences.
+
+Example:
+
+```text
+Hero:
+Dwarf Blacksmith
+
+Preferred:
+Rare Ore
+
+Reaction:
+Positive
+
+Trust:
++5
+```
+
+Another Hero may dislike an item.
+
+This connects the Item System to the Emotional and Character Systems.
+
+---
+
+# 50. ITEM + EMOTIONAL SYSTEM
+
+Items can affect Hero emotions.
+
+Example:
+
+```text
+Hero receives item connected to homeland
+        ↓
+Memory Trigger
+        ↓
+Nostalgia
+        ↓
+Morale +10
+```
+
+Another example:
+
+```text
+Hero receives weapon used by a dead companion
+        ↓
+Memory Trigger
+        ↓
+Grief
+```
+
+The AI Fairy can report these changes.
+
+---
+
+# 51. ITEM + EVENT SYSTEM
+
+Some items can trigger events.
+
+```text
+Ancient Artifact
+      ↓
+Event Trigger
+      ↓
+Hidden Event
+      ↓
+Game State
+      ↓
+Fairy
+```
+
+Example:
+
+> "Master, this artifact appears to have triggered an unknown event."
+
+---
+
+# 52. ITEM + QUEST SYSTEM
+
+Quest items are tracked separately.
+
+Example:
+
+```text
+QUEST ITEM
+
+Lost Royal Seal
+Item ID:
+ITEM-000812
+
+Quest:
+QUEST-000091
+```
+
+The item cannot be accidentally sold or consumed unless the system allows it.
+
+---
+
+# 53. ITEM + FLOOR SYSTEM
+
+Some items are exclusive to certain floors.
+
+Example:
+
+```text
+Floor 50
+ ↓
+Corrupted Crystal
+ ↓
+Loot Table
+ ↓
+RNG
+ ↓
+Inventory
+```
+
+Floor-specific items can have:
+
+```text
+Minimum Floor
+Maximum Floor
+Floor Theme
+Destruction Requirement
+Boss Requirement
+```
+
+---
+
+# 54. ITEM + RNG SYSTEM
+
+The RNG System determines possible rewards.
+
+```text
+RNG SYSTEM
+    ↓
+Reward Table
+    ↓
+Probability
+    ↓
+Selected Item
+    ↓
+Inventory
+```
+
+The RNG System does not directly modify inventory.
+
+---
+
+# 55. RNG SECURITY
+
+RNG results must be generated before inventory insertion.
+
+```text
+RNG RESULT
+     ↓
+VALIDATE
+     ↓
+ITEM EXISTS?
+     ↓
+VALID
+     ↓
+ADD TO INVENTORY
+```
+
+This prevents invalid items from entering the database.
+
+---
+
+# 56. INVENTORY CAPACITY
+
+Inventory may optionally use capacity.
+
+Example:
+
+```text
+Inventory Capacity:
+100 / 200 Slots
+```
+
+However, important currencies should not necessarily consume normal inventory slots.
+
+Recommended:
+
+```text
+Gold
+Gems
+Tickets
+Special Tickets
+```
+
+are account resources rather than physical inventory objects.
+
+---
+
+# 57. CURRENCY SEPARATION
+
+Recommended architecture:
+
+```text
+MASTER ACCOUNT
+│
+├── Gold
+├── Gems
+├── Summon Tickets
+└── Special Tickets
+
+INVENTORY
+│
+├── Items
+├── Equipment
+├── Materials
+├── Consumables
+└── Quest Items
+```
+
+This makes the system easier to manage.
+
+---
+
+# 58. INVENTORY DATA
+
+```text
+INVENTORY_DATA
+
+Inventory ID
+Master ID
+
+Item ID
+Item Instance ID
+Quantity
+
+Acquisition Source
+Acquisition Time
+
+Bound Status
+Locked Status
+
+Created Time
+Updated Time
+```
+
+---
+
+# 59. CURRENCY DATA
+
+```text
+MASTER_CURRENCY
+
+Master ID
+
+Gold
+Gems
+Summon Tickets
+Special Tickets
+
+Last Updated
+```
+
+---
+
+# 60. ITEM DEFINITION DATA
+
+```text
+ITEM_DEFINITION
+
+Item ID
+Name
+Type
+Category
+Rarity
+Description
+Lore
+
+Effect
+Skill
+
+Stack Limit
+Sell Value
+
+Source Rules
+Usage Rules
+Restriction Rules
+
+Created By
+AI Generated
+Validated
+
+Created Time
+Updated Time
+```
+
+---
+
+# 61. ITEM AI METADATA
+
+If AI generated the item:
+
+```text
+AI_GENERATED:
+TRUE
+
+AI_VERSION:
+1.0
+
+AI_CONCEPT:
+Moon-themed restoration item
+
+VALIDATED:
+TRUE
+
+VALIDATOR:
+ITEM_SYSTEM
+```
+
+This keeps AI-generated content traceable.
+
+---
+
+# 62. INVENTORY SYNCHRONIZATION RULE
+
+The following rule is mandatory:
+
+> **No reward is considered officially received until it has been synchronized with Game State and Database.**
+
+Correct:
+
+```text
+REWARD
+ ↓
+ITEM SYSTEM
+ ↓
+INVENTORY
+ ↓
+GAME STATE
+ ↓
+DATABASE
+ ↓
+FAIRY REPORT
+ ↓
+UI
+```
+
+---
+
+# 63. TRANSACTION ATOMICITY
+
+If the reward contains:
+
+```text
+Gold
+Gem
+Item
+Ticket
+```
+
+all should be processed as one reward transaction.
+
+Example:
+
+```text
+Reward Transaction:
+
+Gold +5,000
+Gem +100
+Ticket +2
+Potion +3
+```
+
+If synchronization fails, the system should prevent partial reward loss or duplication.
+
+---
+
+# 64. DUPLICATE REWARD PROTECTION
+
+Every transaction receives a unique:
+
+```text
+TRANSACTION_ID
+```
+
+Example:
+
+```text
+TRANSACTION-001992
+```
+
+If the same transaction is processed twice:
+
+```text
+Transaction already exists
+        ↓
+Reject duplicate
+```
+
+This prevents double rewards.
+
+---
+
+# 65. FAIRY SYNCHRONIZATION REPORT
+
+After successful synchronization:
+
+```text
+GAME STATE:
+UPDATED ✓
+
+DATABASE:
+SYNCHRONIZED ✓
+
+INVENTORY:
+UPDATED ✓
+
+FAIRY:
+REPORT READY ✓
+```
+
+Fairy:
+
+> "Master, the reward has been successfully recorded and synchronized."
+
+---
+
+# 66. FAILED SYNCHRONIZATION
+
+If synchronization fails:
+
+```text
+Reward
+ ↓
+Inventory
+ ↓
+Database ERROR
+```
+
+The Fairy must not claim success.
+
+Instead:
+
+> "Master, the reward was generated, but synchronization has not been completed. Please wait while the system resolves the issue."
+
+The transaction should enter:
+
+```text
+PENDING
+```
+
+or:
+
+```text
+FAILED
+```
+
+according to system rules.
+
+---
+
+# 67. INVENTORY STATES
+
+```text
+NORMAL
+LOCKED
+FULL
+SYNCING
+PENDING
+ERROR
+RECOVERING
+```
+
+---
+
+# 68. FAIRY INVENTORY ASSISTANCE
+
+The Fairy can help manage inventory.
+
+Example:
+
+> "Master, your inventory is 92% full."
+
+> "You have several unused materials."
+
+> "Three quest items are currently locked."
+
+> "You have enough Gold for another recruitment."
+
+---
+
+# 69. FAIRY RESOURCE WARNING
+
+Example:
+
+```text
+Gold:
+Low
+
+Gems:
+Normal
+
+Summon Tickets:
+High
+
+Special Tickets:
+Very Rare
+```
+
+Fairy:
+
+> "Master, your Special Ticket is a rare resource. I recommend reserving it for an important recruitment."
+
+The Fairy advises; the Master decides.
+
+---
+
+# 70. INVENTORY SEARCH
+
+The Master can search:
+
+```text
+Item Name
+Item ID
+Category
+Rarity
+Source
+Type
+Effect
+Character Compatibility
+Faction
+Floor
+Quest
+Event
+```
+
+---
+
+# 71. INVENTORY FILTER
+
+Recommended filters:
+
+```text
+All
+Consumable
+Equipment
+Weapon
+Armor
+Material
+Quest
+Event
+Artifact
+Rare
+Legendary
+Ancient
+Unidentified
+New
+Locked
+```
+
+---
+
+# 72. ITEM DATABASE RELATIONSHIP
+
+```text
+ITEM_DEFINITION
+      │
+      ├── ITEM_ID
+      │
+      ├── ITEM_EFFECT
+      │
+      ├── ITEM_SKILL
+      │
+      └── ITEM_LORE
+             │
+             ▼
+        INVENTORY INSTANCE
+             │
+             ▼
+          MASTER
+```
+
+---
+
+# 73. COMPLETE REWARD PIPELINE
+
+```text
+                  REWARD SOURCE
+                        │
+       ┌────────────────┼────────────────┐
+       │                │                │
+     QUEST            FLOOR            ENEMY
+       │                │                │
+       └────────────────┼────────────────┘
+                        ▼
+                    RNG SYSTEM
+                        │
+                        ▼
+                  REWARD RESULT
+                        │
+                        ▼
+                ITEM VALIDATION
+                        │
+                        ▼
+               ITEM + INVENTORY
+                        │
+              ┌─────────┴─────────┐
+              ▼                   ▼
+         GAME STATE            CURRENCY
+              │                   │
+              └─────────┬─────────┘
+                        ▼
+                    DATABASE
+                        │
+                        ▼
+                    AI FAIRY
+                        │
+                        ▼
+                      MASTER
+```
+
+---
+
+# 74. COMPLETE LOOT PIPELINE
+
+```text
+ENEMY DEFEATED
+      ↓
+LOOT TABLE
+      ↓
+RNG SYSTEM
+      ↓
+ITEM / GOLD / GEM / TICKET
+      ↓
+ITEM + INVENTORY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY REPORT
+```
+
+---
+
+# 75. COMPLETE FLOOR REWARD PIPELINE
+
+```text
+FLOOR CLEARED
+      ↓
+FLOOR REWARD TABLE
+      ↓
+RNG SYSTEM
+      ↓
+REWARD
+      ↓
+INVENTORY / CURRENCY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY REPORT
+```
+
+---
+
+# 76. COMPLETE QUEST REWARD PIPELINE
+
+```text
+QUEST COMPLETED
+      ↓
+QUEST REWARD TABLE
+      ↓
+RNG / FIXED REWARD
+      ↓
+INVENTORY / CURRENCY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY REPORT
+```
+
+---
+
+# 77. COMPLETE STARTER PACKAGE PIPELINE
+
+```text
+NEW MASTER
+      ↓
+MASTER ID
+      ↓
+STARTER PACKAGE
+      ↓
+ITEM + CURRENCY GENERATION
+      ↓
+INVENTORY
+      ↓
+GAME STATE
+      ↓
+DATABASE
+      ↓
+FAIRY
+      ↓
+STARTER PACKAGE REPORT
+```
+
+---
+
+# 78. COMPLETE FAIRY REPORT PIPELINE
+
+```text
+REWARD RECEIVED
+      ↓
+INVENTORY UPDATED
+      ↓
+GAME STATE UPDATED
+      ↓
+DATABASE SYNCHRONIZED
+      ↓
+FAIRY RECEIVES CONFIRMED STATE
+      ↓
+FAIRY ANALYZES IMPORTANCE
+      ↓
+FAIRY REPORTS
+      ↓
+MASTER
+```
+
+---
+
+# 79. MASTER INVENTORY EXAMPLE
+
+```text
+MASTER-000001
+
+CURRENCY
+────────────────────
+Gold              125,500
+Gems                3,250
+Summon Tickets         24
+Special Tickets         2
+
+
+ITEMS
+────────────────────
+Health Potion ×15
+Mana Potion ×8
+Iron Ore ×120
+Ancient Fragment ×3
+Elven Relic ×1
+Unknown Artifact ×2
+
+
+EQUIPMENT
+────────────────────
+Iron Sword ×1
+Traveler Armor ×1
+Ancient Ring ×1
+```
+
+---
+
+# 80. FAIRY EXAMPLE
+
+When the Master receives a floor reward:
+
+```text
+FLOOR 25 CLEARED
+
+Gold +5,000
+Gems +150
+Summon Ticket +2
+Ancient Crystal +1
+```
+
+Fairy:
+
+> **"Master, Floor 25 has been cleared."**
+>
+> **"The rewards have been successfully synchronized."**
+>
+> **"You received 5,000 Gold, 150 Gems, 2 Summon Tickets, and 1 Ancient Crystal."**
+>
+> **"The Ancient Crystal appears to have a high-value crafting potential."**
+
+---
+
+# 81. SYSTEM RESPONSIBILITIES
+
+## Item + Inventory System
+
+Responsible for:
+
+```text
+✓ Item Definition
+✓ Item ID
+✓ Item Storage
+✓ Item Quantity
+✓ Item Usage
+✓ Item Effect
+✓ Item Skill
+✓ Item Rarity
+✓ Item Source
+✓ Inventory
+✓ Currency Tracking
+✓ Reward Reception
+✓ Loot Reception
+✓ Quest Reward Reception
+✓ Floor Reward Reception
+✓ Starter Package
+✓ Transaction Logging
+✓ Duplicate Protection
+✓ Synchronization Request
+```
+
+---
+
+# 82. AI RESPONSIBILITY
+
+AI is responsible for:
+
+```text
+✓ Item Name Generation
+✓ Item Description
+✓ Lore
+✓ Skill Name
+✓ Skill Concept
+✓ Effect Concept
+✓ Flavor Text
+✓ Item Analysis
+✓ Item Identification
+✓ Optional Item Visual Concept
+```
+
+AI is NOT the final authority for:
+
+```text
+✗ Currency Amount
+✗ Final RNG
+✗ Inventory Quantity
+✗ Database Authority
+✗ Game State Authority
+✗ Reward Validation
+✗ Transaction Validation
+```
+
+---
+
+# 83. GAME STATE RESPONSIBILITY
+
+The Game State System manages:
+
+```text
+Current Gold
+Current Gems
+Current Tickets
+Current Inventory State
+Item Changes
+Reward State
+Transaction State
+World Consequences
+```
+
+It receives changes from the Item + Inventory System.
+
+---
+
+# 84. DATABASE RESPONSIBILITY
+
+The Database stores persistent information:
+
+```text
+Master Currency
+Inventory
+Item Definitions
+Item Instances
+Transactions
+Reward History
+Loot History
+Quest Rewards
+Floor Rewards
+Event Rewards
+Starter Package Status
+```
+
+---
+
+# 85. AI FAIRY RESPONSIBILITY
+
+The Fairy:
+
+```text
+✓ Monitors inventory changes
+✓ Reports confirmed rewards
+✓ Reports important items
+✓ Reports currency changes
+✓ Warns about inventory capacity
+✓ Analyzes items
+✓ Identifies unknown items
+✓ Reports failed synchronization
+✓ Summarizes reward batches
+✓ Advises Master
+```
+
+The Fairy does not become the database.
+
+---
+
+# 86. FINAL SYSTEM ARCHITECTURE
+
+```text
+                              AETHERIA
+                                 │
+                                 ▼
+                           GAME MANAGER
+                                 │
+                                 ▼
+                       GAME STATE SYSTEM
+                                 │
+          ┌──────────────────────┼──────────────────────┐
+          │                      │                      │
+          ▼                      ▼                      ▼
+      QUEST SYSTEM          FLOOR SYSTEM          ENEMY SYSTEM
+          │                      │                      │
+          ▼                      ▼                      ▼
+     QUEST REWARD           FLOOR REWARD             LOOT
+          │                      │                      │
+          └──────────────────────┼──────────────────────┘
+                                 ▼
+                            RNG SYSTEM
+                                 │
+                                 ▼
+                       ITEM + INVENTORY
+                                 │
+                 ┌───────────────┼───────────────┐
+                 │               │               │
+                 ▼               ▼               ▼
+              ITEMS          CURRENCY        TRANSACTION
+                 │               │               │
+                 └───────────────┼───────────────┘
+                                 ▼
+                         GAME STATE UPDATE
+                                 │
+                                 ▼
+                           DATABASE SYSTEM
+                                 │
+                                 ▼
+                              AI FAIRY
+                                 │
+                    ┌────────────┼────────────┐
+                    │            │            │
+                    ▼            ▼            ▼
+                 REPORT       ANALYSIS      WARNING
+                    │            │            │
+                    └────────────┼────────────┘
+                                 ▼
+                               MASTER
+```
+
+---
+
+# 87. CORE RULE
+
+The most important rule of the Item + Inventory System is:
+
+> **EVERYTHING THE MASTER RECEIVES MUST BE RECORDED.**
+
+Whether it comes from:
+
+```text
+Enemy
+Floor
+Quest
+Event
+NPC
+Exploration
+Achievement
+Starter Package
+System
+```
+
+the result must follow:
+
+```text
+RECEIVE
+  ↓
+VALIDATE
+  ↓
+INVENTORY / CURRENCY
+  ↓
+GAME STATE
+  ↓
+DATABASE
+  ↓
+FAIRY
+  ↓
+MASTER
+```
+
+---
+
+# 🌑 88. FINAL PHILOSOPHY
+
+Items in Aetheria are not simply numbers in an inventory.
+
+An item can represent:
+
+```text
+A Memory
+A Civilization
+A Faction
+A Quest
+A Character
+A Lost Kingdom
+A Secret
+A Story
+A Resource
+A Weapon
+A Future
+```
+
+A simple fragment obtained from an enemy may eventually become the key to an ancient civilization.
+
+A weapon obtained on Floor 20 may belong to a Hero's lost family.
+
+A quest item may trigger a hidden event.
+
+A rare artifact may change the relationship between factions.
+
+Therefore:
+
+> **The Item System is part of the world simulation, not merely a storage system.**
+
+And every time the Master receives something:
+
+```text
+THE WORLD RECORDS IT.
+THE GAME STATE REMEMBERS IT.
+THE DATABASE STORES IT.
+THE FAIRY REPORTS IT.
+```
+
+# 🎒 ITEM + INVENTORY SYSTEM
+
+```text
+AI
+ ↓
+ITEM CREATION
+ ↓
+ITEM VALIDATION
+ ↓
+RNG / REWARD / LOOT
+ ↓
+INVENTORY
+ ↓
+GAME STATE
+ ↓
+DATABASE
+ ↓
+AI FAIRY
+ ↓
+MASTER
+```
+
+> **Nothing received is forgotten.**
+>
+> **Nothing important is lost.**
+>
+> **Every reward becomes part of Aetheria's history.**
