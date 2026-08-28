@@ -75,6 +75,7 @@ For example:
 ```text
 Master:
 Floor 20
+Level 20
 HP 850
 Gold 12,500
 
@@ -103,6 +104,10 @@ Day 35 — 21:45
 
 All of these are part of the current Game State.
 
+The Master does not use EXP.
+
+The Master Level increases by spending Gold through the Master Level Upgrade System.
+
 ---
 
 # 🧠 3. CORE PRINCIPLE
@@ -122,8 +127,6 @@ Loot generated
        ↓
 Inventory State
        ↓
-Master State
-       ↓
 Quest State
        ↓
 World State
@@ -132,6 +135,22 @@ Database
 ```
 
 A single action can therefore affect multiple states.
+
+The Master does not gain EXP from combat, quests, training, or other activities.
+
+The Master Level increases only through a Gold-based upgrade.
+
+```text
+Gold Spent
+       ↓
+Master Level Upgrade Validation
+       ↓
+Gold Deducted
+       ↓
+Master Level Increased
+       ↓
+Database
+```
 
 ---
 
@@ -274,7 +293,8 @@ TOWER STATE
 ├── Floor Conditions
 ├── Floor Events
 ├── Floor Destruction
-└── Tower Progression
+├── Tower Progression
+└── Master Level Upgrade Access
 ```
 
 Example:
@@ -288,12 +308,19 @@ Current Floor:
 Highest Floor:
 19
 
+Cleared Floors:
+19
+
 Floor 20:
 ACTIVE
 
 Floor 19:
 CLEARED
 ```
+
+Tower progression and Master Level progression are separate systems.
+
+Clearing floors does not automatically increase the Master Level.
 
 ---
 
@@ -340,6 +367,8 @@ TRUE
 
 The state is saved in the Database System.
 
+Clearing a floor may unlock content, quests, rewards, or access to new areas, but it does not automatically increase the Master Level.
+
 ---
 
 # 👑 9. MASTER STATE
@@ -354,13 +383,13 @@ The Master State can contain:
 
 ```text
 Level
-EXP
 HP
 MP
 Gold
 Gems
 Tickets
 Current Floor
+Cleared Floors
 Location
 Quest Progress
 Party
@@ -370,16 +399,17 @@ Story Progress
 Relationship Progress
 ```
 
+The Master does not use EXP.
+
+The Master Level increases through Gold-based upgrades.
+
 Example:
 
 ```text
 MASTER_000001
 
 Level:
-15
-
-EXP:
-75,000
+20
 
 Gold:
 12500
@@ -393,15 +423,179 @@ Ticket:
 Current Floor:
 20
 
+Cleared Floors:
+19
+
 Location:
 FLOOR_020
 ```
 
 ---
 
-# 🧬 10. CHARACTER STATE
+# 🪙 10. MASTER LEVEL UPGRADE SYSTEM
+
+The Master Level is increased by spending Gold.
+
+```text
+GOLD
+      ↓
+MASTER LEVEL UPGRADE REQUEST
+      ↓
+COST VALIDATION
+      ↓
+GOLD DEDUCTED
+      ↓
+MASTER LEVEL INCREASED
+      ↓
+DATABASE
+```
+
+The Master Level must not increase automatically from:
+
+```text
+Combat
+Quest Completion
+Floor Completion
+Character EXP
+Enemy Defeat
+Training
+Achievements
+```
+
+Those systems may provide Gold, items, rewards, access, or other benefits, but they do not directly increase the Master Level.
+
+---
+
+# 📈 11. MASTER LEVEL UPGRADE RULES
+
+Each level upgrade requires Gold.
+
+Example configuration:
+
+```text
+Current Level:
+20
+
+Target Level:
+21
+
+Upgrade Cost:
+2000 Gold
+```
+
+After a successful upgrade:
+
+```text
+Gold:
+12500 → 10500
+
+Master Level:
+20 → 21
+```
+
+The exact cost formula should remain configurable.
+
+Example formula:
+
+```text
+Upgrade Cost = Base Cost × Target Level
+```
+
+Example:
+
+```text
+Base Cost:
+100
+
+Target Level:
+20
+
+Upgrade Cost:
+2000 Gold
+```
+
+Another possible formula:
+
+```text
+Upgrade Cost = Base Cost × Target Level²
+```
+
+The final formula should be defined by the Master Progression System.
+
+---
+
+# 🔁 12. MASTER LEVEL UPGRADE FLOW
+
+```text
+MASTER
+  ↓
+REQUEST LEVEL UPGRADE
+  ↓
+READ CURRENT LEVEL
+  ↓
+CALCULATE GOLD COST
+  ↓
+CHECK GOLD BALANCE
+  ↓
+CHECK LEVEL LIMITS
+  ↓
+DEDUCT GOLD
+  ↓
+INCREASE MASTER LEVEL
+  ↓
+UPDATE UNLOCKS AND CONDITIONS
+  ↓
+SAVE DATABASE
+```
+
+If the Master does not have enough Gold:
+
+```text
+REQUEST
+  ↓
+INSUFFICIENT GOLD
+  ↓
+REJECT
+```
+
+No Gold is deducted and the Master Level does not change.
+
+---
+
+# 🔐 13. MASTER LEVEL VALIDATION
+
+Before increasing the Master Level, the Game State System validates:
+
+```text
+Master exists?
+Upgrade request valid?
+Target level is exactly current level + 1?
+Gold is sufficient?
+Master has not reached the maximum level?
+Upgrade cost is valid?
+```
+
+Invalid examples:
+
+```text
+Cannot upgrade from Level 20 directly to Level 25.
+
+Cannot upgrade if Gold is insufficient.
+
+Cannot upgrade beyond the configured maximum level.
+
+Cannot deduct Gold if the upgrade request is rejected.
+
+Cannot increase Master Level without a successful Gold transaction.
+```
+
+---
+
+# 🧬 14. CHARACTER STATE
 
 Every recruited character has a persistent state.
+
+Characters may still use their own EXP and Level system.
 
 Example:
 
@@ -452,9 +646,11 @@ Location
 History
 ```
 
+The removal of Master EXP does not remove EXP from Characters.
+
 ---
 
-# 👤 11. NPC STATE
+# 👤 15. NPC STATE
 
 NPCs also have persistent states.
 
@@ -493,7 +689,7 @@ World Destruction
 
 ---
 
-# 👹 12. ENEMY STATE
+# 👹 16. ENEMY STATE
 
 Enemies can also possess state.
 
@@ -531,9 +727,22 @@ Spawn State
 Transformation State
 ```
 
+Defeating enemies does not grant EXP to the Master.
+
+Enemy rewards may include:
+
+```text
+Gold
+Items
+Materials
+Quest Progress
+Character EXP
+Achievements
+```
+
 ---
 
-# 🎒 13. ITEM STATE
+# 🎒 17. ITEM STATE
 
 Items have definitions and runtime states.
 
@@ -564,7 +773,7 @@ The Game State System updates the ownership and quantity.
 
 ---
 
-# 🎒 14. INVENTORY STATE
+# 🎒 18. INVENTORY STATE
 
 Inventory is a state belonging to an owner.
 
@@ -593,7 +802,7 @@ the Game State changes.
 
 ---
 
-# 🏛️ 15. FACTION STATE
+# 🏛️ 19. FACTION STATE
 
 Every important faction can have its own state.
 
@@ -629,7 +838,7 @@ Cult Influence
 
 ---
 
-# 🩸 16. CULT STATE
+# 🩸 20. CULT STATE
 
 The Cult of Eternal Night has a dedicated state.
 
@@ -668,7 +877,7 @@ Faction Conflict
 
 ---
 
-# 🤝 17. RELATIONSHIP STATE
+# 🤝 21. RELATIONSHIP STATE
 
 Relationships are persistent game states.
 
@@ -701,7 +910,7 @@ Faction ↔ Character
 
 ---
 
-# ❤️ 18. CHARACTER RELATIONSHIP
+# ❤️ 22. CHARACTER RELATIONSHIP
 
 Characters can develop relationships.
 
@@ -733,7 +942,7 @@ The Game State System stores the current relationship state.
 
 ---
 
-# ❤️ 19. LOYALTY STATE
+# ❤️ 23. LOYALTY STATE
 
 Characters may have loyalty toward the Master.
 
@@ -766,7 +975,7 @@ The exact values should be configured by the Character/Relationship System.
 
 ---
 
-# 🧠 20. CHARACTER PERSONALITY STATE
+# 🧠 24. CHARACTER PERSONALITY STATE
 
 Character personality itself belongs to the Character System.
 
@@ -794,7 +1003,7 @@ This allows character behavior to react to world events.
 
 ---
 
-# ⏳ 21. TIME STATE
+# ⏳ 25. TIME STATE
 
 The Time System provides the current world time.
 
@@ -829,7 +1038,7 @@ The Game State System uses this information to evaluate world conditions.
 
 ---
 
-# 🔄 22. TIME → GAME STATE
+# 🔄 26. TIME → GAME STATE
 
 The Time System does not directly control NPCs, quests, or factions.
 
@@ -861,7 +1070,7 @@ Night Enemy = ACTIVE
 
 ---
 
-# 🎲 23. RNG STATE
+# 🎲 27. RNG STATE
 
 The RNG System provides random results.
 
@@ -888,7 +1097,7 @@ The Game State System therefore does not replace RNG.
 
 ---
 
-# 🤖 24. AI STATE
+# 🤖 28. AI STATE
 
 AI systems can evaluate Game State.
 
@@ -917,13 +1126,14 @@ Party Formation
 Equipment
 Training
 Exploration
+Master Level Upgrade
 ```
 
 The Game State System remains the source of current state.
 
 ---
 
-# 🎯 25. QUEST STATE
+# 🎯 29. QUEST STATE
 
 Every quest has a persistent state.
 
@@ -955,9 +1165,26 @@ EXPIRED
 CANCELLED
 ```
 
+Quest rewards may include:
+
+```text
+Gold
+Gems
+Tickets
+Items
+Character EXP
+Relationship Changes
+Faction Influence
+Story Progress
+```
+
+Quests do not grant EXP to the Master.
+
+Quests may grant Gold that can later be used to upgrade the Master Level.
+
 ---
 
-# 📜 26. QUEST CONDITION EVALUATION
+# 📜 30. QUEST CONDITION EVALUATION
 
 Quest requirements can reference multiple states.
 
@@ -993,9 +1220,11 @@ QUEST CONDITION
 TRUE / FALSE
 ```
 
+Master Level is determined by successful Gold-based upgrades.
+
 ---
 
-# 🎉 27. EVENT STATE
+# 🎉 31. EVENT STATE
 
 Events can affect the world.
 
@@ -1031,7 +1260,7 @@ The consequences become part of Game State.
 
 ---
 
-# 🔥 28. EVENT CONSEQUENCE
+# 🔥 32. EVENT CONSEQUENCE
 
 An event can change multiple states.
 
@@ -1052,7 +1281,7 @@ One event can therefore create a chain reaction.
 
 ---
 
-# 🔗 29. STATE DEPENDENCY
+# 🔗 33. STATE DEPENDENCY
 
 Game states can depend on each other.
 
@@ -1074,11 +1303,27 @@ FACTION STATE
 WORLD STATE
 ```
 
-This creates dynamic world simulation.
+Master progression follows a separate dependency:
+
+```text
+GOLD
+ ↓
+MASTER LEVEL UPGRADE
+ ↓
+MASTER LEVEL
+ ↓
+QUEST CONDITIONS
+ ↓
+STORY CONDITIONS
+ ↓
+WORLD STATE
+```
+
+Tower progression does not automatically increase the Master Level.
 
 ---
 
-# 🌎 30. WORLD SIMULATION
+# 🌎 34. WORLD SIMULATION
 
 The Game State System is the core of Aetheria's living-world concept.
 
@@ -1106,7 +1351,7 @@ The world can therefore evolve even without direct player interaction.
 
 ---
 
-# 🔄 31. STATE UPDATE LOOP
+# 🔄 35. STATE UPDATE LOOP
 
 The standard update loop:
 
@@ -1134,7 +1379,7 @@ NEW WORLD STATE
 
 ---
 
-# 🧩 32. STATE TRANSACTION
+# 🧩 36. STATE TRANSACTION
 
 Every important change should be processed as a state transaction.
 
@@ -1144,37 +1389,43 @@ Example:
 TRANSACTION
 
 Action:
-Recruit Character
+Upgrade Master Level
 
 Master:
 MASTER_000001
+
+Current Level:
+20
+
+Target Level:
+21
 
 Resource:
 Gold
 
 Cost:
-1000
-
-RNG Result:
-⭐⭐⭐
-
-Character:
-CHAR_000321
+2000
 ```
 
 The Game State System validates:
 
 ```text
+Master exists?
+Target level valid?
 Gold sufficient?
-Character available?
-Character already owned?
-Recruit method valid?
-Character Star valid?
+Maximum level not reached?
+Upgrade request not duplicated?
 ```
 
 If valid:
 
 ```text
+Gold:
+12500 → 10500
+
+Master Level:
+20 → 21
+
 COMMIT
 ```
 
@@ -1186,7 +1437,7 @@ REJECT
 
 ---
 
-# 🔐 33. STATE VALIDATION
+# 🔐 37. STATE VALIDATION
 
 Before changing state:
 
@@ -1206,7 +1457,13 @@ UPDATE  REJECT
 Examples:
 
 ```text
-Cannot spend 1000 Gold if Master has only 500.
+Cannot spend 2000 Gold if the Master has only 500.
+
+Cannot increase the Master Level without deducting the required Gold.
+
+Cannot upgrade from Level 20 directly to Level 25.
+
+Cannot upgrade beyond the configured maximum level.
 
 Cannot add duplicate Character.
 
@@ -1215,11 +1472,13 @@ Cannot clear Floor 20 if Floor 19 is required and uncleared.
 Cannot use an Item that does not exist.
 
 Cannot complete a Quest whose requirements are not satisfied.
+
+Cannot assign Master EXP because the Master does not use EXP.
 ```
 
 ---
 
-# 🆔 34. ID SYSTEM CONNECTION
+# 🆔 38. ID SYSTEM CONNECTION
 
 The Game State System uses the ID System to identify entities.
 
@@ -1255,7 +1514,7 @@ ITEM_000015
 
 ---
 
-# 💾 35. DATABASE SYSTEM CONNECTION
+# 💾 39. DATABASE SYSTEM CONNECTION
 
 The Database System stores persistent Game State.
 
@@ -1272,13 +1531,15 @@ DATABASE UPDATE
 Example:
 
 ```text
-CHAR_000125
+MASTER_000001
 
 Before:
-Level 25
+Level 20
+Gold 12500
 
 After:
-Level 26
+Level 21
+Gold 10500
 ```
 
 The Game State System sends the update.
@@ -1287,7 +1548,7 @@ The Database System stores it.
 
 ---
 
-# 🔄 36. DATABASE → GAME STATE
+# 🔄 40. DATABASE → GAME STATE
 
 When the game starts:
 
@@ -1319,11 +1580,15 @@ Floor
 World
 Time
 Relationships
+Master Level
+Gold Balance
 ```
+
+If the saved Master Level or Gold balance is invalid, the Game State System must validate and correct the state according to the configured rules.
 
 ---
 
-# 🎮 37. GAME MANAGER CONNECTION
+# 🎮 41. GAME MANAGER CONNECTION
 
 The Game Manager coordinates the entire game.
 
@@ -1348,7 +1613,7 @@ The Game Manager controls system execution order.
 
 ---
 
-# 🪙 38. RECRUITMENT STATE FLOW
+# 🪙 42. RECRUITMENT STATE FLOW
 
 Recruitment uses:
 
@@ -1385,9 +1650,11 @@ MASTER ROSTER UPDATE
 DATABASE
 ```
 
+Recruitment may consume Gold, but it does not directly increase the Master Level.
+
 ---
 
-# ⭐ 39. RECRUITMENT STATE RULES
+# ⭐ 43. RECRUITMENT STATE RULES
 
 ### Gold
 
@@ -1424,7 +1691,7 @@ The Game State System validates that the result is legal for the recruitment met
 
 ---
 
-# 🚫 40. DUPLICATE CHARACTER STATE
+# 🚫 44. DUPLICATE CHARACTER STATE
 
 When recruitment produces a character:
 
@@ -1462,7 +1729,7 @@ the character can be added.
 
 ---
 
-# 🎲 41. LOOT STATE FLOW
+# 🎲 45. LOOT STATE FLOW
 
 Enemy defeated:
 
@@ -1489,11 +1756,16 @@ Example:
 ```text
 ITEM_000015 × 2
 Gold +150
+Character EXP +100
 ```
+
+The Master receives no EXP from the loot result.
+
+The Gold reward may be used for a future Master Level upgrade.
 
 ---
 
-# 🗼 42. FLOOR REWARD STATE
+# 🗼 46. FLOOR REWARD STATE
 
 Floor cleared:
 
@@ -1515,9 +1787,13 @@ MASTER STATE
 DATABASE
 ```
 
+Floor completion does not automatically increase the Master Level.
+
+The Master may receive Gold from the floor reward and use it to purchase a Master Level upgrade.
+
 ---
 
-# 📜 43. QUEST REWARD STATE
+# 📜 47. QUEST REWARD STATE
 
 Quest completed:
 
@@ -1536,12 +1812,29 @@ REWARD
       ↓
 GAME STATE
       ↓
-MASTER / INVENTORY
+MASTER / INVENTORY / CHARACTER
 ```
+
+Quest rewards may update:
+
+```text
+Gold
+Gems
+Tickets
+Items
+Character EXP
+Relationships
+Faction Influence
+Story Progress
+```
+
+Quest completion does not grant EXP to the Master.
+
+Quest Gold may be spent on Master Level upgrades.
 
 ---
 
-# ⚔️ 44. COMBAT STATE
+# ⚔️ 48. COMBAT STATE
 
 Combat creates temporary and persistent states.
 
@@ -1566,18 +1859,22 @@ Victory
     ↓
 Enemy Defeated
     ↓
-EXP
-    ↓
 Loot
+    ↓
+Character EXP
     ↓
 Quest Progress
     ↓
 Floor Progress
 ```
 
+Combat does not grant EXP to the Master and does not directly increase Master Level.
+
+Master Level changes only after a successful Gold-based upgrade.
+
 ---
 
-# 💀 45. CHARACTER DEATH
+# 💀 49. CHARACTER DEATH
 
 Character death must be represented as a persistent state when applicable.
 
@@ -1609,7 +1906,7 @@ This allows death to have lasting consequences.
 
 ---
 
-# 🧑 46. NPC DEATH
+# 🧑 50. NPC DEATH
 
 NPC death can also affect the world.
 
@@ -1634,7 +1931,7 @@ The Game State System processes these consequences.
 
 ---
 
-# 🩸 47. WORLD CONSEQUENCE ENGINE
+# 🩸 51. WORLD CONSEQUENCE ENGINE
 
 Aetheria should support cascading consequences.
 
@@ -1658,7 +1955,7 @@ This is one of the key features of the Game State System.
 
 ---
 
-# 🧠 48. STATE FLAGS
+# 🧠 52. STATE FLAGS
 
 The Game State System can use flags.
 
@@ -1674,13 +1971,15 @@ FLAG_KARAK_DUR_REBUILT = TRUE
 FLAG_NPC_000012_DEAD = TRUE
 
 FLAG_FLOOR_020_CLEARED = TRUE
+
+FLAG_MASTER_LEVEL_UPGRADE_UNLOCKED = TRUE
 ```
 
 Flags allow systems to quickly evaluate important conditions.
 
 ---
 
-# 🏷️ 49. STATE TAGS
+# 🏷️ 53. STATE TAGS
 
 Entities can also have dynamic tags.
 
@@ -1701,7 +2000,7 @@ Tags can change during gameplay.
 
 ---
 
-# 🔍 50. STATE QUERY SYSTEM
+# 🔍 54. STATE QUERY SYSTEM
 
 Other systems can request current state.
 
@@ -1717,6 +2016,54 @@ Game State:
 
 ```text
 FALSE
+```
+
+Another:
+
+```text
+What is the Master's current level?
+```
+
+Result:
+
+```text
+20
+```
+
+Another:
+
+```text
+How much Gold does the Master have?
+```
+
+Result:
+
+```text
+12500
+```
+
+Another:
+
+```text
+What is the cost to upgrade the Master to Level 21?
+```
+
+Result:
+
+```text
+2000 Gold
+```
+
+Another:
+
+```text
+Can the Master upgrade to Level 21?
+```
+
+Result:
+
+```text
+TRUE
 ```
 
 Another:
@@ -1747,7 +2094,7 @@ This creates a standardized way for systems to read world state.
 
 ---
 
-# 🧮 51. STATE CALCULATION
+# 🧮 55. STATE CALCULATION
 
 The Game State System can calculate derived states.
 
@@ -1765,13 +2112,35 @@ World Modifier
 Final Enemy Strength
 ```
 
+Master Level upgrade calculation:
+
+```text
+Current Master Level
+        +
+Target Level
+        +
+Upgrade Cost Formula
+        ↓
+Required Gold
+```
+
+Upgrade result:
+
+```text
+Gold Sufficient
+        ↓
+Gold Deducted
+        ↓
+Master Level Increased
+```
+
 The source systems provide the values.
 
 The Game State System combines the state where appropriate.
 
 ---
 
-# 🧱 52. STATE LAYERS
+# 🧱 56. STATE LAYERS
 
 Aetheria can divide Game State into layers.
 
@@ -1808,7 +2177,7 @@ GAME STATE
 
 ---
 
-# 🌐 53. GLOBAL STATE
+# 🌐 57. GLOBAL STATE
 
 Global State contains information that affects the entire game.
 
@@ -1835,7 +2204,7 @@ MASTER_000001
 
 ---
 
-# 🤝 54. FACTION RELATIONSHIP STATE
+# 🤝 58. FACTION RELATIONSHIP STATE
 
 Faction relationships can be dynamic.
 
@@ -1875,7 +2244,7 @@ Faction Actions
 
 ---
 
-# 🌍 55. LOCATION STATE
+# 🌍 59. LOCATION STATE
 
 Locations can also have state.
 
@@ -1911,7 +2280,7 @@ The world therefore remembers changes to locations.
 
 ---
 
-# 🏙️ 56. CIVILIZATION STATE
+# 🏙️ 60. CIVILIZATION STATE
 
 Aetheria's major civilizations can have persistent states.
 
@@ -1942,7 +2311,7 @@ REBUILT
 
 ---
 
-# 🌅 57. WORLD REBIRTH STATE
+# 🌅 61. WORLD REBIRTH STATE
 
 The final objective is to defeat Nythar.
 
@@ -1952,7 +2321,8 @@ The Game State System tracks:
 Pact Status
 Nythar Status
 Tower Progress
-Master Progress
+Master Level
+Gold Balance
 World Rebirth Eligibility
 ```
 
@@ -1961,6 +2331,9 @@ Example:
 ```text
 FLOOR 100
 CLEARED = TRUE
+
+MASTER LEVEL:
+100
 
 NYTHAR
 DEFEATED = TRUE
@@ -1974,7 +2347,7 @@ AVAILABLE = TRUE
 
 ---
 
-# 🌱 58. NEW AETHERIA STATE
+# 🌱 62. NEW AETHERIA STATE
 
 After Nythar is defeated, the world can be rebuilt.
 
@@ -2011,7 +2384,7 @@ The result is:
 
 ---
 
-# 🧠 59. STATE HISTORY
+# 🧠 63. STATE HISTORY
 
 Important state changes should optionally be recorded.
 
@@ -2020,6 +2393,27 @@ Example:
 ```text
 STATE HISTORY
 
+MASTER_000001
+
+Day 1:
+STARTED AT LEVEL 1
+
+Day 10:
+FLOOR 10 CLEARED
+
+Day 15:
+GOLD EARNED FROM QUESTS
+
+Day 20:
+MASTER LEVEL UPGRADED TO 2
+
+Day 20:
+GOLD SPENT ON MASTER LEVEL UPGRADE
+```
+
+Character history may still include EXP progression:
+
+```text
 CHAR_000125
 
 Day 10:
@@ -2042,7 +2436,7 @@ This creates historical continuity.
 
 ---
 
-# 📜 60. EVENT LOG
+# 📜 64. EVENT LOG
 
 The Game State System can maintain a world event log.
 
@@ -2063,6 +2457,9 @@ Village restored
 
 DAY 45
 Cult influence decreased
+
+DAY 50
+Master upgraded to Level 21 using Gold
 ```
 
 This can later power:
@@ -2077,7 +2474,7 @@ Achievements
 
 ---
 
-# 🔄 61. STATE SNAPSHOT
+# 🔄 65. STATE SNAPSHOT
 
 The system can create snapshots.
 
@@ -2092,6 +2489,8 @@ Contains:
 
 ```text
 Master State
+Master Level
+Gold Balance
 Tower State
 Floor State
 Faction State
@@ -2116,7 +2515,7 @@ Analytics
 
 ---
 
-# 💾 62. SAVE ARCHITECTURE
+# 💾 66. SAVE ARCHITECTURE
 
 ```text
 GAME STATE
@@ -2132,9 +2531,20 @@ DATABASE SYSTEM
 SAVE DATA
 ```
 
+The saved Master state must include:
+
+```text
+Master Level
+Gold Balance
+Current Floor
+Cleared Floors
+```
+
+Master EXP must not be saved because the Master does not use EXP.
+
 ---
 
-# 🔄 63. LOAD ARCHITECTURE
+# 🔄 67. LOAD ARCHITECTURE
 
 ```text
 DATABASE
@@ -2147,6 +2557,8 @@ GAME STATE SYSTEM
     ↓
 VALIDATE
     ↓
+RESTORE MASTER LEVEL AND GOLD
+    ↓
 RECONSTRUCT WORLD
     ↓
 GAME MANAGER
@@ -2156,7 +2568,7 @@ AETHERIA
 
 ---
 
-# 🧪 64. DEBUG STATE
+# 🧪 68. DEBUG STATE
 
 Developers should be able to inspect states.
 
@@ -2168,8 +2580,23 @@ DEBUG
 Master:
 MASTER_000001
 
-Floor:
+Master Level:
 20
+
+Gold:
+12500
+
+Next Upgrade Cost:
+2000
+
+Can Upgrade:
+TRUE
+
+Current Floor:
+20
+
+Cleared Floors:
+19
 
 World Destruction:
 71%
@@ -2197,19 +2624,29 @@ This is extremely useful during development.
 
 ---
 
-# 🛠️ 65. DEBUG STATE MODIFICATION
+# 🛠️ 69. DEBUG STATE MODIFICATION
 
 During development, developers may be allowed to modify states.
 
 Example:
 
 ```text
-SET FLOOR = 50
+SET MASTER_LEVEL = 50
 SET GOLD = 999999
 SET CULT_INFLUENCE = 100
 SET CHARACTER_LEVEL = 100
 SET TIME = DAY 100
 ```
+
+When `MASTER_LEVEL` is changed, the system should validate that the value is within the configured level range.
+
+A debug command may also simulate a normal upgrade:
+
+```text
+UPGRADE_MASTER_LEVEL
+```
+
+This must deduct the configured Gold cost unless the debug mode explicitly bypasses resource validation.
 
 This must be restricted to:
 
@@ -2223,7 +2660,7 @@ and should not be available in normal gameplay.
 
 ---
 
-# ⚙️ 66. STATE PROCESSING ORDER
+# ⚙️ 70. STATE PROCESSING ORDER
 
 To avoid inconsistent states, the Game State System should process changes in a controlled order.
 
@@ -2236,15 +2673,16 @@ Recommended:
 4. Read Current State
 5. Apply System Logic
 6. Calculate Consequences
-7. Update State
-8. Validate New State
-9. Generate Event
-10. Save Persistent State
+7. Update States
+8. Process Gold Transactions when required
+9. Validate New State
+10. Generate Event
+11. Save Persistent State
 ```
 
 ---
 
-# 🔄 67. COMPLETE STATE TRANSACTION
+# 🔄 71. COMPLETE STATE TRANSACTION
 
 Example: Master defeats an enemy.
 
@@ -2265,11 +2703,9 @@ RNG LOOT
    ↓
 Update Inventory
    ↓
-Update EXP
+Update Character EXP
    ↓
 Update Quest
-   ↓
-Check Level Up
    ↓
 Check Floor Condition
    ↓
@@ -2278,11 +2714,105 @@ Generate Event
 DATABASE
 ```
 
-One action can therefore update multiple systems.
+There is no Master EXP update and no automatic Master Level increase.
 
 ---
 
-# 🧬 68. RECRUITMENT TRANSACTION
+# 🧬 72. MASTER LEVEL UPGRADE TRANSACTION
+
+```text
+MASTER
+   ↓
+REQUEST MASTER LEVEL UPGRADE
+   ↓
+MASTER LEVEL SYSTEM
+   ↓
+READ CURRENT LEVEL
+   ↓
+CALCULATE GOLD COST
+   ↓
+CHECK GOLD BALANCE
+   ↓
+VALIDATE TARGET LEVEL
+   ↓
+DEDUCT GOLD
+   ↓
+INCREASE MASTER LEVEL
+   ↓
+UPDATE UNLOCKS AND CONDITIONS
+   ↓
+GENERATE EVENT
+   ↓
+DATABASE
+```
+
+Example:
+
+```text
+Current Level:
+20
+
+Upgrade Cost:
+2000 Gold
+
+Gold Before:
+12500
+
+Gold After:
+10500
+
+New Level:
+21
+```
+
+---
+
+# 🪙 73. GOLD TRANSACTION RULES
+
+All Gold changes must be processed through a validated transaction.
+
+Gold can be:
+
+```text
+Earned
+Spent
+Rewarded
+Lost
+Transferred
+Consumed
+```
+
+For a Master Level upgrade:
+
+```text
+Gold Before
+      ↓
+Upgrade Cost Validation
+      ↓
+Gold Deduction
+      ↓
+Master Level Increase
+      ↓
+Gold After
+```
+
+The transaction must be atomic.
+
+If the Master Level update fails:
+
+```text
+Gold must not be deducted.
+```
+
+If Gold is deducted successfully but the level update fails:
+
+```text
+The transaction must be rolled back.
+```
+
+---
+
+# 🔄 74. RECRUITMENT TRANSACTION
 
 ```text
 MASTER
@@ -2312,9 +2842,11 @@ QUEST / STORY CHECK
 DATABASE
 ```
 
+Recruitment does not affect Master Level.
+
 ---
 
-# 🗼 69. FLOOR CLEAR TRANSACTION
+# 🗼 75. FLOOR CLEAR TRANSACTION
 
 ```text
 COMBAT
@@ -2340,9 +2872,11 @@ WORLD STATE UPDATE
 DATABASE
 ```
 
+Floor completion does not automatically increase Master Level.
+
 ---
 
-# 🩸 70. CULT EVENT TRANSACTION
+# 🩸 76. CULT EVENT TRANSACTION
 
 ```text
 TIME
@@ -2372,7 +2906,7 @@ This is the type of cascading simulation Aetheria is designed to support.
 
 ---
 
-# 🧠 71. STATE PRIORITY
+# 🧠 77. STATE PRIORITY
 
 Not every state has equal importance.
 
@@ -2387,6 +2921,10 @@ TOWER / FLOOR STATE
       ↓
 FACTION STATE
       ↓
+MASTER STATE
+      ↓
+MASTER LEVEL UPGRADE STATE
+      ↓
 ENTITY STATE
       ↓
 QUEST / EVENT STATE
@@ -2398,7 +2936,7 @@ This helps prevent contradictory world conditions.
 
 ---
 
-# ⚠️ 72. STATE CONSISTENCY
+# ⚠️ 78. STATE CONSISTENCY
 
 The system must prevent impossible conditions.
 
@@ -2410,6 +2948,33 @@ Floor 19 = LOCKED
 ```
 
 if Floor 20 requires Floor 19.
+
+Invalid:
+
+```text
+Master Level = 20
+Gold = -500
+```
+
+unless negative Gold is explicitly allowed.
+
+Invalid:
+
+```text
+Master Level increases
+Gold remains unchanged
+```
+
+when the upgrade requires Gold.
+
+Invalid:
+
+```text
+Master Level = 20
+Master EXP = 5000
+```
+
+because the Master does not use EXP.
 
 Invalid:
 
@@ -2431,7 +2996,7 @@ unless the quest configuration allows alternative completion.
 
 ---
 
-# 🔐 73. STATE AUTHORITY
+# 🔐 79. STATE AUTHORITY
 
 Each system has authority over specific state categories.
 
@@ -2448,7 +3013,7 @@ RECRUIT SYSTEM
 → Recruitment Process
 
 CHARACTER SYSTEM
-→ Character Definition
+→ Character Definition and Character Progression
 
 INVENTORY SYSTEM
 → Inventory Logic
@@ -2458,15 +3023,23 @@ QUEST SYSTEM
 
 COMBAT SYSTEM
 → Combat Result
+
+TOWER SYSTEM
+→ Floor Completion and Tower Progression
+
+MASTER LEVEL SYSTEM
+→ Gold-Based Master Level Upgrades
 ```
 
 The Game State System:
 
 > **Coordinates and commits the resulting state changes.**
 
+The Game State System also validates and records every Gold-based Master Level upgrade.
+
 ---
 
-# 🧱 74. SYSTEM RESPONSIBILITY
+# 🧱 80. SYSTEM RESPONSIBILITY
 
 The architecture follows:
 
@@ -2500,11 +3073,19 @@ The architecture follows:
 
 ### Character System
 
-> **"What is this character?"**
+> **"What is this character, and how does the character progress?"**
 
 ### Quest System
 
 > **"What objectives and quest rules exist?"**
+
+### Tower System
+
+> **"Which floors have been completed?"**
+
+### Master Level System
+
+> **"How much Gold is required to increase the Master Level?"**
 
 ### AI System
 
@@ -2512,7 +3093,7 @@ The architecture follows:
 
 ---
 
-# 🤖 75. AI FAIRY + GAME STATE
+# 🤖 81. AI FAIRY + GAME STATE
 
 The AI Fairy can read the Game State.
 
@@ -2521,15 +3102,18 @@ Example:
 ```text
 AI FAIRY
    ↓
-READ
-   │
-   ├── Master State
-   ├── Character State
-   ├── Enemy State
-   ├── Quest State
-   ├── World State
-   ├── Time State
-   └── Faction State
+READ GAME STATE
+   ↓
+Master State
+Master Level
+Gold Balance
+Next Upgrade Cost
+Character State
+Enemy State
+Quest State
+World State
+Time State
+Faction State
    ↓
 ANALYZE
    ↓
@@ -2539,16 +3123,16 @@ RECOMMENDATION
 Example recommendation:
 
 ```text
-"Floor 20 contains high Cult activity.
-Your current party has low resistance to corruption.
-Consider preparing before entering."
+"Your current Master Level is 20.
+The next upgrade costs 2000 Gold.
+You currently have enough Gold to upgrade to Level 21."
 ```
 
 The AI Fairy does not directly overwrite Game State unless explicitly authorized by the relevant system.
 
 ---
 
-# 🌎 76. COMPLETE AETHERIA STATE MODEL
+# 🌎 82. COMPLETE AETHERIA STATE MODEL
 
 ```text
                          AETHERIA
@@ -2570,7 +3154,8 @@ The AI Fairy does not directly overwrite Game State unless explicitly authorized
        ├── Faction          ├── Enemy           ├── Quest
        ├── Location         └── Item            ├── Event
        └── History                              ├── Combat
-                                                 └── Inventory
+                                                 ├── Inventory
+                                                 └── Master Level
        │                    │                    │
        └────────────────────┼────────────────────┘
                             │
@@ -2592,7 +3177,7 @@ The AI Fairy does not directly overwrite Game State unless explicitly authorized
 
 ---
 
-# 🔄 77. COMPLETE GAME LOOP
+# 🔄 83. COMPLETE GAME LOOP
 
 ```text
                     PLAYER / AI ACTION
@@ -2625,6 +3210,15 @@ The AI Fairy does not directly overwrite Game State unless explicitly authorized
        │                   │                   │
        └───────────────────┼───────────────────┘
                            ▼
+                 MASTER LEVEL UPGRADE CHECK
+                           │
+                           ▼
+                    GOLD TRANSACTION
+                           │
+                           ▼
+                    MASTER LEVEL UPDATE
+                           │
+                           ▼
                         ID SYSTEM
                            │
                            ▼
@@ -2638,7 +3232,7 @@ The AI Fairy does not directly overwrite Game State unless explicitly authorized
 
 ---
 
-# 🧠 78. THE WORLD NEVER HAS ONLY ONE STATE
+# 🧠 84. THE WORLD NEVER HAS ONLY ONE STATE
 
 Aetheria is not represented by a single variable.
 
@@ -2653,6 +3247,8 @@ AETHERIA STATE
 ├── Tower State
 ├── Floor State
 ├── Master State
+├── Master Level State
+├── Gold State
 ├── Character State
 ├── NPC State
 ├── Enemy State
@@ -2670,7 +3266,7 @@ AETHERIA STATE
 
 ---
 
-# 🌱 79. EMERGENT STORY
+# 🌱 85. EMERGENT STORY
 
 The Game State System allows stories to emerge from state changes.
 
@@ -2704,7 +3300,7 @@ The states create the possibility.
 
 ---
 
-# 📖 80. STORY SYSTEM CONNECTION
+# 📖 86. STORY SYSTEM CONNECTION
 
 The Story System reads Game State.
 
@@ -2713,7 +3309,7 @@ Example:
 ```text
 IF
 
-Floor >= 30
+Master Level >= 30
 AND
 Cult Influence >= 70
 AND
@@ -2733,7 +3329,7 @@ The Story System provides the narrative.
 
 ---
 
-# 🧬 81. CHARACTER STORY CONNECTION
+# 🧬 87. CHARACTER STORY CONNECTION
 
 A character's personal story can react to Game State.
 
@@ -2762,11 +3358,41 @@ This allows personal stories to evolve based on world events.
 
 ---
 
-# 🌍 82. WORLD REACTION
+# 🌍 88. WORLD REACTION
 
 Aetheria should react to the Master's actions.
 
 Example:
+
+```text
+Master upgrades Level 20 → 21
+        ↓
+Gold decreases
+        ↓
+Master Level increases
+        ↓
+New content unlocked
+        ↓
+Quest conditions updated
+        ↓
+Story conditions updated
+```
+
+Another:
+
+```text
+Master clears Floor 20
+        ↓
+Floor 20 becomes CLEARED
+        ↓
+Tower Progression increases
+        ↓
+New Quest unlocked
+        ↓
+World State changes
+```
+
+Another:
 
 ```text
 Master saves Elaria
@@ -2800,7 +3426,7 @@ Future consequences
 
 ---
 
-# 🧠 83. GAME STATE AS THE WORLD MEMORY
+# 🧠 89. GAME STATE AS THE WORLD MEMORY
 
 The Database stores data.
 
@@ -2820,11 +3446,13 @@ Current World Condition
 State Logic
 +
 Consequences
++
+Gold-Based Master Level Progression
 ```
 
 ---
 
-# 🔄 84. PERSISTENT WORLD PRINCIPLE
+# 🔄 90. PERSISTENT WORLD PRINCIPLE
 
 When the player leaves the game:
 
@@ -2841,6 +3469,8 @@ DATABASE
  ↓
 GAME STATE
  ↓
+RESTORE MASTER LEVEL AND GOLD
+ ↓
 WORLD RESTORED
 ```
 
@@ -2848,7 +3478,7 @@ The world should not simply reset unless a specific game mechanic requires it.
 
 ---
 
-# 🌑 85. NYTHAR STATE
+# 🌑 91. NYTHAR STATE
 
 Nythar is represented as a global entity/state.
 
@@ -2876,6 +3506,8 @@ As the Master progresses:
 ```text
 Tower Progress
      ↓
+Master Level
+     ↓
 Nythar Influence
      ↓
 World State
@@ -2883,7 +3515,7 @@ World State
 
 ---
 
-# 🤝 86. THE PACT STATE
+# 🤝 92. THE PACT STATE
 
 The Pact is a critical global state.
 
@@ -2921,7 +3553,7 @@ AVAILABLE
 
 ---
 
-# 🌅 87. FINAL STATE
+# 🌅 93. FINAL STATE
 
 The final state of Aetheria depends on the accumulated journey.
 
@@ -2940,6 +3572,10 @@ EVENT OUTCOMES
        +
 TOWER PROGRESS
        +
+MASTER LEVEL
+       +
+GOLD SPENT
+       +
 CULT STATE
        ↓
 FINAL WORLD STATE
@@ -2951,7 +3587,7 @@ NEW AETHERIA
 
 ---
 
-# 🧱 88. RECOMMENDED MODULE STRUCTURE
+# 🧱 94. RECOMMENDED MODULE STRUCTURE
 
 ```text
 GAME STATE SYSTEM
@@ -2971,6 +3607,10 @@ GAME STATE SYSTEM
 ├── StateDependency
 │
 ├── ConsequenceEngine
+│
+├── MasterLevelUpgradeSystem
+│
+├── GoldTransactionManager
 │
 ├── EventProcessor
 │
@@ -3017,6 +3657,14 @@ Tracks relationships between states.
 
 Processes secondary effects.
 
+### MasterLevelUpgradeSystem
+
+Processes Master Level increases using Gold.
+
+### GoldTransactionManager
+
+Validates and commits Gold deductions and rewards.
+
 ### EventProcessor
 
 Processes state-driven events.
@@ -3043,7 +3691,7 @@ Provides development inspection.
 
 ---
 
-# 🧠 89. DESIGN PHILOSOPHY
+# 🧠 95. DESIGN PHILOSOPHY
 
 The Game State System should remain:
 
@@ -3063,9 +3711,21 @@ Instead:
 
 > **It provides the infrastructure through which gameplay systems modify the world safely.**
 
+Master progression must remain simple and deterministic:
+
+```text
+Gold
+      ↓
+Master Level Upgrade
+      ↓
+Master Level
+```
+
+No Master EXP system is required.
+
 ---
 
-# 🔥 90. CORE PRINCIPLE
+# 🔥 96. CORE PRINCIPLE
 
 Aetheria follows:
 
@@ -3083,11 +3743,23 @@ FUTURE ACTION
 NEW CONSEQUENCE
 ```
 
+For Master progression:
+
+```text
+GOLD EARNED
+  ↓
+GOLD SPENT ON MASTER LEVEL UPGRADE
+  ↓
+MASTER LEVEL INCREASES
+  ↓
+NEW CONTENT AND CONDITIONS
+```
+
 This creates a continuously evolving world.
 
 ---
 
-# ✨ 91. FINAL AETHERIA ARCHITECTURE
+# ✨ 97. FINAL AETHERIA ARCHITECTURE
 
 ```text
                               AETHERIA
@@ -3119,6 +3791,15 @@ This creates a continuously evolving world.
       └──────────┴──────────┴────┼────┴──────────┴──────────┘
                                  │
                                  ▼
+                         TOWER / FLOOR SYSTEM
+                                 │
+                                 ▼
+                         MASTER LEVEL SYSTEM
+                                 │
+                                 ▼
+                         GOLD TRANSACTION SYSTEM
+                                 │
+                                 ▼
                               ID SYSTEM
                                  │
                                  ▼
@@ -3135,7 +3816,7 @@ This creates a continuously evolving world.
 
 ---
 
-# 🌑 92. FINAL PHILOSOPHY
+# 🌑 98. FINAL PHILOSOPHY
 
 > **The Game State System is the heart of Aetheria's living world.**
 
@@ -3167,9 +3848,21 @@ The Database System defines:
 
 > **What information is permanently remembered.**
 
+The Tower System defines:
+
+> **Which floors have been completed.**
+
+The Master Level System defines:
+
+> **How the Master increases Level by spending Gold.**
+
 The Game State System defines:
 
 > **What the world is like right now and how it changes.**
+
+The Master does not use EXP.
+
+The Master Level increases only through a successful Gold-based upgrade.
 
 Therefore:
 
@@ -3192,6 +3885,12 @@ Therefore:
             └──────────┼──────────┘
                        ▼
                   STATE CHANGE
+                       │
+                       ▼
+                  GOLD TRANSACTION
+                       │
+                       ▼
+              MASTER LEVEL UPGRADE
                        │
                        ▼
                   CONSEQUENCE
@@ -3217,6 +3916,10 @@ Therefore:
 > **Aetheria is not a world where events simply happen.**
 >
 > **Aetheria is a world where events change the state of the world.**
+>
+> **The Master does not level up through EXP.**
+>
+> **The Master Level increases by spending Gold.**
 >
 > **And the state of the world determines what can happen next.**
 
