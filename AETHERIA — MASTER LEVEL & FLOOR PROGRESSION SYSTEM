@@ -1,0 +1,1093 @@
+# 👑 AETHERIA — MASTER LEVEL & FLOOR PROGRESSION SYSTEM
+
+> **The Master does not grow stronger merely by gaining experience.**
+>
+> **The Master grows by conquering the Tower.**
+
+Master Level adalah sistem progression utama yang menentukan perkembangan Master dan membuka akses terhadap berbagai fitur, fasilitas, serta kemampuan manajemen dunia.
+
+Berbeda dengan Hero yang berkembang melalui **Level, Star, Skill, Training, dan Character Development**, perkembangan Master terutama ditentukan oleh:
+
+```text
+TOWER FLOOR PROGRESSION
+        ↓
+MASTER PROGRESSION
+        ↓
+MASTER LEVEL
+        ↓
+SYSTEM UNLOCK
+        ↓
+FACILITY UNLOCK
+        ↓
+HIGHER WORLD MANAGEMENT
+```
+
+---
+
+# 1. MASTER ROLE
+
+Master adalah pusat pengendalian seluruh sistem Aetheria.
+
+Master tidak bertindak sebagai Hero biasa.
+
+Master bertanggung jawab terhadap:
+
+```text
+Recruitment
+Party Management
+Hero Development
+Training
+Town Square
+Quest
+Dungeon
+World Exploration
+Boss Raid
+Inventory
+Resources
+Facilities
+Events
+World Progression
+```
+
+Karena itu, Master Level digunakan sebagai batas kemampuan Master dalam mengelola dunia.
+
+---
+
+# 2. MASTER LEVEL SOURCE
+
+Master Level terutama ditentukan oleh:
+
+# **FLOOR PROGRESSION**
+
+Contoh:
+
+```text
+Floor 1
+   ↓
+Master Level Progression
+   ↓
+Floor 10
+   ↓
+Master Level Progression
+   ↓
+Floor 20
+   ↓
+Master Level Progression
+   ↓
+Floor 50
+   ↓
+Master Level Progression
+   ↓
+Floor 100
+```
+
+Master tidak dapat menaikkan Level secara bebas tanpa melakukan progression pada Tower.
+
+---
+
+# 3. FLOOR-BASED PROGRESSION
+
+Setiap Floor yang berhasil diselesaikan memberikan kontribusi terhadap Master Progression.
+
+Contoh:
+
+```text
+Floor 1 Completed
+→ Master Progression +1
+
+Floor 2 Completed
+→ Master Progression +1
+
+Floor 3 Completed
+→ Master Progression +1
+```
+
+Namun semakin tinggi Floor, semakin besar nilai progression yang dapat diberikan.
+
+---
+
+# 4. MASTER PROGRESSION SCORE
+
+Game State System menghitung:
+
+```text
+Master Progression Score
+```
+
+berdasarkan:
+
+```text
+Floor Cleared
+Floor Difficulty
+Floor Objective
+Major Boss Defeated
+Story Progression
+Special Floor
+World Event
+```
+
+Contoh:
+
+```text
+Normal Floor
+→ +1 Progression
+
+Elite Floor
+→ +2 Progression
+
+Boss Floor
+→ +3 Progression
+
+Special Story Floor
+→ +5 Progression
+```
+
+Nilai tersebut dapat dikembangkan melalui Game State System.
+
+---
+
+# 5. MASTER LEVEL CALCULATION
+
+Konsep dasar:
+
+```text
+FLOOR PROGRESSION
+        +
+SPECIAL ACHIEVEMENT
+        +
+STORY PROGRESSION
+        ↓
+MASTER PROGRESSION SCORE
+        ↓
+MASTER LEVEL
+```
+
+Master Level tidak harus sama persis dengan nomor Floor.
+
+Contoh:
+
+```text
+Floor 1
+→ Master Level 1
+
+Floor 5
+→ Master Level 3
+
+Floor 10
+→ Master Level 5
+
+Floor 20
+→ Master Level 10
+
+Floor 30
+→ Master Level 15
+
+Floor 50
+→ Master Level 25
+
+Floor 75
+→ Master Level 35
+
+Floor 100
+→ Master Level 50+
+```
+
+Angka tersebut adalah **contoh balancing** dan dapat diubah melalui konfigurasi Game State System.
+
+---
+
+# 6. MASTER LEVEL CAP
+
+Master memiliki batas Level berdasarkan Tower progression.
+
+Contoh:
+
+```text
+Floor 1
+→ Level Cap 1
+
+Floor 10
+→ Level Cap 5
+
+Floor 20
+→ Level Cap 10
+
+Floor 30
+→ Level Cap 15
+
+Floor 50
+→ Level Cap 25
+
+Floor 75
+→ Level Cap 35
+
+Floor 100
+→ Level Cap 50
+```
+
+Dengan sistem ini:
+
+> Master tidak dapat melakukan progression terlalu jauh tanpa benar-benar menaiki Tower.
+
+---
+
+# 7. FLOOR PROGRESSION IS THE MAIN GATE
+
+Master Level menjadi **gate utama** untuk membuka fitur.
+
+```text
+TOWER PROGRESS
+      ↓
+MASTER LEVEL
+      ↓
+FEATURE UNLOCK
+```
+
+Contoh:
+
+```text
+Master Lv.1
+→ Basic Systems
+
+Master Lv.5
+→ Basic Facility
+
+Master Lv.10
+→ Advanced Facility
+
+Master Lv.20
+→ High-Level Facility
+
+Master Lv.30
+→ Advanced Management
+
+Master Lv.40
+→ Endgame Systems
+
+Master Lv.50
+→ Final Tower Systems
+```
+
+---
+
+# 8. FACILITY LEVEL SYSTEM
+
+Setiap fasilitas Town Square memiliki Level sendiri.
+
+Contoh:
+
+```text
+BLACKSMITH
+Lv.1
+Lv.2
+Lv.3
+Lv.4
+Lv.5
+...
+```
+
+Namun Level fasilitas memiliki batas berdasarkan Master Level.
+
+```text
+MASTER LEVEL
+      ↓
+FACILITY LEVEL CAP
+      ↓
+FACILITY UPGRADE
+```
+
+---
+
+# 9. FACILITY UNLOCK
+
+Fasilitas baru tidak langsung tersedia sejak awal.
+
+Contoh:
+
+```text
+MASTER LV.1
+│
+├── Basic Workshop
+├── Basic Storage
+└── Basic Training Ground
+
+MASTER LV.5
+│
+├── Blacksmith
+└── Basic Market
+
+MASTER LV.10
+│
+├── Advanced Workshop
+├── Alchemy Facility
+└── Advanced Training
+
+MASTER LV.20
+│
+├── Research Facility
+├── Advanced Forge
+└── Special Facility
+
+MASTER LV.30+
+│
+└── High-Level Facilities
+```
+
+Daftar ini dapat dikembangkan sesuai Town Square System.
+
+---
+
+# 10. FACILITY LEVEL CAP
+
+Master Level menentukan maksimal Level fasilitas.
+
+Contoh:
+
+```text
+Master Lv.1
+→ Facility Lv.1
+
+Master Lv.5
+→ Facility Lv.2
+
+Master Lv.10
+→ Facility Lv.3
+
+Master Lv.20
+→ Facility Lv.4
+
+Master Lv.30
+→ Facility Lv.5
+```
+
+Sehingga:
+
+```text
+Master Level
+      ↓
+Facility Level Cap
+      ↓
+Facility Upgrade
+```
+
+---
+
+# 11. FACILITY UPGRADE REQUIREMENT
+
+Untuk menaikkan fasilitas, sistem dapat membutuhkan:
+
+```text
+Master Level
++
+Required Floor
++
+Gold
++
+Materials
++
+Required Item
++
+Required Leader
+```
+
+Contoh:
+
+```text
+BLACKSMITH Lv.2 → Lv.3
+
+Requirements:
+
+Master Lv.10
+Floor 10 Cleared
+Gold
+Iron
+Rare Material
+Blacksmith Leader
+```
+
+Jika salah satu requirement tidak terpenuhi:
+
+```text
+UPGRADE LOCKED
+```
+
+---
+
+# 12. FACILITY LEADER REQUIREMENT
+
+Mengikuti Town Square System:
+
+> **Fasilitas tanpa Leader tidak dapat beroperasi.**
+
+Maka:
+
+```text
+FACILITY UNLOCKED
+        ≠
+FACILITY ACTIVE
+```
+
+Fasilitas membutuhkan:
+
+```text
+Facility
++
+Leader
+```
+
+agar dapat bekerja.
+
+---
+
+# 13. MASTER LEVEL VS FACILITY LEVEL
+
+Keduanya merupakan sistem yang berbeda.
+
+```text
+MASTER LEVEL
+│
+├── Unlock Facility
+├── Increase Facility Cap
+├── Unlock Feature
+└── Unlock Management
+
+FACILITY LEVEL
+│
+├── Production
+├── Crafting Quality
+├── Capacity
+├── Efficiency
+└── Available Functions
+```
+
+Contoh:
+
+```text
+Master Lv.10
+        ↓
+Blacksmith Lv.3 Unlocked
+        ↓
+Blacksmith Lv.3
+        ↓
+Better Crafting
+```
+
+---
+
+# 14. MASTER LEVEL UNLOCK TREE
+
+Konsep:
+
+```text
+                    MASTER LEVEL
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+          ▼              ▼              ▼
+       SYSTEM         FACILITY        CAPACITY
+       UNLOCK          UNLOCK          UPGRADE
+          │              │              │
+          └──────────────┼──────────────┘
+                         ▼
+                  WORLD MANAGEMENT
+```
+
+---
+
+# 15. EARLY GAME
+
+### Master Level 1–5
+
+Fokus:
+
+```text
+Basic Survival
+Basic Recruitment
+Basic Party
+Basic Training
+Basic Town
+Basic Inventory
+Basic Quest
+```
+
+Master masih belajar mengelola dunia.
+
+---
+
+# 16. EARLY-MID GAME
+
+### Master Level 6–10
+
+Mulai membuka:
+
+```text
+Advanced Recruitment
+Facility Upgrade
+Advanced Training
+Better Crafting
+World Exploration
+Additional Town Functions
+```
+
+---
+
+# 17. MID GAME
+
+### Master Level 11–20
+
+Master mulai mampu mengelola sistem yang lebih kompleks.
+
+```text
+Advanced Facilities
+Faction Interaction
+Advanced World Exploration
+Advanced Quest
+Advanced Events
+Rare Resources
+Advanced Crafting
+```
+
+---
+
+# 18. MID-LATE GAME
+
+### Master Level 21–30
+
+Master mulai memiliki kemampuan manajemen dunia yang lebih besar.
+
+```text
+High-Level Facilities
+Rare Crafting
+Advanced Research
+Advanced Town Management
+High-Level Exploration
+Advanced Raid
+Major World Events
+```
+
+---
+
+# 19. LATE GAME
+
+### Master Level 31–40
+
+Master mulai memasuki wilayah endgame.
+
+```text
+High-Level Facilities
+Special Facilities
+High-Level Raid
+Rare Resources
+Advanced Character Development
+Major Faction Events
+High-Level Tower Content
+```
+
+---
+
+# 20. ENDGAME
+
+### Master Level 41–50+
+
+Master telah mendekati puncak Tower.
+
+```text
+Floor 80+
+       ↓
+Master Level 40+
+       ↓
+Endgame Facilities
+       ↓
+Final Preparation
+       ↓
+Floor 100
+       ↓
+Nythar
+```
+
+---
+
+# 21. FLOOR MILESTONE
+
+Floor tertentu menjadi milestone Master.
+
+Contoh:
+
+```text
+FLOOR 1
+→ Master Awakening
+
+FLOOR 10
+→ Basic Town Expansion
+
+FLOOR 20
+→ Advanced Facility
+
+FLOOR 30
+→ Advanced World Management
+
+FLOOR 40
+→ High-Level Facility
+
+FLOOR 50
+→ Major System Expansion
+
+FLOOR 60
+→ Advanced Raid
+
+FLOOR 70
+→ Endgame Preparation
+
+FLOOR 80
+→ High-Level World State
+
+FLOOR 90
+→ Final Preparation
+
+FLOOR 100
+→ Final Battle
+```
+
+---
+
+# 22. MASTER LEVEL MILESTONE
+
+Master Level juga memiliki milestone.
+
+```text
+LEVEL 1
+→ Master System Activated
+
+LEVEL 5
+→ Facility Expansion
+
+LEVEL 10
+→ Advanced Management
+
+LEVEL 15
+→ Advanced Facility
+
+LEVEL 20
+→ High-Level Management
+
+LEVEL 30
+→ Endgame Management
+
+LEVEL 40
+→ Final Tower Preparation
+
+LEVEL 50
+→ Maximum Master Progression
+```
+
+---
+
+# 23. GAME STATE SYSTEM
+
+Master Level tidak dihitung secara terpisah.
+
+Semua progression diproses oleh:
+
+# **GAME STATE SYSTEM**
+
+Flow:
+
+```text
+FLOOR COMPLETED
+       ↓
+GAME STATE SYSTEM
+       ↓
+CHECK PROGRESSION
+       ↓
+UPDATE MASTER PROGRESSION
+       ↓
+CALCULATE MASTER LEVEL
+       ↓
+CHECK UNLOCK
+       ↓
+UPDATE FACILITY CAP
+       ↓
+DATABASE SYSTEM
+```
+
+---
+
+# 24. DATABASE SYSTEM
+
+Setiap perubahan Master harus disimpan.
+
+Contoh:
+
+```text
+MASTER ID
+MASTER-000001
+
+Master Level:
+10
+
+Master Progression:
+10
+
+Highest Floor:
+20
+
+Unlocked Systems:
+...
+
+Unlocked Facilities:
+...
+
+Facility Level Caps:
+...
+```
+
+---
+
+# 25. MASTER ID
+
+Master memiliki ID unik:
+
+```text
+MASTER-000001
+```
+
+Seluruh progression melekat pada Master ID.
+
+```text
+MASTER ID
+   │
+   ├── Master Level
+   ├── Floor Progression
+   ├── Unlock
+   ├── Facility Access
+   ├── Facility Cap
+   └── Progression History
+```
+
+---
+
+# 26. LEVEL-UP EVENT
+
+Ketika Master mencapai Level baru:
+
+```text
+MASTER PROGRESSION
+       ↓
+LEVEL REQUIREMENT MET
+       ↓
+MASTER LEVEL UP
+       ↓
+UNLOCK CHECK
+       ↓
+FACILITY CHECK
+       ↓
+DATABASE UPDATE
+       ↓
+FAIRY NOTIFICATION
+```
+
+---
+
+# 27. AI FAIRY NOTIFICATION
+
+Fairy memberikan laporan kepada Master.
+
+Contoh:
+
+> **Fairy:**
+> "Master Level increased."
+
+> **Fairy:**
+> "Current Master Level: 10."
+
+> **Fairy:**
+> "New facility management functions are now available."
+
+> **Fairy:**
+> "Blacksmith Facility can now be upgraded to Level 3."
+
+---
+
+# 28. MULTIPLE UNLOCK
+
+Jika Master mendapatkan beberapa unlock sekaligus:
+
+```text
+MASTER LEVEL UP
+       ↓
+UNLOCK CHECK
+       ↓
+┌──────┼────────┬────────┐
+│      │        │        │
+▼      ▼        ▼        ▼
+System Facility Quest  Capacity
+```
+
+Fairy merangkum seluruh perubahan.
+
+---
+
+# 29. FLOOR FAILURE
+
+Gagal menyelesaikan Floor tidak memberikan progression penuh.
+
+Contoh:
+
+```text
+Floor Attempt
+      ↓
+FAILED
+      ↓
+No Floor Clear
+      ↓
+No Major Master Progression
+```
+
+Namun aktivitas tertentu tetap dapat memberikan reward progression kecil jika memang diatur Game State.
+
+---
+
+# 30. FLOOR CLEAR
+
+Jika Floor berhasil diselesaikan:
+
+```text
+FLOOR CLEAR
+    ↓
+REWARD
+    ↓
+RNG SYSTEM
+    ↓
+MASTER PROGRESSION
+    ↓
+MASTER LEVEL CHECK
+```
+
+Dengan demikian reward dan Master progression tetap terhubung.
+
+---
+
+# 31. SPECIAL FLOOR
+
+Floor khusus dapat memberikan progression lebih besar.
+
+Contoh:
+
+```text
+Boss Floor
+Secret Floor
+Story Floor
+Event Floor
+Challenge Floor
+```
+
+Contoh:
+
+```text
+Normal Floor
+→ +1
+
+Elite Floor
+→ +2
+
+Boss Floor
+→ +3
+
+Special Floor
+→ +5
+```
+
+---
+
+# 32. NO FREE MASTER LEVEL
+
+Master tidak dapat menaikkan Level hanya melalui:
+
+```text
+Gold
+Gem
+Ticket
+Item
+Recruitment
+Training Hero
+```
+
+kecuali sistem lain secara eksplisit memberikan **Master Progression**.
+
+Sumber utama tetap:
+
+# **FLOOR PROGRESSION**
+
+---
+
+# 33. MASTER LEVEL AND TOWER
+
+Hubungan utama:
+
+```text
+                TOWER
+                  │
+                  ▼
+            FLOOR CLEAR
+                  │
+                  ▼
+        MASTER PROGRESSION
+                  │
+                  ▼
+             MASTER LEVEL
+                  │
+        ┌─────────┼─────────┐
+        ▼         ▼         ▼
+     SYSTEM    FACILITY   CAPACITY
+     UNLOCK     UNLOCK     UPGRADE
+```
+
+---
+
+# 34. COMPLETE SYSTEM FLOW
+
+```text
+                    TOWER
+                      │
+                      ▼
+                 FLOOR MISSION
+                      │
+                      ▼
+                  FLOOR CLEAR
+                      │
+          ┌───────────┼───────────┐
+          ▼           ▼           ▼
+        REWARD       STORY      PROGRESS
+          │           │           │
+          ▼           ▼           ▼
+         RNG      GAME STATE   MASTER STATE
+                      │
+                      ▼
+             MASTER PROGRESSION
+                      │
+                      ▼
+                MASTER LEVEL
+                      │
+        ┌─────────────┼─────────────┐
+        ▼             ▼             ▼
+   SYSTEM UNLOCK  FACILITY UNLOCK  CAPACITY
+        │             │             │
+        └─────────────┼─────────────┘
+                      ▼
+                TOWN / WORLD
+                      │
+                      ▼
+               DATABASE SYSTEM
+                      │
+                      ▼
+                  AI FAIRY
+                      │
+                      ▼
+                   MASTER
+```
+
+---
+
+# 35. CORE RULES
+
+### RULE 01
+
+Master Level ditentukan terutama oleh Tower/Floor Progression.
+
+### RULE 02
+
+Master tidak menggunakan Star System seperti Hero.
+
+### RULE 03
+
+Master Level menjadi salah satu gate utama untuk membuka fitur.
+
+### RULE 04
+
+Master Level menentukan batas maksimum Level beberapa fasilitas.
+
+### RULE 05
+
+Facility Level berbeda dengan Master Level.
+
+### RULE 06
+
+Facility tidak dapat beroperasi tanpa Leader.
+
+### RULE 07
+
+Facility Upgrade membutuhkan Master Level yang sesuai.
+
+### RULE 08
+
+Floor Clear menjadi sumber utama Master Progression.
+
+### RULE 09
+
+Special Floor dapat memberikan Master Progression lebih besar.
+
+### RULE 10
+
+Floor Failure tidak memberikan Floor Clear Progression penuh.
+
+### RULE 11
+
+Game State System bertanggung jawab menghitung dan memvalidasi Master Progression.
+
+### RULE 12
+
+Database System menyimpan seluruh perubahan Master.
+
+### RULE 13
+
+Semua progression melekat pada Master ID.
+
+### RULE 14
+
+AI Fairy melaporkan Master Level dan fitur baru yang terbuka.
+
+### RULE 15
+
+Master Level tidak boleh naik tanpa sumber progression yang valid.
+
+---
+
+# 36. MASTER PROGRESSION PHILOSOPHY
+
+Master bukan menjadi kuat karena:
+
+> **"Master mendapatkan banyak EXP."**
+
+Master menjadi kuat karena:
+
+> **"Master berhasil membawa tim semakin jauh ke dalam Tower."**
+
+```text
+FLOOR 1
+   ↓
+SURVIVAL
+   ↓
+FLOOR 10
+   ↓
+DEVELOPMENT
+   ↓
+FLOOR 30
+   ↓
+WORLD MANAGEMENT
+   ↓
+FLOOR 50
+   ↓
+ADVANCED MANAGEMENT
+   ↓
+FLOOR 80
+   ↓
+ENDGAME
+   ↓
+FLOOR 100
+   ↓
+NYTHAR
+```
+
+Dengan demikian, **Master Level bukan sekadar angka level**, tetapi merupakan representasi dari seberapa jauh Master telah membuktikan kemampuannya mengelola dunia, Hero, fasilitas, dan Tower.
+
+> **The higher the Master climbs, the greater the world they are allowed to manage.**
