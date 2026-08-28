@@ -4,11 +4,11 @@
 >
 > Victory does not grant experience.
 >
-> Victory grants resources, equipment, artifacts, and opportunities.
+> Victory grants resources, equipment, artifacts, gems, summon tickets, and opportunities.
 
 Reward System menggunakan **RNG System** sebagai dasar pembentukan hadiah.
 
-Reward tidak ditentukan secara tetap.
+Reward tidak ditentukan secara tetap. Setiap aktivitas memiliki kisaran Gold, kisaran Gem, rate Summon Ticket, dan daftar item yang dapat diperoleh berdasarkan Floor, tingkat kesulitan, jenis Dungeon, Exploration Tier, Raid Tier, Boss Tier, Destruction Level, dan Event Modifier.
 
 ```text
 DUNGEON / EXPLORATION / RAID BOSS
@@ -18,6 +18,8 @@ DUNGEON / EXPLORATION / RAID BOSS
             RNG SYSTEM
                 ↓
           REWARD POOL
+                ↓
+ GOLD RANGE + GEM RANGE + TICKET RATE + ITEM LIST
                 ↓
        GAME STATE SYSTEM
                 ↓
@@ -113,7 +115,7 @@ Victory
 ↓
 RNG Reward
 ↓
-Resources / Items / Equipment / Special Rewards
+Gold + Gem + Resources / Items / Equipment / Tickets / Special Rewards
 ```
 
 ---
@@ -132,7 +134,7 @@ UNIQUE
 MYTHIC
 ```
 
-Rarity yang lebih tinggi memiliki probability lebih kecil.
+Rarity yang lebih tinggi memiliki probability lebih kecil dan biasanya memiliki kisaran Gold, Gem, serta nilai item yang lebih tinggi.
 
 ---
 
@@ -142,13 +144,40 @@ Dungeon biasa berfokus pada:
 
 ```text
 Gold
+Gem
 Materials
 Equipment
 Consumables
-Gem
-Ticket
+Summon Ticket
+Special Ticket Fragment
 Crafting Items
 ```
+
+## Kisaran Gold Dungeon Normal
+
+```text
+Dungeon Normal:
+Gold × 100–1,500
+```
+
+## Kisaran Gem Dungeon Normal
+
+```text
+Dungeon Normal:
+Gem × 1–10
+```
+
+## Rate Summon Ticket Dungeon Normal
+
+```text
+Summon Ticket:
+Base Rate: 0.5%–3.0%
+
+Jika berhasil:
+Summon Ticket ×1
+```
+
+Summon Ticket tidak selalu muncul sebagai reward. Rate ditentukan oleh Floor, rarity reward, difficulty, dan modifier aktivitas.
 
 Contoh Reward Pool:
 
@@ -156,30 +185,51 @@ Contoh Reward Pool:
 DUNGEON NORMAL
 
 Common:
-Gold
-Iron
-Wood
-Stone
-Potion
-Food
+Gold × 100–500
+Iron Ingot × 2–8
+Oak Wood × 2–8
+Rough Stone × 2–8
+Minor Healing Potion × 1–3
+Travel Ration × 1–3
 
 Uncommon:
-Rare Material
-Equipment
-Crafting Component
+Gold × 500–900
+Gem × 1–3
+Steel Fragment × 1–4
+Mana Crystal Shard × 1–3
+Apprentice Sword
+Apprentice Staff
+Apprentice Leather Armor
+Crafting Component × 1–3
 
 Rare:
-Gem
-Summon Ticket
-Rare Equipment
+Gold × 900–1,500
+Gem × 5–20
+Summon Ticket × 1
+Rare Equipment:
+Knight's Iron Sword
+Moonlit Shortbow
+Azure Mage Staff
 
 Epic:
-Epic Equipment
-Rare Artifact
+Gold × 1,500–3,000
+Gem × 10–35
+Epic Equipment:
+Flameguard Sword
+Stormcaller Staff
+Aegis Plate Armor
+Rare Artifact:
+Fragment of the First Seal
 
 Legendary:
-Legendary Equipment
-Legendary Artifact
+Gold × 3,000–7,500
+Gem × 25–75
+Legendary Equipment:
+Crown of the Iron Vanguard
+Dawnpiercer Blade
+Mantle of the Star Sage
+Legendary Artifact:
+Heart of the Ancient Forge
 ```
 
 ---
@@ -190,6 +240,14 @@ Ketika Master menyelesaikan Floor:
 
 ```text
 FLOOR CLEAR
+     ↓
+GOLD RANGE CALCULATION
+     ↓
+GEM RANGE CALCULATION
+     ↓
+SUMMON TICKET RATE CHECK
+     ↓
+ITEM POOL ROLL
      ↓
 RNG
      ↓
@@ -209,131 +267,402 @@ Recipe
 Special Item
 ```
 
+Gold dan Gem Floor Clear dihitung berdasarkan kisaran dasar Floor dan modifier aktivitas.
+
+```text
+Floor Gold Reward =
+Base Gold Range
+×
+Floor Modifier
+×
+Difficulty Modifier
+×
+World State Modifier
+×
+Event Modifier
+×
+RNG
+```
+
+```text
+Floor Gem Reward =
+Base Gem Range
+×
+Floor Modifier
+×
+Difficulty Modifier
+×
+Event Modifier
+×
+RNG
+```
+
+Rate Summon Ticket dihitung secara terpisah:
+
+```text
+Summon Ticket Rate =
+Base Ticket Rate
++
+Floor Bonus
++
+Difficulty Bonus
++
+Event Bonus
++
+Pity Bonus
+```
+
 ---
 
 # 6. FLOOR REWARD POOL
 
-Contoh:
-
-### Floor 1–10
+## Floor 1–10
 
 ```text
-Gold
-Basic Material
-Common Equipment
-Potion
-Food
+Gold:
+× 100–800
+
+Gem:
+× 1–5
+
+Summon Ticket Rate:
+0.1%–0.5%
+
+Item List:
+Iron Ingot
+Oak Wood
+Rough Stone
+Minor Healing Potion
+Travel Ration
+Copper Dagger
+Novice Leather Cap
+Small Mana Crystal
 Small Gem
 ```
 
-### Floor 11–20
+## Floor 11–20
 
 ```text
-Gold
-Material
-Uncommon Equipment
-Gem
+Gold:
+× 300–1,500
+
+Gem:
+× 2–8
+
+Summon Ticket Rate:
+0.3%–1.0%
+
+Item List:
+Steel Fragment
+Birch Wood
+Refined Stone
+Healing Potion
+Mana Potion
+Iron Shortsword
+Hunter's Leather Gloves
+Apprentice Staff
+Small Gem
+Crafting Component
 Summon Ticket
-Crafting Material
 ```
 
-### Floor 21–30
+## Floor 21–30
 
 ```text
-Gold
-Rare Material
-Rare Equipment
+Gold:
+× 700–3,000
+
+Gem:
+× 5–15
+
+Summon Ticket Rate:
+0.5%–1.5%
+
+Item List:
+Silver Ore
+Mana Crystal Shard
+Monster Bone
+Monster Hide
+Rare Healing Potion
+Knight's Iron Sword
+Moonlit Shortbow
+Azure Mage Staff
+Rare Recipe Fragment
 Gem
 Summon Ticket
-Recipe
 ```
 
-### Floor 31–40
+## Floor 31–40
 
 ```text
-Rare Material
-Rare Equipment
-Epic Material
-Gem
-Ticket
+Gold:
+× 1,200–5,000
+
+Gem:
+× 8–25
+
+Summon Ticket Rate:
+0.8%–2.0%
+
+Item List:
+Mithril Fragment
+Darkwood Branch
+Refined Mana Crystal
+Troll Fang
+Ogre Hide
+Flameguard Dagger
+Windrunner Bow
+Runic Leather Armor
 Artifact Fragment
-```
-
-### Floor 41–50
-
-```text
-Gold
-Epic Material
-Epic Equipment
 Gem
 Summon Ticket
-Artifact
 ```
 
-### Floor 51–60
+## Floor 41–50
 
 ```text
-Epic Material
-Epic Equipment
-Legendary Material
+Gold:
+× 2,000–8,000
+
+Gem:
+× 10–35
+
+Summon Ticket Rate:
+1.0%–2.5%
+
+Item List:
+Epic Material:
+Mithril Ore
+Volcanic Stone
+Greater Mana Crystal
+Dragonbone Fragment
+Demon Hide
+
+Epic Equipment:
+Flameguard Sword
+Stormcaller Staff
+Aegis Plate Armor
+Skyhunter Bow
 Gem
+Summon Ticket
+Artifact:
+Fragment of the First Seal
+```
+
+## Floor 51–60
+
+```text
+Gold:
+× 3,500–12,000
+
+Gem:
+× 15–50
+
+Summon Ticket Rate:
+1.5%–3.0%
+
+Item List:
+Epic Material:
+Starsteel Fragment
+Ancient Wood
+Void Crystal Shard
+Wyvern Scale
+Demon Blood Vial
+
+Epic Equipment:
+Starfall Spear
+Voidglass Staff
+Wyvernscale Armor
+Nightwind Bow
+
+Legendary Material:
+Dragon Heart Fragment
+Ancient Core Fragment
+
 Special Ticket Fragment
-Artifact
+Artifact:
+Echo of the Fallen King
 ```
 
-### Floor 61–70
+## Floor 61–70
 
 ```text
-Legendary Material
-Epic Equipment
-Legendary Equipment
+Gold:
+× 5,000–18,000
+
+Gem:
+× 20–70
+
+Summon Ticket Rate:
+2.0%–4.0%
+
+Item List:
+Legendary Material:
+Starsteel Ingot
+Ancient Crystal
+Dragonbone
+Demon Crown Fragment
+Void Essence
+
+Epic Equipment:
+Stormbreaker Axe
+Moonveil Staff
+Royal Guardian Armor
+Blackwind Bow
+
+Legendary Equipment:
+Dawnpiercer Blade
+Crown of the Iron Vanguard
+Mantle of the Star Sage
+
 Gem
 Special Ticket
-Artifact
+Artifact:
+Eye of the Ancient Watcher
 ```
 
-### Floor 71–80
+## Floor 71–80
 
 ```text
-Legendary Equipment
-Legendary Artifact
-Rare Special Material
+Gold:
+× 8,000–30,000
+
+Gem:
+× 25–90
+
+Summon Ticket Rate:
+2.5%–5.0%
+
+Item List:
+Legendary Equipment:
+Dawnpiercer Blade
+Crown of the Iron Vanguard
+Mantle of the Star Sage
+Dragonfang Spear
+Royal Eclipse Armor
+
+Legendary Artifact:
+Heart of the Ancient Forge
+Eye of the Ancient Watcher
+
+Rare Special Material:
+World Tree Sap
+Abyssal Pearl
+Celestial Alloy
+
 Gem
 Special Ticket
-Ancient Recipe
+Ancient Recipe:
+Recipe: Celestial Weapon Frame
 ```
 
-### Floor 81–90
+## Floor 81–90
 
 ```text
-Legendary Equipment
-Legendary Artifact
-Mythic Material
+Gold:
+× 12,000–45,000
+
+Gem:
+× 35–120
+
+Summon Ticket Rate:
+3.0%–6.0%
+
+Item List:
+Legendary Equipment:
+Dragonfang Spear
+Royal Eclipse Armor
+Void Emperor Staff
+Heavenfall Bow
+Ancient Titan Shield
+
+Legendary Artifact:
+Heart of the Ancient Forge
+Crown of the Lost Civilization
+
+Mythic Material:
+Mythril Star Core
+Primordial Crystal
+Abyssal Dragon Scale
+
 Special Ticket
 Gem
-Ancient Artifact
+Ancient Artifact:
+Memory of the First World
 ```
 
-### Floor 91–99
+## Floor 91–99
 
 ```text
-Legendary Equipment
-Mythic Equipment
-Mythic Material
+Gold:
+× 20,000–75,000
+
+Gem:
+× 50–180
+
+Summon Ticket Rate:
+4.0%–8.0%
+
+Item List:
+Legendary Equipment:
+Void Emperor Staff
+Heavenfall Bow
+Ancient Titan Shield
+Sword of the Last Dawn
+Armor of the World Guardian
+
+Mythic Equipment:
+Eclipse Reaver
+Astral Crown
+Worldbreaker Gauntlets
+
+Mythic Material:
+Primordial Crystal
+World Core Fragment
+Ancient Dragon Heart
+
 Special Ticket
-Ancient Artifact
-Unique Item
+Ancient Artifact:
+Memory of the First World
+Unique Item:
+Key of the Forgotten Tower
 ```
 
-### Floor 100
+## Floor 100
 
 ```text
-Mythic Equipment
-Unique Artifact
-Ancient Artifact
+Gold:
+× 50,000–250,000
+
+Gem:
+× 100–500
+
+Summon Ticket Rate:
+8.0%–15.0%
+
+Item List:
+Mythic Equipment:
+Eclipse Reaver
+Astral Crown
+Worldbreaker Gauntlets
+Sovereign Blade of Aetheria
+Armor of the First Guardian
+
+Unique Artifact:
+Aetheria's First Memory
+The Unwritten Star
+Crown of the World Origin
+
+Ancient Artifact:
+Heart of the First Civilization
+
 Special Ticket
-Rare Crafting Material
-World Rebirth Related Item
+Rare Crafting Material:
+World Core Fragment
+Primordial Starsteel
+
+World Rebirth Related Item:
+Seed of World Rebirth
 ```
 
 ---
@@ -345,9 +674,79 @@ Setiap Floor dapat memiliki bonus pool.
 ```text
 FLOOR CLEAR
     ↓
-MAIN REWARD
+MAIN GOLD REWARD
+    +
+MAIN GEM REWARD
+    +
+MAIN ITEM REWARD
     +
 BONUS REWARD
+```
+
+## Kisaran Gold Bonus
+
+```text
+Floor 1–20:
+Gold × 50–500
+
+Floor 21–40:
+Gold × 200–1,500
+
+Floor 41–60:
+Gold × 500–4,000
+
+Floor 61–80:
+Gold × 1,000–10,000
+
+Floor 81–99:
+Gold × 3,000–25,000
+
+Floor 100:
+Gold × 10,000–100,000
+```
+
+## Kisaran Gem Bonus
+
+```text
+Floor 1–20:
+Gem × 1–5
+
+Floor 21–40:
+Gem × 2–10
+
+Floor 41–60:
+Gem × 5–20
+
+Floor 61–80:
+Gem × 10–40
+
+Floor 81–99:
+Gem × 20–80
+
+Floor 100:
+Gem × 50–250
+```
+
+## Rate Summon Ticket Bonus
+
+```text
+Floor 1–20:
+0.1%–0.5%
+
+Floor 21–40:
+0.3%–1.0%
+
+Floor 41–60:
+0.5%–2.0%
+
+Floor 61–80:
+1.0%–3.0%
+
+Floor 81–99:
+2.0%–5.0%
+
+Floor 100:
+5.0%–10.0%
 ```
 
 Bonus dapat berupa:
@@ -357,7 +756,8 @@ Gold
 Gem
 Material
 Equipment
-Ticket
+Summon Ticket
+Special Ticket Fragment
 Artifact Fragment
 Recipe
 ```
@@ -381,6 +781,65 @@ Recipes
 Lore Items
 Equipment
 Treasure
+Gem
+Summon Ticket
+```
+
+## Kisaran Gold World Exploration
+
+```text
+Safe Region:
+Gold × 50–1,000
+
+Dangerous Region:
+Gold × 500–5,000
+
+Ruined Region:
+Gold × 1,000–15,000
+
+Ancient Ruin:
+Gold × 5,000–50,000
+
+Forbidden Region:
+Gold × 15,000–150,000
+```
+
+## Kisaran Gem World Exploration
+
+```text
+Safe Region:
+Gem × 1–5
+
+Dangerous Region:
+Gem × 2–15
+
+Ruined Region:
+Gem × 5–30
+
+Ancient Ruin:
+Gem × 10–75
+
+Forbidden Region:
+Gem × 25–200
+```
+
+## Rate Summon Ticket World Exploration
+
+```text
+Safe Region:
+0.1%–0.5%
+
+Dangerous Region:
+0.3%–1.0%
+
+Ruined Region:
+0.5%–2.0%
+
+Ancient Ruin:
+1.0%–4.0%
+
+Forbidden Region:
+2.0%–7.0%
 ```
 
 ---
@@ -402,7 +861,28 @@ Historical Document
 Treasure Chest
 Gem
 Gold
-Ticket
+Summon Ticket
+Special Ticket
+```
+
+## List Nama Item Exploration
+
+```text
+Ancient Coin of Aurelia
+Broken Royal Compass
+Ancient Crystal
+Lost Engineering Blueprint
+Map of the Sunken Road
+Fragment of the First Chronicle
+Royal Expedition Badge
+Forgotten Mage's Grimoire
+Ancient Bronze Key
+Ruined Civilization Seal
+Memory Stone
+Old World Navigation Chart
+Aurelia Royal Insignia
+Lost Artisan Hammer
+Ancient Guardian Core
 ```
 
 ---
@@ -442,6 +922,34 @@ NPC Encounter
 Quest Unlock
 ```
 
+Jika menghasilkan reward, kisaran Gold, Gem, dan rate tiket ditentukan oleh jenis Discovery.
+
+```text
+Resource Discovery:
+Gold × 50–500
+Gem × 1–3
+Summon Ticket Rate: 0.1%–0.3%
+1–3 Basic Materials
+
+Treasure Discovery:
+Gold × 500–5,000
+Gem × 2–15
+Summon Ticket Rate: 0.3%–1.0%
+1–4 Items
+
+Ruin Discovery:
+Gold × 1,000–15,000
+Gem × 5–30
+Summon Ticket Rate: 0.5%–2.0%
+1–3 Rare Items
+
+Ancient Discovery:
+Gold × 5,000–50,000
+Gem × 10–75
+Summon Ticket Rate: 1.0%–5.0%
+1–3 Ancient or Legendary Items
+```
+
 ---
 
 # 11. EXPLORATION TREASURE
@@ -457,12 +965,152 @@ ROYAL CHEST
 MYTHIC CHEST
 ```
 
+## Kisaran Gold, Gem, dan Rate Summon Ticket per Chest
+
+### Wooden Chest
+
+```text
+Gold:
+× 50–300
+
+Gem:
+× 1–3
+
+Summon Ticket Rate:
+0.1%–0.3%
+
+Item List:
+Copper Coin
+Minor Healing Potion
+Iron Ingot
+Oak Wood
+Rough Stone
+Travel Ration
+```
+
+### Iron Chest
+
+```text
+Gold:
+× 200–1,000
+
+Gem:
+× 2–8
+
+Summon Ticket Rate:
+0.3%–0.8%
+
+Item List:
+Steel Fragment
+Healing Potion
+Mana Potion
+Iron Shortsword
+Leather Gloves
+Small Gem
+Crafting Component
+```
+
+### Golden Chest
+
+```text
+Gold:
+× 800–4,000
+
+Gem:
+× 5–20
+
+Summon Ticket Rate:
+0.8%–2.0%
+
+Item List:
+Silver Ore
+Rare Healing Potion
+Rare Mana Potion
+Knight's Iron Sword
+Moonlit Shortbow
+Azure Mage Staff
+Gem
+Summon Ticket
+```
+
+### Ancient Chest
+
+```text
+Gold:
+× 3,000–15,000
+
+Gem:
+× 10–50
+
+Summon Ticket Rate:
+1.5%–4.0%
+
+Item List:
+Ancient Crystal
+Mithril Fragment
+Lost Engineering Blueprint
+Ancient Bronze Key
+Ancient Guardian Core
+Flameguard Sword
+Runic Leather Armor
+Artifact Fragment
+```
+
+### Royal Chest
+
+```text
+Gold:
+× 10,000–50,000
+
+Gem:
+× 25–100
+
+Summon Ticket Rate:
+3.0%–7.0%
+
+Item List:
+Royal Expedition Badge
+Crown Fragment of Aurelia
+Royal Eclipse Armor
+Dawnpiercer Blade
+Ancient Recipe:
+Recipe: Royal Guardian Equipment
+Legendary Artifact Fragment
+Special Ticket
+```
+
+### Mythic Chest
+
+```text
+Gold:
+× 50,000–300,000
+
+Gem:
+× 100–500
+
+Summon Ticket Rate:
+7.0%–15.0%
+
+Item List:
+Aetheria's First Memory
+The Unwritten Star
+Sovereign Blade of Aetheria
+Armor of the First Guardian
+World Core Fragment
+Seed of World Rebirth
+Mythic Equipment
+Unique Artifact
+```
+
 Semakin tinggi tier:
 
 ```text
 Reward Quality ↑
 Reward Quantity ↑
 Rare Chance ↑
+Gold Range ↑
+Gem Range ↑
+Summon Ticket Rate ↑
 ```
 
 ---
@@ -479,16 +1127,68 @@ RNG
 SECRET DISCOVERY
 ```
 
+## Kisaran Gold Secret Discovery
+
+```text
+Rare Secret:
+Gold × 5,000–25,000
+
+Ancient Secret:
+Gold × 25,000–100,000
+
+Mythic Secret:
+Gold × 100,000–500,000
+```
+
+## Kisaran Gem Secret Discovery
+
+```text
+Rare Secret:
+Gem × 10–50
+
+Ancient Secret:
+Gem × 50–200
+
+Mythic Secret:
+Gem × 200–1,000
+```
+
+## Rate Summon Ticket Secret Discovery
+
+```text
+Rare Secret:
+2.0%–5.0%
+
+Ancient Secret:
+5.0%–10.0%
+
+Mythic Secret:
+10.0%–20.0%
+```
+
 Possible:
 
 ```text
-Lost Royal Weapon
-Ancient Spell
-Unique Artifact
-Forgotten Recipe
-Lost Civilization Item
-Hidden Dungeon Key
-Rare Character-related Item
+Lost Royal Weapon:
+Sword of the Lost Aurelia
+
+Ancient Spell:
+Spellbook of Primordial Flame
+
+Unique Artifact:
+The Eye Beneath the Ruins
+
+Forgotten Recipe:
+Recipe: Ancient World Core
+
+Lost Civilization Item:
+Crown of the First Architect
+
+Hidden Dungeon Key:
+Key of the Sunken Tower
+
+Rare Character-related Item:
+Memory Fragment of the First Hero
 ```
 
 ---
@@ -505,11 +1205,71 @@ Boss Material
 Legendary Material
 Artifact
 Gem
+Summon Ticket
 Special Ticket
 Unique Item
 Crafting Recipe
 Rare Accessory
 ```
+
+## Kisaran Gold Raid Boss
+
+```text
+Raid Boss Normal:
+Gold × 5,000–25,000
+
+Raid Boss Elite:
+Gold × 15,000–75,000
+
+Raid Boss Legendary:
+Gold × 50,000–250,000
+
+Raid Boss Ancient:
+Gold × 150,000–750,000
+
+Raid Boss Mythic:
+Gold × 500,000–3,000,000
+```
+
+## Kisaran Gem Raid Boss
+
+```text
+Raid Boss Normal:
+Gem × 10–50
+
+Raid Boss Elite:
+Gem × 25–100
+
+Raid Boss Legendary:
+Gem × 50–250
+
+Raid Boss Ancient:
+Gem × 100–500
+
+Raid Boss Mythic:
+Gem × 250–1,500
+```
+
+## Rate Summon Ticket Raid Boss
+
+```text
+Raid Boss Normal:
+1.0%–3.0%
+
+Raid Boss Elite:
+2.0%–5.0%
+
+Raid Boss Legendary:
+4.0%–8.0%
+
+Raid Boss Ancient:
+7.0%–12.0%
+
+Raid Boss Mythic:
+10.0%–20.0%
+```
+
+Kisaran tersebut merupakan total reward sebelum pembagian berdasarkan Contribution, Participation, dan MVP.
 
 ---
 
@@ -539,6 +1299,48 @@ RAID BOSS
 └── Mythic Item
 ```
 
+## List Nama Item Raid Boss
+
+```text
+Boss Material:
+Shadow Core
+Dragon Scale
+Dragon Heart
+Demon Crown Fragment
+Ancient Golem Core
+Void Essence
+Abyssal Pearl
+World Core Fragment
+
+Boss Weapon:
+Nythar's Shadowblade
+Ancient Dragonfang
+Demon Lord's Ruinblade
+Titanbreaker Hammer
+Void Emperor Staff
+Abyssal Warbow
+
+Boss Armor:
+Scale of the Ancient Dragon
+Demon Lord's Mantle
+Titanforged Plate
+Void Emperor Robe
+Armor of the Abyssal King
+
+Boss Accessory:
+Ancient Dragon Ring
+Crown of the Demon Lord
+Titan's Core Pendant
+Voidheart Necklace
+Abyssal Eye Earring
+
+Boss Artifact:
+Heart of the Ancient Dragon
+Crown of the Abyssal King
+Memory of the Fallen Titan
+Eye of the Void Emperor
+```
+
 ---
 
 # 15. BOSS MATERIAL
@@ -563,6 +1365,25 @@ Demon Crown Fragment
 Ancient Golem
 ↓
 Ancient Core
+```
+
+## Kisaran Jumlah Boss Material
+
+```text
+Raid Boss Normal:
+Boss Material × 2–8
+
+Raid Boss Elite:
+Boss Material × 5–15
+
+Raid Boss Legendary:
+Boss Material × 8–25
+
+Raid Boss Ancient:
+Boss Material × 15–40
+
+Raid Boss Mythic:
+Boss Material × 25–75
 ```
 
 Material tersebut digunakan oleh:
@@ -593,15 +1414,52 @@ BOSS EQUIPMENT
 Possible:
 
 ```text
-Boss Sword
-Boss Spear
-Boss Bow
-Boss Staff
-Boss Shield
-Boss Armor
-Boss Helmet
-Boss Ring
-Boss Necklace
+Boss Sword:
+Nythar's Shadowblade
+Ancient Dragonfang
+Demon Lord's Ruinblade
+Sovereign Blade of the Abyss
+
+Boss Spear:
+Dragonspine Lance
+Titanbreaker Spear
+Voidpiercer
+
+Boss Bow:
+Abyssal Warbow
+Dragonstorm Bow
+Bow of the Fallen King
+
+Boss Staff:
+Void Emperor Staff
+Demonheart Staff
+Staff of the Ancient Core
+
+Boss Shield:
+Titan's Worldshield
+Dragonbone Aegis
+Abyssal Bastion
+
+Boss Armor:
+Scale of the Ancient Dragon
+Demon Lord's Mantle
+Titanforged Plate
+Armor of the Abyssal King
+
+Boss Helmet:
+Dragon Crown
+Demon Lord's Horned Crown
+Titan's War Helm
+
+Boss Ring:
+Ancient Dragon Ring
+Voidheart Ring
+Ring of the Abyssal King
+
+Boss Necklace:
+Dragon Heart Pendant
+Titan's Core Pendant
+Void Emperor Necklace
 ```
 
 Nama dan efek equipment dapat dibuat oleh AI.
@@ -640,6 +1498,34 @@ Heart of the Ancient Dragon
 
 Chance:
 Very Low
+
+Gold Value Range:
+Tidak dijual sebagai Gold biasa
+
+Additional Reward:
+Gold × 25,000–100,000
+
+Gem Reward:
+Gem × 50–200
+
+Summon Ticket Rate:
+5.0%–10.0%
+```
+
+Contoh Unique Drop lainnya:
+
+```text
+Demon Lord:
+Crown of the Demon Lord
+
+Ancient Golem:
+Core of the First Titan
+
+Void Emperor:
+Eye of the Void Emperor
+
+Abyssal Dragon:
+Scale of the World Serpent
 ```
 
 Unique Drop tidak harus selalu jatuh.
@@ -657,7 +1543,7 @@ RAID CHEST
  ↓
 RNG
  ↓
-REWARD
+GOLD RANGE + GEM RANGE + TICKET RATE + REWARD
 ```
 
 Chest tier:
@@ -668,6 +1554,114 @@ ELITE BOSS CHEST
 LEGENDARY BOSS CHEST
 ANCIENT BOSS CHEST
 MYTHIC BOSS CHEST
+```
+
+## Kisaran Gold, Gem, dan Rate Summon Ticket Raid Chest
+
+### Boss Chest
+
+```text
+Gold:
+× 5,000–20,000
+
+Gem:
+× 5–25
+
+Summon Ticket Rate:
+1.0%–2.5%
+
+Item List:
+Dragon Scale
+Shadow Core
+Healing Potion
+Mana Potion
+Boss Material
+Gem
+```
+
+### Elite Boss Chest
+
+```text
+Gold:
+× 15,000–60,000
+
+Gem:
+× 10–50
+
+Summon Ticket Rate:
+2.0%–4.0%
+
+Item List:
+Rare Boss Material
+Boss Weapon Fragment
+Boss Armor Fragment
+Gem
+Summon Ticket
+Rare Accessory
+```
+
+### Legendary Boss Chest
+
+```text
+Gold:
+× 50,000–200,000
+
+Gem:
+× 25–125
+
+Summon Ticket Rate:
+4.0%–8.0%
+
+Item List:
+Dragon Heart
+Demon Crown Fragment
+Legendary Boss Material
+Boss Weapon
+Boss Armor
+Special Ticket
+Artifact Fragment
+```
+
+### Ancient Boss Chest
+
+```text
+Gold:
+× 150,000–750,000
+
+Gem:
+× 75–350
+
+Summon Ticket Rate:
+7.0%–12.0%
+
+Item List:
+Ancient Boss Equipment
+Legendary Boss Artifact
+Ancient Recipe
+Unique Item Fragment
+Special Ticket
+World Core Fragment
+```
+
+### Mythic Boss Chest
+
+```text
+Gold:
+× 500,000–3,000,000
+
+Gem:
+× 250–1,500
+
+Summon Ticket Rate:
+10.0%–20.0%
+
+Item List:
+Mythic Boss Equipment
+Unique Artifact
+Heart of the Ancient Dragon
+Crown of the Abyssal King
+Seed of World Rebirth
+Mythic Item
 ```
 
 ---
@@ -681,7 +1675,13 @@ RAID PARTICIPANTS
        ↓
 CONTRIBUTION
        ↓
-REWARD RNG
+GOLD SHARE
+       ↓
+GEM SHARE
+       ↓
+ITEM REWARD RNG
+       ↓
+SUMMON TICKET RATE CHECK
 ```
 
 Contribution dapat berdasarkan:
@@ -696,6 +1696,66 @@ Mechanic Completion
 
 Contribution tidak memberikan EXP.
 
+## Kisaran Gold Berdasarkan Contribution
+
+```text
+Contribution: LOW
+Gold × 5,000–15,000
+
+Contribution: MEDIUM
+Gold × 10,000–35,000
+
+Contribution: HIGH
+Gold × 25,000–100,000
+
+Contribution: VERY HIGH
+Gold × 75,000–300,000
+```
+
+## Kisaran Gem Berdasarkan Contribution
+
+```text
+Contribution: LOW
+Gem × 1–10
+
+Contribution: MEDIUM
+Gem × 5–25
+
+Contribution: HIGH
+Gem × 10–50
+
+Contribution: VERY HIGH
+Gem × 25–100
+```
+
+## Rate Summon Ticket Berdasarkan Contribution
+
+```text
+Contribution: LOW
+0.5%–1.5%
+
+Contribution: MEDIUM
+1.0%–3.0%
+
+Contribution: HIGH
+2.0%–5.0%
+
+Contribution: VERY HIGH
+3.0%–8.0%
+```
+
+## Item Contribution Pool
+
+```text
+Boss Material
+Rare Boss Material
+Gem
+Boss Equipment Fragment
+Artifact Fragment
+Summon Ticket
+Special Ticket Fragment
+```
+
 ---
 
 # 20. PARTICIPATION REWARD
@@ -706,12 +1766,75 @@ Setiap peserta yang memenuhi syarat dapat memperoleh:
 Participation Reward
 ```
 
-Contoh:
+## Kisaran Gold Participation
 
 ```text
-Gold
-Material
-Basic Boss Fragment
+Raid Boss Normal:
+Gold × 2,000–8,000
+
+Raid Boss Elite:
+Gold × 5,000–20,000
+
+Raid Boss Legendary:
+Gold × 15,000–50,000
+
+Raid Boss Ancient:
+Gold × 30,000–150,000
+
+Raid Boss Mythic:
+Gold × 100,000–500,000
+```
+
+## Kisaran Gem Participation
+
+```text
+Raid Boss Normal:
+Gem × 1–10
+
+Raid Boss Elite:
+Gem × 3–20
+
+Raid Boss Legendary:
+Gem × 5–40
+
+Raid Boss Ancient:
+Gem × 10–100
+
+Raid Boss Mythic:
+Gem × 25–250
+```
+
+## Rate Summon Ticket Participation
+
+```text
+Raid Boss Normal:
+0.2%–0.8%
+
+Raid Boss Elite:
+0.5%–1.5%
+
+Raid Boss Legendary:
+1.0%–3.0%
+
+Raid Boss Ancient:
+2.0%–5.0%
+
+Raid Boss Mythic:
+4.0%–8.0%
+```
+
+## Item Participation Pool
+
+```text
+Shadow Core
+Dragon Scale
+Demon Bone
+Ancient Golem Fragment
+Minor Boss Fragment
+Healing Potion
+Mana Potion
+Small Gem
+Basic Boss Material
 ```
 
 ---
@@ -723,7 +1846,70 @@ Raid dapat memiliki MVP reward.
 ```text
 MVP
  ↓
+BONUS GOLD
+ ↓
+BONUS GEM
+ ↓
+BONUS TICKET RATE CHECK
+ ↓
 BONUS RNG
+```
+
+## Kisaran Gold MVP Bonus
+
+```text
+Raid Boss Normal:
+Gold × 1,000–5,000
+
+Raid Boss Elite:
+Gold × 5,000–15,000
+
+Raid Boss Legendary:
+Gold × 10,000–50,000
+
+Raid Boss Ancient:
+Gold × 25,000–150,000
+
+Raid Boss Mythic:
+Gold × 100,000–750,000
+```
+
+## Kisaran Gem MVP Bonus
+
+```text
+Raid Boss Normal:
+Gem × 2–10
+
+Raid Boss Elite:
+Gem × 5–25
+
+Raid Boss Legendary:
+Gem × 10–75
+
+Raid Boss Ancient:
+Gem × 25–150
+
+Raid Boss Mythic:
+Gem × 50–500
+```
+
+## Rate Summon Ticket MVP Bonus
+
+```text
+Raid Boss Normal:
+1.0%–2.0%
+
+Raid Boss Elite:
+1.5%–3.0%
+
+Raid Boss Legendary:
+2.5%–5.0%
+
+Raid Boss Ancient:
+4.0%–8.0%
+
+Raid Boss Mythic:
+7.0%–15.0%
 ```
 
 Possible:
@@ -733,7 +1919,23 @@ Gem
 Rare Material
 Equipment
 Artifact Fragment
-Ticket
+Summon Ticket
+Special Ticket
+```
+
+## List Item MVP
+
+```text
+Dragon Heart
+Demon Crown Fragment
+Ancient Golem Core
+Void Essence
+Boss Weapon Fragment
+Boss Armor Fragment
+Rare Accessory
+Legendary Material
+Artifact Fragment
+Special Ticket
 ```
 
 MVP tidak harus selalu mendapatkan item terbaik.
@@ -771,17 +1973,247 @@ Destruction Level
 Event
 Difficulty
 Reward Pool
+Gem Modifier
+Summon Ticket Modifier
+```
+
+Setiap rarity memiliki kisaran Gold, Gem, rate Summon Ticket, dan daftar item yang berbeda.
+
+```text
+COMMON:
+Gold × 50–1,000
+Gem × 1–5
+Summon Ticket Rate: 0.1%–0.5%
+Iron Ingot
+Oak Wood
+Rough Stone
+Minor Healing Potion
+
+UNCOMMON:
+Gold × 300–3,000
+Gem × 2–15
+Summon Ticket Rate: 0.3%–1.0%
+Steel Fragment
+Mana Crystal Shard
+Apprentice Equipment
+Crafting Component
+
+RARE:
+Gold × 1,000–10,000
+Gem × 5–30
+Summon Ticket Rate: 0.5%–2.0%
+Rare Material
+Rare Equipment
+Gem
+Summon Ticket
+
+EPIC:
+Gold × 5,000–50,000
+Gem × 10–75
+Summon Ticket Rate: 1.0%–4.0%
+Epic Equipment
+Epic Material
+Artifact Fragment
+Special Ticket Fragment
+
+LEGENDARY:
+Gold × 25,000–250,000
+Gem × 25–200
+Summon Ticket Rate: 2.0%–8.0%
+Legendary Equipment
+Legendary Material
+Legendary Artifact
+Ancient Recipe
+
+UNIQUE:
+Gold × 100,000–1,000,000
+Gem × 100–750
+Summon Ticket Rate: 5.0%–15.0%
+Unique Equipment
+Unique Artifact
+World Core Fragment
+Rare Character-related Item
+
+MYTHIC:
+Gold × 500,000–5,000,000
+Gem × 500–3,000
+Summon Ticket Rate: 10.0%–25.0%
+Mythic Equipment
+Mythic Artifact
+Seed of World Rebirth
+Aetheria's First Memory
 ```
 
 ---
 
-# 23. RNG REWARD FORMULA
+# 23. SUMMON TICKET RATE SYSTEM
+
+Summon Ticket memiliki rate terpisah dari Gem.
+
+Gem dapat diberikan secara langsung, sedangkan Summon Ticket harus melewati pemeriksaan rate.
+
+```text
+ACTIVITY COMPLETE
+       ↓
+GEM RANGE ROLL
+       ↓
+SUMMON TICKET RATE CHECK
+       ↓
+TICKET SUCCESS?
+   ├── YES → Summon Ticket ×1
+   └── NO  → No Summon Ticket
+```
+
+## Base Summon Ticket Rate
+
+```text
+Normal Dungeon:
+0.1%–3.0%
+
+High Floor Dungeon:
+1.0%–15.0%
+
+World Exploration:
+0.1%–7.0%
+
+Secret Exploration:
+2.0%–20.0%
+
+Raid Boss:
+1.0%–20.0%
+
+Mythic Raid:
+10.0%–25.0%
+```
+
+## Rate Modifier
+
+```text
+Final Ticket Rate =
+Base Ticket Rate
++
+Floor Modifier
++
+Difficulty Modifier
++
+Contribution Modifier
++
+MVP Modifier
++
+Event Modifier
++
+Pity Modifier
+```
+
+Rate memiliki batas maksimum berdasarkan aktivitas.
+
+```text
+Normal Dungeon Maximum:
+5.0%
+
+High Floor Maximum:
+15.0%
+
+Exploration Maximum:
+10.0%
+
+Raid Boss Maximum:
+20.0%
+
+Mythic Raid Maximum:
+30.0%
+```
+
+---
+
+# 24. SUMMON TICKET QUANTITY
+
+Secara default, satu keberhasilan rate memberikan:
+
+```text
+Summon Ticket ×1
+```
+
+Namun aktivitas tingkat tinggi dapat memberikan lebih dari satu:
+
+```text
+High Floor Dungeon:
+Summon Ticket ×1–2
+
+Ancient Exploration:
+Summon Ticket ×1–2
+
+Legendary Raid:
+Summon Ticket ×1–2
+
+Ancient Raid:
+Summon Ticket ×1–3
+
+Mythic Raid:
+Summon Ticket ×1–5
+```
+
+Jumlah tiket tetap ditentukan oleh RNG setelah rate berhasil.
+
+---
+
+# 25. GEM REWARD SYSTEM
+
+Gem merupakan currency premium yang dapat diperoleh dari:
+
+```text
+Dungeon
+Floor Clear
+Exploration
+Treasure Chest
+Raid Boss
+Contribution
+MVP
+Quest
+Event
+Special Event
+```
+
+Gem memiliki kisaran minimum dan maksimum.
+
+```text
+Gem Result =
+Base Gem Range
+×
+Activity Modifier
+×
+Difficulty Modifier
+×
+Floor Modifier
+×
+Event Modifier
+×
+RNG
+```
+
+Gem tidak menggantikan Summon Ticket.
+
+```text
+Gem Reward:
+Direct Currency Reward
+
+Summon Ticket:
+Rate-based Reward
+```
+
+---
+
+# 26. RNG REWARD FORMULA
 
 Konsep dasar:
 
 ```text
 Reward Result =
-Base Reward Pool
+Base Gold Range
++
+Base Gem Range
++
+Base Item Pool
 ×
 Dungeon Modifier
 ×
@@ -798,9 +2230,25 @@ RNG
 
 Semua modifier memiliki batas.
 
+Gold, Gem, Ticket, dan item dihitung secara terpisah:
+
+```text
+Gold Result:
+Base Gold Range × Modifier × RNG
+
+Gem Result:
+Base Gem Range × Modifier × RNG
+
+Summon Ticket Result:
+Ticket Rate × Modifier × RNG
+
+Item Result:
+Base Item Pool × Rarity Weight × Modifier × RNG
+```
+
 ---
 
-# 24. DESTRUCTION LEVEL MODIFIER
+# 27. DESTRUCTION LEVEL MODIFIER
 
 Core World Building memiliki Destruction Level.
 
@@ -810,19 +2258,34 @@ Contoh:
 
 ```text
 Destruction 50%
-→ x1.00
+→ Gold ×1.00
+→ Gem ×1.00
+→ Item Quantity ×1.00
+→ Ticket Rate ×1.00
 
 Destruction 60%
-→ x1.05
+→ Gold ×1.05
+→ Gem ×1.00
+→ Item Quantity ×1.00
+→ Ticket Rate ×1.02
 
 Destruction 70%
-→ x1.10
+→ Gold ×1.10
+→ Gem ×1.05
+→ Item Quantity ×1.05
+→ Ticket Rate ×1.05
 
 Destruction 80%
-→ x1.20
+→ Gold ×1.20
+→ Gem ×1.10
+→ Item Quantity ×1.10
+→ Ticket Rate ×1.10
 
 Destruction 90%
-→ x1.35
+→ Gold ×1.35
+→ Gem ×1.15
+→ Item Quantity ×1.15
+→ Ticket Rate ×1.15
 ```
 
 Namun Destruction tidak otomatis berarti reward selalu lebih banyak.
@@ -831,7 +2294,7 @@ Beberapa resource justru dapat menjadi lebih langka.
 
 ---
 
-# 25. RESOURCE SCARCITY
+# 28. RESOURCE SCARCITY
 
 Contoh:
 
@@ -847,9 +2310,21 @@ MARKET VALUE ↑
 
 Dengan demikian ekonomi tetap mengikuti kondisi dunia.
 
+Gold dapat meningkat karena:
+
+```text
+Treasure Hoard
+Ruined Treasury
+Emergency Trade
+Ancient Vault
+Boss Hoard
+```
+
+Namun material tertentu dapat mengalami penurunan drop chance.
+
 ---
 
-# 26. REWARD WEIGHT
+# 29. REWARD WEIGHT
 
 Setiap reward mempunyai weight.
 
@@ -857,19 +2332,22 @@ Contoh:
 
 ```text
 Gold
-Weight: 40
+Weight: 35
 
 Material
-Weight: 30
+Weight: 25
 
 Equipment
 Weight: 15
 
 Gem
-Weight: 8
+Weight: 10
 
-Ticket
+Summon Ticket
 Weight: 5
+
+Special Ticket
+Weight: 3
 
 Artifact
 Weight: 2
@@ -877,9 +2355,39 @@ Weight: 2
 
 RNG menggunakan weight tersebut untuk memilih reward.
 
+## Contoh Item Weight
+
+```text
+Iron Ingot
+Weight: 25
+
+Healing Potion
+Weight: 20
+
+Rare Crystal
+Weight: 10
+
+Gem
+Weight: 8
+
+Rare Equipment
+Weight: 5
+
+Summon Ticket
+Weight: 2
+
+Legendary Equipment
+Weight: 1
+
+Unique Artifact
+Weight: 0.1
+```
+
+Weight tidak sama dengan Ticket Rate. Ticket Rate tetap menggunakan sistem probability khusus.
+
 ---
 
-# 27. REWARD QUANTITY RNG
+# 30. REWARD QUANTITY RNG
 
 Bukan hanya jenis reward yang random.
 
@@ -888,7 +2396,7 @@ Jumlah juga dapat random.
 Contoh:
 
 ```text
-IRON
+IRON INGOT
 
 Minimum:
 2
@@ -904,14 +2412,59 @@ Result:
 5
 ```
 
+Contoh Gold:
+
+```text
+Gold Minimum:
+500
+
+Gold Maximum:
+1,500
+
+RNG Result:
+1,120 Gold
+```
+
+Contoh Gem:
+
+```text
+Gem Minimum:
+5
+
+Gem Maximum:
+20
+
+RNG Result:
+Gem ×13
+```
+
+Contoh Summon Ticket:
+
+```text
+Ticket Rate:
+5.0%
+
+RNG Result:
+SUCCESS
+
+Quantity Roll:
+Summon Ticket ×1
+```
+
 ---
 
-# 28. MULTI-REWARD
+# 31. MULTI-REWARD
 
 Satu kemenangan dapat memberikan beberapa reward.
 
 ```text
 VICTORY
+ ↓
+GOLD RANGE ROLL
+ ↓
+GEM RANGE ROLL
+ ↓
+SUMMON TICKET RATE CHECK
  ↓
 RNG
  ↓
@@ -923,14 +2476,37 @@ Reward Slot 3
 Contoh:
 
 ```text
-Gold × 350
-Iron × 5
+Gold × 350–900
+Gem × 5–15
+Iron Ingot × 5
 Potion × 2
+Summon Ticket Rate: 1.0%
+```
+
+Contoh hasil akhir:
+
+```text
+Gold × 740
+Gem × 10
+Iron Ingot × 5
+Minor Healing Potion × 2
+Summon Ticket:
+Not Obtained
+```
+
+Contoh hasil dengan tiket:
+
+```text
+Gold × 740
+Gem × 10
+Iron Ingot × 5
+Minor Healing Potion × 2
+Summon Ticket ×1
 ```
 
 ---
 
-# 29. REWARD SLOT
+# 32. REWARD SLOT
 
 Setiap aktivitas memiliki jumlah slot.
 
@@ -938,31 +2514,67 @@ Setiap aktivitas memiliki jumlah slot.
 
 ```text
 2–4 Slots
+
+Gold Range:
+× 100–1,500
+
+Gem Range:
+× 1–10
+
+Summon Ticket Rate:
+0.1%–3.0%
 ```
 
 ### High Floor Dungeon
 
 ```text
 3–6 Slots
+
+Gold Range:
+× 1,500–250,000
+
+Gem Range:
+× 10–500
+
+Summon Ticket Rate:
+1.0%–15.0%
 ```
 
 ### Exploration
 
 ```text
 1–5 Slots
+
+Gold Range:
+× 50–500,000
+
+Gem Range:
+× 1–1,000
+
+Summon Ticket Rate:
+0.1%–10.0%
 ```
 
 ### Raid Boss
 
 ```text
 4–8 Slots
+
+Gold Range:
+× 5,000–3,000,000
+
+Gem Range:
+× 10–1,500
+
+Summon Ticket Rate:
+1.0%–20.0%
 ```
 
 Nilai tersebut merupakan konfigurasi dan dapat diubah.
 
 ---
 
-# 30. GUARANTEED REWARD
+# 33. GUARANTEED REWARD
 
 Beberapa reward dapat memiliki guaranteed slot.
 
@@ -972,24 +2584,48 @@ Contoh:
 RAID BOSS
 
 Guaranteed:
-Boss Material ×1
+Boss Material ×1–5
+Gold ×5,000–25,000
+Gem ×5–25
 
 RNG:
 Additional Reward ×3
+Summon Ticket Rate:
+1.0%–5.0%
+```
+
+Contoh Guaranteed Item berdasarkan aktivitas:
+
+```text
+Floor 1–10:
+Iron Ingot ×2–5
+
+Floor 21–30:
+Rare Material ×1
+
+Floor 41–50:
+Epic Material ×1
+
+Floor 61–80:
+Legendary Material ×1
+
+Floor 100:
+Ancient Material ×1
+Gem ×50–100
 ```
 
 Dengan demikian Raid tidak terasa terlalu buruk ketika RNG gagal memberikan rare item.
 
 ---
 
-# 31. PITY REWARD
+# 34. PITY REWARD
 
 Untuk reward tertentu dapat digunakan pity system.
 
 Contoh:
 
 ```text
-Legendary Drop
+Summon Ticket Attempt
       ↓
 Failed
       ↓
@@ -1001,14 +2637,39 @@ Setelah batas tertentu:
 ```text
 PITY LIMIT
      ↓
-GUARANTEED LEGENDARY
+GUARANTEED SUMMON TICKET
+```
+
+Contoh Pity Configuration:
+
+```text
+Normal Dungeon:
+Pity Limit: 100 Attempts
+
+High Floor Dungeon:
+Pity Limit: 50 Attempts
+
+Raid Boss:
+Pity Limit: 30 Attempts
+
+Mythic Raid:
+Pity Limit: 15 Attempts
+```
+
+Pity dapat diterapkan pada:
+
+```text
+Summon Ticket
+Legendary Equipment
+Unique Artifact
+Mythic Equipment
 ```
 
 Pity hanya digunakan jika dikonfigurasi.
 
 ---
 
-# 32. NO DUPLICATE REWARD RULE
+# 35. NO DUPLICATE REWARD RULE
 
 Item unik tertentu tidak boleh diberikan dua kali jika:
 
@@ -1030,18 +2691,37 @@ Already Owned?
  └── NO  → GIVE REWARD
 ```
 
+Jika item Unique sudah dimiliki, sistem dapat menggantinya dengan:
+
+```text
+Gold Compensation
+Gold × 50,000–500,000
+
+atau
+
+Gem Compensation
+Gem × 100–1,000
+
+atau
+
+Unique Material
+atau
+
+Artifact Fragment
+```
+
 Ini berbeda dengan material biasa yang boleh memiliki jumlah banyak.
 
 ---
 
-# 33. REWARD OWNERSHIP
+# 36. REWARD OWNERSHIP
 
 Setiap reward yang diterima:
 
 ```text
 Reward
  ↓
-Item ID / Resource ID
+Item ID / Resource ID / Currency ID
  ↓
 Master ID
  ↓
@@ -1052,9 +2732,23 @@ Database
 
 Reward tidak boleh hanya disimpan sebagai nama.
 
+Setiap reward harus memiliki:
+
+```text
+Gold Amount
+Gem Amount
+Summon Ticket Amount
+Item Name
+Item ID
+Quantity
+Rarity
+Source
+Timestamp
+```
+
 ---
 
-# 34. REWARD ID
+# 37. REWARD ID
 
 Setiap reward memiliki:
 
@@ -1072,7 +2766,7 @@ REWARD-RAID-000001
 
 ---
 
-# 35. REWARD TRANSACTION
+# 38. REWARD TRANSACTION
 
 Setiap reward menghasilkan transaction.
 
@@ -1084,9 +2778,17 @@ TRANSACTION
 ├── Source
 ├── Dungeon ID
 ├── Floor ID
+├── Raid ID
 ├── Reward ID
 ├── Item ID
+├── Item Name
 ├── Quantity
+├── Gold Amount
+├── Gold Range
+├── Gem Amount
+├── Gem Range
+├── Summon Ticket Amount
+├── Summon Ticket Rate
 ├── RNG Result
 ├── Game Time
 └── Status
@@ -1094,7 +2796,7 @@ TRANSACTION
 
 ---
 
-# 36. FAIRY REPORT
+# 39. FAIRY REPORT
 
 AI Fairy wajib melaporkan reward setelah aktivitas selesai.
 
@@ -1111,12 +2813,65 @@ Floor:
 Result:
 Victory.
 
-Reward generated:
+Gold Range:
+Gold × 700–3,000
 
-Gold × 840
-Iron × 7
-Rare Crystal × 2
-Gem × 15
+Gold Obtained:
+Gold × 2,140
+
+Gem Range:
+Gem × 5–15
+
+Gem Obtained:
+Gem × 11
+
+Summon Ticket Rate:
+1.5%
+
+Summon Ticket:
+Not Obtained
+
+Item List:
+
+1. Silver Ore ×3
+2. Monster Bone ×4
+3. Knight's Iron Sword ×1
+4. Small Gem ×15
+
+All rewards have been synchronized
+with the Inventory Database.
+```
+
+Contoh laporan ketika tiket berhasil:
+
+```text
+[FAIRY REPORT]
+
+Mission Complete.
+
+Floor:
+72
+
+Result:
+Victory.
+
+Gold Obtained:
+Gold × 18,450
+
+Gem Obtained:
+Gem × 62
+
+Summon Ticket Rate:
+4.5%
+
+Summon Ticket:
+Summon Ticket ×1
+
+Item List:
+
+1. Legendary Material ×2
+2. Dawnpiercer Blade ×1
+3. Artifact Fragment ×1
 
 All rewards have been synchronized
 with the Inventory Database.
@@ -1124,7 +2879,7 @@ with the Inventory Database.
 
 ---
 
-# 37. EXPLORATION FAIRY REPORT
+# 40. EXPLORATION FAIRY REPORT
 
 ```text
 [FAIRY OBSERVATION]
@@ -1140,11 +2895,30 @@ Ancient Storage Chamber
 RNG Result:
 Rare Treasure
 
-Obtained:
+Gold Range:
+Gold × 1,000–15,000
 
-Ancient Crystal ×2
-Gold ×620
-Lost Engineering Blueprint ×1
+Gold Obtained:
+Gold × 8,620
+
+Gem Range:
+Gem × 5–30
+
+Gem Obtained:
+Gem × 18
+
+Summon Ticket Rate:
+1.5%
+
+Summon Ticket:
+Not Obtained
+
+Item List:
+
+1. Ancient Crystal ×2
+2. Ancient Bronze Key ×1
+3. Lost Engineering Blueprint ×1
+4. Royal Expedition Badge ×1
 
 Inventory synchronization:
 COMPLETE
@@ -1152,7 +2926,7 @@ COMPLETE
 
 ---
 
-# 38. RAID FAIRY REPORT
+# 41. RAID FAIRY REPORT
 
 ```text
 [FAIRY RAID REPORT]
@@ -1165,12 +2939,30 @@ Ancient Dragon
 Contribution:
 HIGH
 
-Reward generated:
+Gold Range:
+Gold × 25,000–100,000
 
-Dragon Scale ×8
-Dragon Heart ×1
-Gold ×4,250
-Gem ×50
+Gold Obtained:
+Gold × 74,250
+
+Gem Range:
+Gem × 10–50
+
+Gem Obtained:
+Gem × 38
+
+Summon Ticket Rate:
+5.0%
+
+Summon Ticket:
+Summon Ticket ×1
+
+Item List:
+
+1. Dragon Scale ×8
+2. Dragon Heart ×1
+3. Ancient Dragon Ring ×1
+4. Legendary Boss Material ×2
 
 Rare Drop:
 Ancient Dragon Ring ×1
@@ -1181,7 +2973,7 @@ COMPLETE
 
 ---
 
-# 39. REWARD SYNCHRONIZATION
+# 42. REWARD SYNCHRONIZATION
 
 Semua reward:
 
@@ -1198,6 +2990,14 @@ langsung disinkronkan.
 
 ```text
 ACTIVITY
+   ↓
+GOLD RANGE CALCULATION
+   ↓
+GEM RANGE CALCULATION
+   ↓
+SUMMON TICKET RATE CHECK
+   ↓
+ITEM LIST GENERATION
    ↓
 REWARD RNG
    ↓
@@ -1224,7 +3024,7 @@ Forgotten
 
 ---
 
-# 40. DATABASE STRUCTURE
+# 43. DATABASE STRUCTURE
 
 Reward history:
 
@@ -1240,8 +3040,18 @@ REWARD_DATABASE
 ├── Source_Type
 ├── Reward_Type
 ├── Item_ID
+├── Item_Name
 ├── Resource_ID
+├── Currency_ID
 ├── Quantity
+├── Gold_Amount
+├── Gold_Range_Min
+├── Gold_Range_Max
+├── Gem_Amount
+├── Gem_Range_Min
+├── Gem_Range_Max
+├── Summon_Ticket_Amount
+├── Summon_Ticket_Rate
 ├── Rarity
 ├── RNG_Result
 ├── Timestamp
@@ -1250,7 +3060,7 @@ REWARD_DATABASE
 
 ---
 
-# 41. REWARD SOURCE
+# 44. REWARD SOURCE
 
 Source wajib dicatat.
 
@@ -1272,11 +3082,25 @@ RAID_BOSS
 
 Raid ID:
 RAID-00027
+
+Gold Range:
+Gold × 25,000–100,000
+
+Gem Range:
+Gem × 10–50
+
+Summon Ticket Rate:
+5.0%
+
+Item List:
+Dragon Scale
+Dragon Heart
+Ancient Dragon Ring
 ```
 
 ---
 
-# 42. REWARD GENERATION FLOW
+# 45. REWARD GENERATION FLOW
 
 ```text
                  ACTIVITY
@@ -1287,6 +3111,15 @@ RAID-00027
         │           │           │
         └───────────┼───────────┘
                     ▼
+          GOLD RANGE CALCULATION
+                    │
+                    ▼
+          GEM RANGE CALCULATION
+                    │
+                    ▼
+        SUMMON TICKET RATE CHECK
+                    │
+                    ▼
                  RNG SYSTEM
                     │
                     ▼
@@ -1294,7 +3127,7 @@ RAID-00027
                     │
           ┌─────────┼─────────┐
           │         │         │
-       Quantity   Rarity    Item
+       Quantity   Rarity    Item List
           │         │         │
           └─────────┼─────────┘
                     ▼
@@ -1318,7 +3151,7 @@ RAID-00027
 
 ---
 
-# 43. REWARD SYSTEM CONNECTION
+# 46. REWARD SYSTEM CONNECTION
 
 ```text
                          DUNGEON SYSTEM
@@ -1330,6 +3163,18 @@ RAID-00027
                   └───────────┼───────────┘
                               ▼
                          RNG SYSTEM
+                              │
+             ┌────────────────┴────────────────┐
+             │                                 │
+      GOLD RANGE SYSTEM                  GEM RANGE SYSTEM
+             │                                 │
+             └────────────────┬────────────────┘
+                              │
+                              ▼
+                    SUMMON TICKET RATE SYSTEM
+                              │
+                              ▼
+                       ITEM POOL SYSTEM
                               │
                               ▼
                       REWARD SYSTEM
@@ -1357,7 +3202,7 @@ RAID-00027
 
 ---
 
-# 44. CORE RULES
+# 47. CORE RULES
 
 ### RULE 01
 
@@ -1377,71 +3222,119 @@ Raid Boss Reward menggunakan RNG.
 
 ### RULE 05
 
-RNG hanya memilih dari Reward Pool yang valid.
+Setiap aktivitas memiliki kisaran Gold minimum dan maksimum.
 
 ### RULE 06
 
-Reward memiliki Rarity.
+Gold yang diterima ditentukan melalui RNG di dalam kisaran yang valid.
 
 ### RULE 07
 
-Reward dapat memiliki Quantity RNG.
+Setiap aktivitas memiliki kisaran Gem minimum dan maksimum.
 
 ### RULE 08
 
-Reward dapat memiliki Multi-Slot.
+Gem yang diterima ditentukan melalui RNG di dalam kisaran yang valid.
 
 ### RULE 09
 
-Reward tertentu dapat memiliki Guaranteed Drop.
+Setiap aktivitas memiliki rate Summon Ticket yang terpisah dari reward Gem.
 
 ### RULE 10
 
-Reward tertentu dapat memiliki Pity System.
+Summon Ticket hanya diberikan jika hasil rate check berhasil.
 
 ### RULE 11
 
-Unique Item tidak boleh diduplikasi jika aturan item menetapkan Unique.
+Setiap aktivitas memiliki daftar item yang dapat diperoleh.
 
 ### RULE 12
 
-Semua reward memiliki Reward ID.
+RNG hanya memilih dari Reward Pool yang valid.
 
 ### RULE 13
 
-Semua item memiliki Item ID.
+Reward memiliki Rarity.
 
 ### RULE 14
 
-Semua resource menggunakan Resource ID.
+Reward dapat memiliki Quantity RNG.
 
 ### RULE 15
 
-Reward harus melewati Game State System.
+Reward dapat memiliki Multi-Slot.
 
 ### RULE 16
 
-Reward yang valid langsung disinkronkan ke Database.
+Reward tertentu dapat memiliki Guaranteed Drop.
 
 ### RULE 17
 
-Reward yang valid masuk ke Inventory.
+Reward tertentu dapat memiliki Pity System.
 
 ### RULE 18
 
-AI tidak boleh memberikan reward di luar Reward Pool.
+Unique Item tidak boleh diduplikasi jika aturan item menetapkan Unique.
 
 ### RULE 19
 
-AI dapat membuat nama/deskripsi item, tetapi item tetap melewati validasi.
+Semua reward memiliki Reward ID.
 
 ### RULE 20
 
-Fairy wajib melaporkan hasil reward kepada Master.
+Semua item memiliki Item ID.
+
+### RULE 21
+
+Semua resource menggunakan Resource ID.
+
+### RULE 22
+
+Currency reward wajib mencatat Gold Amount, Gem Amount, dan Summon Ticket Amount.
+
+### RULE 23
+
+Setiap reward wajib mencatat nama item, jumlah, rarity, Gold Amount, Gem Amount, rate tiket, dan sumber reward.
+
+### RULE 24
+
+Reward harus melewati Game State System.
+
+### RULE 25
+
+Reward yang valid langsung disinkronkan ke Database.
+
+### RULE 26
+
+Reward yang valid masuk ke Inventory.
+
+### RULE 27
+
+AI tidak boleh memberikan reward di luar Reward Pool.
+
+### RULE 28
+
+AI dapat membuat nama/deskripsi item, tetapi item tetap melewati validasi.
+
+### RULE 29
+
+Fairy wajib melaporkan kisaran Gold, Gold yang diperoleh, kisaran Gem, Gem yang diperoleh, rate Summon Ticket, hasil ticket check, dan daftar nama item kepada Master.
+
+### RULE 30
+
+Gold atau Gem compensation dapat diberikan jika Unique Item yang sudah dimiliki kembali terpilih.
+
+### RULE 31
+
+Pity Counter harus disimpan di Database dan tidak boleh hilang setelah aktivitas selesai.
+
+### RULE 32
+
+Rate Summon Ticket memiliki batas maksimum berdasarkan jenis aktivitas.
 
 ---
 
-# 45. FINAL DESIGN
+# 48. FINAL DESIGN
 
 ```text
                   MASTER
@@ -1456,6 +3349,14 @@ Fairy wajib melaporkan hasil reward kepada Master.
        └────────────┼────────────┘
                     ▼
                  RNG SYSTEM
+                    │
+        ┌───────────┼───────────┐
+        │           │           │
+   GOLD RANGE   GEM RANGE   TICKET RATE
+        │           │           │
+        └───────────┼───────────┘
+                    ▼
+              ITEM LIST
                     │
                     ▼
               REWARD POOL
@@ -1491,6 +3392,14 @@ Fairy wajib melaporkan hasil reward kepada Master.
 >
 > **RNG decides the possibility.**
 >
+> **The Gold Range defines the possible currency reward.**
+>
+> **The Gem Range defines the possible premium currency reward.**
+>
+> **The Summon Ticket Rate defines the chance of obtaining a ticket.**
+>
+> **The Item List defines what can be obtained.**
+>
 > **The Reward Pool defines what can exist.**
 >
 > **Game State validates the result.**
@@ -1499,7 +3408,7 @@ Fairy wajib melaporkan hasil reward kepada Master.
 >
 > **Inventory receives it.**
 >
-> **Fairy reports it.**
+> **Fairy reports the Gold, Gem, ticket rate, ticket result, and item names.**
 >
 > **No EXP.**
 >
