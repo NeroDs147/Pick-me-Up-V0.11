@@ -1,0 +1,1594 @@
+# HERO MISSION POTENTIAL SKILL RNG SYSTEM
+
+## Overview
+
+Hero Mission Potential Skill adalah sistem RNG yang memberikan skill khusus untuk meningkatkan performa dan potensi Hero ketika menjalankan misi di **Floor**.
+
+Skill ini berbeda dari:
+
+```text
+Basic Skill
+Combat Skill
+Town Skill
+Ultimate Skill
+```
+
+Fokus sistem ini adalah:
+
+```text
+HERO
+ ↓
+ENTER FLOOR
+ ↓
+MISSION
+ ↓
+MISSION POTENTIAL SKILL
+ ↓
+INCREASE PERFORMANCE
+ ↓
+CLEAR FLOOR
+```
+
+Skill dapat meningkatkan kemampuan Hero dalam:
+
+* Combat
+* Survival
+* Exploration
+* Resource acquisition
+* Mission completion
+* Boss battle
+* Floor progression
+* Recovery
+* Team cooperation
+
+---
+
+# 1. SYSTEM PURPOSE
+
+Tujuan sistem:
+
+```text
+1. Memberikan variasi kemampuan setiap Hero.
+2. Membuat Hero memiliki spesialisasi misi.
+3. Meningkatkan nilai Hero selama berada di Floor.
+4. Membuat RNG Character lebih menarik.
+5. Memberikan alasan menggunakan Hero tertentu
+   untuk Floor tertentu.
+```
+
+Contoh:
+
+```text
+Hero A
+→ kuat untuk Combat
+
+Hero B
+→ kuat untuk Exploration
+
+Hero C
+→ kuat untuk Survival
+
+Hero D
+→ kuat untuk Resource Mission
+```
+
+---
+
+# 2. SKILL STRUCTURE
+
+Setiap Mission Potential Skill memiliki:
+
+```text
+Skill_ID
+Skill_Name
+Skill_Type
+Rarity
+Trigger
+Target
+Effect
+Value
+Duration
+Condition
+```
+
+Contoh:
+
+```text
+Skill_ID:
+MPS-000001
+
+Name:
+Floor Adaptation
+
+Type:
+Mission Passive
+
+Rarity:
+Common
+
+Trigger:
+Enter Floor
+
+Effect:
++3% Mission Performance
+```
+
+---
+
+# 3. MAIN CATEGORIES
+
+```text
+MISSION POTENTIAL SKILL
+│
+├── Combat Potential
+├── Survival Potential
+├── Exploration Potential
+├── Expedition Potential
+├── Resource Potential
+├── Team Potential
+├── Boss Potential
+├── Recovery Potential
+├── Floor Adaptation
+└── Emergency Potential
+```
+
+---
+
+# 4. COMBAT POTENTIAL SKILLS
+
+## 01. Battle Instinct
+
+**Effect:**
+
+Meningkatkan kemampuan bertarung Hero ketika berada dalam Floor Mission.
+
+```text
+Combat Performance:
++5%
+```
+
+---
+
+## 02. Killer Instinct
+
+**Effect:**
+
+Meningkatkan damage terhadap monster.
+
+```text
+Damage vs Monster:
++5%
+```
+
+---
+
+## 03. Floor Fighter
+
+**Effect:**
+
+Hero mendapatkan bonus ATK ketika berada di Dungeon/Floor.
+
+```text
+ATK:
++5%
+```
+
+---
+
+## 04. Relentless Assault
+
+**Effect:**
+
+Setelah mengalahkan musuh, damage meningkat sementara.
+
+```text
+After Kill:
+ATK +3%
+
+Duration:
+10 sec
+```
+
+---
+
+## 05. Combat Momentum
+
+**Effect:**
+
+Setiap kemenangan berturut-turut meningkatkan Combat Performance.
+
+```text
+Per Consecutive Kill:
++1% Combat Performance
+
+Maximum:
++5%
+```
+
+---
+
+## 06. Finishing Blow
+
+**Effect:**
+
+Meningkatkan damage terhadap musuh dengan HP rendah.
+
+```text
+Enemy HP < 30%
+Damage:
++10%
+```
+
+---
+
+# 5. SURVIVAL POTENTIAL
+
+## 07. Survival Instinct
+
+**Effect:**
+
+Mengurangi damage yang diterima selama Floor Mission.
+
+```text
+Damage Taken:
+-5%
+```
+
+---
+
+## 08. Danger Sense
+
+**Effect:**
+
+Mengurangi kemungkinan terkena serangan mendadak.
+
+```text
+Ambush Chance:
+-10%
+```
+
+---
+
+## 09. Last Stand
+
+**Effect:**
+
+Ketika HP Hero rendah, Defense meningkat.
+
+```text
+HP < 30%
+
+DEF:
++15%
+```
+
+---
+
+## 10. Emergency Recovery
+
+**Effect:**
+
+Ketika HP sangat rendah, Hero mendapatkan sedikit recovery.
+
+```text
+HP < 20%
+
+Recover:
+5% Max HP
+
+Trigger:
+1 time / mission
+```
+
+---
+
+## 11. Endurance
+
+**Effect:**
+
+Mengurangi penalti akibat perjalanan panjang.
+
+```text
+Mission Fatigue:
+-10%
+```
+
+---
+
+## 12. Survivor
+
+**Effect:**
+
+Meningkatkan peluang Hero bertahan ketika menerima fatal damage.
+
+```text
+Fatal Damage Survival:
+3% chance
+```
+
+---
+
+# 6. EXPLORATION POTENTIAL
+
+## 13. Explorer
+
+**Effect:**
+
+Meningkatkan keberhasilan Exploration Mission.
+
+```text
+Exploration Success:
++5%
+```
+
+---
+
+## 14. Keen Eye
+
+**Effect:**
+
+Meningkatkan kemungkinan menemukan hidden item.
+
+```text
+Hidden Item Chance:
++5%
+```
+
+---
+
+## 15. Treasure Sense
+
+**Effect:**
+
+Meningkatkan kemungkinan menemukan treasure.
+
+```text
+Treasure Chance:
++5%
+```
+
+---
+
+## 16. Pathfinder
+
+**Effect:**
+
+Mengurangi waktu perjalanan di Floor.
+
+```text
+Floor Travel Time:
+-5%
+```
+
+---
+
+## 17. Map Reader
+
+**Effect:**
+
+Meningkatkan efisiensi eksplorasi.
+
+```text
+Exploration Efficiency:
++5%
+```
+
+---
+
+## 18. Hidden Path
+
+**Effect:**
+
+Memberikan peluang menemukan jalur tersembunyi.
+
+```text
+Hidden Route Chance:
++3%
+```
+
+---
+
+# 7. RESOURCE POTENTIAL
+
+## 19. Resource Hunter
+
+**Effect:**
+
+Meningkatkan jumlah resource yang ditemukan.
+
+```text
+Resource Gain:
++5%
+```
+
+---
+
+## 20. Scavenger
+
+**Effect:**
+
+Meningkatkan peluang mendapatkan item tambahan dari Floor.
+
+```text
+Bonus Item Chance:
++5%
+```
+
+---
+
+## 21. Material Sense
+
+**Effect:**
+
+Meningkatkan peluang mendapatkan material langka.
+
+```text
+Rare Material Chance:
++3%
+```
+
+---
+
+## 22. Efficient Gatherer
+
+**Effect:**
+
+Mengurangi waktu gathering.
+
+```text
+Gathering Time:
+-5%
+```
+
+---
+
+## 23. Treasure Hunter
+
+**Effect:**
+
+Meningkatkan nilai reward treasure.
+
+```text
+Treasure Reward:
++5%
+```
+
+---
+
+## 24. Lucky Find
+
+**Effect:**
+
+Peluang mendapatkan bonus reward setelah mission.
+
+```text
+Bonus Reward Chance:
+5%
+```
+
+---
+
+# 8. MISSION COMPLETION POTENTIAL
+
+## 25. Mission Focus
+
+**Effect:**
+
+Meningkatkan kemungkinan menyelesaikan objective.
+
+```text
+Mission Success:
++5%
+```
+
+---
+
+## 26. Determination
+
+**Effect:**
+
+Mengurangi penalti ketika mission memasuki kondisi sulit.
+
+```text
+Difficulty Penalty:
+-5%
+```
+
+---
+
+## 27. Objective Hunter
+
+**Effect:**
+
+Meningkatkan efektivitas ketika menyelesaikan objective.
+
+```text
+Objective Efficiency:
++5%
+```
+
+---
+
+## 28. Fast Executor
+
+**Effect:**
+
+Mengurangi mission completion time.
+
+```text
+Mission Time:
+-5%
+```
+
+---
+
+## 29. Persistent
+
+**Effect:**
+
+Jika mission gagal sebagian, Hero mendapat peluang mempertahankan sebagian progress.
+
+```text
+Progress Retention:
+5%
+```
+
+---
+
+# 9. TEAM POTENTIAL
+
+## 30. Teamwork
+
+**Effect:**
+
+Meningkatkan performa seluruh party.
+
+```text
+Party Performance:
++3%
+```
+
+---
+
+## 31. Leadership
+
+**Effect:**
+
+Meningkatkan combat performance party.
+
+```text
+Party ATK:
++3%
+```
+
+---
+
+## 32. Formation Mastery
+
+**Effect:**
+
+Mengurangi damage yang diterima seluruh party.
+
+```text
+Party Damage Taken:
+-3%
+```
+
+---
+
+## 33. Tactical Support
+
+**Effect:**
+
+Meningkatkan effectiveness skill seluruh party.
+
+```text
+Party Skill Effect:
++3%
+```
+
+---
+
+## 34. Morale Booster
+
+**Effect:**
+
+Meningkatkan morale party.
+
+```text
+Party Morale:
++5%
+```
+
+---
+
+## 35. Rally
+
+**Effect:**
+
+Ketika satu anggota party memiliki HP rendah, seluruh party mendapatkan bonus kecil.
+
+```text
+Trigger:
+Ally HP < 30%
+
+Party ATK:
++5%
+
+Duration:
+10 sec
+```
+
+---
+
+# 10. BOSS POTENTIAL
+
+Skill khusus untuk Floor Boss Mission.
+
+## 36. Boss Hunter
+
+```text
+Damage vs Boss:
++5%
+```
+
+---
+
+## 37. Boss Breaker
+
+```text
+Boss Defense Penetration:
++5%
+```
+
+---
+
+## 38. Giant Slayer
+
+```text
+Damage vs Large Enemy:
++7%
+```
+
+---
+
+## 39. Weak Point
+
+```text
+Boss Critical Chance:
++5%
+```
+
+---
+
+## 40. Executioner
+
+Ketika Boss memiliki HP rendah:
+
+```text
+Boss HP < 20%
+
+Damage:
++15%
+```
+
+---
+
+# 11. FLOOR ADAPTATION
+
+## 41. Floor Adaptation
+
+**Effect:**
+
+Hero beradaptasi dengan lingkungan Floor.
+
+```text
+Mission Performance:
++3%
+```
+
+---
+
+## 42. Environmental Adaptation
+
+Bonus diberikan berdasarkan environment.
+
+Contoh:
+
+```text
+Fire Floor
+→ Fire Resistance +5%
+
+Ice Floor
+→ Ice Resistance +5%
+
+Poison Floor
+→ Poison Resistance +5%
+```
+
+---
+
+## 43. Heat Resistance
+
+```text
+Fire Damage Taken:
+-5%
+```
+
+---
+
+## 44. Cold Resistance
+
+```text
+Ice Damage Taken:
+-5%
+```
+
+---
+
+## 45. Poison Resistance
+
+```text
+Poison Damage Taken:
+-5%
+```
+
+---
+
+## 46. Darkness Adaptation
+
+```text
+Darkness Penalty:
+-10%
+```
+
+---
+
+# 12. RECOVERY POTENTIAL
+
+## 47. Field Recovery
+
+**Effect:**
+
+HP recovery meningkat selama mission.
+
+```text
+HP Recovery:
++5%
+```
+
+---
+
+## 48. Mana Recovery
+
+```text
+MP Recovery:
++5%
+```
+
+---
+
+## 49. Second Wind
+
+Ketika HP rendah:
+
+```text
+HP < 40%
+
+Move Speed:
++10%
+
+Duration:
+5 sec
+```
+
+---
+
+## 50. Rest Efficiency
+
+Ketika party mendapatkan kesempatan istirahat:
+
+```text
+Recovery:
++10%
+```
+
+---
+
+# 13. EMERGENCY POTENTIAL
+
+## 51. Emergency Reflex
+
+Ketika menerima serangan besar:
+
+```text
+Damage > 30% Max HP
+
+Evasion:
++10%
+
+Duration:
+2 sec
+```
+
+---
+
+## 52. Escape Instinct
+
+Meningkatkan peluang berhasil mundur dari kondisi berbahaya.
+
+```text
+Retreat Success:
++5%
+```
+
+---
+
+## 53. Desperate Power
+
+Ketika HP sangat rendah:
+
+```text
+HP < 20%
+
+ATK:
++15%
+```
+
+---
+
+## 54. Final Resolve
+
+Ketika seluruh party berada dalam kondisi kritis:
+
+```text
+Party HP < 30%
+
+Hero:
+DEF +10%
+ATK +10%
+```
+
+---
+
+## 55. Death Avoidance
+
+Peluang kecil menghindari kematian.
+
+```text
+Fatal Damage:
+3% chance
+
+Result:
+HP remains at 1
+```
+
+Cooldown:
+
+```text
+Once per Mission
+```
+
+---
+
+# 14. RARITY
+
+Mission Potential Skill menggunakan rarity:
+
+```text
+Common
+Uncommon
+Rare
+Epic
+Legendary
+```
+
+Recommended RNG:
+
+```text
+Common:
+60%
+
+Uncommon:
+25%
+
+Rare:
+10%
+
+Epic:
+4%
+
+Legendary:
+1%
+```
+
+---
+
+# 15. SKILL RARITY EFFECT
+
+### Common
+
+Efek kecil:
+
+```text
++3% ~ +5%
+```
+
+### Uncommon
+
+```text
++5% ~ +8%
+```
+
+### Rare
+
+```text
++8% ~ +12%
+```
+
+### Epic
+
+```text
++12% ~ +18%
+```
+
+### Legendary
+
+```text
++18% ~ +25%
+```
+
+Nilai final tetap harus dibatasi oleh konfigurasi game.
+
+---
+
+# 16. SKILL ACQUISITION RNG
+
+Hero mendapatkan Mission Potential Skill ketika:
+
+```text
+Summon
++
+Character Generation
+```
+
+Flow:
+
+```text
+RECRUIT
+ ↓
+CHARACTER
+ ↓
+RACE
+ ↓
+CLASS
+ ↓
+BASIC SKILL
+ ↓
+MISSION POTENTIAL SKILL RNG
+ ↓
+FINAL CHARACTER
+```
+
+---
+
+# 17. CLASS INFLUENCE
+
+Class mempengaruhi Skill Pool.
+
+### Warrior
+
+```text
+Battle Instinct
+Floor Fighter
+Endurance
+Last Stand
+Boss Hunter
+```
+
+### Mage
+
+```text
+Mana Recovery
+Environmental Adaptation
+Arcane Focus
+Floor Adaptation
+Treasure Sense
+```
+
+### Archer
+
+```text
+Keen Eye
+Pathfinder
+Precise Focus
+Explorer
+Weak Point
+```
+
+### Healer
+
+```text
+Field Recovery
+Teamwork
+Tactical Support
+Mana Recovery
+Emergency Recovery
+```
+
+### Rogue
+
+```text
+Danger Sense
+Hidden Path
+Scavenger
+Treasure Hunter
+Escape Instinct
+```
+
+---
+
+# 18. RACE INFLUENCE
+
+Race juga dapat mempengaruhi skill pool.
+
+Contoh:
+
+```text
+Dwarf
+→ Resource Hunter
+→ Efficient Gatherer
+→ Material Sense
+
+Elf
+→ Explorer
+→ Keen Eye
+→ Environmental Adaptation
+
+Beastkin
+→ Survival Instinct
+→ Danger Sense
+→ Pathfinder
+
+Dragonkin
+→ Heat Resistance
+→ Battle Instinct
+→ Boss Hunter
+```
+
+---
+
+# 19. FLOOR DIFFICULTY SCALING
+
+Skill harus tetap berguna ketika Floor semakin tinggi.
+
+Contoh:
+
+```text
+Floor 1
+Base Mission Performance
+
+Floor 10
+Environmental Difficulty ↑
+
+Floor 20
+Monster Difficulty ↑
+
+Floor 50
+Elite Enemy ↑
+
+Floor 100
+Boss Difficulty ↑
+```
+
+Mission Potential Skill membantu Hero menghadapi peningkatan tersebut.
+
+---
+
+# 20. FLOOR SYNERGY
+
+Skill dapat memiliki synergy dengan Floor.
+
+Contoh:
+
+```text
+Floor:
+Frozen Cavern
+
+Hero Skill:
+Cold Resistance
+
+Result:
+Ice Damage Taken -5%
+```
+
+Contoh lain:
+
+```text
+Floor:
+Volcanic Ruins
+
+Hero Skill:
+Heat Resistance
+
+Result:
+Fire Damage Taken -5%
+```
+
+Dengan demikian, Master harus mempertimbangkan Hero yang dibawa ke setiap Floor.
+
+---
+
+# 21. STACKING RULE
+
+Skill yang sama tidak boleh stack tanpa batas.
+
+Contoh:
+
+```text
+Hero A:
+Teamwork +3%
+
+Hero B:
+Teamwork +3%
+
+Hero C:
+Teamwork +3%
+```
+
+Tidak otomatis menjadi:
+
+```text
++9%
+```
+
+Recommended:
+
+```text
+Same Skill:
+Highest Value Applied
+```
+
+Sedangkan skill berbeda dapat dikombinasikan.
+
+```text
+Teamwork
++
+Leadership
++
+Formation Mastery
+```
+
+---
+
+# 22. MISSION POTENTIAL SCORE
+
+Setiap Hero dapat memiliki:
+
+```text
+Mission Potential Score
+```
+
+Formula sederhana:
+
+```text
+Mission Potential Score
+=
+Combat Potential
++
+Survival Potential
++
+Exploration Potential
++
+Team Potential
++
+Special Potential
+```
+
+Contoh:
+
+```text
+Hero:
+Kael
+
+Combat:
+85
+
+Survival:
+70
+
+Exploration:
+40
+
+Team:
+65
+
+Total:
+260
+```
+
+---
+
+# 23. FLOOR COMPATIBILITY
+
+Game dapat menghitung:
+
+```text
+Hero Mission Potential
++
+Floor Environment
++
+Mission Type
++
+Enemy Type
+```
+
+Contoh:
+
+```text
+Floor:
+Forest
+
+Mission:
+Exploration
+
+Hero:
+Elf Archer
+
+Skills:
+Explorer
+Keen Eye
+Pathfinder
+
+Compatibility:
+HIGH
+```
+
+Sedangkan:
+
+```text
+Floor:
+Volcanic
+
+Mission:
+Boss Raid
+
+Hero:
+Dwarf Warrior
+
+Skills:
+Heat Resistance
+Boss Hunter
+Battle Instinct
+
+Compatibility:
+HIGH
+```
+
+---
+
+# 24. MISSION RESULT
+
+Mission Potential Skill mempengaruhi hasil:
+
+```text
+MISSION
+│
+├── Success Chance
+├── Clear Time
+├── Damage Taken
+├── Resource Gain
+├── Item Gain
+├── EXP Gain
+├── Survival
+└── Special Event Chance
+```
+
+Contoh:
+
+```text
+Hero Skill:
+Treasure Hunter
+
+Mission Result:
+Treasure Reward +5%
+```
+
+---
+
+# 25. DATABASE STRUCTURE
+
+### SKILL DATABASE
+
+```text
+MISSION_SKILL
+
+Skill_ID
+Skill_Name
+Category
+Rarity
+Class
+Race
+Trigger
+Effect_Type
+Base_Value
+Duration
+Cooldown
+Stack_Rule
+```
+
+### CHARACTER SKILL
+
+```text
+CHARACTER_MISSION_SKILL
+
+Character_ID
+Skill_ID
+Skill_Level
+Skill_Rarity
+Acquired_Date
+```
+
+---
+
+# 26. RNG GENERATION
+
+```text
+Character
+    ↓
+Class
+    ↓
+Race
+    ↓
+Mission Skill Pool
+    ↓
+Rarity RNG
+    ↓
+Skill RNG
+    ↓
+Validation
+    ↓
+Assign Skill
+```
+
+Contoh:
+
+```text
+Class:
+Archer
+
+Skill Pool:
+Explorer
+Keen Eye
+Pathfinder
+Treasure Hunter
+Weak Point
+
+Rarity:
+Rare
+
+RNG:
+Keen Eye
+
+Result:
+Keen Eye [Rare]
+```
+
+---
+
+# 27. EXAMPLE SUMMON RESULT
+
+```text
+================================
+SUMMON RESULT
+================================
+
+Character:
+Kael
+
+Race:
+Human
+
+Class:
+Warrior
+
+Star:
+★★★
+
+================================
+BASIC SKILLS
+================================
+
+Town Skill:
+Quick Repair
+
+Combat Skill:
+Power Strike
+
+================================
+MISSION POTENTIAL
+================================
+
+Skill:
+Battle Instinct
+
+Rarity:
+Rare
+
+Effect:
++10% Combat Performance
+during Floor Mission
+
+================================
+```
+
+---
+
+# 28. MISSION EXAMPLE
+
+```text
+Floor:
+Floor 15
+
+Mission:
+Monster Hunt
+
+Hero:
+Kael
+
+Mission Potential:
+Battle Instinct
+
+Effect:
++10% Combat Performance
+
+Result:
+Higher combat effectiveness
+during Floor 15 mission.
+```
+
+---
+
+# 29. ADVANCED DEVELOPMENT
+
+Mission Potential Skill nantinya dapat berkembang menjadi:
+
+```text
+MISSION SKILL SYSTEM
+│
+├── Basic Mission Skill
+├── Advanced Mission Skill
+├── Floor Specialization
+├── Environment Skill
+├── Boss Specialization
+├── Exploration Specialization
+├── Team Skill
+├── Party Skill
+├── Hidden Potential
+├── Hero Awakening Skill
+└── Unique Mission Skill
+```
+
+---
+
+# 30. IMPORTANT DESIGN RULE
+
+Mission Potential Skill **tidak menggantikan Combat Skill**.
+
+```text
+Combat Skill
+→ Digunakan untuk melakukan aksi combat.
+
+Mission Potential Skill
+→ Memberikan bonus terhadap performa Hero
+  selama menjalankan mission.
+```
+
+Contoh:
+
+```text
+Combat Skill:
+Power Strike
+→ 120% ATK Damage
+
+Mission Skill:
+Battle Instinct
+→ +5% Combat Performance
+```
+
+---
+
+# 31. FINAL SYSTEM FLOW
+
+```text
+                         RECRUIT
+                            │
+                            ↓
+                       CHARACTER RNG
+                            │
+                 ┌──────────┼──────────┐
+                 ↓          ↓          ↓
+               RACE       CLASS    BACKGROUND
+                 │          │          │
+                 └──────────┼──────────┘
+                            ↓
+                     BASIC SKILLS
+                            │
+                            ↓
+                 MISSION POTENTIAL RNG
+                            │
+          ┌─────────────────┼─────────────────┐
+          ↓                 ↓                 ↓
+       Combat           Survival         Exploration
+          │                 │                 │
+          └─────────────────┼─────────────────┘
+                            ↓
+                    POTENTIAL PROFILE
+                            │
+                            ↓
+                       FLOOR MISSION
+                            │
+          ┌─────────────────┼─────────────────┐
+          ↓                 ↓                 ↓
+       Combat            Survival          Reward
+          │                 │                 │
+          └─────────────────┼─────────────────┘
+                            ↓
+                      MISSION RESULT
+                            │
+                            ↓
+                    FLOOR PROGRESSION
+```
+
+---
+
+# 32. CORE RULES
+
+```text
+RULE 01
+Every summoned Hero may receive Mission Potential Skill.
+
+RULE 02
+Mission Potential Skill primarily affects
+performance during Floor Missions.
+
+RULE 03
+Mission Potential Skill does not replace Combat Skill.
+
+RULE 04
+Class influences the Mission Skill Pool.
+
+RULE 05
+Race may influence the Mission Skill Pool.
+
+RULE 06
+Floor Environment can interact with Mission Skills.
+
+RULE 07
+Mission Skills can improve Combat, Survival,
+Exploration, Resource, Team, Boss, and Recovery performance.
+
+RULE 08
+Skill rarity affects effect strength.
+
+RULE 09
+Duplicate skills between Heroes are allowed.
+
+RULE 10
+The same skill should not stack infinitely.
+
+RULE 11
+Mission Skill values must be configurable.
+
+RULE 12
+Higher Floors may require better Mission Potential
+and stronger Hero specialization.
+
+RULE 13
+Mission Potential is one factor of mission success,
+not the sole determinant.
+
+RULE 14
+Future Advanced/Unique Mission Skills should be
+handled by separate systems.
+```
