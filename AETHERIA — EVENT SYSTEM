@@ -1,0 +1,2301 @@
+# 🌑 AETHERIA — EVENT SYSTEM
+
+> **Events are the moments when the world reacts.**
+>
+> A character can change.
+> A faction can rise.
+> A village can fall.
+> A forgotten secret can be discovered.
+> And sometimes, during a mission on the Tower floor, a hero can surpass their own limits.
+
+---
+
+# 1. EVENT SYSTEM OVERVIEW
+
+The **Event System** is responsible for managing dynamic events that occur throughout Aetheria.
+
+The Event System works together with the:
+
+```text
+Game Manager System
+Game State System
+Time System
+RNG System
+Character System
+Quest System
+Combat System
+Tower System
+Floor System
+Faction System
+NPC System
+Enemy System
+Recruit System
+Inventory System
+Database System
+AI System
+```
+
+The Event System does not independently control the entire world.
+
+Instead:
+
+> **Game State determines whether an event can happen.**
+
+Then:
+
+> **Event System determines what event occurs and what consequences it produces.**
+
+---
+
+# 2. CORE EVENT FLOW
+
+```text
+                     GAME STATE SYSTEM
+                             │
+                             ▼
+                      EVENT CONDITION
+                             │
+                             ▼
+                      EVENT SYSTEM
+                             │
+                    ┌────────┴────────┐
+                    │                 │
+                 VALID              INVALID
+                    │                 │
+                    ▼                 ▼
+                EVENT START        NO EVENT
+                    │
+                    ▼
+                 RNG / AI
+                    │
+                    ▼
+               EVENT RESULT
+                    │
+                    ▼
+              STATE CHANGE
+                    │
+                    ▼
+          GAME STATE SYSTEM
+                    │
+                    ▼
+              DATABASE SYSTEM
+```
+
+---
+
+# 3. PURPOSE
+
+The Event System exists to make Aetheria feel like a living world.
+
+Events can occur because of:
+
+```text
+Time
+Player Actions
+Character Conditions
+Enemy Conditions
+Floor Conditions
+Quest Conditions
+Faction Conditions
+World Conditions
+RNG
+AI Decisions
+Story Progression
+Destruction Level
+Relationships
+```
+
+Examples:
+
+```text
+Cult Raid
+Character Awakening
+NPC Rescue
+Hidden Dungeon
+Rare Enemy Spawn
+Faction Conflict
+Character Betrayal
+Character Reunion
+Ancient Artifact Discovery
+Star Up Event
+```
+
+---
+
+# 4. EVENT CATEGORIES
+
+Aetheria events are divided into several categories.
+
+```text
+EVENT SYSTEM
+│
+├── World Events
+├── Tower Events
+├── Floor Events
+├── Combat Events
+├── Character Events
+├── NPC Events
+├── Faction Events
+├── Quest Events
+├── Story Events
+├── Random Events
+├── Special Events
+└── Progression Events
+```
+
+---
+
+# 5. WORLD EVENTS
+
+World Events affect large portions of Aetheria.
+
+Examples:
+
+```text
+Cult Expansion
+Massive Monster Migration
+Mana Storm
+Ancient Ruin Discovery
+Faction War
+World Corruption
+Survivor Migration
+Civilization Recovery
+```
+
+Example:
+
+```text
+EVENT:
+Cult Expansion
+
+Condition:
+Cult Influence >= 70%
+
+Effect:
+
+Cult Influence +5
+Destruction +2%
+New Cult Quest
+Enemy Spawn Increased
+```
+
+---
+
+# 6. TOWER EVENTS
+
+Tower Events affect the Tower of Rebirth.
+
+Examples:
+
+```text
+Tower Collapse
+Ancient Floor Discovery
+Special Boss
+Hidden Room
+Tower Guardian
+Memory Fragment
+Rare Treasure
+```
+
+Example:
+
+```text
+Tower Event
+
+Floor:
+30
+
+Condition:
+RNG Result = TRUE
+
+Event:
+Ancient Memory Chamber
+```
+
+---
+
+# 7. FLOOR EVENTS
+
+Floor Events happen specifically inside a Tower Floor.
+
+Examples:
+
+```text
+Enemy Ambush
+NPC Rescue
+Treasure Discovery
+Cult Ritual
+Elite Enemy
+Hidden Path
+Environmental Hazard
+Character Event
+Special Battle
+```
+
+These events can only affect the relevant floor unless their consequences expand into the wider world.
+
+---
+
+# 8. MISSION EVENT
+
+A Mission Event occurs while the Master and characters are actively performing a mission.
+
+```text
+MASTER
+  │
+  ▼
+MISSION
+  │
+  ▼
+TOWER FLOOR
+  │
+  ▼
+EVENT CHECK
+  │
+  ├── No Event
+  │
+  └── Event Triggered
+          │
+          ▼
+      EVENT SYSTEM
+```
+
+This is important because some events should **not** be available outside missions.
+
+---
+
+# 9. EVENT TRIGGER
+
+An event can be triggered by:
+
+```text
+TIME_TRIGGER
+STATE_TRIGGER
+RNG_TRIGGER
+QUEST_TRIGGER
+COMBAT_TRIGGER
+FLOOR_TRIGGER
+CHARACTER_TRIGGER
+FACTION_TRIGGER
+STORY_TRIGGER
+PLAYER_TRIGGER
+AI_TRIGGER
+```
+
+Example:
+
+```text
+Character HP < 30%
+        ↓
+Character Event Check
+        ↓
+RNG
+        ↓
+Possible Awakening Event
+```
+
+---
+
+# 10. EVENT CONDITION
+
+Every event should have conditions.
+
+Example:
+
+```text
+EVENT_ID:
+EVENT_CHAR_0007
+
+Condition:
+
+Floor >= 20
+Character Star >= 6
+Character is in active mission
+Character HP < 25%
+Event not previously completed
+```
+
+Only if all required conditions are satisfied can the event become available.
+
+---
+
+# 11. EVENT STATE
+
+Each event has its own state.
+
+```text
+EVENT_000125
+
+Status:
+AVAILABLE
+
+Type:
+FLOOR_EVENT
+
+Floor:
+20
+
+Character:
+CHAR_000125
+
+Started:
+FALSE
+
+Completed:
+FALSE
+```
+
+Possible states:
+
+```text
+LOCKED
+AVAILABLE
+TRIGGERED
+ACTIVE
+COMPLETED
+FAILED
+CANCELLED
+EXPIRED
+```
+
+---
+
+# 12. EVENT LIFECYCLE
+
+```text
+LOCKED
+   ↓
+AVAILABLE
+   ↓
+TRIGGERED
+   ↓
+ACTIVE
+   ↓
+RESOLVED
+   ↓
+COMPLETED
+```
+
+Alternative:
+
+```text
+ACTIVE
+   ↓
+FAILED
+```
+
+or:
+
+```text
+AVAILABLE
+   ↓
+EXPIRED
+```
+
+---
+
+# 13. EVENT PRIORITY
+
+Events can have different priorities.
+
+```text
+CRITICAL
+HIGH
+NORMAL
+LOW
+BACKGROUND
+```
+
+Example:
+
+```text
+Character Death
+→ CRITICAL
+
+Floor Boss
+→ HIGH
+
+NPC Conversation
+→ NORMAL
+
+Minor Treasure
+→ LOW
+```
+
+Critical events should be processed before normal events.
+
+---
+
+# 14. EVENT QUEUE
+
+Events can be placed inside an Event Queue.
+
+```text
+EVENT QUEUE
+
+1. Character Death
+2. Floor Boss
+3. Cult Ritual
+4. Treasure Discovery
+5. NPC Conversation
+```
+
+The Event System processes them according to:
+
+```text
+Priority
+Condition
+Location
+Time
+Event Dependency
+```
+
+---
+
+# 15. EVENT DEPENDENCY
+
+Events can depend on previous events.
+
+Example:
+
+```text
+EVENT A
+Cult Ritual Discovered
+       ↓
+EVENT B
+Cult Leader Appears
+       ↓
+EVENT C
+Boss Battle
+       ↓
+EVENT D
+Ancient Artifact Obtained
+```
+
+If Event A never happens:
+
+```text
+Event B
+```
+
+may remain locked.
+
+---
+
+# 16. RNG CONNECTION
+
+The Event System can use the RNG System.
+
+```text
+EVENT CONDITION
+      ↓
+RNG CHECK
+      ↓
+SUCCESS / FAILURE
+```
+
+Example:
+
+```text
+Character Star 6
++
+Floor Mission
++
+Critical HP
++
+RNG
+      ↓
+Awakening Event
+```
+
+RNG determines whether the event occurs.
+
+The Event System determines the consequences.
+
+---
+
+# 17. AI CONNECTION
+
+AI can influence event selection.
+
+```text
+GAME STATE
+     ↓
+AI
+     ↓
+EVENT CANDIDATES
+     ↓
+EVENT SYSTEM
+     ↓
+VALID EVENT
+```
+
+The AI can evaluate:
+
+```text
+Character Personality
+Character History
+Relationship
+Current Situation
+Mission Difficulty
+Enemy Threat
+Floor Condition
+Quest State
+```
+
+This allows character events to feel more contextual.
+
+---
+
+# 18. CHARACTER EVENT SYSTEM
+
+Character Events are events involving individual characters.
+
+Examples:
+
+```text
+Character Awakening
+Character Conflict
+Character Bond
+Character Trauma
+Character Memory
+Character Betrayal
+Character Rescue
+Character Reunion
+Character Evolution
+Star Up
+```
+
+---
+
+# ⭐ 19. CHARACTER STAR PROGRESSION
+
+Characters can progress through:
+
+```text
+⭐
+⭐⭐
+⭐⭐⭐
+⭐⭐⭐⭐
+⭐⭐⭐⭐⭐
+⭐⭐⭐⭐⭐⭐
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+The Star 7 system is different from normal Star Up.
+
+Stars 1–6 can follow the normal Character/Star Up System.
+
+**Star 7 requires a special event.**
+
+---
+
+# ⭐ 20. STAR 7 SPECIAL EVENT
+
+Star 7 is called:
+
+# **ASCENSION EVENT**
+
+A character cannot simply use normal resources to become Star 7.
+
+The character must experience a special event while participating in a mission inside the Tower.
+
+```text
+Character
+   ↓
+⭐⭐⭐⭐⭐⭐
+   ↓
+Active Mission
+   ↓
+Tower Floor
+   ↓
+Special Event Trigger
+   ↓
+ASCENSION EVENT
+   ↓
+Character Trial
+   ↓
+Success
+   ↓
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+---
+
+# ⚔️ 21. STAR 7 REQUIREMENT
+
+Recommended requirements:
+
+```text
+Character Star:
+6
+
+Character:
+Alive
+
+Character:
+Currently deployed
+
+Mission:
+Active
+
+Location:
+Tower Floor
+
+Mission State:
+IN_PROGRESS
+
+Character:
+Participating in Combat / Mission
+
+Star 7 Event:
+Not previously completed
+```
+
+The character cannot trigger Star 7 while:
+
+```text
+In Town
+In Inventory
+Not deployed
+Not participating in mission
+Outside the Tower
+Before mission starts
+After mission ends
+```
+
+---
+
+# 🗼 22. STAR 7 EVENT LOCATION
+
+The event must occur:
+
+> **Inside an active Tower Floor mission.**
+
+Valid:
+
+```text
+Floor 20
+Mission Active
+Character Deployed
+        ↓
+Star 7 Event
+```
+
+Invalid:
+
+```text
+Town
+        ↓
+No Star 7 Event
+```
+
+Invalid:
+
+```text
+Character Menu
+        ↓
+No Star 7 Event
+```
+
+Invalid:
+
+```text
+Before entering Floor
+        ↓
+No Star 7 Event
+```
+
+---
+
+# 🎲 23. STAR 7 EVENT TRIGGER
+
+The Event System checks:
+
+```text
+Is Character Star 6?
+        ↓ YES
+
+Is Character deployed?
+        ↓ YES
+
+Is Mission active?
+        ↓ YES
+
+Is location a Tower Floor?
+        ↓ YES
+
+Has Star 7 Event already happened?
+        ↓ NO
+
+Is character eligible?
+        ↓ YES
+
+RNG / Event Condition
+        ↓
+STAR 7 EVENT
+```
+
+---
+
+# 🧠 24. STAR 7 EVENT ELIGIBILITY
+
+Eligibility can consider:
+
+```text
+Character Star
+Character Level
+Character Story Progress
+Character Loyalty
+Character Relationship
+Character Class
+Character History
+Floor Level
+Mission Difficulty
+Current HP
+Combat Participation
+Previous Character Events
+```
+
+Example:
+
+```text
+Star:
+6
+
+Level:
+60
+
+Loyalty:
+80
+
+Story:
+Complete
+
+Mission:
+Active
+
+Floor:
+60
+```
+
+This character becomes eligible for the Ascension Event.
+
+---
+
+# ⚠️ 25. STAR 7 SHOULD NOT BE GUARANTEED
+
+The event should not automatically happen every time the conditions are met.
+
+Instead:
+
+```text
+Eligibility
+    ↓
+Event Trigger Check
+    ↓
+RNG
+    ↓
+Possible Event
+```
+
+This preserves the RNG identity of Aetheria.
+
+However, the system can later implement:
+
+```text
+Pity Counter
+Event Progress
+Hidden Probability
+Guaranteed Condition
+```
+
+to prevent excessive frustration.
+
+---
+
+# ⚔️ 26. STAR 7 ASCENSION EVENT
+
+When triggered:
+
+```text
+ASCENSION EVENT
+```
+
+the mission can temporarily enter:
+
+```text
+SPECIAL_EVENT
+```
+
+Example:
+
+```text
+Normal Mission
+      ↓
+ASCENSION EVENT
+      ↓
+Character Trial
+      ↓
+Special Challenge
+      ↓
+Success / Failure
+```
+
+---
+
+# 🌑 27. ASCENSION TRIAL
+
+The Star 7 event should represent a major personal breakthrough.
+
+Possible trials:
+
+```text
+Memory Trial
+Survival Trial
+Boss Trial
+Protect Ally
+Solo Battle
+Darkness Trial
+Personal Enemy
+Past Trauma
+Moral Choice
+Limit Break
+```
+
+The actual trial can depend on the character.
+
+---
+
+# 🧬 28. CHARACTER-SPECIFIC ASCENSION
+
+Different characters should have different Ascension Events.
+
+Example:
+
+```text
+CHAR_000125
+Race:
+Human
+
+Class:
+Knight
+
+Ascension:
+"Last Stand of Valeria"
+```
+
+Another:
+
+```text
+CHAR_000126
+Race:
+Elf
+
+Class:
+Spirit Mage
+
+Ascension:
+"Voice of the Eternal Forest"
+```
+
+Another:
+
+```text
+CHAR_000127
+Race:
+Demon
+
+Class:
+Warrior
+
+Ascension:
+"Blood Beyond Darkness"
+```
+
+This makes Star 7 feel personal rather than simply another upgrade button.
+
+---
+
+# 📖 29. ASCENSION EVENT STORY
+
+Example:
+
+```text
+FLOOR 60
+MISSION ACTIVE
+
+Character:
+CHAR_000125
+
+The character recognizes an ancient symbol
+from their homeland.
+
+EVENT TRIGGERED
+
+"The Last Knight"
+
+The character remembers the destruction
+of Valeria.
+
+A corrupted knight appears.
+
+The character must defeat the enemy.
+```
+
+After success:
+
+```text
+CHAR_000125
+⭐⭐⭐⭐⭐⭐
+        ↓
+ASCENSION
+        ↓
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+---
+
+# ⚔️ 30. STAR 7 BATTLE
+
+The Ascension Event may temporarily create a special encounter.
+
+```text
+MISSION
+   ↓
+ASCENSION EVENT
+   ↓
+SPECIAL ENEMY
+   ↓
+CHARACTER TRIAL
+   ↓
+COMBAT
+```
+
+The special enemy can be generated from:
+
+```text
+Character History
+Race
+Class
+Faction
+Past Enemy
+Floor State
+RNG
+```
+
+---
+
+# 🧠 31. ASCENSION RESULT
+
+### Success
+
+```text
+Character Star:
+6 → 7
+
+Ascension:
+TRUE
+
+Event:
+COMPLETED
+```
+
+### Failure
+
+```text
+Character Star:
+6
+
+Ascension:
+FALSE
+
+Event:
+FAILED
+```
+
+Failure does not necessarily mean the character dies.
+
+The design can allow:
+
+```text
+Retry
+Future Event
+New Condition
+Hidden Progress
+```
+
+---
+
+# ⭐ 32. STAR 7 STATE
+
+Example:
+
+```text
+CHAR_000125
+
+Star:
+7
+
+Ascension:
+COMPLETED
+
+Ascension Event:
+EVENT_ASC_000125
+
+Ascension Floor:
+60
+
+Ascension Date:
+Day 120
+
+Ascension Count:
+1
+```
+
+This information is saved in the Database System.
+
+---
+
+# 🧠 33. STAR 7 EVENT HISTORY
+
+The system should record:
+
+```text
+Character ID
+Event ID
+Floor
+Mission
+Time
+Enemy
+Result
+Participants
+Choices
+Consequences
+```
+
+Example:
+
+```text
+EVENT_ASC_000125
+
+Character:
+CHAR_000125
+
+Floor:
+60
+
+Mission:
+MISSION_000450
+
+Result:
+SUCCESS
+
+Star:
+6 → 7
+```
+
+---
+
+# 🔥 34. STAR 7 CONSEQUENCES
+
+Star 7 can affect more than the character's star value.
+
+Possible effects:
+
+```text
+New Skill
+New Passive
+Stat Increase
+New Trait
+New Title
+Character Story
+Relationship Change
+Visual Evolution
+New Dialogue
+New Quest
+New AI Behavior
+```
+
+Example:
+
+```text
+⭐⭐⭐⭐⭐⭐⭐
+
+New Passive:
+"Last Survivor"
+
+New Skill:
+"Valerian Final Strike"
+
+Title:
+"Knight Beyond Ruin"
+```
+
+---
+
+# 🤝 35. RELATIONSHIP CONSEQUENCE
+
+An Ascension Event can affect relationships.
+
+Example:
+
+```text
+Master
+   ↕
+Character
+```
+
+After successful Ascension:
+
+```text
+Loyalty +10
+Relationship +15
+```
+
+Other characters may also react.
+
+```text
+Character A
+   ↓
+Respect +10
+```
+
+---
+
+# 🎭 36. PERSONALITY REACTION
+
+Characters can react differently to another character reaching Star 7.
+
+Example:
+
+```text
+Rival:
+Jealous
+
+Friend:
+Proud
+
+Coward:
+Fearful
+
+Mentor:
+Satisfied
+
+Enemy:
+Threatened
+```
+
+These reactions become Character/Relationship states.
+
+---
+
+# 🌎 37. FLOOR EVENT EFFECT
+
+The Star 7 event can also affect the current floor.
+
+Example:
+
+```text
+ASCENSION EVENT
+      ↓
+Floor Mana Surge
+      ↓
+Enemy Spawn Increased
+      ↓
+Mission Difficulty Increased
+```
+
+Or:
+
+```text
+Ascension Complete
+      ↓
+Special Reward
+      ↓
+Floor Clear Bonus
+```
+
+---
+
+# 🎯 38. EVENT REWARD
+
+Events can provide rewards.
+
+```text
+Gold
+Gem
+Ticket
+Item
+EXP
+Equipment
+Skill
+Character Upgrade
+Quest Progress
+Relationship
+Title
+Achievement
+```
+
+Rewards can use the RNG System.
+
+---
+
+# 🎲 39. RANDOM EVENT
+
+Random Events can occur during missions.
+
+Example:
+
+```text
+MISSION
+  ↓
+RNG EVENT CHECK
+  ↓
+┌───────────────┬───────────────┐
+│               │               │
+Enemy Ambush   Treasure      NPC Rescue
+```
+
+The exact result depends on:
+
+```text
+RNG
+Floor
+Environment
+Destruction
+Quest
+Character
+```
+
+---
+
+# 👹 40. ENEMY EVENT
+
+Enemies can trigger events.
+
+Example:
+
+```text
+Enemy HP < 20%
+        ↓
+ENEMY DESPERATION
+        ↓
+New Skill
+        ↓
+Combat State Changed
+```
+
+Another:
+
+```text
+Elite Enemy Defeated
+        ↓
+Ancient Door Opens
+        ↓
+New Event
+```
+
+---
+
+# 👤 41. NPC EVENT
+
+NPCs can create events.
+
+Example:
+
+```text
+NPC FOUND
+   ↓
+NPC EVENT
+   ↓
+NPC REQUEST
+   ↓
+QUEST CREATED
+```
+
+NPCs can also:
+
+```text
+Die
+Escape
+Join
+Betray
+Reveal Information
+Offer Items
+Unlock Locations
+```
+
+---
+
+# 🏛️ 42. FACTION EVENT
+
+Faction states can trigger events.
+
+Example:
+
+```text
+Cult Influence > 70%
+        ↓
+Cult Event
+        ↓
+Cult Raid
+```
+
+Another:
+
+```text
+Elaria Relationship > 80
+        ↓
+Elven Alliance Event
+```
+
+---
+
+# ⏳ 43. TIME-BASED EVENT
+
+The Time System can trigger events.
+
+Example:
+
+```text
+Night
++
+Floor 40
++
+Cult Activity High
+        ↓
+Cult Ritual Event
+```
+
+Another:
+
+```text
+Day 100
+        ↓
+World Event
+```
+
+---
+
+# 🌑 44. DESTRUCTION-BASED EVENT
+
+Destruction Level can trigger events.
+
+Example:
+
+```text
+Destruction < 60%
+    ↓
+Normal Events
+```
+
+```text
+Destruction 60–80%
+    ↓
+Corruption Events
+```
+
+```text
+Destruction > 80%
+    ↓
+Extreme Events
+```
+
+---
+
+# 🧠 45. GAME STATE CONNECTION
+
+The Event System constantly reads Game State.
+
+```text
+GAME STATE
+│
+├── Master State
+├── Character State
+├── NPC State
+├── Enemy State
+├── Floor State
+├── Tower State
+├── Quest State
+├── Faction State
+├── Relationship State
+├── Time State
+├── Destruction State
+└── Story State
+        │
+        ▼
+   EVENT EVALUATION
+```
+
+---
+
+# 🔄 46. EVENT → GAME STATE
+
+After an event:
+
+```text
+EVENT
+ ↓
+RESULT
+ ↓
+GAME STATE UPDATE
+```
+
+Example:
+
+```text
+Star 7 Event
+ ↓
+Character Star 6 → 7
+ ↓
+New Skill
+ ↓
+Relationship +10
+ ↓
+Quest Progress
+ ↓
+Event History
+ ↓
+Database
+```
+
+---
+
+# 💾 47. DATABASE CONNECTION
+
+Important Event states are stored.
+
+```text
+EVENT ID
+CHARACTER ID
+NPC ID
+ENEMY ID
+MASTER ID
+FLOOR ID
+QUEST ID
+TIME
+RESULT
+CONSEQUENCES
+```
+
+Example:
+
+```text
+EVENT_ASC_000125
+
+Master:
+MASTER_000001
+
+Character:
+CHAR_000125
+
+Floor:
+FLOOR_060
+
+Result:
+SUCCESS
+
+Star:
+7
+
+Completed:
+TRUE
+```
+
+---
+
+# 🆔 48. ID SYSTEM CONNECTION
+
+Every event receives a unique ID.
+
+Example:
+
+```text
+EVENT_000001
+EVENT_000002
+EVENT_000003
+```
+
+Special event:
+
+```text
+EVENT_ASC_000125
+```
+
+The Event System references:
+
+```text
+MASTER_ID
+CHARACTER_ID
+NPC_ID
+ENEMY_ID
+ITEM_ID
+FLOOR_ID
+QUEST_ID
+```
+
+---
+
+# 🔄 49. EVENT TRANSACTION
+
+Every important event should use a transaction.
+
+```text
+EVENT REQUEST
+      ↓
+CHECK CONDITIONS
+      ↓
+CHECK ENTITY
+      ↓
+CHECK GAME STATE
+      ↓
+RNG / AI
+      ↓
+EVENT RESULT
+      ↓
+VALIDATE RESULT
+      ↓
+APPLY CONSEQUENCES
+      ↓
+UPDATE GAME STATE
+      ↓
+SAVE DATABASE
+```
+
+---
+
+# 🔐 50. EVENT VALIDATION
+
+The Event System must prevent invalid events.
+
+Example:
+
+```text
+Star 7 Event
+```
+
+must reject if:
+
+```text
+Character Star < 6
+Character not deployed
+Mission not active
+Location not Tower Floor
+Event already completed
+Character dead
+```
+
+---
+
+# 🛑 51. EVENT CANCELLATION
+
+Events can be cancelled if the required state changes.
+
+Example:
+
+```text
+Ascension Event Triggered
+        ↓
+Character dies
+        ↓
+Event Cancelled
+```
+
+Another:
+
+```text
+Mission Abandoned
+        ↓
+Active Floor Event
+        ↓
+Event Cancelled
+```
+
+---
+
+# ⏱️ 52. EVENT EXPIRATION
+
+Some events have a time limit.
+
+Example:
+
+```text
+EVENT:
+Rescue NPC
+
+Duration:
+30 Minutes
+```
+
+If not completed:
+
+```text
+EVENT
+ ↓
+EXPIRED
+```
+
+The consequence may be:
+
+```text
+NPC Escapes
+NPC Dies
+Quest Failed
+Faction Reputation Decreased
+```
+
+---
+
+# 🔗 53. EVENT CHAIN
+
+Events can form chains.
+
+Example:
+
+```text
+EVENT A
+Ancient Symbol Found
+       ↓
+EVENT B
+Character Memory
+       ↓
+EVENT C
+Ancient Enemy
+       ↓
+EVENT D
+Character Awakening
+       ↓
+EVENT E
+Star 7 Ascension
+```
+
+This allows long character stories to develop naturally.
+
+---
+
+# ⭐ 54. STAR 7 EVENT CHAIN
+
+Recommended structure:
+
+```text
+CHARACTER
+⭐⭐⭐⭐⭐⭐
+      │
+      ▼
+MISSION
+      │
+      ▼
+MEMORY EVENT
+      │
+      ▼
+PERSONAL TRIAL
+      │
+      ▼
+ASCENSION EVENT
+      │
+      ▼
+SPECIAL COMBAT
+      │
+      ▼
+SUCCESS
+      │
+      ▼
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+---
+
+# 🗺️ 55. EXAMPLE STAR 7 EVENT
+
+```text
+=================================
+ASCENSION EVENT
+=================================
+
+Character:
+CHAR_000125
+
+Name:
+Arden Valeris
+
+Race:
+Human
+
+Class:
+Knight
+
+Current Star:
+⭐⭐⭐⭐⭐⭐
+
+Floor:
+60
+
+Mission:
+MISSION_000450
+
+Condition:
+ACTIVE
+```
+
+Event:
+
+```text
+"The Last Banner"
+```
+
+---
+
+# ⚔️ 56. STAR 7 EXAMPLE — EVENT START
+
+During Floor 60:
+
+```text
+Arden discovers an ancient
+Valerian military banner.
+
+Character Memory Triggered.
+
+GAME STATE
+     ↓
+EVENT SYSTEM
+     ↓
+ASCENSION EVENT
+```
+
+The mission temporarily changes:
+
+```text
+MISSION STATE:
+SPECIAL_EVENT
+```
+
+---
+
+# 🌑 57. STAR 7 EXAMPLE — TRIAL
+
+A corrupted version of Arden's former commander appears.
+
+```text
+SPECIAL ENEMY
+CORRUPTED_COMMANDER
+
+Level:
+65
+
+Type:
+ASCENSION_TRIAL
+```
+
+Arden must survive the battle.
+
+---
+
+# ⚔️ 58. STAR 7 EXAMPLE — RESULT
+
+If successful:
+
+```text
+Corrupted Commander:
+DEFEATED
+
+Character:
+⭐⭐⭐⭐⭐⭐
+       ↓
+ASCENSION
+       ↓
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+Then:
+
+```text
+New Skill
+New Passive
+New Trait
+Relationship Increase
+Event Completed
+```
+
+---
+
+# 💀 59. STAR 7 FAILURE
+
+If the trial fails:
+
+```text
+Character:
+⭐⭐⭐⭐⭐⭐
+
+Star 7:
+LOCKED
+
+Event:
+FAILED
+```
+
+The character may receive:
+
+```text
+Ascension Progress
+```
+
+Example:
+
+```text
+Ascension Progress:
+40%
+```
+
+This allows future attempts.
+
+---
+
+# 🧠 60. ASCENSION MEMORY
+
+The character should remember the event.
+
+```text
+CHAR_000125
+
+Memory:
+"The Last Banner"
+
+Result:
+Failed
+
+Next Reaction:
+Determined
+```
+
+After another successful attempt:
+
+```text
+Memory:
+"Ascension"
+
+Result:
+Success
+```
+
+---
+
+# 🏆 61. EVENT ACHIEVEMENT
+
+Special events can unlock achievements.
+
+Example:
+
+```text
+Achievement:
+FIRST ASCENSION
+
+Requirement:
+First Character reaches Star 7
+
+Reward:
+Gem ×500
+```
+
+---
+
+# 🌟 62. SPECIAL EVENT TYPES
+
+Future special events may include:
+
+```text
+Star 7 Ascension
+Character Awakening
+Character Evolution
+Hidden Class
+Legendary Skill
+Ancient Artifact
+Unique Boss
+World Crisis
+Faction War
+Tower Collapse
+Nythar Event
+```
+
+---
+
+# 🌑 63. NYTHAR EVENT
+
+At higher Tower floors, Nythar-related events become increasingly common.
+
+Example:
+
+```text
+Floor >= 90
++
+Destruction >= 95%
+        ↓
+NYTHAR EVENT
+```
+
+Possible events:
+
+```text
+Dark God Vision
+Corruption
+Tower Distortion
+Dark Apostle
+Cult Ritual
+Nythar Messenger
+```
+
+---
+
+# 🗼 64. FLOOR 100 EVENT
+
+Floor 100 contains the final event chain.
+
+```text
+FLOOR 100
+   ↓
+FINAL EVENT
+   ↓
+NYTHAR DOMAIN
+   ↓
+FINAL BATTLE
+   ↓
+PACT EVALUATION
+```
+
+If Nythar is defeated:
+
+```text
+NYTHAR = DEFEATED
+PACT = FULFILLED
+WORLD REBIRTH = AVAILABLE
+```
+
+---
+
+# 🌅 65. WORLD REBIRTH EVENT
+
+The final Event System can process:
+
+```text
+WORLD REBIRTH EVENT
+```
+
+It reads:
+
+```text
+World State
+Faction State
+Character Survivors
+NPC Survivors
+Quest Outcomes
+Major Decisions
+Tower Progress
+Cult State
+```
+
+Then creates:
+
+```text
+NEW AETHERIA
+```
+
+---
+
+# 🔄 66. EVENT LOOP
+
+```text
+TIME PASSES
+      ↓
+GAME STATE UPDATED
+      ↓
+EVENT CONDITIONS CHECKED
+      ↓
+EVENT CANDIDATES CREATED
+      ↓
+RNG / AI EVALUATION
+      ↓
+EVENT SELECTED
+      ↓
+EVENT START
+      ↓
+PLAYER / CHARACTER ACTION
+      ↓
+EVENT RESULT
+      ↓
+CONSEQUENCES
+      ↓
+GAME STATE UPDATE
+      ↓
+DATABASE SAVE
+      ↓
+NEW EVENT CONDITIONS
+```
+
+---
+
+# 🧱 67. RECOMMENDED MODULE STRUCTURE
+
+```text
+EVENT SYSTEM
+│
+├── EventManager
+├── EventRegistry
+├── EventTrigger
+├── EventCondition
+├── EventValidator
+├── EventQueue
+├── EventProcessor
+├── EventResolver
+├── EventReward
+├── EventConsequence
+├── EventChain
+├── EventHistory
+├── EventSnapshot
+├── CharacterEventManager
+├── FloorEventManager
+├── WorldEventManager
+├── FactionEventManager
+├── SpecialEventManager
+└── EventDebugger
+```
+
+---
+
+# 🧩 68. MODULE RESPONSIBILITIES
+
+### EventManager
+
+Main Event System coordinator.
+
+### EventRegistry
+
+Stores available event definitions.
+
+### EventTrigger
+
+Determines how an event can begin.
+
+### EventCondition
+
+Defines requirements.
+
+### EventValidator
+
+Prevents invalid events.
+
+### EventQueue
+
+Manages multiple active events.
+
+### EventProcessor
+
+Runs the event.
+
+### EventResolver
+
+Determines the result.
+
+### EventReward
+
+Handles event rewards.
+
+### EventConsequence
+
+Applies consequences.
+
+### EventChain
+
+Connects multiple events.
+
+### EventHistory
+
+Records completed events.
+
+### CharacterEventManager
+
+Handles character-specific events.
+
+### FloorEventManager
+
+Handles Tower Floor events.
+
+### WorldEventManager
+
+Handles world-scale events.
+
+### FactionEventManager
+
+Handles faction events.
+
+### SpecialEventManager
+
+Handles rare events such as Star 7.
+
+---
+
+# 🔥 69. FINAL EVENT ARCHITECTURE
+
+```text
+                              EVENT SYSTEM
+                                   │
+                    ┌──────────────┼──────────────┐
+                    │              │              │
+                    ▼              ▼              ▼
+                 WORLD          FLOOR         CHARACTER
+                 EVENTS         EVENTS          EVENTS
+                    │              │              │
+                    │              │              ├── Awakening
+                    │              │              ├── Memory
+                    │              │              ├── Relationship
+                    │              │              └── Star 7
+                    │              │
+                    │              └── Mission Events
+                    │
+                    └── Faction Events
+                                   │
+                                   ▼
+                            EVENT CONDITIONS
+                                   │
+                                   ▼
+                          GAME STATE SYSTEM
+                                   │
+                         ┌─────────┴─────────┐
+                         │                   │
+                        RNG                 AI
+                         │                   │
+                         └─────────┬─────────┘
+                                   ▼
+                              EVENT RESULT
+                                   │
+                                   ▼
+                              CONSEQUENCE
+                                   │
+                                   ▼
+                         GAME STATE UPDATE
+                                   │
+                                   ▼
+                              ID SYSTEM
+                                   │
+                                   ▼
+                           DATABASE SYSTEM
+```
+
+---
+
+# ⭐ 70. STAR 7 FINAL ARCHITECTURE
+
+The most important special event in this system:
+
+```text
+                   CHARACTER
+                  ⭐⭐⭐⭐⭐⭐
+                       │
+                       ▼
+                 ACTIVE MISSION
+                       │
+                       ▼
+                  TOWER FLOOR
+                       │
+                       ▼
+                EVENT CONDITION
+                       │
+                       ▼
+                    RNG / AI
+                       │
+                       ▼
+              ASCENSION EVENT
+                       │
+                       ▼
+              PERSONAL TRIAL
+                       │
+                       ▼
+                 SPECIAL BATTLE
+                       │
+             ┌─────────┴─────────┐
+             │                   │
+          SUCCESS              FAILURE
+             │                   │
+             ▼                   ▼
+       STAR 6 → 7            STAR 6
+             │                   │
+             ▼                   ▼
+       NEW ABILITIES        EVENT HISTORY
+       NEW TRAITS           POSSIBLE RETRY
+       NEW STORY
+             │
+             ▼
+       GAME STATE UPDATE
+             │
+             ▼
+          DATABASE
+```
+
+---
+
+# 🌑 71. CORE DESIGN PRINCIPLE
+
+The Event System follows one major rule:
+
+> **Events should not simply give rewards. Events should change the state of the world.**
+
+A treasure event can change Inventory.
+
+A character event can change Character State.
+
+A faction event can change Faction State.
+
+A death event can change Quest State.
+
+A Cult event can change World State.
+
+A Star 7 event can change Character State, Relationship State, Story State, and Mission State.
+
+---
+
+# ✨ 72. FINAL PHILOSOPHY
+
+```text
+GAME STATE
+     ↓
+CONDITION
+     ↓
+EVENT
+     ↓
+PLAYER / CHARACTER ACTION
+     ↓
+RESULT
+     ↓
+CONSEQUENCE
+     ↓
+GAME STATE
+```
+
+Therefore:
+
+> **The Event System is the mechanism that turns the current state of Aetheria into meaningful moments.**
+
+And for character progression:
+
+> **Star 7 is not a menu button.**
+
+> **It is an event earned inside the Tower.**
+
+A character must enter a mission, survive the floor, trigger their personal Ascension Event, overcome the trial, and prove that they are worthy of surpassing their previous limit.
+
+```text
+⭐⭐⭐⭐⭐⭐
+     ↓
+TOWER MISSION
+     ↓
+PERSONAL EVENT
+     ↓
+ASCENSION TRIAL
+     ↓
+OVERCOME THE PAST
+     ↓
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+> **A hero does not simply receive Star 7.**
+>
+> **They earn it.**
