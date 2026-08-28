@@ -1,0 +1,3467 @@
+# ⭐ AETHERIA — STAR UP & HERO SYNTHESIS SYSTEM
+
+> **A Hero's growth is not always achieved through battle.**
+>
+> Sometimes, a Hero must surpass their own limits.
+>
+> The **Star Up System** allows Heroes to increase their Star Rank and unlock new growth potential.
+>
+> Higher Star Rank unlocks the **Hero Synthesis System**, allowing the Master to sacrifice other Heroes as growth material to rapidly increase the Level of a selected Hero.
+>
+> Hero Level dapat ditingkatkan dengan dua cara utama:
+>
+> 1. Menggunakan **Gold** melalui Level Up biasa.
+> 2. Menggunakan **Hero Synthesis** untuk meningkatkan Level dengan cepat melalui pengorbanan Hero lain.
+>
+> Namun, Heroes are not emotionless resources.
+>
+> The loss of another Hero can affect the mental and emotional state of surviving Heroes.
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+Star Up System bertanggung jawab terhadap perkembangan **Star Rank** Hero.
+
+Level System bertanggung jawab terhadap peningkatan Level Hero melalui:
+
+```text
+Gold
+Hero Synthesis
+Special Item
+Quest Reward
+Event Reward
+```
+
+Sistem terhubung dengan:
+
+```text
+CHARACTER / HERO SYSTEM
+LEVEL SYSTEM
+RNG SYSTEM
+INVENTORY SYSTEM
+ID SYSTEM
+DATABASE SYSTEM
+GAME STATE SYSTEM
+AI CHARACTER SYSTEM
+EMOTIONAL SYSTEM
+RELATIONSHIP SYSTEM
+SYSTEM QUEST
+SYSTEM DUNGEON
+EVENT SYSTEM
+AI FAIRY
+MASTER SYSTEM
+```
+
+Core structure:
+
+```text
+HERO
+ ↓
+STAR UP
+ ↓
+HIGHER STAR
+ ↓
+NEW GROWTH POTENTIAL
+ ↓
+UNLOCK HERO SYNTHESIS
+ ↓
+LEVEL UP WITH GOLD
+       OR
+SACRIFICE OTHER HERO
+ ↓
+FAST LEVEL INCREASE
+```
+
+Star 7 memiliki jalur perkembangan khusus:
+
+```text
+HERO STAR 6
+ ↓
+SYSTEM QUEST
+ ↓
+SYSTEM DUNGEON
+ ↓
+SPECIAL CONDITION
+ ↓
+STAR 7 UNLOCK
+```
+
+---
+
+# 2. STAR RANK
+
+Setiap Hero memiliki Star Rank.
+
+```text
+⭐
+⭐⭐
+⭐⭐⭐
+⭐⭐⭐⭐
+⭐⭐⭐⭐⭐
+⭐⭐⭐⭐⭐⭐
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+Maximum Star Rank:
+
+# ⭐⭐⭐⭐⭐⭐⭐ — STAR 7
+
+Star 7 tidak dapat dicapai hanya melalui Star Up normal.
+
+Untuk naik ke Star 7, Hero wajib mengikuti:
+
+```text
+SYSTEM QUEST
++
+SYSTEM DUNGEON
+```
+
+Hero harus memenuhi persyaratan khusus dari kedua sistem tersebut sebelum Star 7 dapat dibuka.
+
+---
+
+# 3. STAR RANK VS LEVEL
+
+Star dan Level merupakan dua sistem berbeda.
+
+```text
+STAR
+ ↓
+Growth Potential
+Maximum Level
+System Unlock
+Special Progression
+
+LEVEL
+ ↓
+Current Character Development
+Combat Power
+Stat Growth
+```
+
+Contoh:
+
+```text
+Hero:
+⭐⭐⭐
+
+Level:
+25 / 30
+```
+
+Setelah Star Up:
+
+```text
+Hero:
+⭐⭐⭐⭐
+
+Level:
+25 / 40
+```
+
+Star Up meningkatkan batas perkembangan Hero, tetapi tidak otomatis menaikkan Level Hero.
+
+---
+
+# 4. STAR UP CORE FUNCTION
+
+Star Up digunakan untuk:
+
+```text
+Increase Star Rank
+Increase Maximum Level
+Unlock Growth Potential
+Unlock New Systems
+Improve Character Potential
+Unlock Hero Synthesis
+Unlock Higher Star Requirements
+```
+
+Star Up tidak otomatis mengubah kepribadian Hero.
+
+Personality tetap dikelola oleh:
+
+```text
+CHARACTER SYSTEM
++
+AI CHARACTER SYSTEM
+```
+
+---
+
+# 5. STAR UP FLOW
+
+```text
+MASTER
+ ↓
+LOBBY
+ ↓
+SELECT HERO
+ ↓
+STAR UP MENU
+ ↓
+CHECK REQUIREMENTS
+ ↓
+SELECT MATERIAL
+ ↓
+VALIDATE
+ ↓
+STAR UP
+ ↓
+GAME STATE UPDATE
+ ↓
+DATABASE SAVE
+ ↓
+AI FAIRY REPORT
+```
+
+Untuk Star 7, alurnya berbeda:
+
+```text
+MASTER
+ ↓
+LOBBY
+ ↓
+SELECT HERO
+ ↓
+CHECK STAR 7 ELIGIBILITY
+ ↓
+SYSTEM QUEST
+ ↓
+SYSTEM DUNGEON
+ ↓
+CHECK SPECIAL CONDITION
+ ↓
+STAR 7 UNLOCK
+ ↓
+GAME STATE UPDATE
+ ↓
+DATABASE SAVE
+ ↓
+AI FAIRY REPORT
+```
+
+---
+
+# 6. STAR UP REQUIREMENT
+
+Star Up dapat membutuhkan beberapa resource.
+
+Contoh:
+
+```text
+Gold
+Hero Material
+Star Material
+Special Item
+Quest Requirement
+Event Requirement
+System Quest Requirement
+System Dungeon Requirement
+```
+
+Requirement dapat berbeda berdasarkan Star Rank.
+
+Contoh:
+
+```text
+⭐⭐ → ⭐⭐⭐
+Basic Material
+
+⭐⭐⭐ → ⭐⭐⭐⭐
+Advanced Material
+
+⭐⭐⭐⭐ → ⭐⭐⭐⭐⭐
+Rare Material
+
+⭐⭐⭐⭐⭐ → ⭐⭐⭐⭐⭐⭐
+High Grade Material
+
+⭐⭐⭐⭐⭐⭐ → ⭐⭐⭐⭐⭐⭐⭐
+System Quest
+System Dungeon
+Special Condition
+Special Material
+```
+
+Nilai requirement dikelola oleh konfigurasi Star Up System.
+
+---
+
+# 7. STAR UP VALIDATION
+
+Sebelum proses dimulai:
+
+```text
+STAR UP REQUEST
+       ↓
+CHECK HERO
+       ↓
+CHECK LEVEL
+       ↓
+CHECK MATERIAL
+       ↓
+CHECK RESOURCE
+       ↓
+CHECK SPECIAL CONDITION
+       ↓
+CHECK SYSTEM QUEST
+       ↓
+CHECK SYSTEM DUNGEON
+       ↓
+VALID
+```
+
+Jika tidak memenuhi:
+
+```text
+STAR UP:
+DENIED
+```
+
+Tidak ada resource yang dikonsumsi jika validasi gagal.
+
+---
+
+# 8. STAR UP TRANSACTION
+
+Star Up harus diproses sebagai transaksi.
+
+```text
+BEGIN
+ ↓
+VALIDATE
+ ↓
+LOCK MATERIAL
+ ↓
+CONSUME MATERIAL
+ ↓
+INCREASE STAR
+ ↓
+UPDATE MAX LEVEL
+ ↓
+UPDATE HERO STATE
+ ↓
+DATABASE SAVE
+ ↓
+COMMIT
+```
+
+Untuk Star 7:
+
+```text
+BEGIN
+ ↓
+VALIDATE STAR 7 ELIGIBILITY
+ ↓
+CHECK SYSTEM QUEST
+ ↓
+CHECK SYSTEM DUNGEON
+ ↓
+CHECK SPECIAL CONDITION
+ ↓
+UNLOCK STAR 7
+ ↓
+UPDATE HERO STATE
+ ↓
+DATABASE SAVE
+ ↓
+COMMIT
+```
+
+Jika terjadi error:
+
+```text
+ROLLBACK
+```
+
+---
+
+# 9. STAR UP + GAME STATE SYSTEM
+
+Star Up tidak boleh mengubah Hero secara langsung.
+
+```text
+STAR UP
+ ↓
+GAME STATE SYSTEM
+ ↓
+HERO STATE UPDATE
+ ↓
+DATABASE SYSTEM
+```
+
+Game State System menjadi pengatur perubahan global.
+
+Untuk Star 7:
+
+```text
+SYSTEM QUEST
++
+SYSTEM DUNGEON
+ ↓
+GAME STATE SYSTEM
+ ↓
+STAR 7 ELIGIBILITY
+ ↓
+HERO STATE UPDATE
+```
+
+---
+
+# 10. STAR UP + INVENTORY
+
+Material Star Up berasal dari Inventory.
+
+```text
+INVENTORY
+ ↓
+CHECK MATERIAL
+ ↓
+STAR UP
+ ↓
+CONSUME MATERIAL
+ ↓
+INVENTORY UPDATE
+```
+
+Hero target tetap menjadi milik Master.
+
+System Quest dan System Dungeon dapat memberikan:
+
+```text
+Star Material
+Special Item
+Quest Reward
+Dungeon Reward
+Star 7 Token
+```
+
+---
+
+# 11. STAR UP + HERO ID
+
+Setiap Hero memiliki ID unik.
+
+Contoh:
+
+```text
+HERO-000125
+```
+
+Star Up tidak membuat Hero baru.
+
+```text
+HERO-000125
+⭐⭐⭐
+ ↓
+STAR UP
+ ↓
+HERO-000125
+⭐⭐⭐⭐
+```
+
+Hero ID tetap sama.
+
+Jika Hero mencapai Star 7:
+
+```text
+HERO-000125
+⭐⭐⭐⭐⭐⭐
+ ↓
+SYSTEM QUEST
+ ↓
+SYSTEM DUNGEON
+ ↓
+STAR 7 UNLOCK
+ ↓
+HERO-000125
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+Hero ID tetap sama.
+
+---
+
+# 12. STAR UP HISTORY
+
+Setiap perubahan Star dicatat.
+
+```text
+STARUP-000001
+STARUP-000002
+STARUP-000003
+```
+
+Data:
+
+```text
+Star Up ID
+Hero ID
+Previous Star
+New Star
+Materials Used
+Gold Used
+System Quest ID
+System Dungeon ID
+Special Condition
+Timestamp
+Master ID
+Source
+```
+
+Untuk Star 7, history wajib mencatat:
+
+```text
+System Quest Completed
+System Dungeon Completed
+Dungeon Floor
+Quest Objective
+Special Condition
+Star 7 Unlock Source
+```
+
+---
+
+# 13. UNLOCK HERO SYNTHESIS
+
+Setelah Hero mencapai Star Rank tertentu, sistem membuka:
+
+# **HERO SYNTHESIS**
+
+Contoh konfigurasi:
+
+```text
+STAR 3
+ ↓
+HERO SYNTHESIS UNLOCKED
+```
+
+Namun batas Star yang membuka fitur dapat diubah melalui Game State / Configuration System.
+
+Hero Synthesis dan Star 7 merupakan dua jalur berbeda:
+
+```text
+STAR UP
+ ↓
+HIGHER STAR
+ ↓
+HERO SYNTHESIS UNLOCK
+```
+
+Sedangkan:
+
+```text
+STAR 6
+ ↓
+SYSTEM QUEST
+ ↓
+SYSTEM DUNGEON
+ ↓
+STAR 7
+```
+
+---
+
+# 14. HERO LEVEL UP METHODS
+
+Hero dapat meningkatkan Level melalui dua metode utama:
+
+```text
+LEVEL UP WITH GOLD
+HERO SYNTHESIS
+```
+
+Kedua metode tersebut menggunakan Level System yang sama.
+
+```text
+LEVEL SYSTEM
+      │
+      ├── GOLD LEVEL UP
+      │
+      └── HERO SYNTHESIS
+```
+
+Star Rank menentukan batas maksimum Level, sedangkan metode Level Up menentukan cara Hero mencapai batas tersebut.
+
+System Quest dan System Dungeon tidak secara otomatis menaikkan Level, kecuali reward atau konfigurasi quest/dungeon menetapkannya.
+
+---
+
+# 15. LEVEL UP WITH GOLD
+
+Master dapat meningkatkan Level Hero dengan menggunakan Gold.
+
+```text
+TARGET HERO
++
+GOLD
+ ↓
+LEVEL UP
+ ↓
+HIGHER LEVEL
+```
+
+Contoh:
+
+```text
+Hero:
+HERO-000125
+⭐⭐⭐⭐
+Level 20 / 40
+
+Gold:
+10,000
+
+Result:
+Level 20 → 21
+```
+
+Gold Level Up cocok digunakan untuk:
+
+```text
+Small Level Increase
+Daily Progression
+Fine Level Adjustment
+Early Game Development
+```
+
+---
+
+# 16. GOLD LEVEL UP FLOW
+
+```text
+MASTER
+ ↓
+LOBBY
+ ↓
+SELECT HERO
+ ↓
+LEVEL UP MENU
+ ↓
+SELECT LEVEL AMOUNT
+ ↓
+CHECK GOLD
+ ↓
+VALIDATE
+ ↓
+CONSUME GOLD
+ ↓
+INCREASE LEVEL
+ ↓
+GAME STATE UPDATE
+ ↓
+DATABASE SAVE
+```
+
+---
+
+# 17. GOLD LEVEL UP OPTIONS
+
+Master dapat memilih beberapa jenis Level Up.
+
+```text
++1 LEVEL
++5 LEVELS
+MAX AVAILABLE LEVEL
+```
+
+Contoh:
+
+```text
+Current Level:
+20 / 40
+
+Options:
+
+[ +1 LEVEL ]
+[ +5 LEVELS ]
+[ MAX LEVEL ]
+```
+
+Sistem menghitung kebutuhan Gold berdasarkan jumlah Level yang dipilih.
+
+---
+
+# 18. GOLD LEVEL UP COST
+
+Biaya Gold dapat meningkat berdasarkan Level Hero.
+
+Contoh:
+
+```text
+Level 1 → 2
+Low Gold Cost
+
+Level 20 → 21
+Medium Gold Cost
+
+Level 39 → 40
+High Gold Cost
+```
+
+Formula biaya dikelola oleh Level Configuration.
+
+```text
+Gold Cost =
+Base Cost
+×
+Current Level Modifier
+×
+Star Modifier
+```
+
+---
+
+# 19. GOLD LEVEL UP VALIDATION
+
+Sebelum Level Up:
+
+```text
+LEVEL UP REQUEST
+       ↓
+CHECK HERO
+       ↓
+CHECK CURRENT LEVEL
+       ↓
+CHECK MAX LEVEL
+       ↓
+CHECK GOLD
+       ↓
+VALID
+```
+
+Jika Gold tidak cukup:
+
+```text
+LEVEL UP:
+DENIED
+```
+
+Gold tidak dikonsumsi jika validasi gagal.
+
+---
+
+# 20. GOLD LEVEL UP TRANSACTION
+
+```text
+BEGIN
+ ↓
+VALIDATE
+ ↓
+LOCK GOLD
+ ↓
+CONSUME GOLD
+ ↓
+INCREASE LEVEL
+ ↓
+UPDATE HERO STATE
+ ↓
+DATABASE SAVE
+ ↓
+COMMIT
+```
+
+Jika terjadi error:
+
+```text
+ROLLBACK
+```
+
+---
+
+# 21. GOLD LEVEL UP RESULT
+
+Contoh:
+
+```text
+════════════════════════════
+        GOLD LEVEL UP
+════════════════════════════
+
+HERO-000125
+⭐⭐⭐⭐
+
+Level:
+20 → 25
+
+Gold Used:
+25,000
+
+Max Level:
+40
+
+════════════════════════════
+```
+
+---
+
+# 22. HERO SYNTHESIS
+
+Hero Synthesis digunakan untuk meningkatkan Level Hero dengan cepat melalui pengorbanan Hero lain.
+
+```text
+TARGET HERO
++
+SACRIFICE HEROES
+ ↓
+HERO SYNTHESIS
+ ↓
+FAST LEVEL INCREASE
+```
+
+Hero Synthesis tidak menggunakan EXP sebagai resource terpisah.
+
+Hero yang dikorbankan langsung dikonversi menjadi peningkatan Level Target Hero berdasarkan nilai synthesis.
+
+---
+
+# 23. TARGET HERO
+
+Hero yang menerima peningkatan Level disebut:
+
+# **TARGET HERO**
+
+Target Hero:
+
+```text
+Remains Owned
+Remains Same ID
+Remains Same Star
+Receives Level Increase
+May Gain Multiple Levels
+```
+
+Contoh:
+
+```text
+HERO-000125
+⭐⭐⭐⭐
+
+Level:
+20 → 27
+```
+
+---
+
+# 24. SACRIFICE HERO
+
+Hero yang digunakan sebagai material disebut:
+
+# **SACRIFICE HERO**
+
+Hero tersebut:
+
+```text
+Removed From Inventory
+Removed From Available Roster
+Marked As Consumed
+Converted Into Level Growth
+```
+
+ID Hero tidak boleh digunakan kembali.
+
+Contoh:
+
+```text
+HERO-000201
+```
+
+setelah synthesis:
+
+```text
+Status:
+CONSUMED
+```
+
+ID tetap tercatat di Database sebagai bagian dari historical record.
+
+---
+
+# 25. SYNTHESIS LEVEL VALUE
+
+Setiap Sacrifice Hero memiliki nilai peningkatan Level.
+
+Nilai tersebut dipengaruhi oleh:
+
+```text
+Sacrifice Hero Level
+Sacrifice Hero Star
+Character Quality
+Special Traits
+Synthesis Bonus
+RNG Modifier
+Event Modifier
+```
+
+Core principle:
+
+> **Semakin tinggi Level dan Star Hero yang dikorbankan, semakin besar peningkatan Level yang dapat diberikan kepada Target Hero.**
+
+---
+
+# 26. SACRIFICE HERO LEVEL
+
+Contoh:
+
+```text
+Sacrifice A
+⭐
+Level 1
+```
+
+memberikan peningkatan Level lebih kecil dibanding:
+
+```text
+Sacrifice B
+⭐⭐⭐
+Level 30
+```
+
+Nilai aktual ditentukan oleh Synthesis Configuration.
+
+---
+
+# 27. SACRIFICE HERO STAR
+
+Star Rank memengaruhi nilai dasar synthesis.
+
+```text
+⭐
+Low Level Growth
+
+⭐⭐
+Low-Medium Level Growth
+
+⭐⭐⭐
+Medium Level Growth
+
+⭐⭐⭐⭐
+High Level Growth
+
+⭐⭐⭐⭐⭐
+Very High Level Growth
+```
+
+Hero dengan Star lebih tinggi memiliki nilai synthesis yang lebih besar.
+
+---
+
+# 28. MULTIPLE SACRIFICE
+
+Master dapat memilih beberapa Hero sekaligus.
+
+```text
+TARGET HERO
+      │
+      ├── MATERIAL 1
+      ├── MATERIAL 2
+      ├── MATERIAL 3
+      ├── MATERIAL 4
+      └── MATERIAL 5
+```
+
+Sistem menghitung total peningkatan Level:
+
+```text
+Total Level Growth =
+Material 1
++
+Material 2
++
+Material 3
++
+Material 4
++
+Material 5
+```
+
+Hasil akhir tidak boleh melebihi Maximum Level Hero.
+
+---
+
+# 29. SYNTHESIS LIMIT
+
+Jumlah Hero yang dapat dikorbankan dalam satu transaksi dapat dibatasi.
+
+Contoh:
+
+```text
+Maximum Material:
+10 Heroes
+```
+
+Batas dapat dikembangkan melalui Master Progression.
+
+---
+
+# 30. SYNTHESIS BONUS
+
+Synthesis dapat memiliki bonus berdasarkan kombinasi tertentu.
+
+Contoh:
+
+```text
+Same Race
+Same Class
+Same Faction
+Same Origin
+Special Event
+```
+
+Bonus tersebut meningkatkan Level Growth, tetapi tidak mengubah identitas Target Hero.
+
+---
+
+# 31. RNG IN SYNTHESIS
+
+RNG tidak digunakan untuk menentukan apakah Hero akan hilang.
+
+Jika Master sudah mengonfirmasi:
+
+```text
+SACRIFICE
+=
+GUARANTEED CONSUMPTION
+```
+
+RNG hanya dapat digunakan untuk menentukan bonus yang memang dirancang sebagai probabilistik.
+
+Contoh:
+
+```text
+Level Growth Bonus
+Critical Synthesis
+Special Growth Bonus
+```
+
+---
+
+# 32. SYNTHESIS RESULT
+
+Contoh:
+
+```text
+════════════════════════════
+       HERO SYNTHESIS
+════════════════════════════
+
+TARGET
+
+HERO-000125
+⭐⭐⭐⭐
+Level 20 / 40
+
+────────────────────────────
+
+MATERIALS
+
+HERO-000201
+⭐⭐
+Level 10
+
+HERO-000202
+⭐⭐⭐
+Level 15
+
+────────────────────────────
+
+LEVEL GROWTH
+
++7 LEVELS
+
+────────────────────────────
+
+RESULT
+
+Level:
+20 → 27
+
+Star:
+⭐⭐⭐⭐
+
+════════════════════════════
+```
+
+---
+
+# 33. GOLD VS HERO SYNTHESIS
+
+Gold Level Up dan Hero Synthesis memiliki fungsi berbeda.
+
+```text
+GOLD LEVEL UP
+→ Aman
+→ Tidak menghilangkan Hero
+→ Cocok untuk peningkatan kecil
+→ Membutuhkan Gold
+
+HERO SYNTHESIS
+→ Sangat cepat
+→ Menghilangkan Hero material
+→ Cocok untuk peningkatan besar
+→ Membutuhkan Sacrifice Hero
+→ Dapat menimbulkan konsekuensi emosional
+```
+
+Master dapat memilih metode berdasarkan kondisi:
+
+```text
+Jika Gold cukup:
+USE GOLD
+
+Jika membutuhkan peningkatan cepat:
+USE SYNTHESIS
+
+Jika Hero memiliki hubungan penting:
+PERTIMBANGKAN KONSEKUENSI
+```
+
+---
+
+# 34. EMOTIONAL CONSEQUENCE
+
+Hero dalam Aetheria memiliki:
+
+```text
+Personality
+Memory
+Emotion
+Relationship
+Attachment
+Beliefs
+```
+
+Karena itu:
+
+> **Hero Synthesis bukan sekadar konsumsi data.**
+
+Jika Hero yang dikorbankan memiliki hubungan dengan Hero lain, proses tersebut dapat memberikan dampak emosional.
+
+Gold Level Up tidak menghilangkan Hero, sehingga tidak memicu Hero Loss Event.
+
+---
+
+# 35. HERO LOSS EVENT
+
+Ketika Hero dikorbankan:
+
+```text
+SACRIFICE HERO
+ ↓
+HERO REMOVED
+ ↓
+GAME STATE SYSTEM
+ ↓
+RELATIONSHIP CHECK
+ ↓
+EMOTIONAL IMPACT
+ ↓
+AFFECTED HEROES
+```
+
+---
+
+# 36. RELATIONSHIP CHECK
+
+Game State System mencari Hero yang memiliki hubungan dengan Sacrifice Hero.
+
+```text
+SACRIFICE HERO
+       │
+       ▼
+RELATIONSHIP DATABASE
+       │
+       ├── Friend
+       ├── Rival
+       ├── Mentor
+       ├── Student
+       ├── Family
+       ├── Partner
+       └── Acquaintance
+```
+
+Semakin kuat hubungan, semakin besar potensi emotional impact.
+
+---
+
+# 37. EMOTIONAL IMPACT SCALE
+
+Contoh:
+
+```text
+Unknown
+ ↓
+Acquaintance
+ ↓
+Friend
+ ↓
+Close Friend
+ ↓
+Trusted Companion
+ ↓
+Family / Strong Bond
+```
+
+Potential effect:
+
+```text
+Small Relationship
+→ Minor Emotional Change
+
+Strong Relationship
+→ Major Emotional Change
+```
+
+---
+
+# 38. POSSIBLE EMOTIONAL EFFECTS
+
+Hero lain dapat mengalami:
+
+```text
+Sadness
+Grief
+Anger
+Guilt
+Fear
+Stress
+Confusion
+Motivation
+Determination
+Resentment
+Trust Reduction
+Trust Increase
+```
+
+Efek aktual ditentukan oleh:
+
+```text
+Character Personality
+Relationship
+Past Experience
+Current Emotion
+Sacrifice Context
+AI Character
+Game State
+```
+
+---
+
+# 39. PERSONALITY RESPONSE
+
+Tidak semua Hero merespons kehilangan dengan cara yang sama.
+
+Contoh:
+
+### Hero A — Emotional
+
+```text
+Sacrifice Friend
+ ↓
+Sadness ↑↑
+Stress ↑
+Motivation ↓
+```
+
+### Hero B — Stoic
+
+```text
+Sacrifice Friend
+ ↓
+Sadness ↑
+Motivation ↑
+```
+
+### Hero C — Loyal
+
+```text
+Sacrifice Friend
+ ↓
+Anger ↑↑
+Determination ↑↑
+```
+
+### Hero D — Opportunist
+
+```text
+Sacrifice Friend
+ ↓
+Little Emotional Impact
+```
+
+AI Character System menentukan respons yang sesuai dengan personality.
+
+---
+
+# 40. SYNTHESIS MEMORY
+
+Hero yang tersisa dapat menyimpan memori tentang Hero yang dikorbankan.
+
+Contoh:
+
+```text
+MEMORY
+
+"HERO-000201 was sacrificed
+for the growth of HERO-000125."
+```
+
+Memory dapat memengaruhi:
+
+```text
+Dialogue
+Emotion
+Relationship
+Decision
+Quest
+Event
+Combat Behavior
+```
+
+---
+
+# 41. FAIRY WARNING
+
+AI Fairy harus memperingatkan Master jika synthesis berpotensi memberikan dampak emosional besar.
+
+Contoh:
+
+> **"Master, I detected a strong relationship between HERO-000201 and several Heroes."**
+
+> **"If you proceed, their emotional state may be affected."**
+
+AI Fairy juga harus memberi tahu Master jika Hero belum memenuhi syarat Star 7:
+
+> **"Master, this Hero cannot advance to Star 7 yet. The required System Quest and System Dungeon have not been completed."**
+
+---
+
+# 42. HIGH EMOTIONAL RISK
+
+Jika Hero yang dipilih sebagai material memiliki hubungan yang sangat kuat dengan Hero lain:
+
+```text
+SYNTHESIS WARNING
+
+Emotional Impact:
+HIGH
+```
+
+Fairy wajib memberi peringatan sebelum konfirmasi.
+
+---
+
+# 43. SYNTHESIS CONFIRMATION
+
+Jika emotional risk tinggi:
+
+```text
+════════════════════════════
+WARNING
+════════════════════════════
+
+This Hero has strong relationships
+with other Heroes.
+
+Synthesis may cause:
+
+- Grief
+- Stress
+- Anger
+- Relationship Changes
+- Emotional Instability
+
+Proceed?
+
+[CONFIRM]
+[CANCEL]
+════════════════════════════
+```
+
+Master tetap memiliki keputusan akhir.
+
+---
+
+# 44. NO AUTOMATIC EMOTIONAL OVERRIDE
+
+AI tidak boleh membatalkan keputusan Master hanya karena Hero lain sedih atau marah.
+
+AI hanya:
+
+```text
+ANALYZE
+ ↓
+WARN
+ ↓
+APPLY CONSEQUENCE
+```
+
+Keputusan tetap milik Master.
+
+---
+
+# 45. GAME STATE UPDATE
+
+Setelah Gold Level Up:
+
+```text
+GOLD LEVEL UP
+ ↓
+GAME STATE SYSTEM
+ ↓
+TARGET HERO LEVEL UPDATE
+ ↓
+GOLD UPDATE
+ ↓
+DATABASE SAVE
+```
+
+Setelah Hero Synthesis:
+
+```text
+SYNTHESIS
+ ↓
+GAME STATE SYSTEM
+ ↓
+TARGET HERO LEVEL UPDATE
+ ↓
+SACRIFICE HERO REMOVED
+ ↓
+RELATIONSHIP UPDATE
+ ↓
+EMOTIONAL UPDATE
+ ↓
+INVENTORY UPDATE
+ ↓
+DATABASE SAVE
+```
+
+Setelah Star 7:
+
+```text
+SYSTEM QUEST COMPLETED
+ ↓
+SYSTEM DUNGEON COMPLETED
+ ↓
+SPECIAL CONDITION VERIFIED
+ ↓
+GAME STATE SYSTEM
+ ↓
+HERO STAR 7 UPDATE
+ ↓
+DATABASE SAVE
+```
+
+---
+
+# 46. DATABASE RECORD
+
+Gold Level Up mendapatkan ID sendiri.
+
+```text
+LEVELUP-000001
+```
+
+Hero Synthesis mendapatkan ID sendiri.
+
+```text
+SYNTHESIS-000001
+```
+
+Star 7 Unlock mendapatkan ID sendiri.
+
+```text
+STAR7-000001
+```
+
+Data Gold Level Up:
+
+```text
+Level Up ID
+Master ID
+Hero ID
+Previous Level
+New Level
+Gold Used
+Timestamp
+Source
+```
+
+Data Hero Synthesis:
+
+```text
+Synthesis ID
+Master ID
+Target Hero ID
+Material Hero IDs
+Level Growth
+Previous Level
+New Level
+Previous Star
+New Star
+RNG Bonus
+Emotional Impact
+Timestamp
+```
+
+Data Star 7:
+
+```text
+Star 7 ID
+Master ID
+Hero ID
+Previous Star
+New Star
+System Quest ID
+System Dungeon ID
+Dungeon Floor
+Quest Objective
+Special Condition
+Rewards
+Timestamp
+Source
+```
+
+---
+
+# 47. SACRIFICE RECORD
+
+Setiap Hero yang dikorbankan tetap tercatat.
+
+```text
+HERO-000201
+
+Status:
+CONSUMED
+
+Consumed By:
+SYNTHESIS-000001
+
+Target:
+HERO-000125
+```
+
+Dengan demikian history tidak hilang.
+
+---
+
+# 48. HERO LIFE CYCLE
+
+Hero memiliki lifecycle:
+
+```text
+RECRUITED
+ ↓
+INVENTORY
+ ↓
+LOBBY
+ ↓
+PARTY
+ ↓
+TOWER
+ ↓
+STAR UP
+ ↓
+HIGHER STAR
+ ↓
+SYSTEM QUEST
+ ↓
+SYSTEM DUNGEON
+ ↓
+STAR 7
+ ↓
+GOLD LEVEL UP
+       OR
+SYNTHESIS MATERIAL
+       OR
+ACTIVE HERO
+```
+
+Hero yang menjadi material:
+
+```text
+SYNTHESIS
+ ↓
+CONSUMED
+ ↓
+DATABASE HISTORY
+```
+
+Tidak semua Hero wajib mengikuti System Quest dan System Dungeon untuk Star biasa.
+
+Namun untuk mencapai Star 7:
+
+```text
+SYSTEM QUEST
++
+SYSTEM DUNGEON
+=
+MANDATORY
+```
+
+---
+
+# 49. STAR UP + RECRUITMENT
+
+Recruitment menghasilkan Hero awal berdasarkan RNG.
+
+```text
+RNG
+ ↓
+RECRUITMENT
+ ↓
+HERO
+ ↓
+STAR RANK
+```
+
+Star Up kemudian mengembangkan Hero:
+
+```text
+HERO
+ ↓
+STAR UP
+ ↓
+HIGHER STAR
+```
+
+Setelah itu, Level Hero dapat ditingkatkan melalui:
+
+```text
+GOLD
+       OR
+HERO SYNTHESIS
+```
+
+Untuk mencapai Star 7:
+
+```text
+HERO STAR 6
+ ↓
+SYSTEM QUEST
+ ↓
+SYSTEM DUNGEON
+ ↓
+STAR 7
+```
+
+---
+
+# 50. STAR UP + EVENT SYSTEM
+
+Event dapat menyediakan cara khusus untuk menaikkan Star.
+
+Contoh:
+
+```text
+EVENT
+ ↓
+SPECIAL MISSION
+ ↓
+EVENT CONDITION
+ ↓
+STAR UP
+```
+
+Namun Event System tidak menggantikan kewajiban System Quest dan System Dungeon untuk Star 7, kecuali konfigurasi game secara eksplisit menetapkan bahwa event tersebut merupakan bagian resmi dari System Quest atau System Dungeon.
+
+Khusus Star 7:
+
+```text
+HERO STAR 6
+ ↓
+SYSTEM QUEST
+ ↓
+SYSTEM DUNGEON
+ ↓
+SPECIAL CONDITION
+ ↓
+HERO STAR 7
+```
+
+Detail mekanisme ditentukan oleh:
+
+```text
+Star Up System
+System Quest
+System Dungeon
+Event System
+Game State System
+```
+
+---
+
+# 51. STAR 7
+
+Star 7 merupakan salah satu tingkat perkembangan tertinggi.
+
+```text
+⭐⭐⭐⭐⭐⭐
+        ↓
+SYSTEM QUEST
+        ↓
+SYSTEM DUNGEON
+        ↓
+SPECIAL CONDITION
+        ↓
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+Star 7 tidak tersedia melalui Star Up normal.
+
+Untuk naik ke Star 7, Hero wajib:
+
+```text
+Reach Star 6
+Complete Required System Quest
+Complete Required System Dungeon
+Meet Special Condition
+Pass Star 7 Validation
+```
+
+System Quest dapat menguji:
+
+```text
+Hero Story
+Character Development
+Relationship Condition
+Combat Objective
+Special Decision
+Master Progression
+```
+
+System Dungeon dapat menguji:
+
+```text
+Combat Strength
+Party Composition
+Dungeon Floor
+Boss Battle
+Survival Condition
+Special Dungeon Rule
+```
+
+Keduanya harus tercatat sebagai completed di Database.
+
+---
+
+# 52. STAR 7 REQUIREMENT FLOW
+
+```text
+HERO STAR 6
+      │
+      ▼
+CHECK SYSTEM QUEST
+      │
+      ├── NOT COMPLETED
+      │       ↓
+      │   STAR 7 LOCKED
+      │
+      └── COMPLETED
+              │
+              ▼
+      CHECK SYSTEM DUNGEON
+              │
+              ├── NOT COMPLETED
+              │       ↓
+              │   STAR 7 LOCKED
+              │
+              └── COMPLETED
+                      │
+                      ▼
+             CHECK SPECIAL CONDITION
+                      │
+                      ▼
+                STAR 7 UNLOCKED
+```
+
+---
+
+# 53. STAR 7 SYSTEM QUEST
+
+System Quest untuk Star 7 merupakan quest khusus yang terhubung langsung dengan perkembangan Hero.
+
+Contoh:
+
+```text
+SYSTEM QUEST:
+THE FINAL ASCENSION
+
+Target Hero:
+HERO-000125
+
+Requirements:
+
+Reach Star 6
+Complete Character Objective
+Win Required Battle
+Maintain Required Relationship
+Make Required Decision
+```
+
+Status:
+
+```text
+LOCKED
+AVAILABLE
+IN_PROGRESS
+COMPLETED
+FAILED
+```
+
+Quest harus berstatus:
+
+```text
+COMPLETED
+```
+
+sebelum Hero dapat melanjutkan ke System Dungeon Star 7.
+
+---
+
+# 54. STAR 7 SYSTEM DUNGEON
+
+System Dungeon untuk Star 7 merupakan dungeon khusus yang menguji kemampuan Hero.
+
+Contoh:
+
+```text
+SYSTEM DUNGEON:
+ABYSS OF ASCENSION
+
+Required Hero:
+HERO-000125
+
+Requirements:
+
+Complete Required Floor
+Defeat Dungeon Boss
+Meet Survival Condition
+Complete Special Dungeon Rule
+```
+
+Status:
+
+```text
+LOCKED
+AVAILABLE
+IN_PROGRESS
+COMPLETED
+FAILED
+```
+
+Dungeon harus berstatus:
+
+```text
+COMPLETED
+```
+
+sebelum Star 7 dapat dibuka.
+
+---
+
+# 55. STAR 7 QUEST AND DUNGEON VALIDATION
+
+Sebelum Star 7 diproses:
+
+```text
+STAR 7 REQUEST
+       ↓
+CHECK HERO STAR 6
+       ↓
+CHECK SYSTEM QUEST STATUS
+       ↓
+CHECK SYSTEM DUNGEON STATUS
+       ↓
+CHECK SPECIAL CONDITION
+       ↓
+CHECK DATABASE RECORD
+       ↓
+VALID
+```
+
+Jika salah satu syarat belum terpenuhi:
+
+```text
+STAR 7:
+LOCKED
+```
+
+Contoh pesan:
+
+> **"System Quest incomplete. Complete the required quest before attempting Star 7."**
+
+> **"System Dungeon incomplete. Clear the required dungeon before attempting Star 7."**
+
+---
+
+# 56. STAR 7 UI
+
+```text
+════════════════════════════
+        STAR 7 ASCENSION
+════════════════════════════
+
+HERO-000125
+
+Current:
+⭐⭐⭐⭐⭐⭐
+
+Next:
+⭐⭐⭐⭐⭐⭐⭐
+
+Requirements:
+
+System Quest:
+[ COMPLETED ]
+
+System Dungeon:
+[ COMPLETED ]
+
+Special Condition:
+[ COMPLETED ]
+
+────────────────────────────
+
+Star 7 Status:
+AVAILABLE
+
+[ UNLOCK STAR 7 ]
+[ CANCEL ]
+════════════════════════════
+```
+
+Jika belum lengkap:
+
+```text
+════════════════════════════
+        STAR 7 ASCENSION
+════════════════════════════
+
+HERO-000125
+
+Current:
+⭐⭐⭐⭐⭐⭐
+
+Requirements:
+
+System Quest:
+[ COMPLETED ]
+
+System Dungeon:
+[ INCOMPLETE ]
+
+Special Condition:
+[ LOCKED ]
+
+────────────────────────────
+
+Star 7 Status:
+LOCKED
+
+[ VIEW REQUIREMENTS ]
+[ CANCEL ]
+════════════════════════════
+```
+
+---
+
+# 57. STAR 7 FAIRY REPORT
+
+```text
+════════════════════════════
+AI FAIRY — STAR 7 REPORT
+════════════════════════════
+
+Hero:
+HERO-000125
+
+Previous Star:
+⭐⭐⭐⭐⭐⭐
+
+New Star:
+⭐⭐⭐⭐⭐⭐⭐
+
+────────────────────────────
+
+SYSTEM QUEST:
+COMPLETED
+
+SYSTEM DUNGEON:
+COMPLETED
+
+SPECIAL CONDITION:
+COMPLETED
+
+────────────────────────────
+
+NEW POTENTIAL UNLOCKED:
+
+Advanced Growth
+Special Trait
+Additional Skill Potential
+Character Story
+Unique Passive
+Special AI Behavior
+
+────────────────────────────
+
+DATABASE:
+UPDATED
+════════════════════════════
+```
+
+---
+
+# 58. STAR 7 + CHARACTER SYSTEM
+
+Ketika Hero mencapai Star 7:
+
+```text
+HERO-000125
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+Character System dapat membuka:
+
+```text
+Advanced Growth
+Special Trait
+Additional Skill Potential
+Character Story
+Unique Passive
+Special AI Behavior
+```
+
+Detailnya tetap dikontrol Character System.
+
+System Quest dan System Dungeon dapat memengaruhi konten yang terbuka, tetapi hasil akhir tetap diproses melalui Character System dan Game State System.
+
+---
+
+# 59. LEVEL CAP
+
+Star Up meningkatkan Maximum Level.
+
+Contoh konfigurasi:
+
+```text
+⭐
+Max Level 10
+
+⭐⭐
+Max Level 20
+
+⭐⭐⭐
+Max Level 30
+
+⭐⭐⭐⭐
+Max Level 40
+
+⭐⭐⭐⭐⭐
+Max Level 50
+
+⭐⭐⭐⭐⭐⭐
+Max Level 60
+
+⭐⭐⭐⭐⭐⭐⭐
+Max Level 70
+```
+
+Angka tersebut merupakan contoh konfigurasi dan dapat diubah melalui Game Configuration.
+
+Star 7 hanya dapat membuka Maximum Level setelah:
+
+```text
+System Quest Completed
++
+System Dungeon Completed
++
+Star 7 Unlocked
+```
+
+---
+
+# 60. LEVEL UP WITH GOLD
+
+Gold Level Up digunakan untuk meningkatkan Level secara bertahap.
+
+```text
+TARGET HERO
+Level 25 / 40
+
+        +
+    
+GOLD
+
+        ↓
+
+LEVEL INCREASE
+
+        ↓
+
+Level 30 / 40
+```
+
+Gold Level Up tidak menghapus Hero lain.
+
+```text
+Gold Level Up
+=
+Safe Level Progression
+```
+
+---
+
+# 61. LEVEL UP THROUGH SYNTHESIS
+
+Hero Synthesis digunakan untuk meningkatkan Level dengan cepat.
+
+```text
+TARGET HERO
+Level 25 / 40
+
+        +
+
+HIGH VALUE SACRIFICE HEROES
+
+        ↓
+
+FAST LEVEL GROWTH
+
+        ↓
+
+Level 35 / 40
+```
+
+Jika hasil peningkatan melebihi Maximum Level:
+
+```text
+SYNTHESIS
+ ↓
+CHECK MAX LEVEL
+ ↓
+CAP AT MAX LEVEL
+```
+
+Tidak ada Level yang dapat melewati batas Star Rank Hero.
+
+---
+
+# 62. SYNTHESIS + INVENTORY
+
+Ketika synthesis berhasil:
+
+```text
+TARGET HERO
+ ↓
+REMAINS IN INVENTORY
+
+MATERIAL HERO
+ ↓
+REMOVED FROM INVENTORY
+```
+
+Contoh:
+
+```text
+Before:
+
+HERO-000125
+HERO-000201
+HERO-000202
+
+After:
+
+HERO-000125
+```
+
+---
+
+# 63. SYNTHESIS + LOBBY
+
+Target Hero tetap berada di Lobby setelah synthesis.
+
+```text
+SYNTHESIS
+ ↓
+HERO UPDATED
+ ↓
+LOBBY
+```
+
+Hero tidak otomatis dimasukkan ke Party.
+
+Master tetap memilih kapan Hero digunakan.
+
+---
+
+# 64. SYNTHESIS + PARTY
+
+Jika Target Hero sedang berada di Party:
+
+```text
+TARGET HERO
+ ↓
+SYNTHESIS
+ ↓
+LEVEL UPDATED
+ ↓
+PARTY STATE UPDATED
+```
+
+Party tidak otomatis berubah.
+
+Jika Sacrifice Hero sedang berada di Party, sistem harus meminta Master menyelesaikan konflik sebelum synthesis.
+
+---
+
+# 65. SACRIFICE HERO IN PARTY
+
+Hero yang sedang digunakan dalam Party tidak boleh langsung dikorbankan.
+
+```text
+SELECT HERO
+ ↓
+CHECK PARTY STATUS
+ ↓
+IN PARTY
+ ↓
+REMOVE FROM PARTY FIRST
+```
+
+Master harus mengonfirmasi penghapusan Hero dari Party terlebih dahulu.
+
+---
+
+# 66. SACRIFICE HERO IN MISSION
+
+Hero yang sedang berada dalam mission:
+
+```text
+IN_MISSION
+```
+
+tidak dapat digunakan sebagai synthesis material.
+
+```text
+SYNTHESIS:
+DENIED
+```
+
+Master harus menunggu Hero kembali.
+
+---
+
+# 67. SACRIFICE HERO IN TRAINING
+
+Karena Training Ground bersifat opsional:
+
+```text
+HERO
+ ↓
+TRAINING
+```
+
+Jika Hero sedang Training:
+
+```text
+Synthesis:
+LOCKED TEMPORARILY
+```
+
+Training harus selesai, dibatalkan, atau Hero dikembalikan ke Lobby sebelum dapat digunakan sebagai material.
+
+---
+
+# 68. SYNTHESIS + EMOTIONAL SYSTEM
+
+```text
+SACRIFICE HERO
+       ↓
+RELATIONSHIP CHECK
+       ↓
+EMOTIONAL ANALYSIS
+       ↓
+AI CHARACTER
+       ↓
+EMOTIONAL EFFECT
+       ↓
+GAME STATE
+```
+
+Emotional effect menjadi bagian dari world simulation.
+
+---
+
+# 69. SYNTHESIS + AI CHARACTER
+
+AI Character System menentukan bagaimana Hero merespons kehilangan.
+
+Input:
+
+```text
+Hero Personality
+Current Emotion
+Relationship
+Memory
+Faction
+History
+Sacrifice Context
+```
+
+Output:
+
+```text
+Emotion Change
+Behavior Change
+Dialogue
+Relationship Change
+Future Decision
+```
+
+---
+
+# 70. SYNTHESIS + AI FAIRY
+
+Fairy memiliki dua fungsi:
+
+```text
+BEFORE SYNTHESIS
+→ WARNING
+
+AFTER SYNTHESIS
+→ REPORT
+```
+
+Before:
+
+> **"Master, this Hero has a strong bond with HERO-000125. Synthesis may cause significant emotional consequences."**
+
+After:
+
+> **"Synthesis completed. HERO-000201 has been consumed. HERO-000125 increased from Level 20 to Level 27."**
+
+> **"I also detected a rise in grief among two Heroes who were closely connected to the sacrificed Hero."**
+
+Untuk Star 7:
+
+> **"Master, HERO-000125 has completed the required System Quest and System Dungeon. Star 7 is now available."**
+
+---
+
+# 71. FAIRY SYNTHESIS REPORT
+
+```text
+════════════════════════════
+AI FAIRY — SYNTHESIS REPORT
+════════════════════════════
+
+Target:
+HERO-000125
+
+Star:
+⭐⭐⭐⭐
+
+Level:
+20 → 27
+
+Level Growth:
++7 Levels
+
+────────────────────────────
+
+MATERIAL HEROES:
+
+HERO-000201
+⭐⭐
+Level 10
+
+HERO-000202
+⭐⭐⭐
+Level 15
+
+────────────────────────────
+
+EMOTIONAL EFFECT
+
+HERO-000130:
+Sadness +++
+
+HERO-000145:
+Stress ++
+
+HERO-000160:
+Anger +
+
+────────────────────────────
+
+DATABASE:
+UPDATED
+
+INVENTORY:
+UPDATED
+════════════════════════════
+```
+
+---
+
+# 72. NO HIDDEN SACRIFICE
+
+Setiap Hero yang hilang karena synthesis harus memiliki record.
+
+```text
+HERO
+ ↓
+SACRIFICE
+ ↓
+DATABASE
+```
+
+Tidak boleh:
+
+```text
+Hero disappeared
+without reason
+```
+
+Database harus dapat menjelaskan:
+
+```text
+Why?
+When?
+By whom?
+Used for what?
+Target Hero?
+Level Growth?
+```
+
+---
+
+# 73. SYNTHESIS HISTORY
+
+Master dapat melihat:
+
+```text
+SYNTHESIS HISTORY
+
+SYNTHESIS-000001
+Target:
+HERO-000125
+
+Materials:
+HERO-000201
+HERO-000202
+
+Level Growth:
++7 Levels
+```
+
+History menjadi bagian dari Database System.
+
+---
+
+# 74. LEVEL UP HISTORY
+
+Master dapat melihat riwayat Level Up menggunakan Gold.
+
+```text
+LEVEL UP HISTORY
+
+LEVELUP-000001
+Hero:
+HERO-000125
+
+Previous Level:
+20
+
+New Level:
+21
+
+Gold Used:
+5,000
+```
+
+History menjadi bagian dari Database System.
+
+---
+
+# 75. STAR 7 HISTORY
+
+Master dapat melihat riwayat pencapaian Star 7.
+
+```text
+STAR 7 HISTORY
+
+STAR7-000001
+Hero:
+HERO-000125
+
+Previous Star:
+⭐⭐⭐⭐⭐⭐
+
+New Star:
+⭐⭐⭐⭐⭐⭐⭐
+
+System Quest:
+THE FINAL ASCENSION
+
+System Dungeon:
+ABYSS OF ASCENSION
+
+Status:
+COMPLETED
+```
+
+---
+
+# 76. PROTECTION SYSTEM
+
+Master dapat mengatur:
+
+```text
+LOCK HERO
+FAVORITE HERO
+PROTECT HERO
+```
+
+Protected Hero:
+
+```text
+Cannot Be Used
+As Synthesis Material
+```
+
+Protection tidak menghalangi:
+
+```text
+Gold Level Up
+System Quest
+System Dungeon
+Star Up
+```
+
+---
+
+# 77. AI RECOMMENDATION
+
+AI dapat memberikan rekomendasi metode Level Up.
+
+Contoh:
+
+> **"Master, Gold Level Up is recommended for a small increase."**
+
+> **"Master, Hero Synthesis can increase this Hero's Level quickly, but the selected materials will be permanently consumed."**
+
+AI juga dapat memberikan rekomendasi material.
+
+> **"Master, these three Heroes have low current combat value and can provide significant Level Growth."**
+
+Untuk Star 7:
+
+> **"Master, this Hero has reached Star 6. The required System Quest and System Dungeon are now available."**
+
+Namun:
+
+> **AI cannot automatically sacrifice Heroes or start Star 7 progression without Master confirmation.**
+
+---
+
+# 78. AI MATERIAL FILTER
+
+AI dapat mengelompokkan:
+
+```text
+LOW PRIORITY
+MEDIUM PRIORITY
+HIGH PRIORITY
+PROTECTED
+```
+
+Contoh:
+
+```text
+LOW PRIORITY
+→ Suitable Material
+
+HIGH PRIORITY
+→ Recommended to Keep
+
+PROTECTED
+→ Cannot Select
+```
+
+---
+
+# 79. LEVEL UP UI STRUCTURE
+
+```text
+════════════════════════════
+        LEVEL UP
+════════════════════════════
+
+TARGET HERO
+
+[ HERO-000125 ]
+⭐⭐⭐⭐
+Lv.20 / 40
+
+METHOD:
+
+[ USE GOLD ]
+[ HERO SYNTHESIS ]
+
+════════════════════════════
+```
+
+---
+
+# 80. GOLD LEVEL UP UI
+
+```text
+════════════════════════════
+       GOLD LEVEL UP
+════════════════════════════
+
+TARGET HERO
+
+[ HERO-000125 ]
+⭐⭐⭐⭐
+Lv.20 / 40
+
+Select Increase:
+
+[ +1 LEVEL ]
+[ +5 LEVELS ]
+[ MAX AVAILABLE ]
+
+Gold Required:
+25,000
+
+Current Gold:
+100,000
+
+────────────────────────────
+
+[ LEVEL UP ]
+[ CANCEL ]
+════════════════════════════
+```
+
+---
+
+# 81. SYNTHESIS UI STRUCTURE
+
+```text
+════════════════════════════
+       HERO SYNTHESIS
+════════════════════════════
+
+TARGET HERO
+
+[ HERO-000125 ]
+⭐⭐⭐⭐
+Lv.20 / 40
+
+────────────────────────────
+
+MATERIAL HEROES
+
+[ HERO-000201 ] ⭐⭐ Lv.10
+[ HERO-000202 ] ⭐⭐⭐ Lv.15
+[ HERO-000203 ] ⭐ Lv.20
+
+────────────────────────────
+
+Estimated Level Growth:
++7 Levels
+
+Estimated Level:
+20 → 27
+
+Emotional Risk:
+MEDIUM
+
+────────────────────────────
+
+[ SYNTHESIS ]
+[ CANCEL ]
+════════════════════════════
+```
+
+---
+
+# 82. STAR UP UI
+
+```text
+════════════════════════════
+          STAR UP
+════════════════════════════
+
+HERO-000125
+
+Current:
+⭐⭐⭐
+
+Next:
+⭐⭐⭐⭐
+
+Requirements:
+
+Gold:
+10,000
+
+Material:
+3
+
+Special Material:
+1
+
+────────────────────────────
+
+[ STAR UP ]
+[ CANCEL ]
+════════════════════════════
+```
+
+---
+
+# 83. STAR 7 UI FLOW
+
+```text
+════════════════════════════
+       STAR 7 ASCENSION
+════════════════════════════
+
+HERO-000125
+
+Current:
+⭐⭐⭐⭐⭐⭐
+
+Next:
+⭐⭐⭐⭐⭐⭐⭐
+
+Requirements:
+
+System Quest:
+[ COMPLETED ]
+
+System Dungeon:
+[ COMPLETED ]
+
+Special Condition:
+[ COMPLETED ]
+
+────────────────────────────
+
+Star 7 Status:
+AVAILABLE
+
+[ UNLOCK STAR 7 ]
+[ CANCEL ]
+════════════════════════════
+```
+
+---
+
+# 84. SYSTEM STATE
+
+Star Up State:
+
+```text
+STAR_UP_AVAILABLE
+STAR_UP_LOCKED
+STAR_UP_PROCESSING
+STAR_UP_COMPLETED
+```
+
+Gold Level Up State:
+
+```text
+GOLD_LEVEL_UP_AVAILABLE
+GOLD_LEVEL_UP_LOCKED
+GOLD_LEVEL_UP_PROCESSING
+GOLD_LEVEL_UP_COMPLETED
+```
+
+Synthesis State:
+
+```text
+SYNTHESIS_LOCKED
+SYNTHESIS_AVAILABLE
+SYNTHESIS_PROCESSING
+SYNTHESIS_COMPLETED
+```
+
+System Quest State:
+
+```text
+SYSTEM_QUEST_LOCKED
+SYSTEM_QUEST_AVAILABLE
+SYSTEM_QUEST_IN_PROGRESS
+SYSTEM_QUEST_COMPLETED
+SYSTEM_QUEST_FAILED
+```
+
+System Dungeon State:
+
+```text
+SYSTEM_DUNGEON_LOCKED
+SYSTEM_DUNGEON_AVAILABLE
+SYSTEM_DUNGEON_IN_PROGRESS
+SYSTEM_DUNGEON_COMPLETED
+SYSTEM_DUNGEON_FAILED
+```
+
+Star 7 State:
+
+```text
+STAR_7_LOCKED
+STAR_7_REQUIREMENTS_INCOMPLETE
+STAR_7_AVAILABLE
+STAR_7_PROCESSING
+STAR_7_COMPLETED
+```
+
+---
+
+# 85. ERROR HANDLING
+
+Possible errors:
+
+```text
+INSUFFICIENT_GOLD
+INSUFFICIENT_MATERIAL
+INVALID_HERO
+HERO_IN_MISSION
+HERO_IN_PARTY
+HERO_IN_TRAINING
+PROTECTED_HERO
+MAX_STAR_REACHED
+MAX_LEVEL_REACHED
+SYNTHESIS_LIMIT_REACHED
+SYSTEM_QUEST_INCOMPLETE
+SYSTEM_DUNGEON_INCOMPLETE
+SPECIAL_CONDITION_INCOMPLETE
+STAR_7_REQUIREMENT_INCOMPLETE
+DATABASE_ERROR
+```
+
+Tidak ada Gold, Hero material, atau Star resource yang dikonsumsi jika transaksi gagal.
+
+---
+
+# 86. COMPLETE STAR UP ARCHITECTURE
+
+```text
+                         MASTER
+                           │
+                           ▼
+                          LOBBY
+                           │
+                           ▼
+                       SELECT HERO
+                           │
+                           ▼
+                        STAR UP
+                           │
+                    CHECK REQUIREMENT
+                           │
+                           ▼
+                    GAME STATE SYSTEM
+                           │
+                           ▼
+                      STAR INCREASE
+                           │
+                           ▼
+                    CHARACTER UPDATE
+                           │
+                           ▼
+                       DATABASE
+                           │
+                           ▼
+                      AI FAIRY
+```
+
+---
+
+# 87. STAR 7 ARCHITECTURE
+
+```text
+                         MASTER
+                           │
+                           ▼
+                          LOBBY
+                           │
+                           ▼
+                       SELECT HERO
+                           │
+                           ▼
+                    CHECK HERO STAR 6
+                           │
+                           ▼
+                    SYSTEM QUEST
+                           │
+                           ▼
+                  COMPLETE QUEST OBJECTIVE
+                           │
+                           ▼
+                    SYSTEM DUNGEON
+                           │
+                           ▼
+                    CLEAR REQUIRED FLOOR
+                           │
+                           ▼
+                  CHECK SPECIAL CONDITION
+                           │
+                           ▼
+                    STAR 7 VALIDATION
+                           │
+                           ▼
+                    GAME STATE SYSTEM
+                           │
+                           ▼
+                       UNLOCK STAR 7
+                           │
+                           ▼
+                       DATABASE
+                           │
+                           ▼
+                      AI FAIRY
+```
+
+---
+
+# 88. GOLD LEVEL UP ARCHITECTURE
+
+```text
+                         MASTER
+                           │
+                           ▼
+                          LOBBY
+                           │
+                           ▼
+                       SELECT HERO
+                           │
+                           ▼
+                     SELECT LEVEL UP
+                           │
+                           ▼
+                      USE GOLD
+                           │
+                           ▼
+                    CHECK GOLD
+                           │
+                           ▼
+                    GAME STATE SYSTEM
+                           │
+                           ▼
+                    LEVEL INCREASE
+                           │
+                           ▼
+                       DATABASE
+                           │
+                           ▼
+                      AI FAIRY
+```
+
+---
+
+# 89. HERO SYNTHESIS ARCHITECTURE
+
+```text
+                         MASTER
+                           │
+                           ▼
+                          LOBBY
+                           │
+                           ▼
+                    SELECT TARGET HERO
+                           │
+                           ▼
+                    HERO SYNTHESIS
+                           │
+                           ▼
+                  SELECT MATERIAL HEROES
+                           │
+                           ▼
+                     PROTECTION CHECK
+                           │
+                           ▼
+                    PARTY / MISSION CHECK
+                           │
+                           ▼
+                    EMOTIONAL RISK CHECK
+                           │
+                           ▼
+                     FAIRY WARNING
+                           │
+                           ▼
+                     MASTER CONFIRM
+                           │
+                           ▼
+                    SYNTHESIS PROCESS
+                           │
+                           ├───────────────┐
+                           │               │
+                           ▼               ▼
+                     TARGET HERO     SACRIFICE HERO
+                           │               │
+                           ▼               ▼
+                    LEVEL INCREASE      CONSUMED
+                           │               │
+                           └───────┬───────┘
+                                   ▼
+                           GAME STATE SYSTEM
+                                   │
+                    ┌──────────────┼──────────────┐
+                    │              │              │
+                  HERO          EMOTION       RELATIONSHIP
+                  STATE          STATE           STATE
+                    │              │              │
+                    └──────────────┼──────────────┘
+                                   ▼
+                              DATABASE
+                                   │
+                                   ▼
+                               AI FAIRY
+                                   │
+                                   ▼
+                                 MASTER
+```
+
+---
+
+# 90. COMPLETE HERO DEVELOPMENT FLOW
+
+```text
+                         RECRUITMENT
+                              │
+                              ▼
+                           HERO
+                              │
+                              ▼
+                           LOBBY
+                              │
+                              ▼
+                           STAR 1+
+                              │
+                     ┌────────┴────────┐
+                     │                 │
+                   STAR UP          LEVEL UP
+                     │                 │
+                     ▼                 ├───────────────┐
+                HIGHER STAR             │               │
+                     │                  ▼               ▼
+                     │             USE GOLD        SYNTHESIS
+                     │                  │               │
+                     │                  ▼               ▼
+                     │            LEVEL UP       SACRIFICE HERO
+                     │                                  │
+                     │                                  ▼
+                     │                          FAST LEVEL GROWTH
+                     │                                  │
+                     └──────────────┬───────────────────┘
+                                    ▼
+                             STRONGER HERO
+                                    │
+                                    ▼
+                              HERO STAR 6
+                                    │
+                                    ▼
+                             SYSTEM QUEST
+                                    │
+                                    ▼
+                            SYSTEM DUNGEON
+                                    │
+                                    ▼
+                                STAR 7
+                                    │
+                                    ▼
+                                  PARTY
+                                    │
+                                    ▼
+                                  TOWER
+```
+
+---
+
+# 91. EMOTIONAL WORLD SIMULATION
+
+Hero Synthesis membuat perkembangan karakter memiliki konsekuensi sosial.
+
+```text
+MASTER DECISION
+      ↓
+SACRIFICE HERO
+      ↓
+HERO LOST
+      ↓
+RELATIONSHIP CHECK
+      ↓
+EMOTIONAL RESPONSE
+      ↓
+CHARACTER AI
+      ↓
+BEHAVIOR CHANGE
+      ↓
+WORLD STATE
+```
+
+Gold Level Up tidak memicu alur ini karena tidak ada Hero yang hilang.
+
+System Quest dan System Dungeon dapat memengaruhi:
+
+```text
+Hero Story
+Relationship
+Character Development
+Emotional State
+World State
+```
+
+Dengan demikian, Master harus mempertimbangkan:
+
+```text
+Fast Level Growth
+vs
+Gold Cost
+vs
+Emotional Consequence
+vs
+Star 7 Requirements
+```
+
+---
+
+# 92. CORE PHILOSOPHY
+
+> **A Hero is valuable not only because of their strength, but because of the memories they create.**
+
+Star Up memberikan kesempatan untuk membuat Hero menjadi lebih kuat.
+
+Gold Level Up memberikan cara aman untuk meningkatkan Level secara bertahap.
+
+Hero Synthesis memberikan cara cepat untuk meningkatkan Level dengan mengorbankan Hero lain.
+
+System Quest dan System Dungeon memberikan jalur perkembangan khusus menuju Star 7.
+
+Untuk mencapai Star 7, Hero harus membuktikan dirinya melalui:
+
+```text
+Quest
+Dungeon
+Special Condition
+```
+
+Tetapi pengorbanan Hero memiliki konsekuensi.
+
+```text
+STRONGER HERO
+      +
+GOLD COST
+      OR
+HERO LOST
+      +
+SYSTEM QUEST
+      +
+SYSTEM DUNGEON
+      =
+POWER WITH CONSEQUENCE
+```
+
+Master memiliki kekuasaan untuk menentukan:
+
+```text
+Who grows
+How fast they grow
+How much Gold is spent
+Who is sacrificed
+Who is sent into the System Quest
+Who is sent into the System Dungeon
+Who is worthy of Star 7
+```
+
+Namun dunia akan mengingat siapa yang dikorbankan dan bagaimana seorang Hero mencapai puncak perkembangannya.
+
+---
+
+# 93. FINAL SYSTEM RULES
+
+### Rule 1
+
+> Star Up meningkatkan Star Rank Hero.
+
+### Rule 2
+
+> Star Rank dan Level merupakan sistem berbeda.
+
+### Rule 3
+
+> Star Up meningkatkan Maximum Level Hero.
+
+### Rule 4
+
+> Star Up dapat membuka Hero Synthesis.
+
+### Rule 5
+
+> Level Hero dapat ditingkatkan menggunakan Gold.
+
+### Rule 6
+
+> Gold Level Up tidak menghilangkan Hero lain.
+
+### Rule 7
+
+> Hero Synthesis digunakan untuk meningkatkan Level Target Hero dengan cepat.
+
+### Rule 8
+
+> Hero dengan Level dan Star lebih tinggi memberikan Level Growth yang lebih besar saat synthesis.
+
+### Rule 9
+
+> Hero yang dikorbankan akan dikeluarkan dari Inventory dan roster aktif.
+
+### Rule 10
+
+> Hero yang sedang berada dalam Mission tidak dapat menjadi material.
+
+### Rule 11
+
+> Hero Protected tidak dapat menjadi material.
+
+### Rule 12
+
+> Master harus mengonfirmasi pengorbanan Hero.
+
+### Rule 13
+
+> Semua Hero yang dikorbankan tetap tercatat dalam Database History.
+
+### Rule 14
+
+> Pengorbanan Hero dapat memengaruhi Emotional dan Relationship System.
+
+### Rule 15
+
+> AI Character menentukan respons emosional berdasarkan personality, relationship, memory, dan kondisi Hero.
+
+### Rule 16
+
+> AI Fairy wajib memberikan warning jika emotional impact signifikan.
+
+### Rule 17
+
+> AI tidak boleh melakukan sacrifice tanpa persetujuan Master.
+
+### Rule 18
+
+> Semua perubahan harus diproses melalui Game State System.
+
+### Rule 19
+
+> Level Hero tidak boleh melebihi Maximum Level dari Star Rank-nya.
+
+### Rule 20
+
+> Gold Level Up dan Hero Synthesis harus memiliki history yang berbeda di Database.
+
+### Rule 21
+
+> Star 7 tidak dapat dicapai hanya melalui Star Up normal.
+
+### Rule 22
+
+> Hero harus mencapai Star 6 sebelum dapat mengikuti jalur Star 7.
+
+### Rule 23
+
+> Hero wajib menyelesaikan System Quest untuk membuka akses Star 7.
+
+### Rule 24
+
+> Hero wajib menyelesaikan System Dungeon untuk membuka akses Star 7.
+
+### Rule 25
+
+> System Quest dan System Dungeon harus berstatus COMPLETED di Database.
+
+### Rule 26
+
+> Jika salah satu syarat Star 7 belum selesai, Star 7 tetap LOCKED.
+
+### Rule 27
+
+> Star 7 harus diproses melalui Game State System.
+
+### Rule 28
+
+> System Quest dan System Dungeon dapat memberikan reward khusus untuk perkembangan Hero.
+
+### Rule 29
+
+> AI Fairy harus memberi tahu Master jika persyaratan Star 7 belum terpenuhi.
+
+### Rule 30
+
+> Star 7 Unlock harus memiliki history tersendiri di Database.
+
+---
+
+# 94. FINAL SYSTEM LOOP
+
+```text
+                  RECRUITMENT
+                       │
+                       ▼
+                     HERO
+                       │
+                       ▼
+                    LOBBY
+                       │
+                       ▼
+                    STAR UP
+                       │
+                       ▼
+                 HIGHER STAR
+                       │
+                       ▼
+              HERO SYNTHESIS UNLOCK
+                       │
+                       ▼
+                    LEVEL UP
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+          USE GOLD          USE SYNTHESIS
+             │                   │
+             ▼                   ▼
+       CHECK GOLD          SELECT TARGET HERO
+             │                   │
+             ▼                   ▼
+       LEVEL INCREASE      SELECT SACRIFICE HEROES
+                                 │
+                                 ▼
+                      PROTECTION / STATUS CHECK
+                                 │
+                                 ▼
+                      EMOTIONAL RISK ANALYSIS
+                                 │
+                                 ▼
+                           AI FAIRY WARNING
+                                 │
+                                 ▼
+                          MASTER CONFIRM
+                                 │
+                                 ▼
+                             SYNTHESIS
+                                 │
+                       ┌─────────┴─────────┐
+                       ▼                   ▼
+                  TARGET HERO         SACRIFICE HERO
+                       │                   │
+                       ▼                   ▼
+                LEVEL INCREASE          CONSUMED
+                       │                   │
+                       │                   ▼
+                       │              RELATIONSHIP
+                       │                   │
+                       │                   ▼
+                       │              EMOTIONAL
+                       │                   │
+                       └─────────┬─────────┘
+                                 ▼
+                          GAME STATE SYSTEM
+                                 │
+                                 ▼
+                           DATABASE SYSTEM
+                                 │
+                                 ▼
+                              AI FAIRY
+                                 │
+                                 ▼
+                               MASTER
+```
+
+Star 7 progression loop:
+
+```text
+                  HERO STAR 6
+                       │
+                       ▼
+                 SYSTEM QUEST
+                       │
+                       ▼
+              COMPLETE QUEST OBJECTIVE
+                       │
+                       ▼
+                SYSTEM DUNGEON
+                       │
+                       ▼
+                 CLEAR DUNGEON
+                       │
+                       ▼
+              CHECK SPECIAL CONDITION
+                       │
+                       ▼
+                 STAR 7 VALIDATION
+                       │
+                       ▼
+                  UNLOCK STAR 7
+                       │
+                       ▼
+                CHARACTER UPDATE
+                       │
+                       ▼
+                    DATABASE
+                       │
+                       ▼
+                   AI FAIRY
+                       │
+                       ▼
+                     MASTER
+```
+
+# ⭐ FINAL DESIGN PRINCIPLE
+
+**Star Up membuat Hero berkembang.**
+
+**Gold Level Up meningkatkan Level Hero dengan aman dan bertahap.**
+
+**Hero Synthesis meningkatkan Level Hero dengan cepat melalui pengorbanan Hero lain.**
+
+**RNG menentukan kemungkinan bonus tertentu, bukan keputusan pengorbanan.**
+
+**AI Character menentukan reaksi Hero terhadap kehilangan.**
+
+**Relationship System menentukan siapa yang terdampak.**
+
+**System Quest menguji perkembangan, cerita, dan kondisi khusus Hero.**
+
+**System Dungeon menguji kekuatan, kemampuan bertahan, dan kesiapan Hero.**
+
+**Hero harus menyelesaikan System Quest dan System Dungeon untuk naik ke Star 7.**
+
+**Game State System memastikan seluruh perubahan dunia tersinkronisasi.**
+
+**Database System menyimpan seluruh history.**
+
+**AI Fairy memastikan Master mengetahui konsekuensinya dan mengetahui apakah Star 7 telah tersedia.**
+
+Dengan demikian, setiap keputusan perkembangan Hero bukan hanya tentang:
+
+> **"Seberapa kuat Hero saya?"**
+
+tetapi juga:
+
+> **"Apakah saya ingin menggunakan Gold, atau meningkatkan Level dengan cepat melalui pengorbanan Hero lain?"**
+
+> **"Apakah Hero ini siap mengikuti System Quest dan System Dungeon?"**
+
+dan:
+
+> **"Apakah Hero ini layak mencapai Star 7 setelah melewati seluruh ujian yang diberikan oleh sistem?"**
