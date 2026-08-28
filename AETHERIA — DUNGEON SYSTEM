@@ -28,49 +28,244 @@ The Tower contains:
 
 The Tower is the primary progression path of the Master.
 
-The system manages:
+The Dungeon System manages:
 
 ```text
 Tower
 Floor
 Dungeon
+Dungeon Session
 Floor Environment
 Floor Story
-Floor Enemy
-Floor Boss
+Floor Objective
+Floor Event Trigger
+Boss
 Raid Boss
-Multi-Party Floor
 World Exploration
 Pre-Destruction Exploration
 Dungeon Mission
-Floor Objective
-Floor Event
-Event Instance
-Floor Reward
+Floor Reward Context
 Floor State
 Floor Difficulty
 Destruction Level
 Dungeon Completion
+Party Deployment
+Party Lock
+Mission Failure
+Mission Victory
 ```
 
-A Floor does not always require only one Party.
+The Dungeon System **does not directly manage Enemy generation**.
 
-Some Floors are designed for:
+Enemy generation, composition, statistics, behavior, scaling, and encounter difficulty are handled by:
+
+# **ENEMY SYSTEM**
+
+The Dungeon System only provides the environment and conditions required by the Enemy System.
 
 ```text
-Single Party
-Multiple Parties
-Sequential Parties
-Simultaneous Parties
-Main Party + Support Party
-Raid Formation
+DUNGEON SYSTEM
+      │
+      ├── Floor
+      ├── Environment
+      ├── Mission
+      ├── Difficulty Context
+      └── Enemy Spawn Condition
+                  │
+                  ▼
+             ENEMY SYSTEM
+                  │
+                  ├── Enemy Type
+                  ├── Enemy Count
+                  ├── Enemy Level
+                  ├── Enemy Stats
+                  ├── Enemy Behavior
+                  └── Enemy Formation
 ```
-
-The required Party structure depends on the Floor's mission, environment, event, and Boss mechanics.
 
 ---
 
-# 2. TOWER OF REBIRTH
+# 2. IMPORTANT DUNGEON RULE
+
+Once a Party enters a Dungeon Mission:
+
+# **THE PARTY IS LOCKED INTO THE MISSION.**
+
+The Master cannot manually remove the Party from the active Dungeon.
+
+```text
+PARTY
+  ↓
+ENTER DUNGEON
+  ↓
+MISSION START
+  ↓
+PARTY LOCK
+  ↓
+MISSION ACTIVE
+```
+
+During the active mission:
+
+```text
+Master cannot:
+- Remove Hero
+- Replace Hero
+- Recall Party
+- Transfer Hero
+- Disband Party
+- Change Party Leader
+- Move Hero to another Party
+```
+
+The Party can only leave the Dungeon through a valid system result.
+
+Valid exit conditions:
+
+```text
+MISSION VICTORY
+MISSION FAILURE
+SPECIAL SYSTEM-MANDATED ESCAPE
+EMERGENCY EVENT
+DUNGEON FORCED EXIT
+```
+
+A normal Master command cannot cancel an active Dungeon Mission.
+
+---
+
+# 3. PARTY DEATH RULE
+
+A Dungeon Party has a permanent combat state during the mission.
+
+Example:
+
+```text
+PARTY 1
+
+Hero A — Alive
+Hero B — Alive
+Hero C — Alive
+Hero D — Alive
+Hero E — Alive
+```
+
+If one Hero dies:
+
+```text
+Hero A — DEAD
+Hero B — Alive
+Hero C — Alive
+Hero D — Alive
+Hero E — Alive
+```
+
+The Party can continue if the Dungeon Mission allows it.
+
+However:
+
+# **IF ALL PARTY MEMBERS DIE, THE MISSION FAILS.**
+
+```text
+Hero A — DEAD
+Hero B — DEAD
+Hero C — DEAD
+Hero D — DEAD
+Hero E — DEAD
+        ↓
+PARTY DEFEATED
+        ↓
+MISSION FAILED
+        ↓
+QUEST FAILED
+```
+
+If the Party Leader dies but other members remain alive:
+
+```text
+LEADER DEAD
+     ↓
+PARTY STILL ACTIVE
+     ↓
+AI / PARTY SYSTEM
+     ↓
+NEW COMBAT LEADERSHIP LOGIC
+```
+
+The death of the Leader alone does **not automatically fail the mission**.
+
+Mission failure occurs when:
+
+```text
+ALL ACTIVE HEROES IN THE PARTY
+=
+DEAD
+```
+
+unless a special Floor rule defines another failure condition.
+
+---
+
+# 4. NO NPC SYSTEM INSIDE DUNGEON
+
+The Dungeon System does **not use an NPC category**.
+
+The following concept is removed:
+
+```text
+NPC
+NPC Survival
+NPC Rescue
+NPC State
+NPC Objective
+NPC Reward
+NPC Event
+NPC Relationship
+```
+
+Dungeon events should instead use:
+
+```text
+Hero
+Enemy
+Boss
+World Object
+Artifact
+Ancient Device
+Location
+Environment
+Faction Data
+Historical Record
+Quest Condition
+Event Entity
+```
+
+Example:
+
+Instead of:
+
+```text
+Rescue NPC
+```
+
+the mission can use:
+
+```text
+Protect Survivor Group
+Protect Hero
+Escort Character
+Protect Important Entity
+Protect Artifact
+Protect World Object
+```
+
+Any named character that becomes a permanent character must be registered through the:
+
+# **CHARACTER / HERO SYSTEM**
+
+---
+
+# 5. TOWER OF REBIRTH
 
 The Tower of Rebirth is a mysterious structure that appeared after the destruction of Aetheria.
 
@@ -97,7 +292,7 @@ Floor 100 contains the final confrontation with:
 
 ---
 
-# 3. TOWER STRUCTURE
+# 6. TOWER STRUCTURE
 
 ```text
                     TOWER OF REBIRTH
@@ -139,11 +334,11 @@ Floor 100
 
 ---
 
-# 4. FLOOR IDENTITY
+# 7. FLOOR IDENTITY
 
 Every Floor is treated as an independent world instance.
 
-Each Floor can have:
+Each Floor contains:
 
 ```text
 Floor ID
@@ -153,10 +348,8 @@ Floor Type
 Environment
 Biome
 Story
-Enemies
 Boss
 Raid Boss
-NPC
 Exploration Area
 Quest
 Event
@@ -166,12 +359,14 @@ Reward Table
 Completion State
 Party Requirement
 Party Configuration
+Difficulty Context
 ```
 
-A Floor can contain one or more Dungeon Instances.
+Enemy information is requested from the Enemy System.
 
 ```text
 Floor
+  │
   ├── Main Dungeon
   ├── Exploration Area
   ├── Event Area
@@ -181,9 +376,7 @@ Floor
 
 ---
 
-# 5. FLOOR TYPES
-
-The Tower does not consist entirely of traditional combat dungeons.
+# 8. FLOOR TYPES
 
 Possible Floor Types:
 
@@ -213,19 +406,19 @@ Story Floor
 Multi-Party Floor
 ```
 
-The exact type can be determined by the Floor data.
+The exact type is stored in the Floor configuration.
 
 ---
 
-# 6. FLOOR DESIGN PRINCIPLE
+# 9. FLOOR DESIGN PRINCIPLE
 
-Each floor should feel like a fragment of Aetheria.
+Each Floor represents a fragment of Aetheria.
 
-The content is based on the:
+The content is based on:
 
-# **Core World Building**
+# **CORE WORLD BUILDING**
 
-Therefore, the Tower can contain remnants of:
+Possible historical regions include:
 
 ```text
 Valeria
@@ -244,9 +437,9 @@ Other Lost Civilizations
 
 ---
 
-# 7. FLOOR STORY
+# 10. FLOOR STORY
 
-Every important Floor can have its own story.
+Every important Floor can contain its own story.
 
 Example:
 
@@ -260,8 +453,8 @@ Current State:
 Ruined Imperial City
 
 Story:
-The Master discovers survivors hiding beneath
-the remains of an Imperial district.
+The Master discovers evidence of an ancient
+battle that occurred before the Night of Ruin.
 ```
 
 The Floor Story can reveal:
@@ -279,21 +472,33 @@ World Secrets
 
 ---
 
-# 8. WORLD EXPLORATION SYSTEM
+# 11. WORLD EXPLORATION SYSTEM
 
-The Dungeon System contains a special feature:
+The Dungeon System contains:
 
-# **World Exploration**
+# **WORLD EXPLORATION**
 
-World Exploration represents the world of Aetheria **before its destruction**.
+World Exploration represents Aetheria **before its destruction**.
 
-This is different from exploring the ruined Tower environment.
+This is different from exploring the current ruined Tower.
 
-The Master can access historical or reconstructed versions of locations.
+```text
+BEFORE DESTRUCTION
+        ↓
+WORLD EXPLORATION
+        ↓
+HISTORICAL LOCATION
+        ↓
+NIGHT OF RUIN
+        ↓
+CURRENT WORLD
+        ↓
+RUINED LOCATION
+```
 
 ---
 
-# 9. PRE-DESTRUCTION WORLD
+# 12. PRE-DESTRUCTION WORLD
 
 Before the Night of Ruin:
 
@@ -316,11 +521,9 @@ These locations existed before Nythar destroyed the world.
 
 ---
 
-# 10. WORLD EXPLORATION PURPOSE
+# 13. WORLD EXPLORATION PURPOSE
 
-World Exploration is not simply a second map.
-
-It exists to allow the Master to discover:
+World Exploration exists to discover:
 
 ```text
 Lost History
@@ -337,9 +540,9 @@ World Secrets
 
 ---
 
-# 11. EXPLORATION MODEL
+# 14. WORLD EXPLORATION MODEL
 
-The system can represent two states of the same location.
+The system can represent two versions of the same location.
 
 ```text
 BEFORE DESTRUCTION
@@ -377,135 +580,71 @@ Tower Fragment
 Current Exploration
 ```
 
-This allows the player to understand what was lost.
-
 ---
 
-# 12. WORLD EXPLORATION EXAMPLE
+# 15. WORLD EXPLORATION AND CHARACTER SYSTEM
 
-### Before Destruction
-
-The Master explores:
-
-> **Elysium**
-
-The city contains:
-
-```text
-Imperial Palace
-Grand Adventurer Guild
-Magic Academy
-Merchant Guild
-Arena
-Great Library
-Temple District
-International Market
-Foreign Embassies
-```
-
-The Master can encounter historical versions of:
-
-```text
-NPC
-Hero
-Merchant
-Knight
-Scholar
-Mage
-Noble
-Guild Member
-```
-
----
-
-# 13. HISTORICAL CHARACTERS
-
-World Exploration can contain characters from before the destruction.
-
-These characters are not necessarily recruitable immediately.
-
-They can exist as:
-
-```text
-Historical NPC
-Memory
-World Echo
-Quest Character
-Past Version
-Lore Character
-Event Character
-```
-
-Their actions can explain the history of current Heroes.
-
----
-
-# 14. WORLD EXPLORATION AND CHARACTER SYSTEM
-
-A Hero may have a connection to a location.
+A Hero may have a connection to a historical location.
 
 Example:
 
 ```text
-Hero:
+Hero
 Former Imperial Knight
 
-World Exploration:
+        ↓
+
+World Exploration
 Elysium
 
-Trigger:
-Hero Memory
+        ↓
+
+Memory Trigger
+
+        ↓
+
+Character AI
+
+        ↓
+
+Emotional Response
 ```
 
-The Hero may react emotionally to seeing:
+The Hero may react to:
 
 ```text
-Imperial Palace
+Former Home
 Former Commander
-Old Home
+Old Battlefield
+Imperial Palace
 Former Friend
 Destroyed District
-```
-
-This connects:
-
-```text
-World Exploration
-      ↓
-Character AI
-      ↓
-Emotional System
-      ↓
-Character Event
+Ancient Symbol
 ```
 
 ---
 
-# 15. WORLD EXPLORATION AND AI FAIRY
+# 16. WORLD EXPLORATION AND AI FAIRY
 
-The AI Fairy acts as the Master's guide.
+The AI Fairy observes the exploration and reports important discoveries.
 
 Example:
 
 > **"Master, this location matches historical records from the Aurelian Empire."**
 
-Or:
+> **"Master, this location appears to trigger a memory response from one of your Heroes."**
 
-> **"Master, one of your Heroes appears emotionally affected by this location."**
-
-Or:
-
-> **"Master, the structure ahead appears to have existed before the Night of Ruin."**
+> **"Master, the structure ahead existed before the Night of Ruin."**
 
 ---
 
-# 16. EXPLORATION DISCOVERY
+# 17. EXPLORATION DISCOVERY
 
 World Exploration can reveal:
 
 ```text
 Locations
-NPCs
+Historical Characters
 Quests
 Lore
 Items
@@ -517,11 +656,13 @@ Faction Information
 Cult Information
 ```
 
-Discoveries are registered in the Game State System.
+Discoveries are synchronized with:
+
+# **GAME STATE SYSTEM**
 
 ---
 
-# 17. EXPLORATION STATE
+# 18. EXPLORATION STATE
 
 Each location can have:
 
@@ -549,16 +690,13 @@ Historical Records:
 Secrets:
 40%
 
-Important NPC:
-3/5
-
 Artifacts:
 2/4
 ```
 
 ---
 
-# 18. DUNGEON MISSION
+# 19. DUNGEON MISSION
 
 Each Floor can contain missions.
 
@@ -571,7 +709,7 @@ Main Objective:
 Reach the ruined castle.
 
 Secondary Objective:
-Rescue survivors.
+Protect the surviving group.
 
 Hidden Objective:
 Discover the old Imperial emblem.
@@ -580,35 +718,39 @@ Boss:
 Corrupted Knight Commander.
 ```
 
-A mission can require one or more Parties.
+Mission entities are controlled by the relevant systems.
 
 ```text
-FLOOR 23
+Hero
+  ↓
+PARTY SYSTEM
 
-Party Requirement:
-2 Parties
+Enemy
+  ↓
+ENEMY SYSTEM
 
-Party 1 Objective:
-Reach the ruined castle.
+Boss
+  ↓
+ENEMY / BOSS SYSTEM
 
-Party 2 Objective:
-Rescue survivors.
+Quest
+  ↓
+QUEST SYSTEM
 
-Shared Objective:
-Defeat the Corrupted Knight Commander.
+Event
+  ↓
+EVENT SYSTEM
 ```
 
 ---
 
-# 19. FLOOR OBJECTIVES
+# 20. FLOOR OBJECTIVES
 
 Possible objectives:
 
 ```text
 Defeat Enemies
 Defeat Boss
-Protect NPC
-Rescue Survivors
 Reach Location
 Collect Item
 Survive
@@ -622,11 +764,13 @@ Defeat Raid Boss
 Hold Multiple Locations
 Complete Objectives in Sequence
 Complete Objectives Simultaneously
+Protect Important Entity
+Protect World Object
 ```
 
 ---
 
-# 20. DUNGEON PROGRESSION
+# 21. DUNGEON PROGRESSION
 
 Basic progression:
 
@@ -639,7 +783,9 @@ PARTY REQUIREMENT CHECK
      ↓
 PARTY DEPLOYMENT
      ↓
-MISSION
+PARTY LOCK
+     ↓
+MISSION START
      ↓
 EXPLORATION
      ↓
@@ -649,553 +795,547 @@ EVENT
      ↓
 BOSS
      ↓
-VICTORY
+VICTORY / FAILURE
      ↓
 RNG REWARD
      ↓
-FLOOR COMPLETION
+FLOOR STATE UPDATE
      ↓
 GAME STATE UPDATE
-```
-
-For a Multi-Party Floor:
-
-```text
-ENTER FLOOR
      ↓
-FLOOR INITIALIZATION
+DATABASE UPDATE
      ↓
-MULTI-PARTY DEPLOYMENT
-     ↓
-PARTY OBJECTIVE ASSIGNMENT
-     ↓
-PARALLEL OR SEQUENTIAL MISSIONS
-     ↓
-PARTY RESULTS SYNCHRONIZATION
-     ↓
-SHARED EVENT
-     ↓
-BOSS / RAID
-     ↓
-VICTORY
-     ↓
-RNG REWARD
-     ↓
-FLOOR COMPLETION
+FAIRY REPORT
 ```
 
 ---
 
-# 21. FLOOR COMPLETION
+# 22. PARTY DEPLOYMENT
 
-A Floor is considered completed when its required objective has been fulfilled.
-
-For a Single-Party Floor:
+The Party System provides the Party.
 
 ```text
-Floor 12
+MASTER
    ↓
-Main Objective Complete
+PARTY SYSTEM
    ↓
-Boss Defeated
+PARTY SELECTION
    ↓
-Victory
+DUNGEON SYSTEM
    ↓
-Floor Clear
+MISSION
 ```
 
-For a Multi-Party Floor:
+The Dungeon System checks:
 
 ```text
-Floor 36
-   ↓
-Party 1 Objective Complete
-   ↓
-Party 2 Objective Complete
-   ↓
-Shared Objective Complete
-   ↓
-Boss Defeated
-   ↓
-Victory
-   ↓
-Floor Clear
+Party Requirement
+Party Size
+Leader
+Hero Availability
+Mission Restrictions
+Floor Restrictions
 ```
-
-The Master can then unlock the next progression.
 
 ---
 
-# 22. FLOOR STATE
+# 23. PARTY LOCK SYSTEM
 
-Every Floor maintains its own state.
-
-```text
-Locked
-Available
-In Progress
-Party Deployment
-Multi-Party Active
-Event Active
-Raid Active
-Completed
-Failed
-Partially Completed
-Revisited
-```
-
-The state is controlled by the:
-
-# **Game State System**
-
----
-
-# 23. PARTY REQUIREMENT
-
-Each Floor can define how many Parties are required.
+Once the Dungeon Mission begins:
 
 ```text
-Party Requirement:
-1 Party
-2 Parties
-3 Parties
-4 Parties
-Special Raid Formation
+PARTY LOCK = TRUE
 ```
 
-The requirement can be fixed or conditional.
+The following actions are blocked:
+
+```text
+Remove Hero
+Add Hero
+Replace Hero
+Recall Party
+Transfer Hero
+Disband Party
+Change Party Leader
+Move Hero to another Party
+```
 
 Example:
 
 ```text
-Floor 40
+PARTY 1
 
-Normal Requirement:
-1 Party
+Before Mission:
+Editable
 
-Hidden Route:
-2 Parties
+       ↓
 
-Raid Route:
-3 Parties
+ENTER DUNGEON
+
+       ↓
+
+MISSION START
+
+       ↓
+
+PARTY LOCK = TRUE
+
+       ↓
+
+Party cannot be manually changed
 ```
-
-The Party Requirement is part of the Floor data.
 
 ---
 
-# 24. MULTI-PARTY FLOOR
+# 24. PARTY LOCK STATE
 
-A Multi-Party Floor is a Floor that requires more than one Party to complete its objectives.
-
-```text
-Multi-Party Floor
-        │
-        ├── Party 1
-        ├── Party 2
-        ├── Party 3
-        └── Shared Objective
-```
-
-Each Party can have:
+The Dungeon Session stores:
 
 ```text
 Party ID
-Assigned Objective
-Assigned Area
+Leader ID
+Hero IDs
 Formation
-Leader
-Hero List
-Party State
+Equipment State
+Mission Start Time
+Party Lock State
+Party Combat State
+Party Death State
 Mission State
-Combat State
 ```
+
+This prevents the Master from bypassing mission consequences.
 
 ---
 
-# 25. MULTI-PARTY FLOOR TYPES
+# 25. HERO DEATH
 
-Possible Multi-Party structures:
+When a Hero dies:
 
 ```text
-Parallel Floor
-Sequential Floor
-Split Route Floor
-Defense Floor
-Escort Floor
-Resource Collection Floor
-Multi-Boss Floor
-Raid Floor
-Siege Floor
-World Event Floor
+HERO
+ ↓
+DEAD
+ ↓
+CHARACTER SYSTEM UPDATE
+ ↓
+PARTY SYSTEM UPDATE
+ ↓
+DUNGEON SESSION UPDATE
+ ↓
+GAME STATE UPDATE
+ ↓
+DATABASE
+```
+
+The AI Fairy can report:
+
+> **"Master, Hero ID HERO-XXXX has fallen in battle."**
+
+The mission continues if surviving Heroes remain and the mission permits continuation.
+
+---
+
+# 26. COMPLETE PARTY DEATH
+
+If all active Heroes in the Party are dead:
+
+```text
+HERO 1 — DEAD
+HERO 2 — DEAD
+HERO 3 — DEAD
+HERO 4 — DEAD
+HERO 5 — DEAD
+       ↓
+PARTY DEFEATED
+       ↓
+DUNGEON MISSION FAILED
+       ↓
+QUEST FAILED
+```
+
+The Party cannot be manually revived inside the active mission unless the Floor itself contains a valid revival mechanic.
+
+---
+
+# 27. PARTY LEADER DEATH
+
+Leader death does not automatically cause mission failure.
+
+```text
+LEADER DEAD
+     ↓
+OTHER HEROES ALIVE
+     ↓
+PARTY CONTINUES
+```
+
+The Party System and Character AI determine subsequent leadership behavior.
+
+Possible behavior:
+
+```text
+Second-in-command assumes leadership
+AI selects temporary combat leader
+Another Hero takes tactical control
+Party morale changes
+Character emotions change
+```
+
+If all Heroes die:
+
+```text
+PARTY DEFEATED
+     ↓
+MISSION FAILED
 ```
 
 ---
 
-# 26. PARALLEL PARTY FLOOR
+# 28. NO MANUAL ESCAPE
 
-In a Parallel Floor, multiple Parties act at the same time.
+The Master cannot simply press:
+
+```text
+EXIT DUNGEON
+```
+
+to remove the Party.
+
+The Dungeon only ends through:
+
+```text
+Victory
+Failure
+Valid Escape Condition
+Emergency Event
+Forced System Exit
+```
+
+This rule ensures that:
+
+```text
+Dungeon Decisions
+      ↓
+Have Real Consequences
+```
+
+---
+
+# 29. MULTI-PARTY FLOOR
+
+A Multi-Party Floor requires more than one Party.
+
+```text
+MULTI-PARTY FLOOR
+        │
+        ├── PARTY 1
+        ├── PARTY 2
+        ├── PARTY 3
+        └── SHARED OBJECTIVE
+```
+
+Every Party entering the mission receives:
+
+```text
+PARTY LOCK = TRUE
+```
+
+The Master cannot freely remove a Party after deployment.
+
+---
+
+# 30. MULTI-PARTY PARTY LOCK
 
 Example:
 
 ```text
-FLOOR 36 — THE FALLING CITADEL
+FLOOR 36
 
-Party 1:
-Defend the western gate.
-
-Party 2:
-Protect the evacuation route.
-
-Party 3:
-Destroy the corruption core.
-
-All objectives must be completed
-before the Citadel collapses.
+Party 1 → LOCKED
+Party 2 → LOCKED
+Party 3 → LOCKED
 ```
 
-Flow:
+If Party 1 is struggling:
 
 ```text
-PARTY 1 ACTION
-      │
-PARTY 2 ACTION
-      │
-PARTY 3 ACTION
-      │
-      ▼
-SHARED FLOOR STATE
-      │
-      ▼
-EVENT RESULT
+Master cannot:
+- Recall Party 1
+- Replace Hero
+- Move Hero from Party 2
+- Add new Hero
 ```
 
-Failure of one Party can affect the other Parties.
+unless the Floor itself explicitly provides a valid mechanic.
 
 ---
 
-# 27. SEQUENTIAL PARTY FLOOR
+# 31. MULTI-PARTY FAILURE
 
-In a Sequential Floor, Parties enter one after another.
-
-Example:
+Each Party maintains its own state.
 
 ```text
 Party 1:
-Break through the outer defense.
+ACTIVE
 
 Party 2:
-Enter the inner fortress.
+ACTIVE
 
 Party 3:
-Defeat the final guardian.
+DEFEATED
 ```
 
-Flow:
-
-```text
-PARTY 1 COMPLETE
-      ↓
-PARTY 2 UNLOCKED
-      ↓
-PARTY 2 COMPLETE
-      ↓
-PARTY 3 UNLOCKED
-      ↓
-FINAL OBJECTIVE
-```
-
-The result of the previous Party can affect the next Party.
-
----
-
-# 28. SPLIT ROUTE FLOOR
-
-A Split Route Floor divides the Floor into different areas.
-
-```text
-                    FLOOR 52
-                       │
-          ┌────────────┴────────────┐
-          │                         │
-      EAST ROUTE                WEST ROUTE
-          │                         │
-       PARTY 1                   PARTY 2
-          │                         │
-          └────────────┬────────────┘
-                       ▼
-                 CENTRAL BOSS
-```
-
-Each Party can encounter different:
-
-```text
-Enemies
-Events
-NPCs
-Traps
-Rewards
-Boss Mechanics
-```
-
-The Parties reunite at the final objective.
-
----
-
-# 29. MULTI-BOSS FLOOR
-
-A Floor can contain multiple Bosses that must be defeated by different Parties.
-
-Example:
-
-```text
-FLOOR 61
-
-Party 1:
-Defeat the Flame Guardian.
-
-Party 2:
-Defeat the Frost Guardian.
-
-Party 3:
-Defeat the Shadow Guardian.
-
-Final Objective:
-Open the sealed gate.
-```
-
-The Bosses can be defeated:
-
-```text
-Simultaneously
-Sequentially
-Within a Time Limit
-```
-
----
-
-# 30. PARTY FAILURE ON MULTI-PARTY FLOOR
-
-If one Party fails, the Floor does not always end immediately.
+The Floor Controller checks the mission rules.
 
 Possible results:
 
 ```text
-Party Retreat
-Party Defeated
-Objective Failed
-Other Parties Continue
-Emergency Event Triggered
-Difficulty Increased
-NPCs Lost
-Boss Empowered
-Floor Failed
+Mission Continues
+Mission Objective Failed
+Emergency Event
+Boss Changes
+Difficulty Changes
+Route Changes
+Entire Floor Failed
 ```
 
-The exact consequence is determined by the Floor Mission and Game State.
+The exact result is defined by the Floor Mission.
 
 ---
 
-# 31. PARTY RECOVERY
+# 32. MULTI-PARTY COMPLETE FAILURE
 
-A Multi-Party Floor can allow recovery between objectives.
-
-Possible recovery points:
+If the Floor requires all Parties to survive or complete their objectives:
 
 ```text
-Safe Room
-Camp
-Ancient Shrine
-Rescue Event
-Healing NPC
-Completed Objective
-Party Rotation
+PARTY 1
+  ↓
+DEFEATED
+
+PARTY 2
+  ↓
+DEFEATED
+
+PARTY 3
+  ↓
+DEFEATED
+
+        ↓
+
+FLOOR MISSION FAILED
 ```
 
-The system can define whether a Party may:
+If only one Party is required to survive:
 
 ```text
-Heal
-Change Formation
-Change Equipment
-Exchange Heroes
-Retreat
-Receive Support
+Party 1 — DEFEATED
+Party 2 — ACTIVE
+Party 3 — ACTIVE
+
+        ↓
+
+Mission continues
+```
+
+The Floor configuration determines the exact condition.
+
+---
+
+# 33. ENEMY SYSTEM INTEGRATION
+
+The Dungeon System does not create enemies directly.
+
+Instead:
+
+```text
+DUNGEON
+   ↓
+FLOOR
+   ↓
+ENVIRONMENT
+   ↓
+DIFFICULTY CONTEXT
+   ↓
+ENEMY SPAWN REQUEST
+   ↓
+ENEMY SYSTEM
+```
+
+The Enemy System determines:
+
+```text
+Enemy ID
+Enemy Type
+Enemy Count
+Enemy Level
+Enemy Rank
+Enemy Size
+Enemy Stats
+Enemy Skills
+Enemy Formation
+Enemy Behavior
+Enemy Loot
+Enemy AI
+Enemy Difficulty
 ```
 
 ---
 
-# 32. PARTY ROTATION
+# 34. ENEMY SPAWN REQUEST
 
-Some Floors allow the Master to rotate Heroes between Parties.
+Dungeon sends context:
 
 ```text
-Party 1
-   ↓
-Objective Complete
-   ↓
-Heroes Return to Reserve
-   ↓
-Party 2 Receives Selected Heroes
+Floor ID
+Floor Number
+Floor Type
+Biome
+Mission Type
+Destruction Level
+Difficulty Level
+Boss Requirement
+Event Condition
+Party Count
+Party Strength
 ```
 
-Party rotation is controlled by the Floor rules.
-
-It must not bypass:
+Enemy System returns:
 
 ```text
-Hero Condition
-Mission Restriction
-Combat Lock
-Event Requirement
-Party Limit
-```
-
----
-
-# 33. SHARED FLOOR STATE
-
-All Parties on the same Floor contribute to a shared Floor State.
-
-```text
-Shared Floor State
-        │
-        ├── Destruction
-        ├── Time
-        ├── Enemy Alert
-        ├── NPC Survival
-        ├── Objective Progress
-        ├── Event State
-        └── Boss State
+Enemy Encounter
 ```
 
 Example:
 
 ```text
-Party 1 destroys a bridge.
+DUNGEON
 
-Party 2 can no longer use the bridge.
+Floor:
+35
 
-Party 2 must use another route.
+Environment:
+Ruined Fortress
+
+Difficulty:
+High
+
+Destruction:
+Level 4
+
+        ↓
+
+ENEMY SYSTEM
+
+        ↓
+
+Enemy Encounter
 ```
 
 ---
 
-# 34. MULTI-PARTY SYNCHRONIZATION
+# 35. ENEMY COUNT
+
+Enemy quantity is controlled by the Enemy System.
 
 ```text
-PARTY 1 STATE
-      │
-PARTY 2 STATE
-      │
-PARTY 3 STATE
-      │
-      ▼
-MULTI-PARTY CONTROLLER
-      │
-      ▼
-SHARED FLOOR STATE
-      │
-      ▼
-GAME STATE SYSTEM
+Dungeon
+   ↓
+Enemy Spawn Condition
+   ↓
+Enemy System
+   ↓
+RNG Enemy Count
 ```
 
-The Multi-Party Controller synchronizes:
+Therefore the Dungeon System does not hard-code:
 
 ```text
-Objective Progress
-Time
-Enemy Alert
-NPC State
-Event State
-Boss State
-Destruction
-Party Results
+5 Enemies
+10 Enemies
+20 Enemies
+```
+
+unless the Floor requires a fixed encounter.
+
+---
+
+# 36. ENEMY DIFFICULTY
+
+Difficulty is generated through:
+
+```text
+Core World Building
+        +
+Floor Number
+        +
+Destruction Level
+        +
+Enemy System
+        +
+RNG
+```
+
+The Dungeon provides the difficulty context.
+
+The Enemy System determines the actual enemy encounter.
+
+---
+
+# 37. BOSS
+
+Bosses are treated as special Enemy System entities.
+
+```text
+DUNGEON
+   ↓
+BOSS CONDITION
+   ↓
+ENEMY SYSTEM
+   ↓
+BOSS GENERATION
+```
+
+Boss data includes:
+
+```text
+Boss ID
+Boss Type
+Boss Level
+Boss Rank
+Boss Stats
+Boss Skills
+Boss Phase
+Boss AI
+Boss Loot
 ```
 
 ---
 
-# 35. MULTI-PARTY TIME LIMIT
-
-Some Floors require all Parties to complete their objectives within a time limit.
-
-```text
-FLOOR TIME LIMIT
-        │
-        ├── Party 1 Progress
-        ├── Party 2 Progress
-        └── Party 3 Progress
-```
-
-If the time limit expires:
-
-```text
-Mission Failed
-NPCs Lost
-Boss Empowered
-Floor Destruction Increased
-Emergency Event Triggered
-```
-
----
-
-# 36. MULTI-PARTY REWARD
-
-Rewards can be distributed in several ways.
-
-```text
-Shared Reward
-Individual Party Reward
-Objective Reward
-Boss Reward
-Exploration Reward
-Completion Reward
-```
-
-Example:
-
-```text
-Party 1 completes defense objective:
-Defense Reward
-
-Party 2 rescues survivors:
-Rescue Reward
-
-All Parties defeat the Boss:
-Shared Boss Reward
-
-Floor completed:
-Floor Clear Reward
-```
-
-All reward results are processed through the RNG System.
-
----
-
-# 37. RAID BOSS SYSTEM
+# 38. RAID BOSS SYSTEM
 
 The Dungeon System supports:
 
 # **RAID BOSS**
 
-Raid Bosses are large-scale encounters requiring greater preparation than normal Bosses.
+Raid Bosses are large-scale encounters.
 
-A Raid Boss can require:
+They may require:
 
 ```text
 Multiple Parties
 Multiple Heroes
 Special Formation
 Special Objectives
-Special Mechanics
 Extended Battle
+Special Mechanics
 ```
 
-A Raid Boss is a type of Multi-Party Floor encounter, but not every Multi-Party Floor is a Raid.
+Raid Boss entities are generated and managed through the Enemy/Boss System.
 
 ---
 
-# 38. RAID BOSS STRUCTURE
+# 39. RAID BOSS STRUCTURE
 
 ```text
                     RAID BOSS
@@ -1209,46 +1349,13 @@ A Raid Boss is a type of Multi-Party Floor encounter, but not every Multi-Party 
                    RAID BATTLE
 ```
 
-The exact number of Parties depends on the mission.
-
----
-
-# 39. RAID BOSS PARTY ROLES
-
-Each Party can receive a specific role.
-
-```text
-Main Attack Party
-Defense Party
-Support Party
-Control Party
-Healing Party
-Objective Party
-Rescue Party
-Mechanic Party
-```
-
-Example:
-
-```text
-Party 1:
-Damage the Raid Boss.
-
-Party 2:
-Protect the Ancient Seal.
-
-Party 3:
-Destroy the corruption pillars.
-
-Party 4:
-Rescue trapped NPCs.
-```
+All deployed Parties are locked.
 
 ---
 
 # 40. RAID BOSS PHASES
 
-Raid Bosses can contain multiple phases.
+A Raid Boss may contain:
 
 ```text
 PHASE 1
@@ -1270,314 +1377,89 @@ FINAL PHASE
 Destruction
 ```
 
-Each phase can change:
+Phase behavior belongs to the Enemy/Boss System.
 
-```text
-Skills
-Attack Pattern
-Environment
-Target Priority
-Weakness
-Mechanics
-AI Behavior
-Party Requirement
-```
+The Dungeon System only tracks the Raid encounter state.
 
 ---
 
-# 41. RAID BOSS + DESTRUCTION
+# 41. RAID BOSS FAILURE
 
-Raid Boss difficulty can scale with Floor Destruction.
-
-Example:
+If all participating Parties are defeated:
 
 ```text
-Destruction Level
+ALL RAID PARTIES
        ↓
-Raid Boss Corruption
+DEFEATED
        ↓
-Boss AI
+RAID FAILED
        ↓
-Boss Mechanics
+DUNGEON MISSION FAILED
 ```
 
-At high destruction levels, the Boss may gain additional mechanics.
+No Party can be manually extracted by the Master while the Raid is active.
 
 ---
 
-# 42. RAID BOSS REWARD
+# 42. EVENT SYSTEM INTEGRATION
 
-Raid Boss rewards are determined by the:
+Dungeon Events are controlled by:
 
-# **RNG SYSTEM**
+# **EVENT SYSTEM**
 
-The Dungeon System provides the reward context.
-
-```text
-RAID VICTORY
-      ↓
-RNG SYSTEM
-      ↓
-REWARD ROLL
-      ↓
-ITEM / GOLD / GEM / TICKET / SPECIAL REWARD
-      ↓
-INVENTORY
-```
-
----
-
-# 43. EVENT SYSTEM INTEGRATION
-
-The Dungeon System does not directly control all story and character events.
-
-Instead, it creates the conditions for the:
-
-# **Event System**
-
-The Event System controls:
-
-```text
-Event Definition
-Event Trigger
-Event Condition
-Event Dialogue
-Event Choice
-Event Branch
-Event Result
-Event Reward
-Event Completion
-```
-
-The Dungeon System provides:
+Dungeon provides:
 
 ```text
 Floor
 Location
-Mission
 Party State
 Enemy State
 Boss State
 Exploration State
 Time
 Destruction Level
+Mission State
 ```
 
----
-
-# 44. EVENT STRUCTURE
-
-Every Dungeon Event can contain:
+The Event System controls:
 
 ```text
-Event ID
-Event Type
-Trigger Condition
-Required Floor
-Required Party
-Required Hero
-Required Relationship
-Required Quest
-Required Time
-Required Destruction Level
+Event Definition
+Event Trigger
 Dialogue
-Choices
+Choice
 Branch
 Result
 Reward
-Game State Update
+Character Event
+Story Event
 ```
+
+---
+
+# 43. EVENT ENTITIES
+
+Because the Dungeon System has no NPC system, Events can involve:
+
+```text
+Hero
+Enemy
+Boss
+Historical Character
+World Object
+Artifact
+Ancient Device
+Cult Structure
+Location
+Memory
+Quest Condition
+```
+
+---
+
+# 44. CHARACTER EVENT
 
 Example:
-
-```text
-Event ID:
-EVENT-FLOOR-031-001
-
-Event Type:
-Cult Event
-
-Trigger:
-Master enters the ritual chamber.
-
-Condition:
-Floor 31 is active.
-
-Result:
-Event choices appear.
-```
-
----
-
-# 45. EVENT TYPES IN DUNGEON
-
-Possible Dungeon Events:
-
-```text
-Character Event
-Memory Event
-World Event
-Cult Event
-Boss Event
-Rescue Event
-Relationship Event
-Hidden Event
-Star Upgrade Event
-Multi-Party Event
-Raid Event
-Exploration Event
-Failure Event
-Victory Event
-```
-
----
-
-# 46. EVENT TRIGGER
-
-An Event can be triggered by:
-
-```text
-Entering a Floor
-Entering a Location
-Defeating an Enemy
-Defeating a Boss
-Finding an Item
-Saving an NPC
-Losing an NPC
-Reaching a Time
-Reaching a Destruction Level
-Using a Specific Hero
-Using a Specific Party
-Meeting a Relationship Condition
-Completing a Quest
-Failing an Objective
-```
-
----
-
-# 47. EVENT FLOW
-
-```text
-DUNGEON CONDITION
-      ↓
-EVENT TRIGGER
-      ↓
-EVENT SYSTEM
-      ↓
-DIALOGUE / CHOICE
-      ↓
-EVENT BRANCH
-      ↓
-EVENT RESULT
-      ↓
-GAME STATE UPDATE
-      ↓
-DUNGEON STATE UPDATE
-```
-
----
-
-# 48. CULT EVENT EXAMPLE
-
-```text
-FLOOR 31
-
-Cult is performing a ritual.
-
-Master enters.
-
-        ↓
-
-EVENT SYSTEM
-        ↓
-
-Event:
-The Blackened Altar
-```
-
-Event choices:
-
-```text
-Option A:
-Attack immediately.
-
-Option B:
-Investigate the ritual.
-
-Option C:
-Rescue prisoners first.
-
-Option D:
-Observe the ritual.
-```
-
-Possible results:
-
-```text
-Attack Immediately:
-Cult Leader escapes.
-Combat begins.
-
-Investigate:
-Hidden weakness discovered.
-Boss difficulty reduced.
-
-Rescue Prisoners:
-NPCs survive.
-Future quest unlocked.
-
-Observe:
-Cult information obtained.
-Destruction Level increases.
-```
-
-The Event System determines the branch.
-
-The Game State System stores the result.
-
----
-
-# 49. MULTI-PARTY EVENT EXAMPLE
-
-```text
-FLOOR 36 — THE FALLING CITADEL
-
-Party 1:
-Defend the western gate.
-
-Party 2:
-Protect the evacuation route.
-
-Party 3:
-Destroy the corruption core.
-```
-
-Event trigger:
-
-```text
-If Party 1 loses the western gate
-AND Party 2 has not completed evacuation
-```
-
-The Event System activates:
-
-```text
-EVENT:
-The Citadel Collapses
-```
-
-Possible results:
-
-```text
-Party 2 receives increased enemy pressure.
-NPC survival rate decreases.
-Party 3 must destroy the core faster.
-Boss gains a new phase.
-```
-
----
-
-# 50. CHARACTER EVENT EXAMPLE
 
 ```text
 FLOOR 17
@@ -1590,162 +1472,148 @@ Ruined Imperial Palace
 
 Trigger:
 Hero enters the former throne room.
-```
 
-The Event System activates:
+        ↓
 
-```text
-EVENT:
+EVENT SYSTEM
+
+        ↓
+
 Echoes of the Last Oath
-```
-
-Possible choices:
-
-```text
-Allow the Hero to investigate alone.
-Accompany the Hero.
-Leave the location.
 ```
 
 Possible results:
 
 ```text
-Hero gains Resolve.
-Hero unlocks a memory.
-Relationship value changes.
-A hidden enemy appears.
-A Character Quest is unlocked.
+Hero Emotion Changes
+Memory Unlocked
+Relationship Changes
+Character Quest Unlocked
+Skill Condition Activated
+Star Progression Condition Activated
 ```
 
 ---
 
-# 51. STAR 7 CHARACTER EVENT
+# 45. STAR 7 CHARACTER EVENT
 
-The Event System allows special Character progression during a mission.
-
-For example:
+A Hero can experience a special progression event during a Dungeon Mission.
 
 ```text
-Hero enters Floor
-      ↓
-Special Event
-      ↓
-Character Condition
-      ↓
-Event Trigger
-      ↓
-Hero Star Progression
+HERO ENTERS FLOOR
+       ↓
+SPECIAL EVENT CONDITION
+       ↓
+EVENT SYSTEM
+       ↓
+CHARACTER EVENT
+       ↓
+STAR 7 CONDITION
+       ↓
+CHARACTER SYSTEM
+       ↓
+STAR 7 PROGRESSION
 ```
 
-This can support the previously defined:
+The actual Star 7 rules are handled by:
 
-# **Star 7 Character Event**
+```text
+CHARACTER SYSTEM
+STAR UP SYSTEM
+EVENT SYSTEM
+```
 
-The Dungeon provides the environment.
+The Dungeon provides the mission environment.
 
-The Event System controls the event logic.
+---
 
-The Character System updates the Hero.
+# 46. QUEST SYSTEM INTEGRATION
 
-The Game State System synchronizes the result.
+Dungeon Missions are connected to the Quest System.
+
+```text
+QUEST
+  ↓
+DUNGEON MISSION
+  ↓
+PARTY DEPLOYMENT
+  ↓
+PARTY LOCK
+  ↓
+MISSION
+  ↓
+VICTORY / FAILURE
+  ↓
+QUEST RESULT
+```
+
+---
+
+# 47. QUEST SUCCESS
 
 Example:
 
 ```text
-Hero:
-Former Imperial Knight
+Quest:
+Clear Floor 20
 
 Condition:
-Hero has reached the ruined Imperial Palace.
+Defeat Boss
 
-Requirement:
-Hero has completed previous memory events.
+Party:
+Alive
 
-Event:
-The Oath Beneath the Ashes
+Boss:
+Defeated
 
-Result:
-Star 7 progression becomes available.
+        ↓
+
+QUEST COMPLETE
 ```
 
 ---
 
-# 52. EVENT REWARD
+# 48. QUEST FAILURE
 
-An Event can produce:
+The following condition is critical:
 
 ```text
-Gold
-Gems
-Items
-Equipment
-Materials
-Artifacts
-Quest Items
-Lore
-Relationship Increase
-Character Progression
-Star Progression
-New Skill
-New Location
-New Quest
-New Party Option
+ALL HEROES IN ACTIVE PARTY
+        ↓
+DEAD
+        ↓
+PARTY DEFEATED
+        ↓
+DUNGEON MISSION FAILED
+        ↓
+QUEST FAILED
 ```
 
-Event rewards are processed through the RNG System when randomness is involved.
-
-Guaranteed Event Results are processed directly by the Event System and synchronized through the Game State System.
+The Quest System receives the failure state from the Dungeon System.
 
 ---
 
-# 53. EVENT + RNG SYSTEM
+# 49. RNG REWARD
+
+The Dungeon System does not directly generate random rewards.
+
+It sends a reward request to:
+
+# **RNG SYSTEM**
 
 ```text
-EVENT COMPLETE
-      ↓
-EVENT RESULT
+DUNGEON RESULT
       ↓
 RNG SYSTEM
       ↓
-RANDOM REWARD
+REWARD ROLL
+      ↓
+ITEM / GOLD / GEM / TICKET / EQUIPMENT
       ↓
 INVENTORY
 ```
 
-Example:
-
-```text
-Event:
-Search the Ancient Archive
-
-Guaranteed Result:
-Historical Record Unlocked
-
-RNG Result:
-Possible Artifact
-Possible Ancient Book
-Possible Special Ticket
-```
-
----
-
-# 54. RNG SYSTEM INTEGRATION
-
-The Dungeon System does not manually determine every reward.
-
-Instead:
-
-```text
-Dungeon
-   ↓
-Reward Table
-   ↓
-RNG System
-   ↓
-Result
-```
-
-The RNG System can determine:
+Possible rewards:
 
 ```text
 Gold
@@ -1756,124 +1624,19 @@ Items
 Equipment
 Materials
 Artifacts
-Quest Items
 Rare Rewards
 Unique Rewards
 ```
 
----
+There is:
 
-# 55. NORMAL FLOOR REWARD
+# **NO EXP REWARD FROM DUNGEON CLEAR**
 
-After clearing a Floor:
-
-```text
-FLOOR CLEAR
-     ↓
-RNG
-     ↓
-REWARD
-```
-
-Example:
-
-```text
-Gold
-+
-Gem
-+
-Material
-+
-Equipment
-```
-
-The actual reward is determined by the RNG configuration.
+Dungeon rewards are based on the RNG configuration and reward tables.
 
 ---
 
-# 56. FLOOR REWARD TIERS
-
-The system can use reward tiers:
-
-```text
-Common
-Uncommon
-Rare
-Epic
-Legendary
-Mythic
-Unique
-```
-
-The actual probability belongs to the RNG System.
-
----
-
-# 57. EXPLORATION REWARD
-
-World Exploration can also produce RNG rewards.
-
-Example:
-
-```text
-Explore Ancient Library
-        ↓
-Discovery
-        ↓
-RNG
-        ↓
-Possible:
-Gold
-Ancient Book
-Artifact
-Material
-Quest Item
-Lore Item
-Special Item
-```
-
----
-
-# 58. RAID REWARD TABLE
-
-Raid Bosses can have a special reward pool.
-
-```text
-RAID REWARD TABLE
-
-Common
-Rare
-Epic
-Legendary
-Unique
-Special
-```
-
-The RNG System determines the actual result.
-
----
-
-# 59. QUEST REWARD INTEGRATION
-
-Dungeon quests can also produce rewards.
-
-```text
-Dungeon Quest
-      ↓
-Quest Complete
-      ↓
-RNG System
-      ↓
-Reward
-      ↓
-Inventory
-```
-
-This keeps rewards centralized.
-
----
-
-# 60. REWARD SYNCHRONIZATION
+# 50. REWARD SYNCHRONIZATION
 
 All rewards must be synchronized.
 
@@ -1884,92 +1647,100 @@ Raid Reward
 Quest Reward
 Exploration Reward
 Event Reward
-Party Objective Reward
+Objective Reward
        │
        ▼
     RNG SYSTEM
        │
        ▼
- ITEM / CURRENCY RESULT
+REWARD RESULT
        │
        ▼
- INVENTORY SYSTEM
+INVENTORY SYSTEM
        │
        ▼
- GAME STATE SYSTEM
+GAME STATE SYSTEM
        │
        ▼
- DATABASE SYSTEM
+DATABASE SYSTEM
        │
        ▼
- AI FAIRY REPORT
+AI FAIRY
+       │
+       ▼
+MASTER
 ```
 
 ---
 
-# 61. AI FAIRY REWARD REPORT
+# 51. AI FAIRY DUNGEON OBSERVATION
 
-The Fairy must report important rewards to the Master.
+The AI Fairy observes the Dungeon Mission.
+
+The Fairy can report:
+
+```text
+Mission Start
+Party Deployment
+Party Lock
+Hero Condition
+Hero Death
+Enemy Encounter
+Boss Encounter
+Event
+Exploration Discovery
+Mission Progress
+Important Choices
+Reward
+Mission Victory
+Mission Failure
+```
 
 Example:
 
-> **"Master, the Floor 24 clear reward has been received."**
+> **"Master, Party 1 has entered Floor 27. The Party is now locked into the mission."**
 
-> **"Master, the Raid Boss dropped a Legendary item."**
+> **"Master, the Enemy System has generated an elite encounter ahead."**
 
-> **"Master, an additional Special Ticket was obtained from the exploration reward."**
+> **"Master, Hero ID HERO-00231 has fallen."**
 
-For Multi-Party Floors:
+> **"Master, four Heroes remain active."**
 
-> **"Master, all three Parties have completed their assigned objectives."**
-
-> **"Master, Party 2 has received the rescue objective reward."**
+> **"Master, all members of Party 1 have fallen. The Dungeon Mission has failed."**
 
 ---
 
-# 62. DUNGEON + PARTY SYSTEM
+# 52. FAIRY OBSERVATION DURING COMBAT
 
-The Party System provides the Heroes.
+The AI Fairy receives combat information from the Combat and Character AI systems.
 
 ```text
+COMBAT SYSTEM
+      ↓
+CHARACTER AI
+      ↓
+EMOTIONAL SYSTEM
+      ↓
+AI FAIRY
+      ↓
 MASTER
-   ↓
-PARTY / PARTIES
-   ↓
-DUNGEON
-   ↓
-MISSION
-   ↓
-COMBAT
 ```
 
-The Dungeon System determines:
+The Fairy can provide narrative reports.
 
-```text
-Environment
-Enemy
-Objective
-Boss
-Reward Context
-Party Requirement
-Party Assignment
-```
+Example:
 
-The Party System determines:
+> **"Master, the front line is beginning to collapse. The remaining Heroes are showing signs of panic."**
 
-```text
-Party Composition
-Formation
-Leader
-Hero Assignment
-Party Availability
-```
+> **"Master, the enemy has changed its attack pattern. Your Heroes are adapting."**
+
+> **"Master, the Party Leader has fallen, but the remaining members are still capable of continuing the mission."**
 
 ---
 
-# 63. DUNGEON + CHARACTER AI
+# 53. CHARACTER AI + DUNGEON
 
-Characters act according to their:
+Character behavior depends on:
 
 ```text
 Personality
@@ -1980,526 +1751,146 @@ Skills
 Experience
 Fear
 Morale
+Memory
+Environment
 ```
 
-The Dungeon environment can influence these values.
-
-Example:
+Dungeon conditions can modify these values.
 
 ```text
-Hero enters destroyed homeland
+DUNGEON ENVIRONMENT
         ↓
-Memory Trigger
+CHARACTER AI
         ↓
-Emotion
+EMOTIONAL SYSTEM
         ↓
-Character AI
-        ↓
-Combat Behavior
-```
-
-On a Multi-Party Floor:
-
-```text
-Party 1 experiences a memory event.
-        ↓
-Hero Emotion changes.
-        ↓
-Character AI updates behavior.
-        ↓
-Shared Floor State may change.
+COMBAT DECISION
 ```
 
 ---
 
-# 64. DUNGEON + EVENT SYSTEM
+# 54. TIME SYSTEM
 
-Floors can trigger Events.
+Dungeon missions interact with the Time System.
 
-Examples:
-
-```text
-Character Event
-Memory Event
-World Event
-Cult Event
-Boss Event
-Rescue Event
-Relationship Event
-Hidden Event
-Star Upgrade Event
-Multi-Party Event
-Raid Event
-Exploration Event
-```
-
-The Dungeon System detects the condition.
-
-The Event System executes the event.
-
----
-
-# 65. DUNGEON + GAME STATE SYSTEM
-
-The Game State System is the central state controller.
+Possible effects:
 
 ```text
-DUNGEON
-   ↓
-FLOOR STATE
-   ↓
-GAME STATE SYSTEM
-```
-
-It tracks:
-
-```text
-Current Floor
-Completed Floors
-Unlocked Floors
-Floor Events
-Raid State
-Multi-Party State
-Exploration State
-Boss State
-Destruction Level
-Mission State
-Quest State
-Character State
-Party State
-World State
-```
-
----
-
-# 66. DUNGEON STATE FLOW
-
-```text
-PLAYER ACTION
-      ↓
-DUNGEON SYSTEM
-      ↓
-FLOOR STATE
-      ↓
-EVENT SYSTEM
-      ↓
-GAME STATE SYSTEM
-      ↓
-WORLD UPDATE
-      ↓
-DATABASE SYSTEM
-```
-
-For Multi-Party Floors:
-
-```text
-PARTY ACTION
-      ↓
-PARTY STATE
-      ↓
-MULTI-PARTY CONTROLLER
-      ↓
-SHARED FLOOR STATE
-      ↓
-EVENT SYSTEM
-      ↓
-GAME STATE SYSTEM
-      ↓
-DATABASE SYSTEM
-```
-
----
-
-# 67. DATABASE STORAGE
-
-The Database System stores persistent Dungeon data.
-
-Example:
-
-```text
-Dungeon ID
-Floor ID
-Floor Number
-Floor Type
-Floor State
-Completion State
-Exploration State
-Boss State
-Raid State
-Multi-Party State
-Party Requirement
-Party Configuration
-Party Objective
-Party Result
-Destruction Level
-Event State
-Quest State
-Reward History
-Updated Time
-```
-
----
-
-# 68. ID SYSTEM
-
-Every Dungeon object receives a unique ID.
-
-Example:
-
-```text
-TOWER-000001
-
-FLOOR-000001
-FLOOR-000002
-FLOOR-000003
-
-DUNGEON-000001
-DUNGEON-000002
-
-PARTY-000001
-PARTY-000002
-
-BOSS-000001
-RAID-000001
-
-EVENT-FLOOR-031-001
-EVENT-FLOOR-036-001
-```
-
-These IDs are stored in the Database System.
-
----
-
-# 69. TIME SYSTEM
-
-Dungeon events interact with the Time System.
-
-Time can affect:
-
-```text
-NPC Activity
-Enemy Activity
-Events
-World Exploration
-Quest Availability
-Raid Availability
-Special Events
-Floor Conditions
-Multi-Party Synchronization
-```
-
-Example:
-
-```text
-Day
-  ↓
-NPC activity
-
-Night
-  ↓
-Different enemy behavior
-```
-
----
-
-# 70. DUNGEON TIME
-
-A mission can track:
-
-```text
-Mission Start Time
 Mission Duration
 Floor Time
-Event Time
-Raid Time
+Event Timing
 Exploration Time
-Party Time
-Shared Time Limit
+Raid Time
+Enemy Activity
+Special Events
+Quest Conditions
 ```
 
-This can later affect dynamic events.
+A mission may have:
+
+```text
+Time Limit
+```
+
+Example:
+
+```text
+MISSION TIME LIMIT
+
+30 Minutes
+
+       ↓
+
+TIME EXPIRES
+
+       ↓
+
+MISSION FAILURE
+```
+
+The exact condition is determined by the Floor configuration.
 
 ---
 
-# 71. FLOOR REVISIT
+# 55. DESTRUCTION LEVEL
 
-Completed Floors may be revisitable.
-
-Possible reasons:
+Dungeon difficulty is connected to the Core World Building.
 
 ```text
+CORE WORLD
+      ↓
+DESTRUCTION LEVEL
+      ↓
+DUNGEON CONDITION
+      ↓
+ENEMY SYSTEM
+      ↓
+ENCOUNTER
+```
+
+Higher Destruction Levels can influence:
+
+```text
+Environment
+Enemy Difficulty
+Boss Difficulty
+Events
 Exploration
-Farming
-Quest
-Event
-Raid
-Hidden Area
-Character Story
-Resource Gathering
-Multi-Party Challenge
-```
-
-However, revisiting does not necessarily reset the entire Floor.
-
-The Game State System determines which parts remain changed.
-
----
-
-# 72. PERSISTENT FLOOR STATE
-
-Example:
-
-```text
-Floor 20
-
-First Visit:
-Cult Ritual Active
-
-Master destroys ritual.
-
-Return Visit:
-Ritual destroyed.
-
-New State:
-Cult no longer controls the location.
-```
-
-For a Multi-Party Floor:
-
-```text
-Floor 36
-
-First Visit:
-Party 1 saves the western gate.
-Party 2 fails to protect the evacuation route.
-Party 3 destroys the corruption core.
-
-Return Visit:
-Western gate remains secured.
-Evacuation route is permanently damaged.
-Corruption core is destroyed.
-```
-
-The change is stored permanently.
-
----
-
-# 73. DYNAMIC WORLD
-
-The Tower can change based on Master actions.
-
-```text
-MASTER ACTION
-      ↓
-PARTY ACTION
-      ↓
-FLOOR STATE
-      ↓
-FACTION STATE
-      ↓
-CHARACTER STATE
-      ↓
-EVENT
-      ↓
-WORLD STATE
-```
-
-This makes the Tower part of the living world simulation.
-
----
-
-# 74. CULT ACTIVITY
-
-The Cult of Eternal Night can operate inside Floors.
-
-Possible activities:
-
-```text
-Ritual
-Artifact Search
-Kidnapping
-Corruption
-Infiltration
-Sacrifice
-Political Manipulation
-Monster Creation
-```
-
-The Master can discover and interfere with these activities.
-
----
-
-# 75. CULT EVENT EXAMPLE
-
-```text
-FLOOR 31
-
-Cult is performing a ritual.
-
-Master enters.
-
-        ↓
-
-Option A:
-Attack immediately
-
-Option B:
-Investigate
-
-Option C:
-Rescue prisoners first
-
-Option D:
-Observe ritual
-
-        ↓
-
-Different Event Results
-        ↓
-Game State Update
+World State
+Character Emotion
+Mission Conditions
 ```
 
 ---
 
-# 76. FLOOR STORY BRANCHING
+# 56. FLOOR STATE
 
-The Dungeon System supports branching outcomes.
-
-Example:
+Every Floor maintains its own state.
 
 ```text
-SAVE NPC
-   ↓
-NPC SURVIVES
-   ↓
-Future Quest Unlocked
-
-IGNORE NPC
-   ↓
-NPC DIES
-   ↓
-Future Quest Lost
+Locked
+Available
+Party Deployment
+In Progress
+Multi-Party Active
+Event Active
+Raid Active
+Completed
+Failed
+Revisited
 ```
 
-The result is stored by the Game State System.
+The Game State System stores the persistent state.
 
 ---
 
-# 77. WORLD EXPLORATION BRANCHING
+# 57. DUNGEON SESSION
 
-Historical exploration can also contain choices.
+Every active mission creates a:
 
-Example:
+# **DUNGEON SESSION**
 
-```text
-Explore Elysium Archive
-
-Choice:
-Recover Historical Records
-       OR
-Recover Ancient Artifact
-```
-
-Different rewards and future information may result.
-
----
-
-# 78. FLOOR DISCOVERY
-
-A Floor can contain hidden areas.
-
-Example:
-
-```text
-FLOOR 45
-
-Main Area
-   │
-   ├── Ruined City
-   │
-   ├── Underground
-   │
-   ├── Ancient Library
-   │
-   └── Hidden Cult Chamber
-```
-
-Hidden areas may require:
-
-```text
-Exploration
-Quest
-Character Ability
-Item
-Event
-Time Condition
-Specific Party
-Multiple Parties
-```
-
----
-
-# 79. FLOOR COMPLETION RATING
-
-A Floor can optionally record completion performance.
-
-Example:
-
-```text
-Floor 20
-
-Main Objective: Complete
-Boss: Defeated
-Exploration: 80%
-Hidden Area: Found
-NPCs Saved: 5/6
-
-Completion:
-Excellent
-```
-
-For a Multi-Party Floor:
-
-```text
-Floor 36
-
-Party 1 Objective: Complete
-Party 2 Objective: Complete
-Party 3 Objective: Complete
-Shared Objective: Complete
-NPCs Saved: 12/15
-Time Limit: Passed
-
-Completion:
-Excellent
-```
-
-This can be used by future systems without changing the core Floor state.
-
----
-
-# 80. DUNGEON SESSION
-
-Every mission creates a temporary Dungeon Session.
+Data:
 
 ```text
 Dungeon Session ID
 Master ID
 Floor ID
+Quest ID
+Party ID
+Hero IDs
+Leader ID
 Start Time
-Current State
+Party Lock State
 Mission State
-Party Requirement
-Party Configuration
-Party State
-Enemy State
+Enemy Encounter State
 Boss State
-Exploration State
 Event State
+Exploration State
 Result
 ```
 
-For a Multi-Party Floor:
+For Multi-Party:
 
 ```text
 Dungeon Session ID
@@ -2518,7 +1909,7 @@ Result
 
 ---
 
-# 81. DUNGEON SESSION FLOW
+# 58. DUNGEON SESSION FLOW
 
 ```text
 CREATE SESSION
@@ -2527,77 +1918,67 @@ LOAD FLOOR
       ↓
 LOAD GAME STATE
       ↓
-LOAD PARTY / PARTIES
+LOAD PARTY
       ↓
-LOAD ENEMY
+CHECK PARTY
       ↓
-LOAD EVENTS
+LOCK PARTY
+      ↓
+REQUEST ENEMY ENCOUNTER
+      ↓
+ENEMY SYSTEM
       ↓
 START MISSION
       ↓
 COMBAT / EXPLORATION
       ↓
-RESULT
+EVENT
+      ↓
+BOSS
+      ↓
+VICTORY / FAILURE
+      ↓
+CALCULATE REWARD
       ↓
 SAVE STATE
       ↓
 DATABASE
-```
-
-For a Multi-Party Session:
-
-```text
-CREATE SESSION
       ↓
-LOAD FLOOR
-      ↓
-CHECK PARTY REQUIREMENT
-      ↓
-DEPLOY PARTIES
-      ↓
-ASSIGN OBJECTIVES
-      ↓
-START PARTY SESSIONS
-      ↓
-SYNCHRONIZE SHARED FLOOR STATE
-      ↓
-TRIGGER EVENTS
-      ↓
-COMPLETE BOSS / RAID
-      ↓
-CALCULATE REWARDS
-      ↓
-SAVE ALL PARTY RESULTS
-      ↓
-DATABASE
+FAIRY REPORT
 ```
 
 ---
 
-# 82. DUNGEON FAILURE
+# 59. DUNGEON FAILURE
 
-Failure does not necessarily mean permanent game failure.
-
-Possible outcomes:
+Primary failure conditions:
 
 ```text
-Mission Failed
-Party Retreat
-Party Defeated
-Objective Failed
-NPC Lost
-Event Failed
-Raid Failed
-One Party Failed
-Multi-Party Mission Failed
-Emergency Route Activated
+All Party Heroes Dead
+Required Objective Failed
+Time Limit Failed
+Special Floor Failure Condition
+Raid Failure
+Event Failure
 ```
 
-The Game State System determines the consequences.
+Most important rule:
+
+```text
+ALL PARTY HEROES DEAD
+        ↓
+PARTY DEFEATED
+        ↓
+DUNGEON MISSION FAILED
+        ↓
+QUEST FAILED
+```
+
+The Master cannot prevent the failure by removing or replacing the Party.
 
 ---
 
-# 83. DUNGEON VICTORY
+# 60. DUNGEON VICTORY
 
 ```text
 MISSION COMPLETE
@@ -2618,191 +1999,175 @@ GAME STATE
        ↓
 DATABASE
        ↓
-FAIRY REPORT
-```
-
-For a Multi-Party Floor:
-
-```text
-ALL REQUIRED PARTY OBJECTIVES COMPLETE
-       ↓
-SHARED OBJECTIVE COMPLETE
-       ↓
-BOSS / RAID DEFEATED
-       ↓
-PARTY REWARDS
-       ↓
-SHARED REWARD
-       ↓
-INVENTORY
-       ↓
-EVENT UPDATE
-       ↓
-FLOOR STATE UPDATE
-       ↓
-GAME STATE
-       ↓
-DATABASE
+PARTY UNLOCK
        ↓
 FAIRY REPORT
 ```
 
----
-
-# 84. FLOOR UNLOCK
-
-After completing required conditions:
+Only after the mission has officially ended does:
 
 ```text
-FLOOR 10 COMPLETE
-      ↓
+PARTY LOCK = FALSE
+```
+
+---
+
+# 61. PARTY UNLOCK
+
+Party becomes available again only after:
+
+```text
+MISSION VICTORY
+OR
+MISSION FAILURE
+OR
+VALID SYSTEM EXIT
+```
+
+Example:
+
+```text
+MISSION ACTIVE
+     ↓
+PARTY LOCK = TRUE
+     ↓
+BOSS DEFEATED
+     ↓
+MISSION COMPLETE
+     ↓
+PARTY LOCK = FALSE
+```
+
+---
+
+# 62. FLOOR REVISIT
+
+Completed Floors may be revisited for:
+
+```text
+Exploration
+Quest
+Event
+Raid
+Character Story
+Resource Gathering
+Special Challenge
+Hidden Area
+```
+
+However, the persistent Floor State is loaded from the Game State System.
+
+---
+
+# 63. PERSISTENT FLOOR STATE
+
+Example:
+
+```text
+Floor 20
+
+First Visit:
+Cult Ritual Active
+
+Master destroys ritual.
+
+        ↓
+
 GAME STATE
-      ↓
-FLOOR 11 UNLOCKED
+
+        ↓
+
+Ritual Destroyed
 ```
 
-Special Floors may require additional conditions.
-
-A Multi-Party Floor can require:
+Return visit:
 
 ```text
-All Party Objectives Complete
-Shared Boss Defeated
-Required NPCs Saved
-Event Condition Complete
-Minimum Completion Rating
+Floor 20
+
+Ritual:
+Destroyed
+
+New State:
+Different encounter
 ```
+
+The world does not automatically forget previous actions.
 
 ---
 
-# 85. SPECIAL FLOOR
+# 64. DATABASE STORAGE
 
-Special Floors can contain:
+Persistent Dungeon data is stored in the Database System.
+
+Example:
 
 ```text
-Major Story
-Raid Boss
-World Exploration
-Ancient Civilization
-Unique Event
-Rare Character Event
-Special Dungeon
-Cult Stronghold
-Major Lore
-Multi-Party Mission
-Multi-Boss Encounter
+Dungeon ID
+Floor ID
+Floor Number
+Floor Type
+Floor State
+Completion State
+Exploration State
+Boss State
+Raid State
+Multi-Party State
+Party Requirement
+Party Configuration
+Party Objective
+Party Result
+Party Lock History
+Hero Deployment
+Hero Death State
+Destruction Level
+Event State
+Quest State
+Reward History
+Updated Time
 ```
 
-They do not have to follow the normal Floor structure.
+Enemy persistent data remains under the:
+
+# **ENEMY SYSTEM / DATABASE STRUCTURE**
 
 ---
 
-# 86. FLOOR 100
+# 65. ID SYSTEM
 
-Floor 100 is the final Floor.
+Every Dungeon object receives a unique ID.
 
-It represents:
-
-# **Nythar's Domain**
-
-The environment is the most heavily corrupted part of the Tower.
-
-Possible features:
+Example:
 
 ```text
-Extreme Destruction
-Reality Corruption
-Nythar's Influence
-Final Cult Forces
-Ancient Truth
-Final Boss
-Final Event
-Pact Resolution
-Multi-Party Final Battle
+TOWER-000001
+
+FLOOR-000001
+FLOOR-000002
+FLOOR-000003
+
+DUNGEON-000001
+DUNGEON-000002
+
+SESSION-000001
+SESSION-000002
+
+PARTY-000001
+PARTY-000002
+
+BOSS-000001
+RAID-000001
+
+EVENT-FLOOR-031-001
 ```
+
+Hero IDs remain controlled by the Character System.
+
+Enemy IDs remain controlled by the Enemy System.
 
 ---
 
-# 87. FINAL BATTLE
-
-```text
-MASTER
-   ↓
-FINAL PARTY / PARTIES
-   ↓
-FLOOR 100
-   ↓
-NYTHAR
-   ↓
-FINAL BATTLE
-   ↓
-GAME STATE
-```
-
-The final battle may require multiple Parties.
-
-```text
-Party 1:
-Attack Nythar's physical form.
-
-Party 2:
-Protect the Rebirth Core.
-
-Party 3:
-Break the Dark God seals.
-
-Party 4:
-Protect the surviving world fragments.
-```
-
-Victory triggers the final Pact sequence.
-
----
-
-# 88. TOWER COMPLETION
-
-If Nythar is defeated:
-
-```text
-FLOOR 100 COMPLETE
-      ↓
-TOWER COMPLETE
-      ↓
-PACT COMPLETE
-      ↓
-WORLD REBIRTH
-```
-
-The resulting world is determined by accumulated Game State data.
-
----
-
-# 89. WORLD REBIRTH DATA
-
-The final world can consider:
-
-```text
-Saved Characters
-Saved NPCs
-Faction State
-World Exploration
-Completed Events
-Character Relationships
-Important Decisions
-Civilization Knowledge
-Artifacts
-Quest Outcomes
-Master Decisions
-Multi-Party Mission Results
-```
-
-This creates the possibility of:
-
-# **A NEW AETHERIA**
-
----
-
-# 90. COMPLETE DUNGEON ARCHITECTURE
+# 66. COMPLETE DUNGEON ARCHITECTURE
 
 ```text
                          TOWER OF REBIRTH
@@ -2823,234 +2188,47 @@ This creates the possibility of:
              │              │   │   │             │
              └──────────────┴───┼───┴─────────────┘
                                 ▼
+                           PARTY LOCK
+                                │
+                                ▼
                          MISSION / EVENT
                                 │
                 ┌───────────────┼───────────────┐
                 │               │               │
              COMBAT           STORY          DISCOVERY
                 │               │               │
-                └───────────────┼───────────────┘
-                                ▼
-                            BOSS
-                                │
-                                ▼
-                           VICTORY
-                                │
-                                ▼
-                           RNG SYSTEM
-                                │
-                                ▼
-                        REWARD / LOOT
-                                │
-                                ▼
-                        INVENTORY SYSTEM
-                                │
-                                ▼
-                      GAME STATE SYSTEM
-                                │
-                    ┌───────────┴───────────┐
-                    ▼                       ▼
-                DATABASE                AI FAIRY
-                    │                       │
-                    └───────────┬───────────┘
-                                ▼
-                              MASTER
+                │               │               │
+                ▼               ▼               ▼
+          ENEMY SYSTEM     EVENT SYSTEM    EXPLORATION
+                │
+                ▼
+          BOSS / RAID
+                │
+                ▼
+         VICTORY / FAILURE
+                │
+                ▼
+            RNG SYSTEM
+                │
+                ▼
+        INVENTORY SYSTEM
+                │
+                ▼
+       GAME STATE SYSTEM
+                │
+        ┌───────┴───────┐
+        ▼               ▼
+    DATABASE         AI FAIRY
+                        │
+                        ▼
+                      MASTER
 ```
 
 ---
 
-# 91. COMPLETE WORLD EXPLORATION ARCHITECTURE
+# 67. SYSTEM RESPONSIBILITY
 
-```text
-                    OLD AETHERIA
-                         │
-                         ▼
-                  WORLD EXPLORATION
-                         │
-        ┌────────────────┼────────────────┐
-        │                │                │
-      VALERIA         ELYSIUM         ELARIA
-        │                │                │
-      AURELIA        KARAK-DUR       ATLANTIA
-        │                │                │
-        └────────────────┼────────────────┘
-                         ▼
-                  HISTORICAL EVENTS
-                         │
-                         ▼
-                  CHARACTER MEMORIES
-                         │
-                         ▼
-                    DISCOVERY
-                         │
-                         ▼
-                    RNG REWARD
-                         │
-                         ▼
-                   GAME STATE
-```
-
----
-
-# 92. COMPLETE FLOOR LOOP
-
-```text
-                 ENTER FLOOR
-                      │
-                      ▼
-                LOAD FLOOR STATE
-                      │
-                      ▼
-                LOAD DESTRUCTION
-                      │
-                      ▼
-              CHECK PARTY REQUIREMENT
-                      │
-                      ▼
-              LOAD PARTY / PARTIES
-                      │
-                      ▼
-                START MISSION
-                      │
-             ┌────────┴────────┐
-             │                 │
-          COMBAT          EXPLORATION
-             │                 │
-             └────────┬────────┘
-                      ▼
-                    EVENT
-                      │
-                      ▼
-                    BOSS
-                      │
-                      ▼
-                   VICTORY
-                      │
-                      ▼
-                  RNG REWARD
-                      │
-                      ▼
-               INVENTORY UPDATE
-                      │
-                      ▼
-              GAME STATE UPDATE
-                      │
-                      ▼
-               DATABASE SAVE
-                      │
-                      ▼
-                FAIRY REPORT
-                      │
-                      ▼
-                 FLOOR CLEAR
-```
-
----
-
-# 93. COMPLETE MULTI-PARTY FLOOR LOOP
-
-```text
-              ENTER MULTI-PARTY FLOOR
-                         │
-                         ▼
-                  LOAD FLOOR STATE
-                         │
-                         ▼
-                 CHECK PARTY REQUIREMENT
-                         │
-                         ▼
-                   DEPLOY PARTIES
-                         │
-                         ▼
-                 ASSIGN OBJECTIVES
-                         │
-                         ▼
-              START PARTY MISSIONS
-                         │
-          ┌──────────────┼──────────────┐
-          │              │              │
-       PARTY 1        PARTY 2        PARTY 3
-          │              │              │
-          └──────────────┼──────────────┘
-                         ▼
-                SYNCHRONIZE FLOOR STATE
-                         │
-                         ▼
-                         EVENT
-                         │
-                         ▼
-                    BOSS / RAID
-                         │
-                         ▼
-                  ALL OBJECTIVES CLEAR
-                         │
-                         ▼
-                    RNG REWARD
-                         │
-                         ▼
-                 PARTY REWARDS
-                         │
-                         ▼
-                 SHARED REWARD
-                         │
-                         ▼
-                INVENTORY UPDATE
-                         │
-                         ▼
-               GAME STATE UPDATE
-                         │
-                         ▼
-                  DATABASE SAVE
-                         │
-                         ▼
-                   FAIRY REPORT
-                         │
-                         ▼
-                    FLOOR CLEAR
-```
-
----
-
-# 94. CORE SYSTEM RELATIONSHIP
-
-The Dungeon System does **not** become the central controller of the entire game.
-
-Its responsibility is:
-
-> **Manage the Tower, Floors, Dungeon Sessions, Single-Party Missions, Multi-Party Missions, Exploration, Bosses, Raid Bosses, Events, and Dungeon-related progression.**
-
-The Game State System remains the central state-management layer.
-
-```text
-                    GAME STATE SYSTEM
-                            │
-        ┌───────────────────┼───────────────────┐
-        │                   │                   │
-        ▼                   ▼                   ▼
-     DUNGEON            CHARACTER             PARTY
-        │                   │                   │
-        ▼                   ▼                   ▼
- FLOOR / RAID / EVENT    HERO AI             FORMATION
-        │                   │                   │
-        └───────────────────┼───────────────────┘
-                            ▼
-                           EVENT
-                            │
-                            ▼
-                           RNG
-                            │
-                            ▼
-                        INVENTORY
-                            │
-                            ▼
-                         DATABASE
-```
-
----
-
-# 95. SYSTEM RESPONSIBILITY
-
-### Dungeon System
+## DUNGEON SYSTEM
 
 Controls:
 
@@ -3058,103 +2236,213 @@ Controls:
 Tower
 Floor
 Dungeon
+Dungeon Session
 Mission
-Boss
-Raid
-Single-Party Floor
-Multi-Party Floor
+Environment
+Floor Story
+Floor Objective
 Party Requirement
-Party Objective
-Exploration
-Dungeon Environment
+Party Deployment
+Party Lock
+Boss Encounter Trigger
+Raid Encounter
+World Exploration
 Floor Progression
-Dungeon Event Trigger
+Mission Victory
+Mission Failure
 ```
 
-### Event System
+Does NOT control:
+
+```text
+Enemy Generation
+Enemy Stats
+Enemy AI
+Enemy Loot Generation
+Hero Stats
+Hero Skills
+Hero Personality
+Inventory
+RNG Calculation
+Database Persistence
+```
+
+---
+
+## ENEMY SYSTEM
 
 Controls:
 
 ```text
-Event Definition
-Event Trigger
-Event Dialogue
-Event Choice
-Event Branch
-Event Result
-Character Event
-World Event
-Multi-Party Event
-Event Reward
-Event Completion
+Enemy ID
+Enemy Type
+Enemy Count
+Enemy Level
+Enemy Rank
+Enemy Size
+Enemy Stats
+Enemy Skills
+Enemy Formation
+Enemy AI
+Enemy Scaling
+Enemy Spawn
+Boss
+Raid Boss
+Enemy Loot Context
 ```
 
-### RNG System
+---
 
-Controls:
-
-```text
-Loot
-Floor Rewards
-Exploration Rewards
-Raid Rewards
-Quest Rewards
-Event Random Rewards
-Random Results
-```
-
-### Party System
+## PARTY SYSTEM
 
 Controls:
 
 ```text
 Party
-Multiple Parties
+Party ID
+Party Composition
+Party Leader
 Formation
-Leader
 Hero Assignment
 Party Availability
-Party Rotation
+Party Lock Status
+Party Combat State
 ```
 
-### Character System
+The Dungeon System enforces the mission lock.
+
+---
+
+## CHARACTER / HERO SYSTEM
 
 Controls:
 
 ```text
-Hero Data
-Hero Progression
+Hero ID
+Character Data
+Level
+EXP
 Star
+Stats
 Skills
-Character Identity
+Rare Skill
+Ultimate Skill
+Equipment
+Condition
+Character Progression
 ```
 
-### AI Character System
+---
+
+## CHARACTER AI / EMOTIONAL SYSTEM
 
 Controls:
 
 ```text
-Behavior
+Personality
 Emotion
 Decision
+Behavior
 Combat Action
 Relationship Reaction
+Morale
+Fear
+Memory Response
 ```
 
-### AI Fairy
+---
+
+## AI FAIRY
 
 Controls:
 
 ```text
 Observation
 Analysis
-Notification
-Master Report
+Narrative Report
+Combat Report
+Hero Condition Report
+Mission Report
+Reward Report
+Important Event Report
+Master Notification
 ```
 
-### Game State System
+---
+
+## EVENT SYSTEM
 
 Controls:
+
+```text
+Event Definition
+Event Trigger
+Dialogue
+Choice
+Branch
+Result
+Character Event
+World Event
+Star Event
+Story Event
+Event Reward
+```
+
+---
+
+## QUEST SYSTEM
+
+Controls:
+
+```text
+Quest Definition
+Quest Objective
+Quest Progress
+Quest Completion
+Quest Failure
+Quest Reward
+```
+
+---
+
+## RNG SYSTEM
+
+Controls:
+
+```text
+Enemy Randomization
+Loot
+Floor Rewards
+Exploration Rewards
+Raid Rewards
+Quest Random Rewards
+Event Random Rewards
+Random Encounter Results
+```
+
+---
+
+## INVENTORY SYSTEM
+
+Controls:
+
+```text
+Items
+Equipment
+Gold
+Gems
+Summon Tickets
+Special Tickets
+Materials
+Artifacts
+Reward Storage
+```
+
+---
+
+## GAME STATE SYSTEM
+
+Controls the global state:
 
 ```text
 World State
@@ -3163,112 +2451,356 @@ Character State
 Party State
 Quest State
 Event State
-Faction State
+Exploration State
+Raid State
 Story State
-Multi-Party State
-```
-
-### Database System
-
-Stores:
-
-```text
-Persistent Data
+Destruction State
+Mission State
 ```
 
 ---
 
-# 96. FINAL DESIGN PRINCIPLE
+## DATABASE SYSTEM
 
-The Tower is not designed as a collection of disconnected combat stages.
+Stores persistent data:
+
+```text
+All Registered IDs
+Hero Data
+Party Data
+Dungeon Data
+Floor Data
+Quest Data
+Event Data
+Inventory Data
+Reward History
+World State
+Game State
+Mission History
+```
+
+The Database System is updated through the:
+
+# **GAME STATE SYSTEM**
+
+---
+
+# 68. COMPLETE SYSTEM RELATIONSHIP
+
+```text
+                         MASTER
+                            │
+                            ▼
+                    GAME STATE SYSTEM
+                            │
+          ┌─────────────────┼─────────────────┐
+          │                 │                 │
+          ▼                 ▼                 ▼
+      DUNGEON             PARTY           CHARACTER
+          │                 │                 │
+          │                 │                 ▼
+          │                 │             CHARACTER AI
+          │                 │                 │
+          │                 │                 ▼
+          │                 │             EMOTIONAL
+          │                 │                 │
+          └────────────┬────┴─────────────────┘
+                       ▼
+                    MISSION
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+      EXPLORATION    COMBAT       EVENT
+                       │
+                       ▼
+                  ENEMY SYSTEM
+                       │
+                  ┌────┴────┐
+                  ▼         ▼
+                BOSS       RAID
+                  │         │
+                  └────┬────┘
+                       ▼
+                   RNG SYSTEM
+                       │
+                       ▼
+                 INVENTORY SYSTEM
+                       │
+                       ▼
+                 GAME STATE SYSTEM
+                       │
+                       ▼
+                   DATABASE
+                       │
+                       ▼
+                    AI FAIRY
+                       │
+                       ▼
+                     MASTER
+```
+
+---
+
+# 69. FINAL DUNGEON LOOP
+
+```text
+                    ENTER FLOOR
+                         │
+                         ▼
+                  LOAD FLOOR STATE
+                         │
+                         ▼
+                 CHECK PARTY
+                         │
+                         ▼
+                   DEPLOY PARTY
+                         │
+                         ▼
+                  PARTY LOCK = TRUE
+                         │
+                         ▼
+                   START MISSION
+                         │
+            ┌────────────┴────────────┐
+            │                         │
+       EXPLORATION                 COMBAT
+            │                         │
+            │                    ENEMY SYSTEM
+            │                         │
+            └────────────┬────────────┘
+                         ▼
+                       EVENT
+                         │
+                         ▼
+                    BOSS / RAID
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+           VICTORY                FAILURE
+              │                     │
+              ▼                     ▼
+          RNG REWARD          QUEST FAILED
+              │                     │
+              ▼                     │
+         INVENTORY                  │
+              │                     │
+              └──────────┬──────────┘
+                         ▼
+                  GAME STATE UPDATE
+                         │
+                         ▼
+                     DATABASE
+                         │
+                         ▼
+                PARTY LOCK = FALSE
+                         │
+                         ▼
+                    AI FAIRY
+                         │
+                         ▼
+                       MASTER
+```
+
+---
+
+# 70. CORE RULES
+
+The Dungeon System follows these permanent rules:
+
+### RULE 01 — 100 FLOORS
+
+```text
+Tower = 100 Floors
+```
+
+### RULE 02 — NO NPC SYSTEM
+
+```text
+Dungeon System
+≠
+NPC Management
+```
+
+Characters must belong to the appropriate Character/Hero System or Event Entity structure.
+
+### RULE 03 — ENEMY SYSTEM OWNS ENEMIES
+
+```text
+Dungeon
+   ↓
+Enemy Request
+   ↓
+Enemy System
+```
+
+### RULE 04 — PARTY LOCK
+
+```text
+Mission Start
+   ↓
+Party Locked
+```
+
+### RULE 05 — NO MANUAL PARTY EXIT
+
+The Master cannot remove a Party from an active Dungeon Mission.
+
+### RULE 06 — ALL HEROES DEAD = MISSION FAILURE
+
+```text
+All Party Heroes Dead
+        ↓
+Party Defeated
+        ↓
+Dungeon Mission Failed
+        ↓
+Quest Failed
+```
+
+### RULE 07 — LEADER DEATH ≠ AUTOMATIC FAILURE
+
+```text
+Leader Dead
++
+Other Heroes Alive
+=
+Mission Continues
+```
+
+### RULE 08 — REWARD USES RNG
+
+```text
+Dungeon Result
+     ↓
+RNG System
+     ↓
+Reward
+```
+
+### RULE 09 — NO DUNGEON EXP REWARD
+
+Dungeon completion does not provide EXP as a direct reward.
+
+### RULE 10 — GAME STATE IS THE CENTRAL SYNCHRONIZER
+
+```text
+DUNGEON
+PARTY
+CHARACTER
+QUEST
+EVENT
+RNG
+INVENTORY
+       │
+       ▼
+GAME STATE SYSTEM
+       │
+       ▼
+DATABASE
+```
+
+### RULE 11 — AI FAIRY REPORTS IMPORTANT EVENTS
+
+```text
+Mission
+Combat
+Hero Death
+Enemy Encounter
+Boss
+Event
+Reward
+Victory
+Failure
+       ↓
+AI FAIRY
+       ↓
+MASTER
+```
+
+---
+
+# 71. FINAL DESIGN PRINCIPLE
+
+The Dungeon System is not simply a collection of combat stages.
 
 Each Floor represents a fragment of Aetheria.
 
-Some Floors are personal journeys.
+The Master provides the strategy.
 
-Some Floors require multiple Parties.
+The Party enters the mission.
 
-Some Floors force the Master to divide resources, protect different locations, and make decisions that affect every active Party.
+Once the mission starts, the Party becomes committed to the mission.
 
 ```text
-AETHERIA
+MASTER
    ↓
-WORLD DESTROYED
+SELECT PARTY
    ↓
-TOWER OF REBIRTH
+ENTER FLOOR
    ↓
-100 FLOORS
+PARTY LOCK
    ↓
-EACH FLOOR = WORLD FRAGMENT
+MISSION
    ↓
-EXPLORATION
+COMBAT / EXPLORATION
    ↓
-STORY
-   ↓
-CHARACTER
-   ↓
-SINGLE-PARTY OR MULTI-PARTY MISSION
-   ↓
-COMBAT
+ENEMY SYSTEM
    ↓
 EVENT
    ↓
 BOSS / RAID
    ↓
-RNG REWARD
+VICTORY / FAILURE
+   ↓
+RNG
+   ↓
+INVENTORY
    ↓
 GAME STATE
    ↓
-WORLD CHANGES
+DATABASE
+   ↓
+FAIRY REPORT
 ```
 
-The **World Exploration System** allows the Master to understand the world **before it was destroyed**.
+The Master cannot simply remove a Party when the situation becomes dangerous.
 
-The **Dungeon System** allows the Master to experience the world **after its destruction**.
-
-The **Event System** gives meaning to the choices, memories, relationships, and consequences that occur inside each Floor.
-
-Together:
+The Heroes must face the consequences of the mission.
 
 ```text
-                BEFORE
-             AETHERIA
-                 │
-                 ▼
-          WORLD EXPLORATION
-                 │
-                 ▼
-             NIGHT OF RUIN
-                 │
-                 ▼
-               AFTER
-                 │
-                 ▼
-        TOWER OF REBIRTH
-                 │
-                 ▼
-              100 FLOORS
-                 │
-                 ▼
-       SINGLE-PARTY / MULTI-PARTY
-                 │
-                 ▼
-              NYTHAR
-                 │
-                 ▼
-          WORLD REBIRTH
+PARTY ENTERS
+     ↓
+NO MANUAL EXIT
+     ↓
+HEROES FIGHT
+     ↓
+HEROES SURVIVE
+     │
+     └──────────────► VICTORY
+
+OR
+
+HEROES FALL
+     ↓
+ALL HEROES DEAD
+     ↓
+PARTY DEFEATED
+     ↓
+MISSION FAILED
+     ↓
+QUEST FAILED
 ```
 
-> **The Master does not simply climb a Tower.**
+The Dungeon therefore becomes a real strategic risk.
 
-> **The Master walks through the history, ruins, memories, and remaining fragments of an entire world.**
+Every deployment matters.
 
-> **Every Floor is a piece of what Aetheria was.**
+Every Hero matters.
 
-> **Some Floors are conquered by one Party.**
+Every Party decision matters.
 
-> **Some Floors require every Party to stand together.**
+And when the Master sends a Party into the Tower:
 
-> **Every Event creates a consequence.**
+> **There is no simple "exit" button.**
 
-> **Every decision can influence what Aetheria becomes.**
+> **The Party must finish the mission—or fall inside it.**
