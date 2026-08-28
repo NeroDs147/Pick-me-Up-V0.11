@@ -1,0 +1,2613 @@
+# 💰 AETHERIA — ECONOMY CONFIGURATION SYSTEM
+
+> **The economy of Aetheria must be configurable.**
+>
+> **Every value can change, but every change must remain controlled by the Game State System.**
+
+Economy Configuration System adalah sistem konfigurasi pusat yang mengatur seluruh parameter ekonomi di Aetheria.
+
+Sistem ini **tidak menyimpan saldo pemain sebagai konfigurasi**.
+
+Sistem ini menentukan:
+
+* nilai resource
+* harga
+* reward
+* biaya
+* multiplier
+* drop value
+* crafting cost
+* facility cost
+* recruitment cost
+* hero leveling cost
+* economic limits
+* economic scaling
+
+Sedangkan nilai aktual pemain disimpan oleh:
+
+```text
+DATABASE SYSTEM
+```
+
+---
+
+# 1. SYSTEM POSITION
+
+Economy Configuration System berada di antara sistem gameplay dan Game State System.
+
+```text
+              GAME SYSTEMS
+                   │
+        ┌──────────┼──────────┐
+        │          │          │
+     QUEST       LOOT      RECRUIT
+        │          │          │
+        ├──────────┼──────────┤
+        │          │          │
+     CRAFT      HERO LEVEL   MARKET
+        │          │          │
+        └──────────┼──────────┘
+                   │
+                   ▼
+       ECONOMY CONFIGURATION
+                   │
+                   ▼
+          GAME STATE SYSTEM
+                   │
+                   ▼
+           DATABASE SYSTEM
+```
+
+---
+
+# 2. ECONOMIC RESOURCES
+
+Resource utama Aetheria:
+
+```text
+GOLD
+GEM
+SUMMON TICKET
+SPECIAL TICKET
+```
+
+Resource lain dapat ditambahkan melalui konfigurasi.
+
+Contoh:
+
+```text
+Gold
+Gem
+Summon Ticket
+Special Ticket
+Iron
+Wood
+Stone
+Mana Crystal
+Rare Material
+Event Currency
+Faction Currency
+Hero Shard
+```
+
+Setiap resource memiliki ID.
+
+```text
+RESOURCE-GOLD
+RESOURCE-GEM
+RESOURCE-TICKET
+RESOURCE-SPECIAL-TICKET
+RESOURCE-HERO-SHARD
+```
+
+---
+
+# 3. RESOURCE CONFIGURATION
+
+Setiap resource mempunyai parameter.
+
+```text
+Resource ID
+Resource Name
+Resource Type
+Maximum Capacity
+Minimum Value
+Tradable
+Obtainable
+Spendable
+Account Bound
+Rarity
+```
+
+Contoh:
+
+```text
+RESOURCE-GOLD
+
+Type:
+Currency
+
+Minimum:
+0
+
+Maximum:
+999999999
+
+Tradable:
+No
+
+Obtainable:
+Yes
+
+Spendable:
+Yes
+```
+
+---
+
+# 4. ECONOMY CONFIGURATION ID
+
+Setiap konfigurasi memiliki ID.
+
+```text
+ECON-CONFIG-000001
+```
+
+Contoh:
+
+```text
+ECON-CONFIG-000001
+Version:
+1.0.0
+
+Status:
+Active
+```
+
+Konfigurasi dapat memiliki versioning.
+
+```text
+Version 1
+↓
+Version 2
+↓
+Version 3
+```
+
+---
+
+# 5. GOLD CONFIGURATION
+
+Gold adalah currency ekonomi dasar.
+
+Gold digunakan untuk:
+
+```text
+Crafting
+Hero Level Up
+Hero Ascension
+Hero Skill Upgrade
+Equipment Upgrade
+Facility Upgrade
+Gold Summon
+Recruitment Support
+Training
+Repair
+Market Purchase
+```
+
+Parameter utama:
+
+```text
+Gold Starting Amount
+Gold Reward
+Gold Drop
+Gold Cost
+Gold Cap
+Gold Multiplier
+Gold Tax
+Gold Conversion
+Gold Sink Rate
+```
+
+Contoh:
+
+```text
+Starting Gold:
+1000
+
+Maximum Gold:
+999999999
+```
+
+---
+
+# 6. GOLD VALUE STANDARD
+
+Gold digunakan sebagai dasar harga seluruh sistem.
+
+```text
+1 Gold
+=
+Unit ekonomi dasar Aetheria
+```
+
+Kategori harga:
+
+```text
+Very Low:
+1–99 Gold
+
+Low:
+100–999 Gold
+
+Medium:
+1000–9999 Gold
+
+High:
+10000–99999 Gold
+
+Very High:
+100000+ Gold
+```
+
+Kategori ini digunakan untuk menjaga konsistensi harga antar-sistem.
+
+---
+
+# 7. GOLD REWARD CONFIGURATION
+
+Gold dapat diperoleh dari:
+
+```text
+Enemy Loot
+Quest
+Floor Reward
+Daily Mission
+Weekly Mission
+Event
+Selling Item
+Facility Production
+Achievement
+World Activity
+```
+
+Contoh reward dasar:
+
+```text
+Normal Enemy:
+20–50 Gold
+
+Elite Enemy:
+100–250 Gold
+
+Boss Enemy:
+500–1500 Gold
+
+Daily Quest:
+100–300 Gold
+
+Weekly Quest:
+1000–3000 Gold
+
+Major Quest:
+3000–10000 Gold
+```
+
+Nilai tersebut adalah baseline dan dapat diubah melalui konfigurasi.
+
+---
+
+# 8. GOLD DROP BY ENEMY TIER
+
+```text
+Enemy Tier        Gold Drop
+────────────────────────────
+Weak              5–20
+Normal            20–50
+Strong            50–120
+Elite             100–300
+Mini Boss         300–800
+Boss              800–2500
+World Boss        5000–25000
+```
+
+Formula:
+
+```text
+Final Gold Drop =
+Base Gold Drop
+× Enemy Tier Multiplier
+× Floor Multiplier
+× World State Multiplier
+× Event Multiplier
+```
+
+Hasil akhir tetap dibatasi oleh:
+
+```text
+Minimum Gold Drop
+Maximum Gold Drop
+```
+
+---
+
+# 9. GOLD REWARD BY FLOOR
+
+```text
+Floor Range       Clear Reward
+───────────────────────────────
+Floor 1–5         100–300 Gold
+Floor 6–10        300–700 Gold
+Floor 11–20       700–1500 Gold
+Floor 21–30       1500–3000 Gold
+Floor 31–50       3000–7000 Gold
+Floor 51–75       7000–15000 Gold
+Floor 76–100      15000–30000 Gold
+```
+
+Reward dapat dibagi menjadi:
+
+```text
+First Clear Reward
+Repeat Clear Reward
+Boss Clear Reward
+Challenge Reward
+Perfect Clear Reward
+```
+
+Contoh:
+
+```text
+Floor 10 First Clear:
+1000 Gold
+
+Floor 10 Repeat Clear:
+300 Gold
+
+Floor 10 Boss Clear:
+500 Gold
+```
+
+---
+
+# 10. GOLD QUEST REWARD
+
+```text
+Quest Type          Gold Reward
+────────────────────────────────
+Easy Quest          50–100
+Normal Quest        100–300
+Hard Quest          300–700
+Elite Quest         700–1500
+Major Quest         1500–5000
+Legendary Quest     5000–15000
+```
+
+Quest reward dapat menggunakan:
+
+```text
+Base Reward
+× Difficulty Multiplier
+× Destruction Multiplier
+× Event Multiplier
+```
+
+---
+
+# 11. GOLD STARTER ECONOMY
+
+Pada awal permainan Master mendapatkan paket pemula.
+
+Konfigurasi:
+
+```text
+STARTER-PACK-001
+```
+
+Contoh:
+
+```text
+Gold:
+1000
+
+Gem:
+100
+
+Summon Ticket:
+5
+
+Special Ticket:
+0
+```
+
+Starter Gold sebesar `1000 Gold` cukup untuk:
+
+```text
+Beberapa crafting dasar
+Satu atau dua upgrade awal
+Biaya layanan awal
+```
+
+Starter Gold tidak boleh cukup untuk langsung membuka seluruh sistem ekonomi.
+
+---
+
+# 12. GEM CONFIGURATION
+
+Gem merupakan resource premium.
+
+Gem digunakan untuk:
+
+```text
+Gem Summon
+Premium Recruitment
+Energy Refill
+Shop Purchase
+Instant Craft
+Instant Upgrade
+Event Exchange
+Additional Attempt
+```
+
+Parameter:
+
+```text
+Starting Gem
+Quest Gem Reward
+Floor Gem Reward
+Event Gem Reward
+Gem Cost
+Gem Conversion
+Gem Cap
+Gem Multiplier
+Gem Purchase Limit
+```
+
+Gem tidak boleh dihasilkan secara random tanpa sumber yang valid.
+
+---
+
+# 13. GEM REWARD STANDARD
+
+Contoh reward Gem:
+
+```text
+Daily Quest:
+1–5 Gem
+
+Weekly Quest:
+10–30 Gem
+
+Major Quest:
+20–100 Gem
+
+First Floor Clear:
+5–20 Gem
+
+Achievement:
+5–100 Gem
+
+Event:
+10–500 Gem
+```
+
+Gem harus lebih langka daripada Gold.
+
+---
+
+# 14. SUMMON TICKET
+
+Summon Ticket digunakan oleh Recruitment System.
+
+```text
+Ticket ID
+Ticket Type
+Recruitment Pool
+Acquisition Source
+Expiration
+Maximum Stack
+```
+
+Contoh:
+
+```text
+TICKET-SUMMON-NORMAL
+
+Used By:
+Normal Ticket Recruitment
+```
+
+Satu Summon Ticket digunakan untuk:
+
+```text
+1x Ticket Summon
+```
+
+---
+
+# 15. SPECIAL TICKET
+
+Special Ticket digunakan untuk recruitment khusus.
+
+```text
+TICKET-SPECIAL-001
+```
+
+Dapat dikonfigurasi untuk:
+
+```text
+Star 5 Recruitment
+Event Recruitment
+Limited Recruitment
+Special Pool
+Guaranteed Recruitment
+```
+
+---
+
+# 16. ITEM ECONOMIC VALUE
+
+Setiap Item dapat mempunyai nilai ekonomi.
+
+```text
+Item ID
+Base Value
+Sell Value
+Buy Value
+Craft Value
+Repair Value
+Upgrade Value
+```
+
+Contoh:
+
+```text
+ITEM-IRON-001
+
+Base Value:
+50 Gold
+
+Sell Value:
+25 Gold
+
+Buy Value:
+50 Gold
+```
+
+Aturan umum:
+
+```text
+Sell Value:
+40%–60% dari Buy Value
+
+Buy Value:
+100% dari Base Value
+
+Rare Item Sell Value:
+30%–50% dari Base Value
+```
+
+Harga jual tidak boleh lebih tinggi daripada harga beli kecuali terdapat event atau bonus khusus.
+
+---
+
+# 17. CRAFTING ECONOMY
+
+Crafting menggunakan:
+
+```text
+Materials
+Gold
+Special Items
+Crafting Time
+Facility Level
+```
+
+Harga crafting terdiri dari:
+
+```text
+Material Cost
+Gold Cost
+Facility Cost
+Optional Instant Cost
+```
+
+Formula:
+
+```text
+Total Craft Cost =
+Material Cost
++
+Gold Craft Fee
++
+Facility Modifier
+```
+
+---
+
+# 18. BASIC CRAFTING PRICE
+
+Contoh harga crafting dasar:
+
+```text
+Item Tier        Gold Cost
+───────────────────────────
+Tier 1           25–100
+Tier 2           100–300
+Tier 3           300–800
+Tier 4           800–2000
+Tier 5           2000–5000
+Tier 6           5000–12000
+```
+
+Contoh:
+
+```text
+ITEM-SWORD-T1
+
+Materials:
+Iron x5
+Wood x2
+
+Gold:
+100
+```
+
+```text
+ITEM-SWORD-T2
+
+Materials:
+Iron x15
+Wood x5
+Mana Crystal x1
+
+Gold:
+350
+```
+
+```text
+ITEM-SWORD-T3
+
+Materials:
+Iron x40
+Rare Material x5
+Mana Crystal x3
+
+Gold:
+1000
+```
+
+---
+
+# 19. EQUIPMENT CRAFTING PRICE
+
+```text
+Equipment Rarity       Gold Cost
+─────────────────────────────────
+Common                 100
+Uncommon               300
+Rare                   1000
+Epic                   3500
+Legendary              10000
+Unique                 30000
+```
+
+Harga final dapat dipengaruhi oleh:
+
+```text
+Equipment Level
+Rarity
+Number of Materials
+Facility Level
+Special Effect
+Crafting Success Rate
+```
+
+---
+
+# 20. CONSUMABLE CRAFTING PRICE
+
+```text
+Consumable Type        Gold Cost
+────────────────────────────────
+Small Potion           25
+Medium Potion          100
+Large Potion           350
+Revival Item           1000
+Basic Buff             150
+Advanced Buff          500
+Rare Buff              1500
+```
+
+---
+
+# 21. CRAFTING FAILURE AND REFUND
+
+Jika crafting memiliki kemungkinan gagal:
+
+```text
+Crafting Success:
+100%
+```
+
+untuk crafting dasar.
+
+Untuk crafting tingkat tinggi:
+
+```text
+Tier 1–3:
+100% Success
+
+Tier 4:
+95% Success
+
+Tier 5:
+90% Success
+
+Tier 6:
+85% Success
+```
+
+Jika gagal:
+
+```text
+Gold:
+Tidak dikembalikan
+
+Material:
+50%–80% dapat dikembalikan
+```
+
+Namun sistem ini sebaiknya digunakan hanya untuk crafting khusus agar tidak terasa menghukum pemain secara berlebihan.
+
+---
+
+# 22. AUTOMATIC CRAFTING
+
+Town Square dapat melakukan automatic crafting.
+
+```text
+FACILITY
+   ↓
+LEADER
+   ↓
+CRAFTING AI
+   ↓
+CHECK MATERIAL
+   ↓
+CHECK GOLD
+   ↓
+ECONOMY CONFIG
+   ↓
+CRAFT
+   ↓
+INVENTORY
+```
+
+Jika material atau Gold tidak cukup:
+
+```text
+CRAFTING STOP
+```
+
+---
+
+# 23. HERO LEVEL ECONOMY
+
+Hero membutuhkan:
+
+```text
+Gold
+Ascension Material
+Hero Shard
+```
+
+Naik level hero dibagi menjadi:
+
+```text
+Level Up
+Ascension
+Skill Upgrade
+Limit Break
+Star Upgrade
+```
+
+Gold digunakan sebagai biaya tambahan untuk proses peningkatan level Hero.
+
+---
+
+# 24. HERO LEVEL UP COST
+
+Biaya naik level menggunakan formula:
+
+```text
+Gold Cost =
+Base Level Cost
+× Current Hero Level
+× Rarity Multiplier
+```
+
+Baseline biaya per level:
+
+```text
+Level Range       Gold Cost per Level
+────────────────────────────────────
+1–10              50
+11–20             100
+21–30             200
+31–40             400
+41–50             800
+51–60             1500
+61–70             3000
+71–80             6000
+81–90             12000
+91–100            25000
+```
+
+Biaya tersebut berlaku untuk satu proses kenaikan level, bukan seluruh rentang level.
+
+---
+
+# 25. HERO LEVEL UP TOTAL COST
+
+Perkiraan total Gold untuk menaikkan satu Hero dari Level 1:
+
+```text
+Target Level      Total Gold
+─────────────────────────────
+Level 10          450
+Level 20          1450
+Level 30          3450
+Level 40          7450
+Level 50          15450
+Level 60          30450
+Level 70          60450
+Level 80          120450
+Level 90          240450
+Level 100         490450
+```
+
+Nilai ini belum termasuk:
+
+```text
+Ascension Material
+Skill Upgrade
+Equipment
+Limit Break
+```
+
+---
+
+# 26. HERO RARITY LEVEL MULTIPLIER
+
+Hero dengan rarity lebih tinggi membutuhkan biaya lebih besar.
+
+```text
+Hero Rarity       Gold Multiplier
+─────────────────────────────────
+Star 1            x0.50
+Star 2            x0.75
+Star 3            x1.00
+Star 4            x1.50
+Star 5            x2.00
+Star 6            x3.00
+```
+
+Formula:
+
+```text
+Final Level Cost =
+Base Level Cost
+× Hero Rarity Multiplier
+× Level Scaling
+```
+
+---
+
+# 27. HERO ASCENSION COST
+
+Ascension membuka batas level baru.
+
+Contoh:
+
+```text
+Ascension Stage       Gold Cost
+───────────────────────────────
+Stage 1               1000
+Stage 2               3000
+Stage 3               7500
+Stage 4               15000
+Stage 5               30000
+Stage 6               60000
+```
+
+Selain Gold, Ascension membutuhkan:
+
+```text
+Hero Shard
+Element Material
+Rare Material
+Boss Material
+```
+
+Contoh:
+
+```text
+Ascension Stage 1
+
+Gold:
+1000
+
+Hero Shard:
+10
+
+Element Material:
+5
+```
+
+---
+
+# 28. HERO SKILL UPGRADE COST
+
+Skill upgrade menggunakan Gold dan material skill.
+
+```text
+Skill Level       Gold Cost
+───────────────────────────
+Level 1 → 2       100
+Level 2 → 3       250
+Level 3 → 4       500
+Level 4 → 5       1000
+Level 5 → 6       2000
+Level 6 → 7       4000
+Level 7 → 8       7500
+Level 8 → 9       12000
+Level 9 → 10      20000
+```
+
+Untuk skill ultimate:
+
+```text
+Ultimate Skill Cost:
+1.5× dari biaya skill biasa
+```
+
+---
+
+# 29. HERO LIMIT BREAK COST
+
+Limit Break menggunakan:
+
+```text
+Gold
+Hero Shard
+Rare Material
+```
+
+Contoh:
+
+```text
+Limit Break Stage       Gold Cost
+─────────────────────────────────
+Stage 1                 5000
+Stage 2                 15000
+Stage 3                 40000
+Stage 4                 100000
+Stage 5                 250000
+```
+
+Limit Break harus menjadi Gold Sink jangka panjang.
+
+---
+
+# 30. HERO STAR UPGRADE COST
+
+Jika sistem menggunakan Star Upgrade:
+
+```text
+Star Upgrade        Gold Cost
+──────────────────────────────
+Star 1 → 2          1000
+Star 2 → 3          3000
+Star 3 → 4          10000
+Star 4 → 5          30000
+Star 5 → 6          100000
+```
+
+Biaya ini belum termasuk Hero Shard atau duplikat Hero.
+
+---
+
+# 31. GOLD SUMMON
+
+Gold Summon adalah recruitment murah dengan kualitas terbatas.
+
+```text
+Gold Summon Cost:
+1000 Gold per summon
+```
+
+Pilihan summon:
+
+```text
+1x Summon:
+1000 Gold
+
+10x Summon:
+10000 Gold
+```
+
+Gold Summon dapat menghasilkan:
+
+```text
+Star 1:
+70%
+
+Star 2:
+29%
+
+Star 3:
+1%
+```
+
+Gold Summon tidak dapat menghasilkan Hero Star 4 atau Star 5 kecuali konfigurasi event mengizinkannya.
+
+---
+
+# 32. TICKET SUMMON
+
+Ticket Summon menggunakan Summon Ticket.
+
+```text
+1x Summon:
+1 Summon Ticket
+
+10x Summon:
+10 Summon Ticket
+```
+
+Contoh pool:
+
+```text
+Star 2:
+70%
+
+Star 3:
+29%
+
+Star 4:
+1%
+```
+
+Sistem pity dapat ditambahkan:
+
+```text
+Every 50 summons:
+Guaranteed Star 4 or higher
+```
+
+---
+
+# 33. GEM SUMMON
+
+Gem Summon adalah metode summon premium.
+
+Rekomendasi harga:
+
+```text
+1x Gem Summon:
+100 Gem
+
+10x Gem Summon:
+900 Gem
+```
+
+Diskon multi-summon:
+
+```text
+1x:
+100 Gem
+
+10x:
+900 Gem
+
+50x:
+4250 Gem
+```
+
+Harga ini mengikuti pola umum game gacha yang biasanya memberikan diskon kecil untuk multi-summon, tetapi tetap harus disesuaikan dengan jumlah Gem yang dapat diperoleh pemain secara gratis.
+
+---
+
+# 34. GEM SUMMON POOL
+
+Contoh rate Gem Summon:
+
+```text
+Star 1:
+45%
+
+Star 2:
+35%
+
+Star 3:
+15%
+
+Star 4:
+4.5%
+
+Star 5:
+0.5%
+```
+
+Alternatif rate untuk banner premium:
+
+```text
+Star 3:
+70%
+
+Star 4:
+25%
+
+Star 5:
+5%
+```
+
+Setiap banner harus memiliki konfigurasi rate sendiri.
+
+---
+
+# 35. GEM SUMMON PITY SYSTEM
+
+Untuk mencegah hasil buruk berulang:
+
+```text
+Soft Pity:
+50 summons
+
+Hard Pity:
+100 summons
+```
+
+Contoh:
+
+```text
+Summon 1–49:
+Rate normal
+
+Summon 50:
+Minimum Star 4
+
+Summon 100:
+Guaranteed Star 5
+```
+
+Pity counter disimpan di Database:
+
+```text
+MASTER-000001
+
+Gem Banner Pity:
+37
+```
+
+Pity tidak boleh hilang kecuali banner memang memiliki aturan reset.
+
+---
+
+# 36. GEM SUMMON GUARANTEE
+
+Pilihan konfigurasi:
+
+```text
+10x Summon:
+Guaranteed minimum Star 3
+
+50x Summon:
+Guaranteed minimum Star 4
+
+100x Summon:
+Guaranteed Star 5
+```
+
+Contoh:
+
+```text
+10x Gem Summon:
+900 Gem
+
+Guarantee:
+At least one Star 3 or higher
+```
+
+---
+
+# 37. SPECIAL TICKET SUMMON
+
+Special Ticket digunakan untuk banner khusus.
+
+```text
+1x Special Summon:
+1 Special Ticket
+```
+
+Contoh:
+
+```text
+Possible:
+Star 4–5
+
+Star 4:
+90%
+
+Star 5:
+10%
+```
+
+Banner Limited dapat menggunakan:
+
+```text
+Featured Hero Rate:
+50% dari seluruh hasil Star 5
+```
+
+---
+
+# 38. GEM PRICE REFERENCE
+
+Harga Gem harus mempertimbangkan:
+
+```text
+Gem Acquisition Rate
+Daily Free Gem
+Quest Gem
+Event Gem
+Summon Cost
+Pity Requirement
+```
+
+Contoh paket internal:
+
+```text
+Gem Pack A:
+100 Gem
+
+Gem Pack B:
+550 Gem
+
+Gem Pack C:
+1200 Gem
+
+Gem Pack D:
+2500 Gem
+
+Gem Pack E:
+6500 Gem
+```
+
+Bonus pembelian:
+
+```text
+First Purchase Bonus:
++100%
+
+Regular Bonus:
++5%–20%
+```
+
+Harga uang nyata tidak ditentukan oleh Economy Configuration inti dan dapat dipisahkan ke Monetization Configuration.
+
+---
+
+# 39. RECRUITMENT ECONOMIC VALIDATION
+
+Sebelum recruitment:
+
+```text
+MASTER
+ ↓
+RECRUITMENT
+ ↓
+CHECK RESOURCE
+ ↓
+CHECK BANNER
+ ↓
+ECONOMY CONFIG
+ ↓
+GAME STATE
+ ↓
+RNG
+ ↓
+PITY CHECK
+```
+
+Jika resource tidak cukup:
+
+```text
+RECRUITMENT DENIED
+```
+
+---
+
+# 40. FACILITY ECONOMY
+
+Setiap Facility dapat memiliki:
+
+```text
+Unlock Cost
+Upgrade Cost
+Operating Cost
+Crafting Cost
+Maintenance Cost
+Production Multiplier
+Capacity
+```
+
+Contoh:
+
+```text
+BLACKSMITH Lv.2
+
+Upgrade Cost:
+5000 Gold
+
+Required Material:
+Iron x20
+```
+
+---
+
+# 41. FACILITY UPGRADE PRICE
+
+```text
+Facility Level       Gold Cost
+──────────────────────────────
+Level 1 → 2          1000
+Level 2 → 3          5000
+Level 3 → 4          20000
+Level 4 → 5          75000
+Level 5 → 6          250000
+Level 6 → 7          750000
+Level 7 → 8          2000000
+Level 8 → 9          5000000
+Level 9 → 10         12000000
+```
+
+Biaya material meningkat sesuai level.
+
+---
+
+# 42. FACILITY OPERATING COST
+
+Facility tertentu dapat memiliki biaya operasional.
+
+```text
+Facility Type        Daily Cost
+───────────────────────────────
+Workshop             50 Gold
+Blacksmith           100 Gold
+Alchemy Lab          150 Gold
+Research Lab         300 Gold
+Advanced Forge       500 Gold
+World Gate           1000 Gold
+```
+
+Biaya operasional hanya diterapkan jika Facility aktif.
+
+---
+
+# 43. MARKET CONFIGURATION
+
+Market memiliki:
+
+```text
+Buy Price
+Sell Price
+Price Multiplier
+Supply
+Demand
+Refresh Time
+Item Availability
+```
+
+Harga dasar:
+
+```text
+Common Material:
+10–100 Gold
+
+Uncommon Material:
+100–500 Gold
+
+Rare Material:
+500–2500 Gold
+
+Epic Material:
+2500–10000 Gold
+
+Legendary Material:
+10000–50000 Gold
+```
+
+---
+
+# 44. SUPPLY & DEMAND
+
+Ekonomi dapat menggunakan:
+
+```text
+Supply
+Demand
+```
+
+Contoh:
+
+```text
+Iron Supply ↓
+      ↓
+Iron Price ↑
+```
+
+atau:
+
+```text
+Iron Supply ↑
+      ↓
+Iron Price ↓
+```
+
+Perubahan harus dibatasi oleh:
+
+```text
+Minimum Price
+Maximum Price
+Price Change Rate
+```
+
+agar ekonomi tidak rusak.
+
+---
+
+# 45. PRICE LIMIT
+
+Setiap item dapat memiliki:
+
+```text
+Minimum Price
+Maximum Price
+```
+
+Contoh:
+
+```text
+Iron
+
+Minimum:
+10 Gold
+
+Maximum:
+100 Gold
+```
+
+Dengan demikian AI atau Market System tidak dapat menghasilkan harga ekstrem.
+
+---
+
+# 46. REWARD LIMIT
+
+Reward juga memiliki batas.
+
+```text
+Minimum Reward
+Maximum Reward
+```
+
+Contoh:
+
+```text
+Quest Gold Reward
+
+Min:
+100
+
+Max:
+1000
+```
+
+RNG hanya memilih nilai dalam batas tersebut.
+
+---
+
+# 47. ECONOMIC MULTIPLIER
+
+Multiplier global:
+
+```text
+GLOBAL ECONOMY MULTIPLIER
+```
+
+Contoh:
+
+```text
+Loot Multiplier
+Quest Multiplier
+Crafting Multiplier
+Market Multiplier
+Facility Multiplier
+Hero Level Cost Multiplier
+Summon Cost Multiplier
+Event Multiplier
+```
+
+Setiap multiplier dapat diatur secara terpisah.
+
+---
+
+# 48. EVENT ECONOMY
+
+Event dapat mempunyai currency khusus.
+
+Contoh:
+
+```text
+EVENT-001
+Currency:
+EVENT-COIN-001
+```
+
+Event currency tidak boleh otomatis masuk ke ekonomi utama.
+
+Event currency memiliki:
+
+```text
+Start Date
+End Date
+Exchange Rate
+Reward Pool
+Expiration
+```
+
+---
+
+# 49. ECONOMIC INFLATION CONTROL
+
+Aetheria harus memiliki perlindungan terhadap inflasi.
+
+Parameter:
+
+```text
+Gold Generation Rate
+Gold Consumption Rate
+Gem Generation Rate
+Gem Consumption Rate
+Average Player Wealth
+Average Hero Level
+Average Summon Count
+```
+
+Game State dapat memonitor:
+
+```text
+Generated
+-
+Spent
+=
+Net Economy Change
+```
+
+---
+
+# 50. RESOURCE SINK
+
+Resource harus memiliki penggunaan.
+
+Contoh Gold Sink:
+
+```text
+Hero Level Up
+Hero Ascension
+Hero Skill Upgrade
+Hero Limit Break
+Recruitment
+Crafting
+Facility Upgrade
+Repair
+Market
+Training
+Operating Cost
+Other Services
+```
+
+Jika terlalu banyak Gold masuk tetapi sedikit yang keluar:
+
+```text
+INFLATION RISK
+```
+
+Game State dapat memberikan peringatan.
+
+---
+
+# 51. ECONOMIC MONITORING
+
+Game State System memonitor:
+
+```text
+Total Gold
+Total Gem
+Total Ticket
+Total Items
+Average Wealth
+Average Hero Level
+Average Hero Upgrade Cost
+Resource Generation
+Resource Consumption
+Market Price
+Summon Frequency
+Reward Inflation
+```
+
+---
+
+# 52. ECONOMY ALERT
+
+Jika ekonomi berada di luar parameter:
+
+```text
+ECONOMY WARNING
+```
+
+Contoh:
+
+```text
+Gold Generation
+↑ 250%
+
+Gold Consumption
+↓ 20%
+
+Average Hero Level
+↑ 180%
+
+Economic Inflation Risk
+HIGH
+```
+
+Fairy dapat melaporkan kondisi tersebut kepada Master jika sistem memang mengizinkannya.
+
+---
+
+# 53. RNG ECONOMIC CONTROL
+
+RNG tidak boleh menentukan ekonomi tanpa batas.
+
+```text
+RNG
+ ↓
+CONFIGURATION
+ ↓
+MIN/MAX
+ ↓
+MULTIPLIER
+ ↓
+GAME STATE VALIDATION
+```
+
+Contoh:
+
+```text
+Gold Loot:
+100–500
+```
+
+RNG:
+
+```text
+287
+```
+
+Hasil valid.
+
+Jika RNG menghasilkan:
+
+```text
+5000
+```
+
+hasil tersebut ditolak karena melewati konfigurasi.
+
+---
+
+# 54. AI ECONOMIC CONTROL
+
+AI dapat membuat:
+
+```text
+Item
+Quest
+Event
+NPC Activity
+Loot Description
+Crafting Result
+Hero
+```
+
+Tetapi AI tetap dibatasi:
+
+```text
+ECONOMY CONFIGURATION
++
+GAME STATE
++
+RNG RULE
+```
+
+AI tidak dapat memberikan:
+
+```text
+Unlimited Gold
+Unlimited Gem
+Unlimited Ticket
+Impossible Item Value
+Free Hero Level Up
+Free Summon
+```
+
+---
+
+# 55. GAME STATE VALIDATION
+
+Semua perubahan ekonomi:
+
+```text
+Reward
+Loot
+Purchase
+Sale
+Craft
+Recruit
+Gem Summon
+Gold Summon
+Hero Level Up
+Hero Ascension
+Skill Upgrade
+Facility Upgrade
+Quest Reward
+Event Reward
+```
+
+mengikuti:
+
+```text
+ACTION
+ ↓
+ECONOMY CONFIG
+ ↓
+CHECK COST
+ ↓
+CHECK INVENTORY
+ ↓
+GAME STATE
+ ↓
+VALID?
+ ├── YES → TRANSACTION → DATABASE
+ └── NO  → REJECT
+```
+
+---
+
+# 56. DATABASE STRUCTURE
+
+Database menyimpan state aktual.
+
+Contoh:
+
+```text
+MASTER-000001
+
+Gold:
+12500
+
+Gem:
+450
+
+Summon Ticket:
+12
+
+Special Ticket:
+1
+
+Gem Banner Pity:
+37
+
+Gold Banner Pity:
+0
+```
+
+Database tidak perlu menyimpan seluruh parameter balancing sebagai data karakter.
+
+Configuration dan State harus dipisahkan.
+
+---
+
+# 57. CONFIGURATION VS STATE
+
+### CONFIGURATION
+
+```text
+Hero Level 1 → 2:
+50 Gold
+
+Gold Summon:
+1000 Gold
+
+Gem Summon:
+100 Gem
+
+10x Gem Summon:
+900 Gem
+
+Tier 3 Craft:
+1000 Gold
+```
+
+### STATE
+
+```text
+Master Gold:
+12500
+
+Master Gem:
+450
+
+Master Ticket:
+12
+
+Hero Level:
+35
+
+Gem Banner Pity:
+37
+```
+
+Konsep:
+
+```text
+CONFIGURATION
+     ↓
+RULE
+
+DATABASE
+     ↓
+CURRENT STATE
+```
+
+---
+
+# 58. ECONOMIC TRANSACTION
+
+Setiap transaksi mempunyai ID.
+
+```text
+TRANSACTION-000001
+```
+
+Contoh transaksi Hero Level Up:
+
+```text
+Transaction:
+Hero Level Up
+
+Hero:
+HERO-000001
+
+Level:
+34 → 35
+
+Cost:
+400 Gold
+
+Before:
+12500 Gold
+
+After:
+12100 Gold
+
+Master:
+MASTER-000001
+
+Timestamp:
+GAME-TIME
+```
+
+Contoh transaksi Gem Summon:
+
+```text
+Transaction:
+10x Gem Summon
+
+Cost:
+900 Gem
+
+Before:
+450 Gem
+
+After:
+-450 Gem
+
+Result:
+10 Recruitment Results
+
+Master:
+MASTER-000001
+```
+
+Transaksi hanya valid jika saldo mencukupi.
+
+---
+
+# 59. TRANSACTION LOG
+
+Semua transaksi penting dicatat.
+
+```text
+TRANSACTION LOG
+
+Transaction ID
+Master ID
+Resource ID
+Amount
+Source
+Destination
+Action Type
+Before Value
+After Value
+Timestamp
+System
+Result
+```
+
+Contoh:
+
+```text
+TRANSACTION-000125
+
+Source:
+Master Inventory
+
+Destination:
+Hero Level System
+
+Resource:
+Gold
+
+Amount:
+400
+
+Action:
+Hero Level Up
+
+Result:
+SUCCESS
+```
+
+---
+
+# 60. ECONOMIC ROLLBACK PROTECTION
+
+Jika terjadi error:
+
+```text
+TRANSACTION
+ ↓
+VALIDATION FAILED
+```
+
+maka perubahan tidak boleh diterapkan.
+
+Jika transaksi sudah diterapkan tetapi proses berikutnya gagal:
+
+```text
+ROLLBACK
+```
+
+dapat digunakan sesuai aturan Database System.
+
+Contoh:
+
+```text
+Gem berhasil dikurangi
+↓
+RNG gagal
+↓
+Transaction Rollback
+↓
+Gem dikembalikan
+```
+
+---
+
+# 61. ECONOMIC VERSIONING
+
+Setiap perubahan balancing menggunakan version.
+
+```text
+ECONOMY VERSION
+
+1.0.0
+1.1.0
+1.2.0
+2.0.0
+```
+
+Contoh:
+
+```text
+Economy Version:
+1.2.0
+
+Gem Summon:
+100 Gem
+
+10x Gem Summon:
+900 Gem
+
+Hero Level 50–60:
+1500 Gold per level
+
+Previous:
+Hero Level 50–60:
+1000 Gold per level
+```
+
+Version penting untuk menjaga konsistensi save data.
+
+---
+
+# 62. GAME STATE ECONOMIC UPDATE
+
+Ketika konfigurasi berubah:
+
+```text
+NEW CONFIGURATION
+       ↓
+GAME STATE
+       ↓
+VALIDATE
+       ↓
+APPLY
+       ↓
+DATABASE
+```
+
+Perubahan configuration tidak boleh mengubah saldo pemain secara langsung kecuali memang terdapat migration rule.
+
+---
+
+# 63. CONFIGURATION MIGRATION
+
+Jika parameter ekonomi berubah:
+
+```text
+Version 1
+    ↓
+Migration
+    ↓
+Version 2
+```
+
+Game State memastikan data lama tetap valid.
+
+Contoh:
+
+```text
+Old Hero Level 50 Cost:
+1000 Gold
+
+New Hero Level 50 Cost:
+1500 Gold
+```
+
+Perubahan hanya berlaku pada transaksi berikutnya.
+
+Biaya yang sudah dibayar tidak boleh dihitung ulang.
+
+---
+
+# 64. ECONOMY BY WORLD STATE
+
+Ekonomi dapat dipengaruhi oleh kondisi dunia.
+
+```text
+WORLD STATE
+     ↓
+DESTRUCTION LEVEL
+     ↓
+RESOURCE AVAILABILITY
+     ↓
+MARKET
+     ↓
+PRICE
+```
+
+Contoh:
+
+```text
+High Destruction
+→ Food Scarcity
+→ Food Price ↑
+→ Crafting Cost ↑
+```
+
+Namun biaya Hero Level Up dan harga Summon sebaiknya tidak berubah secara acak karena dapat mengganggu perencanaan pemain. Perubahan tersebut hanya boleh terjadi melalui event atau patch konfigurasi yang jelas.
+
+---
+
+# 65. FACTION ECONOMY
+
+Faction juga dapat memengaruhi ekonomi.
+
+Contoh:
+
+```text
+Dwarf Faction Strong
+        ↓
+Metal Production ↑
+        ↓
+Metal Supply ↑
+        ↓
+Metal Price ↓
+```
+
+Atau:
+
+```text
+Cult Activity ↑
+        ↓
+Trade Route Disrupted
+        ↓
+Supply ↓
+        ↓
+Price ↑
+```
+
+---
+
+# 66. FLOOR ECONOMY SCALING
+
+Semakin tinggi Tower:
+
+```text
+Floor Progression
+       ↓
+Enemy Difficulty ↑
+       ↓
+Loot Tier ↑
+       ↓
+Economic Value ↑
+```
+
+Namun nilai reward tetap dibatasi:
+
+```text
+Economy Configuration
+```
+
+---
+
+# 67. RECOMMENDED BASE ECONOMY TABLE
+
+| Aktivitas                 |      Biaya Gold | Biaya Gem | Keterangan               |
+| ------------------------- | --------------: | --------: | ------------------------ |
+| Craft Tier 1              |          25–100 |         0 | Material dasar           |
+| Craft Tier 2              |         100–300 |         0 | Material umum            |
+| Craft Tier 3              |         300–800 |         0 | Material menengah        |
+| Craft Tier 4              |        800–2000 |         0 | Material langka          |
+| Craft Tier 5              |       2000–5000 |         0 | Material tingkat tinggi  |
+| Hero Level 1–10           |    50 per level |         0 | Belum termasuk material  |
+| Hero Level 11–20          |   100 per level |         0 | Belum termasuk material  |
+| Hero Level 21–30          |   200 per level |         0 | Belum termasuk material  |
+| Hero Level 31–40          |   400 per level |         0 | Belum termasuk material  |
+| Hero Level 41–50          |   800 per level |         0 | Belum termasuk material  |
+| Hero Level 51–60          |  1500 per level |         0 | Belum termasuk material  |
+| Hero Level 61–70          |  3000 per level |         0 | Belum termasuk material  |
+| Hero Level 71–80          |  6000 per level |         0 | Belum termasuk material  |
+| Hero Level 81–90          | 12000 per level |         0 | Belum termasuk material  |
+| Hero Level 91–100         | 25000 per level |         0 | Belum termasuk material  |
+| Gold Summon 1x            |            1000 |         0 | Pool Star 1–3            |
+| Gold Summon 10x           |           10000 |         0 | Pool Star 1–3            |
+| Ticket Summon 1x          |               0 |         0 | 1 Summon Ticket          |
+| Gem Summon 1x             |               0 |       100 | Pool premium             |
+| Gem Summon 10x            |               0 |       900 | Diskon multi-summon      |
+| Special Summon 1x         |               0 |         0 | 1 Special Ticket         |
+| Facility Upgrade awal     |       1000–5000 |         0 | Tergantung level         |
+| Facility Upgrade menengah |    20000–250000 |         0 | Tergantung level         |
+| Skill Upgrade awal        |        100–2000 |         0 | Tergantung level skill   |
+| Skill Upgrade tinggi      |      4000–20000 |         0 | Tergantung level skill   |
+| Hero Ascension awal       |       1000–7500 |         0 | Membutuhkan material     |
+| Hero Ascension tinggi     |     15000–60000 |         0 | Membutuhkan material     |
+| Hero Limit Break          |     5000–250000 |         0 | Gold Sink jangka panjang |
+
+---
+
+# 68. ECONOMY CONFIGURATION TABLE
+
+Parameter utama:
+
+| Parameter        | Fungsi                    |
+| ---------------- | ------------------------- |
+| Resource ID      | Identitas resource        |
+| Base Value       | Nilai dasar               |
+| Min Value        | Nilai minimum             |
+| Max Value        | Nilai maksimum            |
+| Reward Range     | Rentang reward            |
+| Drop Range       | Rentang loot              |
+| Cost             | Biaya                     |
+| Gold Cost        | Biaya Gold                |
+| Gem Cost         | Biaya Gem                 |
+| Material Cost    | Biaya material            |
+| Hero Level Cost  | Biaya naik level Hero     |
+| Summon Cost      | Biaya summon              |
+| Craft Cost       | Biaya crafting            |
+| Multiplier       | Pengali nilai             |
+| Capacity         | Batas penyimpanan         |
+| Price Floor      | Harga minimum             |
+| Price Ceiling    | Harga maksimum            |
+| Pity Requirement | Batas jaminan summon      |
+| Inflation Limit  | Batas inflasi             |
+| Generation Rate  | Kecepatan resource masuk  |
+| Consumption Rate | Kecepatan resource keluar |
+| Version          | Versi konfigurasi         |
+
+---
+
+# 69. MASTER ECONOMIC DATA
+
+```text
+MASTER ECONOMIC STATE
+
+Master ID
+│
+├── Gold
+├── Gem
+├── Summon Ticket
+├── Special Ticket
+├── Event Currency
+│
+├── Hero Level Data
+├── Hero Ascension Data
+├── Hero Skill Data
+├── Inventory Value
+├── Summon Pity
+├── Transaction History
+└── Economy Statistics
+```
+
+---
+
+# 70. COMPLETE ECONOMY FLOW
+
+```text
+                  GAME ACTION
+                       │
+                       ▼
+              ECONOMIC REQUEST
+                       │
+                       ▼
+           ECONOMY CONFIGURATION
+                       │
+             ┌─────────┴─────────┐
+             │                   │
+             ▼                   ▼
+            RNG                 AI
+             │                   │
+             └─────────┬─────────┘
+                       ▼
+               GAME STATE SYSTEM
+                       │
+                       ▼
+                  VALIDATION
+                       │
+              ┌────────┴────────┐
+              │                 │
+            VALID             INVALID
+              │                 │
+              ▼                 ▼
+          TRANSACTION          REJECT
+              │
+              ▼
+         DATABASE SYSTEM
+              │
+              ▼
+         INVENTORY / STATE
+              │
+              ▼
+            AI FAIRY
+              │
+              ▼
+            MASTER
+```
+
+---
+
+# 71. SYSTEM CONNECTION
+
+```text
+                     ECONOMY
+                        │
+      ┌─────────────────┼─────────────────┐
+      │                 │                 │
+   RECRUIT            QUEST             LOOT
+      │                 │                 │
+      ├──────────────┬──┴──────────────┬──┤
+      │              │                 │
+      ▼              ▼                 ▼
+   CHARACTER       DUNGEON          ENEMY
+      │              │                 │
+      ├──────────────┼─────────────────┤
+      │              │                 │
+      ▼              ▼                 ▼
+   HERO LEVEL      CRAFTING          MARKET
+      │              │                 │
+      └──────────────┼─────────────────┘
+                     ▼
+                   RNG
+                     │
+                     ▼
+              ECONOMY CONFIG
+                     │
+                     ▼
+              GAME STATE SYSTEM
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+       INVENTORY    TOWN       MASTER
+          │          │          │
+          └──────────┼──────────┘
+                     ▼
+               DATABASE SYSTEM
+                     │
+                     ▼
+                 AI FAIRY
+```
+
+---
+
+# 72. CORE RULES
+
+### RULE 01
+
+Economy Configuration menentukan aturan ekonomi.
+
+### RULE 02
+
+Database menyimpan nilai ekonomi aktual.
+
+### RULE 03
+
+Configuration dan State harus dipisahkan.
+
+### RULE 04
+
+Gold, Gem, Ticket, Special Ticket, Hero Shard, dan seluruh resource lain memiliki ID.
+
+### RULE 05
+
+Semua transaksi ekonomi memiliki Transaction ID.
+
+### RULE 06
+
+Semua reward harus memiliki sumber yang valid.
+
+### RULE 07
+
+RNG tidak boleh menghasilkan nilai di luar konfigurasi.
+
+### RULE 08
+
+AI tidak boleh memberikan resource tanpa validasi.
+
+### RULE 09
+
+Recruitment menggunakan parameter ekonomi dari sistem ini.
+
+### RULE 10
+
+Gold Summon memiliki biaya Gold yang terpisah dari Gem Summon.
+
+### RULE 11
+
+Gem Summon memiliki biaya Gem yang terpisah dari Ticket Summon.
+
+### RULE 12
+
+Multi-summon dapat memiliki diskon, tetapi tetap harus dikonfigurasi.
+
+### RULE 13
+
+Summon premium harus memiliki rate dan pity yang jelas.
+
+### RULE 14
+
+Loot menggunakan parameter ekonomi dari sistem ini.
+
+### RULE 15
+
+Quest menggunakan parameter ekonomi dari sistem ini.
+
+### RULE 16
+
+Floor Reward menggunakan parameter ekonomi dari sistem ini.
+
+### RULE 17
+
+Crafting menggunakan parameter Gold dan material dari sistem ini.
+
+### RULE 18
+
+Hero Level Up menggunakan Gold.
+
+### RULE 19
+
+Hero Ascension menggunakan Gold dan material ascension.
+
+### RULE 20
+
+Hero Skill Upgrade menggunakan Gold dan material skill.
+
+### RULE 21
+
+Hero Limit Break menggunakan Gold dan Hero Shard.
+
+### RULE 22
+
+Town Square menggunakan parameter ekonomi dari sistem ini.
+
+### RULE 23
+
+Facility Upgrade menggunakan parameter ekonomi dari sistem ini.
+
+### RULE 24
+
+Market menggunakan parameter ekonomi dari sistem ini.
+
+### RULE 25
+
+World State dapat memengaruhi parameter ekonomi melalui Game State.
+
+### RULE 26
+
+Destruction Level dapat memengaruhi supply, demand, loot, dan harga.
+
+### RULE 27
+
+Master Level dapat menjadi parameter scaling, tetapi bukan sumber resource otomatis.
+
+### RULE 28
+
+Semua perubahan ekonomi harus melewati Game State System.
+
+### RULE 29
+
+Database hanya menerima perubahan yang telah divalidasi.
+
+### RULE 30
+
+Economy Configuration menggunakan versioning.
+
+### RULE 31
+
+Perubahan balancing tidak boleh langsung merusak state pemain.
+
+### RULE 32
+
+Economic transaction harus memiliki log.
+
+### RULE 33
+
+Sistem harus memiliki batas minimum dan maksimum untuk mencegah ekonomi rusak.
+
+### RULE 34
+
+Harga Hero Level Up harus dapat dikonfigurasi berdasarkan level dan rarity.
+
+### RULE 35
+
+Harga Crafting harus dapat dikonfigurasi berdasarkan tier, rarity, material, dan facility level.
+
+### RULE 36
+
+Harga Summon harus dapat dikonfigurasi berdasarkan metode summon.
+
+### RULE 37
+
+Harga Gem Summon harus memiliki konfigurasi terpisah dari Gold Summon.
+
+### RULE 38
+
+Pity counter harus disimpan sebagai state pemain.
+
+### RULE 39
+
+Biaya yang sudah dibayar tidak boleh berubah secara retroaktif.
+
+### RULE 40
+
+Semua biaya harus ditampilkan kepada Master sebelum transaksi dikonfirmasi.
+
+---
+
+# 73. FINAL ECONOMY ARCHITECTURE
+
+```text
+                       AETHERIA
+                           │
+                           ▼
+                   WORLD / GAMEPLAY
+                           │
+          ┌────────────────┼────────────────┐
+          │                │                │
+        QUEST           DUNGEON         TOWN SQUARE
+          │                │                │
+          ├───────────────┼────────────────┤
+          │                │                │
+       RECRUIT           LOOT           CRAFTING
+          │                │                │
+          ├────────────────┼────────────────┤
+          │                │                │
+       HERO LEVEL       MARKET        FACILITY
+          │                │                │
+          └────────────────┼────────────────┘
+                           ▼
+                         RNG
+                           │
+                           ▼
+                  ECONOMY CONFIGURATION
+                           │
+                 ┌─────────┴─────────┐
+                 │                   │
+                AI                  RULE
+                 │                   │
+                 └─────────┬─────────┘
+                           ▼
+                   GAME STATE SYSTEM
+                           │
+                           ▼
+                     VALIDATION
+                           │
+                           ▼
+                    TRANSACTION LOG
+                           │
+                           ▼
+                    DATABASE SYSTEM
+                           │
+              ┌────────────┼────────────┐
+              ▼            ▼            ▼
+           MASTER       INVENTORY     WORLD
+              │            │            │
+              └────────────┼────────────┘
+                           ▼
+                        AI FAIRY
+                           │
+                           ▼
+                         MASTER
+```
+
+> **Economy Configuration defines the rules.**
+>
+> **Gold membiayai perkembangan, crafting, dan layanan utama.**
+>
+> **Gem membiayai summon premium dan layanan khusus.**
+>
+> **RNG creates controlled variation.**
+>
+> **AI creates content within those rules.**
+>
+> **Game State validates every change.**
+>
+> **Database remembers the result.**
+>
+> **Fairy tells the Master what happened.**
+>
+> **And the Master decides what happens next.**
