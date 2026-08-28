@@ -1,0 +1,2310 @@
+# 🌎 AETHERIA — RACE RNG & RACIAL ADVANTAGE SYSTEM
+
+## 1. OVERVIEW
+
+**Race RNG System** adalah bagian dari **Recruit System** yang menentukan ras setiap Hero ketika karakter direkrut.
+
+Prinsip utama:
+
+> **Semua ras memiliki peluang muncul yang sama.**
+
+Tidak ada ras yang memiliki base recruitment rate lebih tinggi hanya karena ras tersebut lebih kuat.
+
+```text
+RECRUIT
+   ↓
+RNG
+   ↓
+RACE RNG
+   ↓
+ALL RACES = EQUAL BASE RATE
+   ↓
+CHARACTER GENERATION
+   ↓
+RACIAL TRAITS
+   ↓
+RACIAL ADVANTAGE
+   ↓
+FINAL HERO
+```
+
+Ras menentukan karakteristik dasar Hero, tetapi **tidak menentukan keseluruhan kekuatan Hero**.
+
+Power tetap dipengaruhi oleh:
+
+```text
+Level
+Star
+Class
+Stats
+Skills
+Equipment
+Traits
+Talent
+Bloodline
+Experience
+Emotional State
+Hidden Potential
+```
+
+---
+
+# 2. CORE RULE — EQUAL RACE RNG
+
+Semua ras yang tersedia dalam Recruit Pool memiliki peluang dasar yang sama.
+
+Contoh terdapat 10 ras:
+
+```text
+Human
+High Elf
+Dwarf
+Beastfolk
+Dragonkin
+Demon
+Vampire
+Spirit
+Giant
+Draconian
+```
+
+Maka:
+
+```text
+Human       10%
+High Elf    10%
+Dwarf       10%
+Beastfolk   10%
+Dragonkin   10%
+Demon       10%
+Vampire     10%
+Spirit      10%
+Giant       10%
+Draconian   10%
+```
+
+Total:
+
+```text
+100%
+```
+
+Jika jumlah ras berubah, sistem otomatis menghitung:
+
+```text
+Race Rate = 100% / Total Available Race
+```
+
+Contoh:
+
+```text
+20 Races
+
+100 / 20
+
+= 5% setiap ras
+```
+
+---
+
+# 3. RACE RNG DOES NOT EQUAL POWER RNG
+
+Peluang muncul dan kekuatan ras adalah dua sistem berbeda.
+
+```text
+RACE RNG
+   ↓
+Determines Race
+
+RACIAL SYSTEM
+   ↓
+Determines Racial Characteristics
+```
+
+Contoh:
+
+```text
+Human
+Recruit Rate = 10%
+
+High Elf
+Recruit Rate = 10%
+
+Dragonkin
+Recruit Rate = 10%
+```
+
+Ketiganya tetap memiliki peluang yang sama.
+
+Namun:
+
+```text
+Human
+→ Adaptability
+
+High Elf
+→ Magic Affinity
+
+Dragonkin
+→ Physical Power
+```
+
+Jadi ras kuat secara situasional, bukan karena memiliki recruitment rate lebih tinggi.
+
+---
+
+# 4. RACE SYSTEM ARCHITECTURE
+
+```text
+                    RECRUIT SYSTEM
+                           │
+                           ▼
+                       RNG SYSTEM
+                           │
+                           ▼
+                       RACE RNG
+                           │
+          ┌────────────────┼────────────────┐
+          │                │                │
+        HUMAN          HIGH ELF          DWARF
+          │                │                │
+          ▼                ▼                ▼
+     RACIAL TRAIT     RACIAL TRAIT     RACIAL TRAIT
+          │                │                │
+          └────────────────┼────────────────┘
+                           ▼
+                    CHARACTER SYSTEM
+                           │
+                           ▼
+                      HERO DATABASE
+```
+
+---
+
+# 5. RACE DATA
+
+Setiap ras mempunyai data tersendiri.
+
+Minimal:
+
+```text
+Race_ID
+Race_Name
+Race_Type
+Base_Stats
+Stat_Modifier
+Racial_Traits
+Racial_Advantages
+Racial_Disadvantages
+Element_Affinity
+Environment_Affinity
+Skill_Affinity
+Potential_Pool
+Bloodline_Pool
+```
+
+Contoh:
+
+```text
+Race_ID:
+RACE-001
+
+Race_Name:
+Human
+
+Race_Type:
+Mortal
+
+Element_Affinity:
+Balanced
+
+Environment_Affinity:
+Universal
+```
+
+---
+
+# 6. HUMAN
+
+## Race Identity
+
+Human merupakan salah satu ras paling adaptif di Aetheria.
+
+Human tidak memiliki spesialisasi ekstrem.
+
+Sebagai gantinya:
+
+```text
+Adaptability
+Learning
+Versatility
+Team Cooperation
+Potential Growth
+```
+
+menjadi kekuatan utama.
+
+### Racial Advantage
+
+```text
+Adaptability
+```
+
+Human lebih mudah beradaptasi terhadap:
+
+```text
+Environment
+Enemy Type
+Combat Situation
+Party Composition
+New Equipment
+New Skills
+```
+
+### Stat Profile
+
+```text
+HP:
+Balanced
+
+STR:
+Balanced
+
+DEX:
+Balanced
+
+INT:
+Balanced
+
+VIT:
+Balanced
+
+WIS:
+Balanced
+```
+
+### Special Trait
+
+```text
+ADAPTIVE SOUL
+```
+
+Effect:
+
+Hero Human memiliki kemungkinan lebih tinggi memperoleh bonus adaptasi ketika menghadapi situasi baru.
+
+### Potential
+
+Human dapat memperoleh berbagai jenis skill:
+
+```text
+Physical
+Magic
+Support
+Tactical
+Leadership
+Hybrid
+```
+
+Human tidak memiliki spesialisasi tertinggi, tetapi memiliki **growth flexibility** yang sangat baik.
+
+---
+
+# 7. HIGH ELF
+
+## Race Identity
+
+High Elf merupakan ras yang memiliki hubungan kuat dengan:
+
+```text
+Magic
+Ancient Knowledge
+Nature
+Mana
+Ancient Civilization
+```
+
+### Racial Advantage
+
+```text
+HIGH MANA AFFINITY
+```
+
+High Elf memiliki:
+
+```text
+High INT
+High WIS
+High Mana Control
+High Magic Efficiency
+```
+
+### Stat Profile
+
+```text
+HP:
+Low-Medium
+
+STR:
+Low
+
+DEX:
+Medium
+
+INT:
+Very High
+
+VIT:
+Low-Medium
+
+WIS:
+Very High
+```
+
+### Special Trait
+
+```text
+ARCANE MEMORY
+```
+
+High Elf memiliki kemampuan memahami pola magic dengan lebih cepat.
+
+### Skill Affinity
+
+High Elf lebih cocok dengan:
+
+```text
+Elemental Magic
+Arcane Magic
+Nature Magic
+Barrier
+Support Magic
+Ancient Magic
+```
+
+### Weakness
+
+```text
+Lower Physical Durability
+```
+
+---
+
+# 8. DWARF
+
+## Race Identity
+
+Dwarf dikenal sebagai:
+
+```text
+Master Smith
+Engineer
+Miner
+Craftsman
+Heavy Warrior
+```
+
+Ras ini mempunyai hubungan kuat dengan:
+
+```text
+Karak-Dur
+Ancient Forge
+Metal
+Mountain Civilization
+Ancient Technology
+```
+
+### Racial Advantage
+
+```text
+FORGE SOUL
+```
+
+Dwarf memiliki affinity tinggi terhadap:
+
+```text
+Equipment
+Armor
+Weapons
+Mining
+Crafting
+Engineering
+```
+
+### Stat Profile
+
+```text
+HP:
+High
+
+STR:
+High
+
+DEX:
+Low-Medium
+
+INT:
+Medium
+
+VIT:
+Very High
+
+WIS:
+Medium
+```
+
+### Skill Affinity
+
+```text
+Heavy Weapon
+Hammer
+Axe
+Shield
+Engineering
+Smithing
+Mining
+Defensive Skills
+```
+
+### Special Trait
+
+```text
+MASTER FORGEMASTER
+```
+
+Dwarf dapat memiliki compatibility lebih tinggi dengan equipment berat dan equipment hasil forging.
+
+---
+
+# 9. BEASTFOLK
+
+## Race Identity
+
+Beastfolk memiliki hubungan kuat dengan:
+
+```text
+Instinct
+Nature
+Hunting
+Survival
+Physical Ability
+Senses
+```
+
+### Racial Advantage
+
+```text
+PRIMAL INSTINCT
+```
+
+Beastfolk memiliki:
+
+```text
+High Awareness
+High Reflex
+High Senses
+High Survival
+```
+
+### Stat Profile
+
+```text
+HP:
+Medium-High
+
+STR:
+High
+
+DEX:
+Very High
+
+INT:
+Medium
+
+VIT:
+High
+
+WIS:
+Low-Medium
+```
+
+### Skill Affinity
+
+```text
+Claw
+Fang
+Dual Weapon
+Archery
+Tracking
+Assassination
+Survival
+Instinct Skills
+```
+
+### Special Trait
+
+```text
+PREDATOR SENSE
+```
+
+Meningkatkan kemampuan mendeteksi:
+
+```text
+Hidden Enemy
+Ambush
+Trap
+Weakness
+Movement
+```
+
+---
+
+# 10. DRAGONKIN
+
+## Race Identity
+
+Dragonkin memiliki hubungan dengan:
+
+```text
+Dragon Blood
+Element
+Ancient Power
+Physical Strength
+Destruction
+```
+
+### Racial Advantage
+
+```text
+DRAGON BLOOD
+```
+
+Dragonkin mempunyai:
+
+```text
+High STR
+High VIT
+High HP
+High Elemental Affinity
+```
+
+### Stat Profile
+
+```text
+HP:
+Very High
+
+STR:
+Very High
+
+DEX:
+Medium
+
+INT:
+Medium-High
+
+VIT:
+Very High
+
+WIS:
+Medium
+```
+
+### Skill Affinity
+
+```text
+Dragon Breath
+Elemental Attack
+Physical Power
+Claw
+Wing
+Scale Defense
+Ancient Dragon Skills
+```
+
+### Special Trait
+
+```text
+DRAGON HEART
+```
+
+Ketika kondisi pertempuran semakin berat, Dragonkin dapat memperoleh peningkatan combat pressure.
+
+### Weakness
+
+```text
+Lower Skill Flexibility
+```
+
+dibandingkan Human.
+
+---
+
+# 11. DEMON
+
+## Race Identity
+
+Demon mempunyai hubungan dengan:
+
+```text
+Chaos
+Dark Magic
+Destruction
+Demon Realm
+Corruption
+```
+
+### Racial Advantage
+
+```text
+CHAOTIC CORE
+```
+
+Demon memiliki affinity tinggi terhadap:
+
+```text
+Dark Magic
+Destructive Skills
+Debuff
+Curse
+Corruption
+```
+
+### Stat Profile
+
+```text
+HP:
+High
+
+STR:
+High
+
+DEX:
+Medium-High
+
+INT:
+High
+
+VIT:
+High
+
+WIS:
+Medium
+```
+
+### Skill Affinity
+
+```text
+Dark Magic
+Curse
+Demon Weapon
+Destruction
+Fear
+Corruption
+Lifesteal
+```
+
+### Special Trait
+
+```text
+CHAOS RESONANCE
+```
+
+Skill yang berhubungan dengan:
+
+```text
+Dark
+Chaos
+Curse
+Corruption
+```
+
+memiliki compatibility tinggi.
+
+### Weakness
+
+Demon dapat memiliki compatibility lebih rendah terhadap:
+
+```text
+Holy
+Sacred
+Purification
+Divine
+```
+
+---
+
+# 12. VAMPIRE
+
+## Race Identity
+
+Vampire memiliki hubungan dengan:
+
+```text
+Blood
+Night
+Regeneration
+Darkness
+Nobility
+Ancient Bloodline
+```
+
+### Racial Advantage
+
+```text
+BLOOD AFFINITY
+```
+
+### Stat Profile
+
+```text
+HP:
+High
+
+STR:
+High
+
+DEX:
+Very High
+
+INT:
+High
+
+VIT:
+Medium
+
+WIS:
+High
+```
+
+### Skill Affinity
+
+```text
+Blood Magic
+Life Drain
+Regeneration
+Shadow
+Charm
+Night Combat
+```
+
+### Special Trait
+
+```text
+BLOOD RECOVERY
+```
+
+Vampire dapat memperoleh recovery advantage dalam kondisi tertentu.
+
+### Environment Affinity
+
+```text
+Night
+Dark Dungeon
+Underground
+Ruined Castle
+```
+
+---
+
+# 13. SPIRIT
+
+## Race Identity
+
+Spirit mempunyai hubungan dengan:
+
+```text
+Mana
+Soul
+Element
+Nature
+Ancient Magic
+```
+
+### Racial Advantage
+
+```text
+ETHEREAL SOUL
+```
+
+Spirit memiliki affinity terhadap:
+
+```text
+Magic
+Element
+Soul
+Support
+Barrier
+```
+
+### Stat Profile
+
+```text
+HP:
+Low
+
+STR:
+Low
+
+DEX:
+High
+
+INT:
+Very High
+
+VIT:
+Low
+
+WIS:
+Very High
+```
+
+### Skill Affinity
+
+```text
+Spirit Magic
+Elemental Magic
+Barrier
+Healing
+Soul Magic
+Possession
+Support
+```
+
+### Weakness
+
+```text
+Low Physical Durability
+```
+
+---
+
+# 14. GIANT
+
+## Race Identity
+
+Giant berasal dari ras yang mengandalkan:
+
+```text
+Strength
+Endurance
+Size
+Defense
+Destruction
+```
+
+### Racial Advantage
+
+```text
+TITAN BODY
+```
+
+### Stat Profile
+
+```text
+HP:
+Extremely High
+
+STR:
+Extremely High
+
+DEX:
+Low
+
+INT:
+Low-Medium
+
+VIT:
+Extremely High
+
+WIS:
+Low-Medium
+```
+
+### Skill Affinity
+
+```text
+Heavy Weapon
+Earth
+Smash
+Defense
+Taunt
+Area Attack
+Siege
+```
+
+### Weakness
+
+```text
+Low Speed
+Large Hitbox
+Lower Evasion
+```
+
+---
+
+# 15. DRACONIAN
+
+Draconian berbeda dengan Dragonkin.
+
+Dragonkin lebih dekat dengan:
+
+```text
+Physical Dragon Heritage
+```
+
+Draconian lebih dekat dengan:
+
+```text
+Ancient Dragon Civilization
+Dragon Magic
+Ancient Knowledge
+```
+
+### Racial Advantage
+
+```text
+DRACONIC ARCANA
+```
+
+### Stat Profile
+
+```text
+HP:
+High
+
+STR:
+High
+
+DEX:
+Medium
+
+INT:
+Very High
+
+VIT:
+High
+
+WIS:
+Very High
+```
+
+### Skill Affinity
+
+```text
+Dragon Magic
+Ancient Magic
+Elemental Magic
+Dragon Weapon
+Ancient Dragon Arts
+```
+
+---
+
+# 16. RACE COMPARISON
+
+| Race      | Primary Strength   | Secondary Strength | Main Weakness             |
+| --------- | ------------------ | ------------------ | ------------------------- |
+| Human     | Adaptability       | Versatility        | No extreme specialization |
+| High Elf  | Magic              | Mana               | Physical durability       |
+| Dwarf     | Defense / Crafting | Equipment          | Speed                     |
+| Beastfolk | Speed / Instinct   | Senses             | Magic specialization      |
+| Dragonkin | Physical Power     | Element            | Flexibility               |
+| Demon     | Destruction        | Curse              | Holy compatibility        |
+| Vampire   | Recovery           | Night Combat       | Daylight conditions       |
+| Spirit    | Magic              | Support            | Physical durability       |
+| Giant     | Strength           | HP / Defense       | Speed                     |
+| Draconian | Dragon Magic       | Ancient Knowledge  | Specialized build         |
+
+---
+
+# 17. RACIAL ADVANTAGE IS NOT GUARANTEED VICTORY
+
+Ras tidak menjamin Hero akan lebih kuat.
+
+Contoh:
+
+```text
+Level 30 Human
+⭐⭐⭐⭐⭐⭐
+
+vs
+
+Level 30 Dragonkin
+⭐⭐⭐⭐
+```
+
+Human tetap dapat menang karena:
+
+```text
+Better Skills
+Better Equipment
+Better AI Decision
+Better Formation
+Better Trait
+Better Experience
+Better Emotional State
+```
+
+Dengan demikian:
+
+> **Race memberikan identity, bukan automatic victory.**
+
+---
+
+# 18. RACIAL STAT MODIFIER
+
+Race dapat memberikan modifier dasar.
+
+Contoh:
+
+```text
+Human
+
+STR  +0%
+DEX  +0%
+INT  +0%
+VIT  +0%
+WIS  +0%
+```
+
+```text
+High Elf
+
+STR  -10%
+DEX  +5%
+INT  +20%
+VIT  -5%
+WIS  +20%
+```
+
+```text
+Dwarf
+
+STR  +15%
+DEX  -10%
+INT  +5%
+VIT  +20%
+WIS  +0%
+```
+
+```text
+Dragonkin
+
+STR  +20%
+DEX  +0%
+INT  +5%
+VIT  +20%
+WIS  +0%
+```
+
+Modifier ini adalah **base racial modifier** dan masih dapat dipengaruhi oleh:
+
+```text
+Level
+Star
+Class
+Talent
+Trait
+Bloodline
+Equipment
+Skill
+```
+
+---
+
+# 19. RACE + CLASS
+
+Race dan Class tidak boleh dikunci menjadi satu pasangan.
+
+Contoh:
+
+```text
+Human
+├── Warrior
+├── Mage
+├── Archer
+├── Assassin
+└── Support
+
+High Elf
+├── Warrior
+├── Mage
+├── Archer
+└── Support
+
+Dwarf
+├── Warrior
+├── Engineer
+├── Tank
+└── Blacksmith
+
+Beastfolk
+├── Assassin
+├── Warrior
+├── Ranger
+└── Scout
+```
+
+Race memberikan affinity.
+
+Class menentukan combat specialization.
+
+---
+
+# 20. RACE + CHARACTER SYSTEM
+
+```text
+Recruit
+   ↓
+Race RNG
+   ↓
+Human
+   ↓
+Character Generation
+   ↓
+Class RNG
+   ↓
+Trait RNG
+   ↓
+Talent RNG
+   ↓
+Skill RNG
+   ↓
+Character_ID
+```
+
+Semua data akhirnya melekat pada:
+
+```text
+Character_ID
+```
+
+---
+
+# 21. RACE + FAMILY SYSTEM
+
+Race juga mempengaruhi Family Pool.
+
+```text
+Race
+   ↓
+Background
+   ↓
+Family RNG
+```
+
+Contoh:
+
+```text
+High Elf
++
+Noble
+↓
+High Elf Noble Family Pool
+```
+
+Sedangkan:
+
+```text
+Human
++
+Noble
+↓
+Human Noble Family Pool
+```
+
+Jadi Family System tetap menggunakan rule:
+
+```text
+Race
++
+Background
++
+Region
++
+House Rank
+```
+
+---
+
+# 22. RACE + BLOODLINE
+
+Setiap ras mempunyai Bloodline Pool berbeda.
+
+Contoh Human:
+
+```text
+Human Bloodline
+├── Ancient Human
+├── Royal Human
+├── Warrior Bloodline
+├── Mage Bloodline
+└── Common Bloodline
+```
+
+High Elf:
+
+```text
+High Elf Bloodline
+├── Ancient Elf
+├── Moon Elf
+├── Forest Elf
+├── Arcane Elf
+└── Royal Elf
+```
+
+Dragonkin:
+
+```text
+Dragon Bloodline
+├── Fire
+├── Frost
+├── Storm
+├── Earth
+├── Shadow
+└── Light
+```
+
+Bloodline dapat memberikan:
+
+```text
+Trait
+Stat Modifier
+Skill Affinity
+Hidden Potential
+Rare Skill
+Special Event
+```
+
+---
+
+# 23. RACE + HIDDEN POTENTIAL
+
+Race menjadi salah satu parameter untuk menentukan kemungkinan Hidden Potential Event.
+
+```text
+Hero
+ ↓
+Race
+ ↓
+Personality
+ ↓
+Emotion
+ ↓
+Battle Situation
+ ↓
+Hidden Potential Check
+ ↓
+RNG
+ ↓
+Rare Skill
+```
+
+Contoh:
+
+### Dragonkin
+
+Jika:
+
+```text
+HP < 20%
++
+Anger > 80
++
+Party Leader Defeated
+```
+
+maka sistem dapat melakukan:
+
+```text
+Hidden Potential Check
+```
+
+Jika berhasil:
+
+```text
+DRAGON AWAKENING
+```
+
+Hero memperoleh rare skill yang sesuai dengan Dragon Bloodline.
+
+---
+
+# 24. RACE + AI EMOTIONAL SYSTEM
+
+Race tidak hanya mempengaruhi statistik.
+
+Race juga dapat memberikan **behavioral tendency**.
+
+Contoh:
+
+```text
+Human
+→ Adaptability
+
+Beastfolk
+→ Instinct
+
+Dwarf
+→ Persistence
+
+High Elf
+→ Composure
+
+Dragonkin
+→ Pride
+
+Demon
+→ Aggression
+
+Vampire
+→ Predatory Patience
+
+Spirit
+→ Calm / Sensitivity
+
+Giant
+→ Determination
+
+Draconian
+→ Ancient Pride
+```
+
+Namun ini bukan personality tetap.
+
+Character AI tetap menentukan:
+
+```text
+Personality
+Emotion
+Memory
+Relationship
+Experience
+Current Situation
+```
+
+---
+
+# 25. EMOTIONAL RESONANCE
+
+Setiap ras dapat memiliki kondisi emosional yang berbeda untuk memicu potential tertentu.
+
+Contoh:
+
+```text
+Dragonkin
+Anger
+   ↓
+High
+   ↓
+Dragon Blood Resonance
+```
+
+```text
+Beastfolk
+Fear
+   ↓
+High
+   ↓
+Survival Instinct
+```
+
+```text
+Dwarf
+Ally Defeated
+   ↓
+Resolve
+   ↓
+Forge Soul Awakening
+```
+
+```text
+High Elf
+Ancient Magic Encounter
+   ↓
+Curiosity
+   ↓
+Arcane Memory
+```
+
+---
+
+# 26. RACE-SPECIFIC HIDDEN POTENTIAL
+
+Setiap ras memiliki Potential Pool.
+
+Contoh:
+
+```text
+HUMAN
+├── Adaptive Instinct
+├── Last Stand
+├── Tactical Awakening
+└── Limit Break
+
+HIGH ELF
+├── Arcane Awakening
+├── Ancient Spell
+├── Mana Overflow
+└── Elder Magic
+
+DWARF
+├── Forge Awakening
+├── Iron Will
+├── Titan Hammer
+└── Ancient Forge
+
+BEASTFOLK
+├── Predator Awakening
+├── Wild Instinct
+├── Beast Surge
+└── Alpha Instinct
+
+DRAGONKIN
+├── Dragon Awakening
+├── Elemental Roar
+├── Dragon Heart
+└── Ancient Dragon Power
+```
+
+Skill tersebut tetap menggunakan RNG yang sangat kecil sesuai **Hidden Potential System**.
+
+---
+
+# 27. RACE + DUNGEON ENVIRONMENT
+
+Race juga dapat memiliki environmental affinity.
+
+Contoh:
+
+```text
+Dwarf
++
+Mountain Dungeon
+=
+High Environmental Compatibility
+```
+
+```text
+Vampire
++
+Night Dungeon
+=
+High Environmental Compatibility
+```
+
+```text
+Beastfolk
++
+Forest
+=
+High Environmental Compatibility
+```
+
+```text
+High Elf
++
+Ancient Forest
+=
+Very High Environmental Compatibility
+```
+
+Environmental affinity tidak berarti auto-win.
+
+---
+
+# 28. RACE + WORLD EXPLORATION
+
+World Exploration dapat memiliki hubungan dengan ras.
+
+Contoh:
+
+```text
+Karak-Dur
+↓
+Dwarf
+
+Ancient Forest
+↓
+High Elf
+
+Dragon Ruins
+↓
+Dragonkin / Draconian
+
+Demon Dominion
+↓
+Demon
+
+Ancient Blood Castle
+↓
+Vampire
+```
+
+Ketika Hero dari ras terkait memasuki lokasi tersebut, sistem dapat melakukan:
+
+```text
+Race Recognition
+      ↓
+Memory / Lore Trigger
+      ↓
+Character Event
+      ↓
+Possible Hidden Potential
+```
+
+---
+
+# 29. CORE WORLD BUILDING CONNECTION
+
+Race harus mengikuti sejarah Aetheria.
+
+```text
+AETHERIA
+   │
+   ├── Valeria
+   │      └── Human
+   │
+   ├── Aurelia
+   │      └── High Elf
+   │
+   ├── Karak-Dur
+   │      └── Dwarf
+   │
+   ├── Beastfolk Realms
+   │      └── Beastfolk
+   │
+   ├── Draconis Dominion
+   │      ├── Dragonkin
+   │      └── Draconian
+   │
+   ├── Demon Dominion
+   │      └── Demon
+   │
+   └── Ancient Blood Territories
+          └── Vampire
+```
+
+Race bukan sekadar cosmetic selection.
+
+Race merupakan bagian dari sejarah dunia.
+
+---
+
+# 30. RACE RNG DATABASE
+
+Contoh tabel:
+
+```text
+RACE_TABLE
+```
+
+| Field              | Example      |
+| ------------------ | ------------ |
+| Race_ID            | RACE-001     |
+| Race_Name          | Human        |
+| Base_RNG_Rate      | 10%          |
+| STR_Modifier       | 0%           |
+| DEX_Modifier       | 0%           |
+| INT_Modifier       | 0%           |
+| VIT_Modifier       | 0%           |
+| WIS_Modifier       | 0%           |
+| Primary_Affinity   | Adaptability |
+| Secondary_Affinity | Versatility  |
+| Potential_Pool_ID  | POT-HUMAN    |
+| Bloodline_Pool_ID  | BL-HUMAN     |
+
+---
+
+# 31. RECRUIT RNG FLOW
+
+```text
+MASTER
+   ↓
+RECRUIT
+   ↓
+SUMMON METHOD
+   ↓
+STAR RNG
+   ↓
+RACE RNG
+   ↓
+GENDER RNG
+   ↓
+NAME RNG
+   ↓
+BACKGROUND RNG
+   ↓
+FAMILY RNG
+   ↓
+CLASS RNG
+   ↓
+TRAIT RNG
+   ↓
+TALENT RNG
+   ↓
+SKILL RNG
+   ↓
+BLOODLINE RNG
+   ↓
+CHARACTER_ID
+   ↓
+DATABASE
+```
+
+---
+
+# 32. IMPORTANT RULE — NO RACE RATE ADVANTAGE
+
+Ras yang memiliki kemampuan sangat kuat **tidak boleh mendapatkan recruitment rate lebih rendah atau lebih tinggi hanya karena kekuatannya**.
+
+Contoh:
+
+```text
+Dragonkin = 10%
+Human = 10%
+Spirit = 10%
+Giant = 10%
+```
+
+Walaupun Dragonkin mempunyai:
+
+```text
+High STR
+High HP
+High VIT
+```
+
+rate tetap:
+
+```text
+10%
+```
+
+Balance dilakukan melalui:
+
+```text
+Strength
+Weakness
+Skill Affinity
+Environment
+Class
+Equipment
+AI
+```
+
+bukan melalui recruitment probability.
+
+---
+
+# 33. RACE BALANCE MODEL
+
+Setiap ras menggunakan konsep:
+
+```text
+ADVANTAGE
++
+WEAKNESS
++
+SPECIALIZATION
++
+SITUATIONAL POWER
+```
+
+Contoh:
+
+```text
+Dragonkin
+
+ADVANTAGE:
+Physical Power
+
+WEAKNESS:
+Lower Flexibility
+
+SPECIALIZATION:
+Dragon / Element
+
+SITUATIONAL:
+High Performance during high-pressure combat
+```
+
+---
+
+# 34. NO RACE IS ABSOLUTE BEST
+
+Tidak ada:
+
+```text
+Best Race
+```
+
+yang berlaku untuk semua situasi.
+
+Contoh:
+
+```text
+Boss Raid
+→ Dragonkin
+
+Ancient Magic Dungeon
+→ High Elf
+
+Mountain Fortress
+→ Dwarf
+
+Exploration
+→ Beastfolk
+
+Mixed Party
+→ Human
+
+Dark Dungeon
+→ Vampire / Demon
+
+Support Mission
+→ Spirit
+```
+
+Tetapi hasil akhir tetap bergantung pada:
+
+```text
+Hero Build
+Party
+AI
+Equipment
+Skills
+Enemy
+Environment
+Emotion
+```
+
+---
+
+# 35. PARTY RACIAL SYNERGY
+
+Party dapat memperoleh synergy berdasarkan kombinasi ras.
+
+Contoh:
+
+```text
+Human
++
+Dwarf
++
+High Elf
++
+Beastfolk
++
+Dragonkin
+```
+
+dapat menghasilkan:
+
+```text
+AETHERIA UNITED
+```
+
+Jika kondisi tertentu terpenuhi.
+
+Potential synergy dapat mempengaruhi:
+
+```text
+Morale
+Coordination
+Skill Combination
+Event
+Hidden Potential
+```
+
+---
+
+# 36. RACIAL CONFLICT
+
+Beberapa ras dapat memiliki sejarah konflik.
+
+Contoh:
+
+```text
+Human
+vs
+Demon
+```
+
+atau:
+
+```text
+High Elf
+vs
+Demon
+```
+
+atau:
+
+```text
+Dragonkin
+vs
+Ancient Dragon Hunter
+```
+
+Conflict tidak otomatis membuat Hero menyerang anggota Party.
+
+Character AI menggunakan:
+
+```text
+Personality
+Relationship
+Memory
+Morale
+Master Order
+Current Situation
+```
+
+untuk menentukan reaksi.
+
+---
+
+# 37. RACIAL EVENT
+
+Dungeon dapat memicu event berdasarkan Race.
+
+Contoh:
+
+```text
+Hero:
+Dwarf
+
+Floor:
+Ancient Karak-Dur Ruins
+
+Trigger:
+Hero discovers ancient forge.
+
+        ↓
+
+RACE EVENT
+        ↓
+
+Ancient Forge Memory
+        ↓
+
+Character Event
+        ↓
+
+Emotional Change
+        ↓
+
+Hidden Potential Check
+```
+
+Jika berhasil:
+
+```text
+RARE SKILL
+ANCIENT FORGE MASTER
+```
+
+---
+
+# 38. RACE + STAR PROGRESSION
+
+Race juga dapat mempengaruhi skill pool saat Hero melakukan Star Up.
+
+```text
+Hero
+ ↓
+Star Up
+ ↓
+Race Check
+ ↓
+Potential Skill Pool
+ ↓
+Skill RNG
+```
+
+Contoh:
+
+```text
+Dragonkin
+⭐⭐⭐⭐⭐⭐
+      ↓
+Star 6
+      ↓
+Dragon Potential Pool
+      ↓
+Rare Skill
+```
+
+Pada:
+
+```text
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+Hero dapat memperoleh:
+
+```text
+Ultimate Skill
+```
+
+yang sesuai dengan:
+
+```text
+Race
+Class
+Bloodline
+Trait
+Character History
+```
+
+---
+
+# 39. RACE + STAR 7 ULTIMATE
+
+Ultimate Skill tidak ditentukan hanya oleh Race.
+
+Formula:
+
+```text
+Race
++
+Class
++
+Bloodline
++
+Trait
++
+Character History
++
+Experience
++
+Hidden Potential
++
+Emotional State
+```
+
+Contoh:
+
+```text
+Dragonkin
++
+Warrior
++
+Ancient Dragon Blood
++
+Pride
++
+Battle Trauma
++
+High Resolve
+```
+
+dapat menghasilkan:
+
+```text
+ULTIMATE:
+DRAGON KING'S LAST ROAR
+```
+
+Hero lain dari ras Dragonkin dapat memiliki Ultimate berbeda.
+
+---
+
+# 40. FINAL CHARACTER DATA
+
+Contoh:
+
+```text
+================================
+CHARACTER GENERATED
+================================
+
+Character_ID:
+CHR-000827
+
+Name:
+Kael Ravencrest
+
+Race:
+Dragonkin
+
+Race_ID:
+RACE-005
+
+Race_RNG_Rate:
+10%
+
+Background:
+Noble
+
+Family_ID:
+FAM-000421
+
+Class:
+Warrior
+
+Star:
+⭐⭐⭐⭐
+
+Racial Trait:
+Dragon Heart
+
+Primary Affinity:
+Physical Power
+
+Element Affinity:
+Fire
+
+Bloodline:
+Ancient Dragon
+
+Potential Pool:
+POT-DRAGON
+
+Hidden Potential:
+Locked
+
+Rare Skill:
+Locked
+
+Ultimate Skill:
+Locked
+
+================================
+```
+
+---
+
+# 41. DATABASE RELATIONSHIP
+
+```text
+CHARACTER
+    │
+    ├── Character_ID
+    │
+    └── Race_ID
+            │
+            ▼
+         RACE_TABLE
+            │
+     ┌──────┼──────┐
+     │      │      │
+   STATS  TRAITS  AFFINITY
+     │      │      │
+     └──────┼──────┘
+            ▼
+      POTENTIAL POOL
+            │
+            ▼
+       SKILL SYSTEM
+```
+
+---
+
+# 42. FINAL SYSTEM ARCHITECTURE
+
+```text
+                    RECRUIT SYSTEM
+                           │
+                           ▼
+                       RNG SYSTEM
+                           │
+                           ▼
+                       RACE RNG
+                           │
+             ┌─────────────┴─────────────┐
+             │                           │
+       EQUAL RATE                  RACE DATA
+             │                           │
+             ▼                           ▼
+        RACE RESULT                RACIAL TRAITS
+             │                           │
+             └─────────────┬─────────────┘
+                           ▼
+                    CHARACTER SYSTEM
+                           │
+          ┌────────────────┼────────────────┐
+          │                │                │
+       FAMILY            CLASS            TRAIT
+          │                │                │
+          └────────────────┼────────────────┘
+                           ▼
+                       BLOODLINE
+                           │
+                           ▼
+                     SKILL SYSTEM
+                           │
+                           ▼
+                    CHARACTER AI
+                           │
+                           ▼
+                    EMOTIONAL AI
+                           │
+                           ▼
+                 HIDDEN POTENTIAL
+                           │
+                           ▼
+                    RARE SKILL
+                           │
+                           ▼
+                     STAR 7
+                           │
+                           ▼
+                  ULTIMATE SKILL
+                           │
+                           ▼
+                       DATABASE
+```
+
+---
+
+# 43. CORE RULES
+
+```text
+RULE 01
+All Recruitable Races have equal base RNG probability.
+
+RULE 02
+Race probability does not determine combat power.
+
+RULE 03
+Every Race must have its own strengths.
+
+RULE 04
+Every Race must have identifiable weaknesses.
+
+RULE 05
+Race influences Base Stats.
+
+RULE 06
+Race influences Skill Affinity.
+
+RULE 07
+Race influences Bloodline Pool.
+
+RULE 08
+Race influences Family Pool.
+
+RULE 09
+Race can influence Hidden Potential.
+
+RULE 10
+Race can influence World Exploration Events.
+
+RULE 11
+Race can influence Emotional Resonance.
+
+RULE 12
+Race does not determine Personality completely.
+
+RULE 13
+Character AI remains responsible for behavior.
+
+RULE 14
+Race does not automatically determine Class.
+
+RULE 15
+Race does not automatically determine Star.
+
+RULE 16
+Race does not automatically determine combat victory.
+
+RULE 17
+Rare Skills can be influenced by Race + Class + Bloodline + Emotion.
+
+RULE 18
+Ultimate Skills can be unique to each Hero.
+
+RULE 19
+All final racial data is linked to Character_ID.
+
+RULE 20
+Race data is stored persistently in the Database System.
+```
+
+---
+
+# 44. FINAL DESIGN PRINCIPLE
+
+**Race adalah identitas biologis dan historis Hero, bukan sistem rarity.**
+
+```text
+RACE
+ ≠
+RARITY
+```
+
+dan:
+
+```text
+RACE
+ ≠
+POWER LEVEL
+```
+
+Sistem menggunakan prinsip:
+
+```text
+Equal Recruitment Chance
+        +
+Unique Racial Advantage
+        +
+Unique Racial Weakness
+        +
+Class
+        +
+Bloodline
+        +
+Trait
+        +
+Skill
+        +
+Equipment
+        +
+Character AI
+        +
+Emotional State
+        +
+Hidden Potential
+        =
+UNIQUE HERO
+```
+
+Dengan demikian, seorang **Human** tetap bisa menjadi Hero luar biasa, sementara **Dragonkin, High Elf, Demon, Dwarf, Beastfolk, Vampire, Spirit, Giant, atau Draconian** memiliki jalur kekuatan masing-masing.
+
+Yang membuat Hero benar-benar unik bukan hanya rasnya, tetapi kombinasi:
+
+```text
+RACE
++
+FAMILY
++
+BLOODLINE
++
+CLASS
++
+TRAIT
++
+TALENT
++
+SKILL
++
+EQUIPMENT
++
+PERSONALITY
++
+EMOTION
++
+EXPERIENCE
++
+HIDDEN POTENTIAL
+```
+
+Semua hasil akhir tersebut melekat pada:
+
+```text
+Character_ID
+```
+
+sehingga dua Hero dari ras yang sama tetap dapat memiliki perkembangan, skill, personality, dan potensi yang sangat berbeda.
