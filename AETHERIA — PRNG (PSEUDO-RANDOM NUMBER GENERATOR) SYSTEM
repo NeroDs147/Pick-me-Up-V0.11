@@ -1,0 +1,2230 @@
+# 🎲 AETHERIA — PRNG (PSEUDO-RANDOM NUMBER GENERATOR) SYSTEM
+
+## Overview
+
+**PRNG System** adalah sistem randomisasi utama yang digunakan oleh **Recruitment System** untuk menghasilkan keputusan RNG secara terkontrol, konsisten, dan dapat direproduksi.
+
+PRNG tidak menentukan isi karakter secara langsung.
+
+PRNG hanya menghasilkan nilai random yang kemudian digunakan oleh sistem lain.
+
+```text
+RECRUITMENT
+     │
+     ▼
+PRNG SYSTEM
+     │
+     ▼
+RANDOM VALUE
+     │
+     ├── Star
+     ├── Race
+     ├── Character
+     ├── Family
+     ├── Skill
+     ├── Talent
+     └── Potential
+```
+
+PRNG harus terhubung dengan:
+
+```text
+Recruitment System
+Character System
+Race System
+Family System
+Skill System
+RNG System
+Database System
+Game State System
+Audit System
+```
+
+---
+
+# 1. SYSTEM OBJECTIVE
+
+PRNG System dibuat untuk:
+
+```text
+Generate Random Number
+Generate Random Selection
+Generate Random Seed
+Support Recruitment RNG
+Support Character RNG
+Support Race RNG
+Support Star RNG
+Support Family RNG
+Support Skill RNG
+Support Hidden Potential RNG
+Support Debugging
+Support Replay
+Support Audit
+```
+
+PRNG tidak menyimpan karakter secara langsung.
+
+PRNG hanya menghasilkan nilai random.
+
+---
+
+# 2. PRNG ARCHITECTURE
+
+```text
+                    RECRUITMENT SYSTEM
+                            │
+                            ▼
+                      RNG REQUEST
+                            │
+                            ▼
+                       PRNG ENGINE
+                            │
+                 ┌──────────┼──────────┐
+                 │          │          │
+                 ▼          ▼          ▼
+              SEED       RANDOM      STREAM
+                         VALUE
+                 │          │          │
+                 └──────────┼──────────┘
+                            ▼
+                       RNG RESULT
+                            │
+             ┌──────────────┼──────────────┐
+             ▼              ▼              ▼
+            STAR           RACE        CHARACTER
+             │              │              │
+             └──────────────┼──────────────┘
+                            ▼
+                      FINAL HERO
+                            │
+                            ▼
+                        DATABASE
+```
+
+---
+
+# 3. PRNG VS RNG
+
+PRNG:
+
+```text
+Pseudo-Random Number Generator
+```
+
+menghasilkan angka yang terlihat random berdasarkan:
+
+```text
+Seed
+Algorithm
+State
+```
+
+Sedangkan RNG System menggunakan hasil PRNG untuk menentukan hasil game.
+
+```text
+PRNG
+ ↓
+Random Number
+ ↓
+RNG Table
+ ↓
+Game Result
+```
+
+Contoh:
+
+```text
+PRNG Result:
+0.734291
+
+Star Table:
+0.000000 - 0.500000 = Star 1
+0.500001 - 0.800000 = Star 2
+0.800001 - 0.950000 = Star 3
+0.950001 - 0.990000 = Star 4
+0.990001 - 1.000000 = Star 5
+```
+
+PRNG menghasilkan angka.
+
+**RNG Table menentukan hasilnya.**
+
+---
+
+# 4. CORE PRINCIPLE
+
+PRNG System harus dipisahkan dari:
+
+```text
+Character Database
+Recruitment Database
+Reward Database
+Character Power
+```
+
+PRNG hanya bertugas:
+
+```text
+INPUT
+ ↓
+Seed + State
+ ↓
+PRNG Algorithm
+ ↓
+Random Output
+```
+
+---
+
+# 5. SEED SYSTEM
+
+Setiap PRNG session menggunakan Seed.
+
+Contoh:
+
+```text
+Seed:
+8493217421
+```
+
+Seed dapat menghasilkan sequence:
+
+```text
+0.193821
+0.821733
+0.441292
+0.932817
+0.117382
+```
+
+Jika:
+
+```text
+Seed
++
+Algorithm
++
+Initial State
+```
+
+sama, maka sequence dapat direproduksi.
+
+```text
+SEED A
+  ↓
+PRNG
+  ↓
+0.193821
+0.821733
+0.441292
+```
+
+Replay:
+
+```text
+SEED A
+  ↓
+PRNG
+  ↓
+0.193821
+0.821733
+0.441292
+```
+
+---
+
+# 6. SEED GENERATION
+
+Seed dapat dibuat dari beberapa sumber non-gameplay.
+
+Contoh struktur:
+
+```text
+Seed
+├── Server Seed
+├── Session Seed
+├── Recruitment Session
+├── Request Counter
+└── PRNG State
+```
+
+Contoh:
+
+```text
+Server Seed:
+8273918273
+
+Session Seed:
+192837461
+
+Recruitment Session:
+REC-000827
+
+Request Counter:
+0042
+```
+
+Kemudian sistem menghasilkan:
+
+```text
+PRNG Seed
+```
+
+---
+
+# 7. IMPORTANT SECURITY RULE
+
+Client tidak boleh menjadi sumber utama PRNG untuk hasil recruitment.
+
+Tidak boleh:
+
+```text
+CLIENT
+   ↓
+RANDOM
+   ↓
+RECRUITMENT RESULT
+```
+
+Gunakan:
+
+```text
+CLIENT
+   ↓
+RECRUIT REQUEST
+   ↓
+SERVER
+   ↓
+PRNG
+   ↓
+RECRUITMENT RESULT
+```
+
+Dengan demikian hasil recruitment dikontrol oleh server.
+
+---
+
+# 8. PRNG SESSION
+
+Setiap aktivitas recruitment membuat atau menggunakan PRNG Session.
+
+Contoh:
+
+```text
+PRNG Session ID:
+
+PRS-000001
+```
+
+Data:
+
+```text
+PRNG_Session_ID
+Master_ID
+Recruitment_Session_ID
+Seed
+Algorithm
+State
+Counter
+Created_Time
+```
+
+---
+
+# 9. PRNG REQUEST
+
+Setiap random operation membuat request.
+
+Contoh:
+
+```text
+PRNG Request:
+
+PRQ-000001
+```
+
+Data:
+
+```text
+Request_ID
+Session_ID
+Request_Type
+Range_Min
+Range_Max
+Result
+Counter
+Timestamp
+```
+
+Contoh:
+
+```text
+Request_ID:
+PRQ-000001
+
+Type:
+STAR_ROLL
+
+Range:
+1 - 100000
+
+Result:
+82391
+```
+
+---
+
+# 10. INTEGER RANDOM
+
+PRNG dapat menghasilkan integer.
+
+Contoh:
+
+```text
+Range:
+
+1 - 100000
+```
+
+Hasil:
+
+```text
+82391
+```
+
+Kemudian RNG System membaca:
+
+```text
+1 - 100000
+```
+
+sebagai probability table.
+
+---
+
+# 11. FLOAT RANDOM
+
+PRNG juga dapat menghasilkan nilai antara:
+
+```text
+0.000000
+-
+0.999999
+```
+
+Contoh:
+
+```text
+0.823912
+```
+
+Nilai ini dapat digunakan untuk probability check.
+
+---
+
+# 12. RANDOM RANGE
+
+Format:
+
+```text
+PRNG.RandomInt(min, max)
+```
+
+Contoh:
+
+```text
+RandomInt(1,100)
+```
+
+Possible result:
+
+```text
+1
+2
+3
+...
+100
+```
+
+Untuk float:
+
+```text
+RandomFloat()
+```
+
+menghasilkan:
+
+```text
+0.000000
+-
+0.999999
+```
+
+---
+
+# 13. RANDOM BOOLEAN
+
+PRNG juga dapat menentukan:
+
+```text
+TRUE
+FALSE
+```
+
+Contoh:
+
+```text
+Hidden Potential Check
+```
+
+```text
+PRNG
+ ↓
+Probability Check
+ ↓
+TRUE / FALSE
+```
+
+---
+
+# 14. WEIGHTED RANDOM
+
+Recruitment menggunakan weighted probability.
+
+Contoh:
+
+```text
+COMMON
+Weight: 7000
+
+RARE
+Weight: 2000
+
+EPIC
+Weight: 800
+
+LEGENDARY
+Weight: 190
+
+MYTHIC
+Weight: 10
+```
+
+Total:
+
+```text
+10000
+```
+
+PRNG:
+
+```text
+RandomInt(1,10000)
+```
+
+Misalnya:
+
+```text
+Result = 9821
+```
+
+Maka:
+
+```text
+9821
+ ↓
+MYTHIC
+```
+
+---
+
+# 15. RECRUITMENT PRNG FLOW
+
+```text
+MASTER
+   ↓
+RECRUITMENT MENU
+   ↓
+SUMMON REQUEST
+   ↓
+SERVER VALIDATION
+   ↓
+CREATE PRNG REQUEST
+   ↓
+PRNG
+   ↓
+STAR ROLL
+   ↓
+RACE ROLL
+   ↓
+CHARACTER POOL
+   ↓
+CHARACTER ROLL
+   ↓
+FAMILY CHECK
+   ↓
+FAMILY ROLL
+   ↓
+SKILL / TALENT
+   ↓
+FINAL CHARACTER
+   ↓
+DATABASE
+```
+
+---
+
+# 16. RECRUITMENT ROLL SEPARATION
+
+Setiap bagian harus memiliki random roll terpisah.
+
+```text
+ROLL 01
+Star
+
+ROLL 02
+Race
+
+ROLL 03
+Character
+
+ROLL 04
+Family
+
+ROLL 05
+Class
+
+ROLL 06
+Trait
+
+ROLL 07
+Talent
+
+ROLL 08
+Skill
+
+ROLL 09
+Potential
+```
+
+Jangan menggunakan satu angka random untuk seluruh karakter.
+
+---
+
+# 17. STAR ROLL
+
+Star ditentukan oleh Recruitment System.
+
+Contoh:
+
+```text
+Gold Summon
+
+Star 1
+Star 2
+Star 3
+```
+
+PRNG:
+
+```text
+Star Roll
+     ↓
+Weighted Table
+     ↓
+Star Result
+```
+
+Contoh:
+
+```text
+PRNG Result:
+783421
+
+Star:
+2
+```
+
+Probability sebenarnya disimpan di:
+
+```text
+Recruitment Configuration
+```
+
+bukan di PRNG Engine.
+
+---
+
+# 18. RACE ROLL
+
+Setelah Star ditentukan:
+
+```text
+STAR
+ ↓
+RACE POOL
+ ↓
+PRNG
+ ↓
+RACE
+```
+
+Jika sistem Race menggunakan probability sama rata:
+
+```text
+Human
+Elf
+Dwarf
+Beastfolk
+Dragonkin
+Demon
+Vampire
+...
+```
+
+maka setiap race memiliki weight yang sama.
+
+Contoh:
+
+```text
+8 Race
+Total Weight = 8000
+
+Each Race = 1000
+```
+
+PRNG:
+
+```text
+RandomInt(1,8000)
+```
+
+---
+
+# 19. RACE ADVANTAGE
+
+PRNG tidak menentukan keunggulan ras.
+
+Contoh:
+
+```text
+Elf
+→ Magic Affinity
+
+Dwarf
+→ Defense / Crafting
+
+Beastfolk
+→ Agility / Instinct
+
+Dragonkin
+→ Physical Power
+
+Demon
+→ High Risk / High Power
+
+Vampire
+→ Sustain / Life Manipulation
+```
+
+Keunggulan ditentukan oleh:
+
+```text
+Race System
+```
+
+PRNG hanya menentukan:
+
+```text
+Which Race?
+```
+
+---
+
+# 20. CHARACTER ROLL
+
+Setelah Race:
+
+```text
+Race
+ ↓
+Available Character Pool
+ ↓
+PRNG
+ ↓
+Character
+```
+
+Contoh:
+
+```text
+Race:
+Elf
+
+Available:
+ELF-0001
+ELF-0002
+ELF-0003
+...
+ELF-0100
+```
+
+PRNG:
+
+```text
+RandomInt(1,100)
+```
+
+Result:
+
+```text
+67
+```
+
+Character:
+
+```text
+ELF-0067
+```
+
+---
+
+# 21. NO DUPLICATE HERO RULE
+
+Jika Recruitment System memiliki aturan:
+
+```text
+NO DUPLICATE HERO
+```
+
+maka PRNG tidak boleh langsung menganggap hasil valid.
+
+Flow:
+
+```text
+PRNG
+ ↓
+Character Result
+ ↓
+Check Ownership
+ ↓
+Already Owned?
+ ├── YES → Roll Again
+ └── NO  → Accept
+```
+
+Namun reroll harus menggunakan **PRNG state berikutnya**, bukan seed baru secara sembarangan.
+
+---
+
+# 22. REROLL SYSTEM
+
+Contoh:
+
+```text
+Roll 01
+ ↓
+Character A
+ ↓
+Already Owned
+ ↓
+Reroll
+ ↓
+Roll 02
+ ↓
+Character B
+ ↓
+Available
+```
+
+Database dapat menyimpan:
+
+```text
+Original Roll
+Reroll Count
+Final Roll
+Final Character
+```
+
+---
+
+# 23. FAMILY ROLL
+
+Jika hasil character memiliki background:
+
+```text
+Noble
+Royal
+Imperial
+```
+
+maka:
+
+```text
+Character
+ ↓
+Family Eligibility
+ ↓
+Family Pool
+ ↓
+PRNG
+ ↓
+Family
+```
+
+Jika:
+
+```text
+Commoner
+```
+
+maka:
+
+```text
+Family_ID = NULL
+Family_Name = NULL
+```
+
+PRNG tidak perlu melakukan Family Roll jika karakter tidak eligible.
+
+---
+
+# 24. NOBLE PROBABILITY
+
+Probability bangsawan mengikuti **Character Family & Noble House RNG System**.
+
+Contoh konfigurasi:
+
+```text
+STAR 1-2
+Noble Chance:
+10%
+
+STAR 3-5
+Noble Chance:
+40%
+```
+
+PRNG melakukan:
+
+```text
+Noble Check
+```
+
+Contoh:
+
+```text
+Star:
+4
+
+Noble Chance:
+40%
+
+PRNG:
+0.371821
+
+0.371821 < 0.40
+```
+
+Result:
+
+```text
+NOBLE
+```
+
+---
+
+# 25. SKILL ROLL
+
+Skill dapat memiliki rarity.
+
+```text
+Common
+Uncommon
+Rare
+Epic
+Legendary
+Unique
+```
+
+Flow:
+
+```text
+Character
+ ↓
+Class
+ ↓
+Skill Pool
+ ↓
+PRNG
+ ↓
+Skill
+```
+
+Skill yang diperoleh tetap disimpan pada Character_ID.
+
+---
+
+# 26. HIDDEN POTENTIAL ROLL
+
+PRNG juga dapat digunakan untuk Hidden Potential.
+
+```text
+Hero
+ ↓
+Potential Check
+ ↓
+PRNG
+ ↓
+Success / Failure
+```
+
+Hidden Potential harus memiliki probability yang sangat kecil sesuai konfigurasi.
+
+Contoh:
+
+```text
+Hidden Potential:
+0.05%
+```
+
+PRNG:
+
+```text
+RandomInt(1,1,000,000)
+```
+
+Success hanya pada range tertentu.
+
+---
+
+# 27. EMOTIONAL EVENT PRNG
+
+Hidden Potential Event yang terjadi selama dungeon tidak hanya bergantung pada angka random.
+
+Sistem harus menggunakan:
+
+```text
+PRNG
++
+Character Emotional State
++
+Battle State
++
+Mission State
++
+Core World Building
+```
+
+Flow:
+
+```text
+BATTLE
+ ↓
+CHARACTER EMOTION
+ ↓
+POTENTIAL CHECK
+ ↓
+PRNG
+ ↓
+EVENT CONDITION
+ ↓
+HIDDEN POTENTIAL EVENT
+```
+
+---
+
+# 28. PRNG + AI EMOTION
+
+Contoh:
+
+```text
+Hero:
+Kael
+
+Emotion:
+Desperation 92%
+
+Morale:
+Critical
+
+Party State:
+3/5 Heroes Alive
+
+Battle State:
+Boss Phase 3
+
+Potential:
+Locked
+```
+
+PRNG menghasilkan:
+
+```text
+0.00031
+```
+
+Jika probability sesuai kondisi terpenuhi:
+
+```text
+Hidden Potential Event
+Triggered
+```
+
+AI Character kemudian menentukan respons karakter.
+
+---
+
+# 29. PRNG STREAM
+
+Setiap session memiliki stream.
+
+```text
+PRNG SESSION
+     │
+     ▼
+STREAM
+     │
+ ┌───┼────┬────┬────┐
+ ▼   ▼    ▼    ▼    ▼
+R01 R02  R03  R04  R05
+```
+
+Contoh:
+
+```text
+R01 = Star
+R02 = Race
+R03 = Character
+R04 = Family
+R05 = Skill
+```
+
+Setiap request meningkatkan:
+
+```text
+PRNG Counter
+```
+
+---
+
+# 30. PRNG STATE
+
+Minimal state:
+
+```text
+Seed
+Algorithm
+Counter
+Internal State
+Stream ID
+```
+
+Contoh:
+
+```text
+Seed:
+9283719283
+
+Algorithm:
+PRNG-X
+
+Counter:
+17
+
+Stream:
+RECRUITMENT-000827
+```
+
+---
+
+# 31. DATABASE STRUCTURE
+
+### PRNG_SESSION
+
+```text
+PRNG_Session_ID
+Master_ID
+Seed
+Algorithm
+Created_Time
+Status
+```
+
+### PRNG_STATE
+
+```text
+PRNG_Session_ID
+Counter
+State_Data
+Updated_Time
+```
+
+### PRNG_REQUEST
+
+```text
+Request_ID
+PRNG_Session_ID
+Request_Type
+Min_Value
+Max_Value
+Result
+Counter
+Timestamp
+```
+
+---
+
+# 32. RECRUITMENT DATABASE
+
+Recruitment harus menyimpan hubungan dengan PRNG.
+
+```text
+Recruitment_ID
+Master_ID
+PRNG_Session_ID
+PRNG_Request_ID
+Summon_Type
+Star_Result
+Race_Result
+Character_ID
+Family_ID
+Result_Time
+```
+
+Contoh:
+
+```text
+Recruitment_ID:
+REC-000827
+
+PRNG_Session_ID:
+PRS-009812
+
+Character_ID:
+CHR-004827
+
+Star:
+4
+
+Race:
+Elf
+
+Family_ID:
+FAM-000291
+```
+
+---
+
+# 33. AUDIT SYSTEM
+
+Setiap recruitment dapat diaudit.
+
+```text
+RECRUITMENT
+      ↓
+PRNG REQUEST
+      ↓
+ROLL
+      ↓
+RESULT
+```
+
+Audit:
+
+```text
+Recruitment_ID
+Seed
+Counter
+Request
+Roll
+Result
+Timestamp
+```
+
+Tujuannya:
+
+```text
+Debugging
+Fraud Detection
+Bug Investigation
+Replay
+Result Verification
+```
+
+---
+
+# 34. REPLAY SYSTEM
+
+Karena PRNG menggunakan seed, sebuah session dapat direplay untuk debugging.
+
+```text
+Original Session
+      ↓
+Seed
+      ↓
+PRNG
+      ↓
+Sequence
+```
+
+Replay:
+
+```text
+Same Seed
+      ↓
+Same Algorithm
+      ↓
+Same Initial State
+      ↓
+Same Sequence
+```
+
+Contoh:
+
+```text
+Original:
+
+Star = 4
+Race = Elf
+Character = CHR-004827
+```
+
+Replay:
+
+```text
+Star = 4
+Race = Elf
+Character = CHR-004827
+```
+
+---
+
+# 35. IMPORTANT REPLAY RULE
+
+Replay hanya digunakan untuk:
+
+```text
+Debugging
+Testing
+Audit
+Simulation
+```
+
+Replay tidak boleh memberikan pemain kemampuan untuk:
+
+```text
+Predict Future Recruitment
+Manipulate Result
+Change Seed
+Force Result
+```
+
+---
+
+# 36. PRNG SECURITY
+
+PRNG untuk game harus dipisahkan menjadi:
+
+```text
+Gameplay PRNG
+Security-Critical RNG
+```
+
+Untuk hasil yang bernilai tinggi atau kompetitif, gunakan generator yang sesuai kebutuhan keamanan server.
+
+Jangan menganggap PRNG biasa aman hanya karena hasilnya terlihat random.
+
+---
+
+# 37. SERVER AUTHORITATIVE
+
+Recruitment result harus berasal dari server.
+
+```text
+PLAYER
+ ↓
+REQUEST
+ ↓
+SERVER
+ ↓
+VALIDATE COST
+ ↓
+PRNG
+ ↓
+RNG
+ ↓
+CHARACTER
+ ↓
+DATABASE
+ ↓
+CLIENT
+```
+
+Client hanya menerima:
+
+```text
+Final Result
+```
+
+---
+
+# 38. PRNG CONFIGURATION
+
+PRNG Engine harus memiliki konfigurasi:
+
+```text
+Algorithm
+Seed Length
+Output Range
+Stream Mode
+State Mode
+Precision
+Version
+```
+
+Contoh:
+
+```text
+Algorithm:
+PRNG-X
+
+Version:
+1.0.0
+
+Seed Length:
+256-bit
+
+Output:
+Integer / Float
+
+Stream:
+Per Recruitment Session
+```
+
+---
+
+# 39. PRNG VERSIONING
+
+Algorithm harus memiliki version.
+
+```text
+PRNG Version:
+1.0
+```
+
+Jika algorithm berubah:
+
+```text
+PRNG Version:
+2.0
+```
+
+Session lama tetap menggunakan version lama untuk menjaga replay.
+
+```text
+Old Session
+ ↓
+PRNG v1.0
+
+New Session
+ ↓
+PRNG v2.0
+```
+
+---
+
+# 40. RECRUITMENT PRNG EXAMPLE
+
+```text
+=================================
+RECRUITMENT
+=================================
+
+Recruitment ID:
+REC-000827
+
+Summon:
+Gem Summon
+
+        ↓
+
+PRNG SESSION
+
+Session:
+PRS-001827
+
+Seed:
+928371928371
+
+        ↓
+
+ROLL 01
+
+Star Roll:
+0.981273
+
+        ↓
+
+STAR 4
+
+        ↓
+
+ROLL 02
+
+Race Roll:
+0.327812
+
+        ↓
+
+ELF
+
+        ↓
+
+ROLL 03
+
+Character Roll:
+67
+
+        ↓
+
+Character:
+CHR-004827
+
+        ↓
+
+ROLL 04
+
+Noble Check:
+0.271821
+
+        ↓
+
+NOBLE
+
+        ↓
+
+ROLL 05
+
+Family:
+FAM-000291
+
+        ↓
+
+ROLL 06
+
+Skill:
+SKL-00821
+
+        ↓
+
+FINAL HERO
+```
+
+---
+
+# 41. COMPLETE RECRUITMENT PIPELINE
+
+```text
+MASTER
+   │
+   ▼
+RECRUITMENT
+   │
+   ▼
+VALIDATE COST
+   │
+   ▼
+CREATE PRNG SESSION
+   │
+   ▼
+STAR ROLL
+   │
+   ▼
+RACE ROLL
+   │
+   ▼
+CHARACTER POOL
+   │
+   ▼
+CHARACTER ROLL
+   │
+   ▼
+DUPLICATE CHECK
+   │
+   ▼
+BACKGROUND CHECK
+   │
+   ├───────────────┐
+   │               │
+COMMONER         NOBLE
+   │               │
+   │               ▼
+   │          NOBLE CHECK
+   │               │
+   │               ▼
+   │          FAMILY ROLL
+   │               │
+   └───────┬───────┘
+           ▼
+       CLASS ROLL
+           │
+           ▼
+       TRAIT ROLL
+           │
+           ▼
+       TALENT ROLL
+           │
+           ▼
+       SKILL ROLL
+           │
+           ▼
+    POTENTIAL ROLL
+           │
+           ▼
+      FINAL HERO
+           │
+           ▼
+      CHARACTER ID
+           │
+           ▼
+       DATABASE
+```
+
+---
+
+# 42. PRNG DOES NOT MODIFY CHARACTER
+
+PRNG hanya menghasilkan:
+
+```text
+Random Value
+```
+
+PRNG tidak boleh langsung mengubah:
+
+```text
+Character Level
+Character Stats
+Character Skill
+Character Star
+Character Equipment
+```
+
+Perubahan dilakukan oleh sistem terkait.
+
+```text
+PRNG
+ ↓
+Result
+ ↓
+Character System
+ ↓
+Character Data
+```
+
+---
+
+# 43. PRNG + CHARACTER ID
+
+Setelah recruitment berhasil:
+
+```text
+Character_ID
+```
+
+menjadi identitas permanen.
+
+Contoh:
+
+```text
+CHR-009821
+```
+
+Semua perkembangan karakter melekat pada ID:
+
+```text
+CHR-009821
+   │
+   ├── Level
+   ├── Star
+   ├── Stats
+   ├── Skills
+   ├── Equipment
+   ├── Traits
+   ├── Talent
+   ├── Hidden Potential
+   ├── Family_ID
+   └── Character State
+```
+
+PRNG tidak menggantikan Character_ID.
+
+---
+
+# 44. PRNG AND DATABASE
+
+```text
+PRNG
+ ↓
+Recruitment Result
+ ↓
+Character System
+ ↓
+Character_ID
+ ↓
+Database
+```
+
+Database menyimpan hasil final.
+
+PRNG data digunakan untuk:
+
+```text
+Audit
+Replay
+Debugging
+Verification
+```
+
+---
+
+# 45. FAILURE HANDLING
+
+Jika PRNG mengalami error:
+
+```text
+PRNG ERROR
+     ↓
+RECRUITMENT HALTED
+     ↓
+NO RESULT COMMITTED
+     ↓
+LOG ERROR
+     ↓
+ROLLBACK
+```
+
+Jangan:
+
+```text
+PRNG Error
+ ↓
+Generate Random Again
+ ↓
+Commit Character
+```
+
+tanpa pencatatan.
+
+---
+
+# 46. TRANSACTION SYSTEM
+
+Recruitment harus bersifat atomic.
+
+```text
+START TRANSACTION
+       ↓
+Validate Currency
+       ↓
+Create PRNG Session
+       ↓
+Perform Rolls
+       ↓
+Generate Character
+       ↓
+Save Character
+       ↓
+Save Recruitment Result
+       ↓
+Save PRNG Audit
+       ↓
+COMMIT
+```
+
+Jika gagal:
+
+```text
+ROLLBACK
+```
+
+---
+
+# 47. PRNG LOGGING
+
+Log dapat menyimpan:
+
+```text
+PRNG Session
+Request ID
+Seed
+Algorithm Version
+Counter
+Request Type
+Result
+Timestamp
+```
+
+Contoh:
+
+```text
+[PRNG]
+
+Session:
+PRS-000827
+
+Request:
+PRQ-002781
+
+Type:
+RACE_ROLL
+
+Counter:
+2
+
+Result:
+0.327812
+
+Algorithm:
+PRNG-X v1.0
+```
+
+---
+
+# 48. TESTING MODE
+
+Developer dapat menggunakan fixed seed.
+
+```text
+TEST SEED:
+123456789
+```
+
+Kemudian menguji:
+
+```text
+100 Recruitments
+1,000 Recruitments
+10,000 Recruitments
+100,000 Recruitments
+```
+
+Tujuan:
+
+```text
+Distribution Test
+Probability Test
+Duplicate Test
+Race Balance Test
+Star Distribution Test
+Performance Test
+```
+
+---
+
+# 49. RACE BALANCE TEST
+
+Karena Race dirancang memiliki peluang sama:
+
+```text
+Human
+Elf
+Dwarf
+Beastfolk
+Dragonkin
+Demon
+Vampire
+...
+```
+
+testing dapat memeriksa:
+
+```text
+Expected:
+12.5%
+
+Actual:
+12.47%
+```
+
+Perbedaan kecil dapat terjadi pada sample terbatas.
+
+PRNG tidak menjamin setiap 100 summon menghasilkan distribusi persis sama.
+
+---
+
+# 50. IMPORTANT RNG PRINCIPLE
+
+Jika probability:
+
+```text
+Elf = 12.5%
+```
+
+maka:
+
+```text
+100 Recruit
+```
+
+tidak berarti wajib:
+
+```text
+Elf = 12 atau 13
+```
+
+Hasil dapat:
+
+```text
+Elf = 8
+Elf = 15
+Elf = 19
+```
+
+karena setiap roll bersifat independen sesuai konfigurasi.
+
+---
+
+# 51. RECRUITMENT SESSION
+
+Multi-summon menggunakan satu session.
+
+Contoh:
+
+```text
+10x SUMMON
+     ↓
+Recruitment Session
+     ↓
+PRNG Stream
+     ├── Roll 01
+     ├── Roll 02
+     ├── Roll 03
+     ├── ...
+     └── Roll 10
+```
+
+Setiap Hero tetap mendapatkan:
+
+```text
+Character_ID
+```
+
+yang berbeda.
+
+---
+
+# 52. 10X SUMMON EXAMPLE
+
+```text
+SESSION:
+REC-001000
+
+Seed:
+928371928371
+```
+
+Result:
+
+```text
+01 → Star 2 → Human
+02 → Star 3 → Elf
+03 → Star 2 → Dwarf
+04 → Star 4 → Beastfolk
+05 → Star 1 → Human
+06 → Star 2 → Demon
+07 → Star 3 → Dragonkin
+08 → Star 2 → Elf
+09 → Star 1 → Vampire
+10 → Star 3 → Human
+```
+
+Semua hasil berasal dari PRNG stream yang sama.
+
+---
+
+# 53. PRNG FOR ALL RANDOM SYSTEMS
+
+PRNG dapat digunakan oleh:
+
+```text
+Recruitment
+Character Generation
+Race Selection
+Star Selection
+Family Selection
+Skill Selection
+Talent Selection
+Hidden Potential
+Dungeon Enemy
+Dungeon Reward
+World Exploration
+Boss Mechanics
+Raid Mechanics
+Event Branch
+Drop Table
+```
+
+Namun setiap sistem memiliki:
+
+```text
+RNG Configuration
+```
+
+sendiri.
+
+---
+
+# 54. PRNG DOES NOT CONTROL PROBABILITY
+
+Struktur:
+
+```text
+PRNG
+=
+Random Number Generator
+
+RNG Configuration
+=
+Probability Rules
+```
+
+Contoh:
+
+```text
+PRNG
+ ↓
+0.832721
+```
+
+RNG Configuration:
+
+```text
+0.80 - 0.95
+=
+Star 3
+```
+
+Result:
+
+```text
+Star 3
+```
+
+Dengan pemisahan ini, probability dapat diubah tanpa mengubah engine PRNG.
+
+---
+
+# 55. COMPLETE SYSTEM CONNECTION
+
+```text
+                         MASTER
+                           │
+                           ▼
+                    RECRUITMENT SYSTEM
+                           │
+                           ▼
+                    RECRUITMENT REQUEST
+                           │
+                           ▼
+                    PRNG SYSTEM
+                           │
+              ┌────────────┼────────────┐
+              ▼            ▼            ▼
+             STAR         RACE       CHARACTER
+              │            │            │
+              └────────────┼────────────┘
+                           ▼
+                    CHARACTER SYSTEM
+                           │
+              ┌────────────┼────────────┐
+              ▼            ▼            ▼
+           FAMILY        CLASS        TRAIT
+              │            │            │
+              └────────────┼────────────┘
+                           ▼
+                         SKILL
+                           │
+                           ▼
+                       POTENTIAL
+                           │
+                           ▼
+                     CHARACTER_ID
+                           │
+                           ▼
+                      DATABASE
+                           │
+                           ▼
+                       GAME STATE
+```
+
+---
+
+# 56. FINAL DESIGN RULES
+
+```text
+RULE 01
+PRNG hanya menghasilkan random value.
+
+RULE 02
+Probability ditentukan oleh RNG Configuration.
+
+RULE 03
+Recruitment result harus server-authoritative.
+
+RULE 04
+Setiap Recruitment Session memiliki PRNG state.
+
+RULE 05
+Setiap random operation menggunakan counter/stream.
+
+RULE 06
+Character_ID tetap menjadi identitas permanen Hero.
+
+RULE 07
+PRNG tidak boleh langsung mengubah Character Data.
+
+RULE 08
+Duplicate Hero harus diverifikasi oleh Character System.
+
+RULE 09
+Family Roll hanya dilakukan jika karakter eligible.
+
+RULE 10
+Race probability mengikuti Race System.
+
+RULE 11
+Star probability mengikuti Recruitment System.
+
+RULE 12
+Hidden Potential probability mengikuti Potential System.
+
+RULE 13
+PRNG session harus dapat diaudit.
+
+RULE 14
+PRNG version harus disimpan untuk replay.
+
+RULE 15
+Recruitment transaction harus atomic.
+
+RULE 16
+PRNG error harus menghentikan transaksi,
+bukan menghasilkan result tanpa audit.
+
+RULE 17
+Client tidak boleh menentukan recruitment result.
+
+RULE 18
+Multi-summon menggunakan PRNG stream yang terkontrol.
+
+RULE 19
+Probability tidak boleh ditanam langsung di PRNG Engine.
+
+RULE 20
+Semua perubahan konfigurasi RNG harus versioned.
+```
+
+---
+
+# 57. FINAL ARCHITECTURE
+
+```text
+                    AETHERIA RNG ARCHITECTURE
+
+                         MASTER
+                           │
+                           ▼
+                    RECRUITMENT
+                           │
+                           ▼
+                 RECRUITMENT CONFIG
+                           │
+                           ▼
+                     PRNG ENGINE
+                           │
+                           ▼
+                    RANDOM VALUE
+                           │
+                           ▼
+                     RNG ENGINE
+                           │
+         ┌─────────────────┼─────────────────┐
+         │                 │                 │
+         ▼                 ▼                 ▼
+        STAR              RACE          CHARACTER
+         │                 │                 │
+         └─────────────────┼─────────────────┘
+                           ▼
+                    CHARACTER SYSTEM
+                           │
+        ┌──────────────────┼──────────────────┐
+        ▼                  ▼                  ▼
+      FAMILY             CLASS              TRAIT
+        │                  │                  │
+        └──────────────────┼──────────────────┘
+                           ▼
+                         SKILL
+                           │
+                           ▼
+                      POTENTIAL
+                           │
+                           ▼
+                     CHARACTER_ID
+                           │
+                           ▼
+                       DATABASE
+                           │
+                ┌──────────┴──────────┐
+                ▼                     ▼
+          GAME STATE              AUDIT LOG
+```
+
+---
+
+# 58. FINAL PRINCIPLE
+
+PRNG merupakan **mesin dasar randomisasi**, bukan sistem yang menentukan seluruh aturan recruitment.
+
+```text
+PRNG
+ ↓
+Random Value
+ ↓
+RNG Configuration
+ ↓
+Game Rule
+ ↓
+Result
+```
+
+Dengan arsitektur ini, sistem dapat menjaga pemisahan antara:
+
+```text
+RANDOM GENERATION
+       ↓
+PROBABILITY
+       ↓
+GAME RULE
+       ↓
+CHARACTER GENERATION
+       ↓
+DATABASE
+```
+
+Sehingga ketika sistem Recruitment, Race, Star, Family, Skill, atau Hidden Potential mengalami perubahan probability, **PRNG Engine tidak perlu diubah**.
+
+Struktur ini juga memungkinkan seluruh hasil recruitment dilacak menggunakan:
+
+```text
+Recruitment_ID
+PRNG_Session_ID
+PRNG_Request_ID
+Seed
+Algorithm Version
+Counter
+Character_ID
+```
+
+sehingga setiap Hero hasil recruitment memiliki jejak data yang jelas dari **random generation sampai tersimpan permanen di database**.
