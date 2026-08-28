@@ -1,0 +1,1828 @@
+# 🎲 AETHERIA — RNG SYSTEM
+
+> **Chance determines what appears.**
+>
+> **The Game State determines what actually happens.**
+>
+> **The Database remembers the result.**
+
+The **RNG System** is the central probability and randomization system of Aetheria.
+
+It provides controlled randomness for:
+
+```text
+Character Recruitment
+Enemy Loot
+Floor Rewards
+Quest Rewards
+Event Rewards
+Item Drops
+Special Rewards
+```
+
+The RNG System does **not** independently decide game progression.
+
+Instead, it provides probability results to other systems.
+
+---
+
+# 📌 1. OVERVIEW
+
+The RNG System acts as the core randomization engine.
+
+```text
+                         RNG SYSTEM
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+          ▼                   ▼                   ▼
+    RECRUIT SYSTEM       LOOT SYSTEM        REWARD SYSTEM
+          │                   │                   │
+          ▼                   ▼                   ▼
+     CHARACTER RNG        ITEM RNG          REWARD RNG
+```
+
+Additional systems:
+
+```text
+Quest System
+Event System
+Dungeon System
+Tower System
+Enemy System
+```
+
+can also request RNG results.
+
+---
+
+# 🎯 2. PURPOSE
+
+The main purpose of the RNG System is to generate controlled random results.
+
+Examples:
+
+```text
+Recruitment
+→ Which Star?
+
+Loot
+→ Which Item?
+
+Floor Reward
+→ Which Reward?
+
+Quest
+→ Which Reward?
+
+Enemy
+→ What Drop?
+```
+
+The RNG System provides the probability calculation.
+
+The system using RNG determines what the result means.
+
+---
+
+# 🧠 3. CORE PRINCIPLE
+
+The RNG System follows:
+
+> **RNG generates probability results, not game logic.**
+
+For example:
+
+```text
+Recruit System
+       ↓
+Request RNG
+       ↓
+RNG System
+       ↓
+Star Result
+       ↓
+Recruit System
+       ↓
+Character Selection
+```
+
+The RNG System should not directly modify:
+
+```text
+Character
+Inventory
+Master
+Quest
+Floor
+Database
+```
+
+Those changes are handled by the appropriate systems.
+
+---
+
+# 🏗️ 4. SYSTEM ARCHITECTURE
+
+```text
+                         GAME MANAGER
+                              │
+                              ▼
+                       GAME STATE SYSTEM
+                              │
+                              ▼
+                          RNG SYSTEM
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+          ▼                   ▼                   ▼
+     RECRUIT RNG           LOOT RNG           REWARD RNG
+          │                   │                   │
+          ▼                   ▼                   ▼
+    Character Pool       Enemy Drop Pool      Reward Pool
+```
+
+---
+
+# 🎲 5. RNG TYPES
+
+The initial RNG System supports:
+
+```text
+Probability RNG
+Weighted RNG
+Range RNG
+Pool RNG
+Guaranteed RNG
+Conditional RNG
+```
+
+---
+
+# ⚖️ 6. WEIGHTED RNG
+
+Most Aetheria systems use **Weighted RNG**.
+
+Example:
+
+```text
+COMMON       70%
+UNCOMMON     20%
+RARE          8%
+EPIC          1.8%
+LEGENDARY     0.2%
+```
+
+The system calculates a random result based on the configured weight.
+
+---
+
+# ⭐ 7. STAR RNG
+
+Character recruitment uses Star-based probability.
+
+Initial Star range:
+
+```text
+⭐
+⭐⭐
+⭐⭐⭐
+⭐⭐⭐⭐
+⭐⭐⭐⭐⭐
+```
+
+Different recruitment methods have different Star pools.
+
+---
+
+# 👑 8. RECRUITMENT RNG
+
+The Recruit System contains four recruitment methods.
+
+```text
+RECRUIT SYSTEM
+│
+├── Gold Recruit
+├── Ticket Recruit
+├── Gem Recruit
+└── Special Ticket Recruit
+```
+
+Each method uses a different RNG configuration.
+
+---
+
+# 🪙 9. GOLD RECRUIT
+
+Gold Recruit uses:
+
+```text
+⭐ 1
+⭐⭐ 2
+⭐⭐⭐ 3
+```
+
+Star 3 has a very low probability.
+
+Example configuration:
+
+```text
+⭐      79.0%
+⭐⭐     20.0%
+⭐⭐⭐     1.0%
+```
+
+The exact probability can be adjusted later through configuration.
+
+Important:
+
+> **Gold Recruit can never produce Star 4 or Star 5.**
+
+Flow:
+
+```text
+MASTER
+  ↓
+GOLD RECRUIT
+  ↓
+RNG
+  ↓
+STAR 1–3
+  ↓
+CHARACTER POOL
+  ↓
+AI SELECTION
+  ↓
+DUPLICATE CHECK
+  ↓
+CHARACTER
+```
+
+---
+
+# 🎟️ 10. TICKET RECRUIT
+
+Ticket Recruit uses:
+
+```text
+⭐⭐ 2
+⭐⭐⭐ 3
+⭐⭐⭐⭐ 4
+```
+
+Star 4 has a very low probability.
+
+Example:
+
+```text
+⭐⭐       74%
+⭐⭐⭐      24%
+⭐⭐⭐⭐      2%
+```
+
+Important:
+
+> **Ticket Recruit cannot produce Star 1 or Star 5.**
+
+Flow:
+
+```text
+TICKET
+  ↓
+RNG
+  ↓
+STAR 2–4
+  ↓
+CHARACTER POOL
+  ↓
+AI SELECTION
+  ↓
+DUPLICATE CHECK
+  ↓
+CHARACTER
+```
+
+---
+
+# 💎 11. GEM RECRUIT
+
+Gem Recruit uses:
+
+```text
+⭐ 1
+⭐⭐ 2
+⭐⭐⭐ 3
+⭐⭐⭐⭐ 4
+```
+
+Star 4 has a low probability.
+
+Example:
+
+```text
+⭐        50%
+⭐⭐       30%
+⭐⭐⭐      18%
+⭐⭐⭐⭐      2%
+```
+
+Important:
+
+> **Gem Recruit cannot produce Star 5.**
+
+Flow:
+
+```text
+GEMS
+ ↓
+RNG
+ ↓
+STAR 1–4
+ ↓
+CHARACTER POOL
+ ↓
+AI SELECTION
+ ↓
+DUPLICATE CHECK
+ ↓
+CHARACTER
+```
+
+---
+
+# 🎫 12. SPECIAL TICKET RECRUIT
+
+Special Ticket Recruit guarantees:
+
+```text
+⭐⭐⭐⭐⭐
+```
+
+There is no Star RNG.
+
+```text
+SPECIAL TICKET
+      ↓
+GUARANTEED
+      ↓
+⭐⭐⭐⭐⭐
+      ↓
+CHARACTER POOL
+      ↓
+AI SELECTION
+      ↓
+DUPLICATE CHECK
+      ↓
+CHARACTER
+```
+
+The Special Ticket Recruit therefore functions as:
+
+> **Guaranteed Star 5 Recruitment.**
+
+---
+
+# 📊 13. RECRUITMENT TABLE
+
+| Recruitment     | Currency       | Star Range | Special Rule      |
+| --------------- | -------------- | ---------: | ----------------- |
+| Gold Recruit    | Gold           |      ⭐ 1–3 | Star 3 very rare  |
+| Ticket Recruit  | Ticket         |     ⭐⭐ 2–4 | Star 4 very rare  |
+| Gem Recruit     | Gem            |      ⭐ 1–4 | Star 4 very rare  |
+| Special Recruit | Special Ticket |      ⭐⭐⭐⭐⭐ | Star 5 guaranteed |
+
+These probabilities should be stored as configuration data rather than hard-coded into the RNG engine.
+
+---
+
+# 🤖 14. AI RECRUITMENT SYSTEM
+
+Character recruitment uses an AI-assisted selection layer.
+
+The RNG System determines:
+
+```text
+STAR
+```
+
+The AI Recruitment System determines:
+
+```text
+WHICH AVAILABLE CHARACTER
+```
+
+Example:
+
+```text
+GOLD RECRUIT
+      ↓
+RNG
+      ↓
+⭐⭐⭐
+      ↓
+AI RECRUITMENT
+      ↓
+Available Star 3 Characters
+      ↓
+Select Character
+```
+
+---
+
+# 🚫 15. NO DUPLICATE CHARACTER
+
+Aetheria recruitment does not allow duplicate Heroes.
+
+If:
+
+```text
+CHAR_000125
+```
+
+already belongs to the Master, the same character cannot be recruited again.
+
+The system checks:
+
+```text
+Recruitment Result
+        ↓
+Character ID
+        ↓
+Database
+        ↓
+Already Owned?
+```
+
+If:
+
+```text
+YES
+```
+
+the character is removed from the available recruitment pool.
+
+---
+
+# 🔍 16. DUPLICATE CHECK FLOW
+
+```text
+             RNG
+              │
+              ▼
+         STAR RESULT
+              │
+              ▼
+       CHARACTER POOL
+              │
+              ▼
+         AI SELECTOR
+              │
+              ▼
+       DUPLICATE CHECK
+          ┌───┴───┐
+          │       │
+         YES      NO
+          │       │
+          ▼       ▼
+      RESELECT   ACCEPT
+          │       │
+          └───┬───┘
+              ▼
+          CHARACTER
+```
+
+The system continues until a valid character is selected.
+
+---
+
+# 🧠 17. AI SELECTION PRIORITY
+
+The AI recruitment layer can evaluate:
+
+```text
+Star
+Character Availability
+Character Ownership
+Recruitment Method
+Character Pool
+Faction
+Race
+Class
+Current Master Roster
+```
+
+The AI should **not violate the configured recruitment rules**.
+
+For example:
+
+```text
+Gold Recruit
+```
+
+cannot select:
+
+```text
+Star 4
+```
+
+even if the AI considers that character desirable.
+
+The RNG configuration remains the authority for Star eligibility.
+
+---
+
+# 🧬 18. CHARACTER POOL
+
+Characters are stored in the Character System / Database.
+
+Example:
+
+```text
+STAR 3 POOL
+
+CHAR_000021
+CHAR_000045
+CHAR_000078
+CHAR_000125
+CHAR_000201
+```
+
+If the Master already owns:
+
+```text
+CHAR_000125
+```
+
+the available pool becomes:
+
+```text
+CHAR_000021
+CHAR_000045
+CHAR_000078
+CHAR_000201
+```
+
+---
+
+# ⚠️ 19. EMPTY POOL HANDLING
+
+A recruitment Star tier may eventually have no available characters.
+
+Example:
+
+```text
+Star 3 Pool:
+EMPTY
+```
+
+The system must not generate an invalid character.
+
+Possible handling:
+
+```text
+Option A
+Re-roll Star
+
+Option B
+Use another valid character pool
+
+Option C
+Convert to alternative reward
+
+Option D
+Return recruitment error
+```
+
+The final behavior should be defined by the Recruit System configuration.
+
+Recommended:
+
+> **Re-roll within valid recruitment conditions.**
+
+---
+
+# 🎲 20. RNG SEED
+
+The RNG engine should support a seed system.
+
+Example:
+
+```text
+RNG Seed
+123456789
+```
+
+A seed allows developers to reproduce a random sequence for testing.
+
+This is useful for:
+
+```text
+Debugging
+Testing
+Replay
+Simulation
+Balance Testing
+```
+
+---
+
+# 🔐 21. SERVER / AUTHORITATIVE RNG
+
+For a persistent game, important RNG results should be generated by an authoritative game layer.
+
+Recommended:
+
+```text
+PLAYER
+  ↓
+GAME SERVER / AUTHORITATIVE SYSTEM
+  ↓
+RNG SYSTEM
+  ↓
+RESULT
+```
+
+The client should not determine its own recruitment result.
+
+This helps prevent:
+
+```text
+Manipulation
+Save Editing
+RNG Abuse
+Duplicate Generation
+Invalid Rewards
+```
+
+---
+
+# 🎒 22. ENEMY LOOT RNG
+
+The RNG System also controls enemy drops.
+
+Example:
+
+```text
+ENEMY
+   ↓
+DEFEATED
+   ↓
+LOOT SYSTEM
+   ↓
+RNG SYSTEM
+   ↓
+DROP TABLE
+```
+
+Example:
+
+```text
+CORRUPTED KNIGHT
+
+Possible Drops:
+
+Gold
+Iron
+Corrupted Fragment
+Rare Equipment
+Ancient Material
+```
+
+---
+
+# ⚔️ 23. LOOT TABLE
+
+Each enemy can have a Loot Table.
+
+Example:
+
+```text
+ENEMY_000451
+
+LOOT TABLE
+
+Gold
+Weight: 100
+
+Iron
+Weight: 70
+
+Corrupted Fragment
+Weight: 20
+
+Rare Material
+Weight: 5
+
+Equipment
+Weight: 1
+```
+
+The RNG System selects according to the configured weights.
+
+---
+
+# 📦 24. MULTI-DROP LOOT
+
+An enemy can have multiple loot rolls.
+
+Example:
+
+```text
+Enemy Defeated
+      ↓
+Roll 1 → Gold
+Roll 2 → Iron
+Roll 3 → Material
+Roll 4 → Equipment
+```
+
+Each roll can have its own probability table.
+
+---
+
+# 💰 25. GOLD RNG
+
+Gold rewards can use range-based RNG.
+
+Example:
+
+```text
+Minimum:
+100
+
+Maximum:
+250
+```
+
+RNG result:
+
+```text
+173 Gold
+```
+
+Therefore:
+
+```text
+Gold = RNG(100–250)
+```
+
+---
+
+# 🗼 26. FLOOR REWARD RNG
+
+When the Master clears a Tower Floor:
+
+```text
+FLOOR CLEARED
+      ↓
+FLOOR REWARD SYSTEM
+      ↓
+RNG SYSTEM
+      ↓
+REWARD POOL
+```
+
+Possible rewards:
+
+```text
+Gold
+Gem
+Ticket
+Item
+Equipment
+EXP
+Special Material
+Special Ticket
+```
+
+---
+
+# 🏆 27. FLOOR REWARD TIER
+
+Different floors can have different reward pools.
+
+Example:
+
+```text
+Floor 1–10
+Basic Rewards
+
+Floor 11–20
+Advanced Rewards
+
+Floor 21–30
+Rare Rewards
+
+Floor 31–50
+High-Level Rewards
+
+Floor 51–75
+Epic Rewards
+
+Floor 76–99
+Legendary Rewards
+
+Floor 100
+Final Reward
+```
+
+The exact reward tables are controlled by the Floor/Reward System.
+
+---
+
+# 🎁 28. QUEST REWARD RNG
+
+Quest rewards can also use RNG.
+
+```text
+QUEST
+ ↓
+QUEST COMPLETED
+ ↓
+REWARD SYSTEM
+ ↓
+RNG SYSTEM
+ ↓
+REWARD
+```
+
+Possible rewards:
+
+```text
+Gold
+Gem
+Ticket
+Item
+Equipment
+EXP
+Material
+Special Item
+```
+
+---
+
+# 📜 29. QUEST REWARD TABLE
+
+Example:
+
+```text
+QUEST_000125
+
+Reward Pool:
+
+Gold       50%
+Item       25%
+EXP        15%
+Gem         7%
+Ticket      3%
+```
+
+The exact configuration can change depending on:
+
+```text
+Quest Type
+Quest Difficulty
+Quest Rank
+Floor
+Master Level
+Event
+```
+
+---
+
+# 🎯 30. CONDITIONAL RNG
+
+RNG probabilities can depend on Game State.
+
+Example:
+
+```text
+Master Level
+Floor
+Quest Rank
+Difficulty
+Event State
+Faction State
+Character State
+```
+
+Architecture:
+
+```text
+GAME STATE
+     ↓
+RNG CONFIGURATION
+     ↓
+RNG SYSTEM
+     ↓
+RESULT
+```
+
+---
+
+# 📈 31. DIFFICULTY-BASED RNG
+
+Higher difficulty can use better loot tables.
+
+Example:
+
+```text
+NORMAL
+Rare Drop = 1%
+
+HARD
+Rare Drop = 3%
+
+VERY HARD
+Rare Drop = 5%
+
+NIGHTMARE
+Rare Drop = 10%
+```
+
+The RNG System uses the table supplied by the relevant system.
+
+---
+
+# 🎲 32. PITY SYSTEM
+
+The RNG System can support a future **Pity System**.
+
+Pity means the probability can change after repeated unsuccessful attempts.
+
+Example:
+
+```text
+Recruit 1
+No Star 4
+
+Recruit 2
+No Star 4
+
+Recruit 3
+No Star 4
+
+...
+
+Pity Counter
+     ↓
+Probability Increase
+```
+
+However:
+
+> **Pity should be configured by the Recruit System, not hard-coded into the RNG engine.**
+
+---
+
+# 🎫 33. SPECIAL GUARANTEE
+
+Some rewards can bypass normal RNG.
+
+Example:
+
+```text
+SPECIAL TICKET
+       ↓
+GUARANTEED
+       ↓
+STAR 5
+```
+
+This is a:
+
+```text
+GUARANTEED RESULT
+```
+
+rather than weighted RNG.
+
+The RNG System should support both:
+
+```text
+Random Result
+Guaranteed Result
+```
+
+---
+
+# 🔄 34. RNG REQUEST
+
+Other systems should request RNG results through a standardized interface.
+
+Conceptually:
+
+```text
+RNG REQUEST
+
+Source:
+Recruit System
+
+Type:
+STAR_ROLL
+
+Pool:
+GOLD_RECRUIT
+
+Result Range:
+1–3
+```
+
+The RNG System returns:
+
+```text
+RNG RESULT
+
+Result:
+3
+```
+
+The Recruit System then processes that result.
+
+---
+
+# 🧾 35. RNG RESULT DATA
+
+A result can contain:
+
+```text
+RNGResultID
+SourceSystem
+RNGType
+PoolID
+Result
+Seed
+Timestamp
+```
+
+Example:
+
+```text
+RNG_RESULT_000125
+
+Source:
+RECRUIT_SYSTEM
+
+Type:
+STAR_ROLL
+
+Pool:
+GOLD_RECRUIT
+
+Result:
+3
+
+Seed:
+123456789
+```
+
+This can be saved for important transactions.
+
+---
+
+# 🆔 36. ID SYSTEM CONNECTION
+
+Every RNG transaction can have its own ID.
+
+Example:
+
+```text
+RNG_RESULT_000001
+RNG_RESULT_000002
+RNG_RESULT_000003
+```
+
+The ID System manages the identifier.
+
+```text
+RNG SYSTEM
+     ↓
+ID SYSTEM
+     ↓
+RNG_RESULT_000125
+     ↓
+DATABASE
+```
+
+This allows important RNG results to be tracked.
+
+---
+
+# 💾 37. DATABASE SYSTEM CONNECTION
+
+The Database System stores persistent results when required.
+
+Example:
+
+```text
+DATABASE
+
+Recruitment:
+RECRUIT_RESULT_000125
+
+Character:
+CHAR_000321
+
+Star:
+3
+
+Master:
+MASTER_000001
+
+Timestamp:
+Day 35 — 18:20
+```
+
+The RNG engine itself should remain stateless where possible.
+
+---
+
+# 🔄 38. GAME STATE SYSTEM CONNECTION
+
+The **Game State System** controls state changes resulting from RNG.
+
+Example:
+
+```text
+Master uses Gold
+       ↓
+Recruit System
+       ↓
+RNG System
+       ↓
+⭐⭐⭐
+       ↓
+AI Character Selection
+       ↓
+CHAR_000321
+       ↓
+Game State System
+       ↓
+Character Added
+       ↓
+Database System
+```
+
+---
+
+# 🤖 39. AI + RNG + GAME STATE
+
+The full recruitment architecture:
+
+```text
+                    MASTER
+                      │
+                      ▼
+                RECRUIT SYSTEM
+                      │
+                      ▼
+                 RESOURCE CHECK
+                      │
+                      ▼
+                  RNG SYSTEM
+                      │
+                      ▼
+                  STAR RESULT
+                      │
+                      ▼
+             AI RECRUITMENT LOGIC
+                      │
+                      ▼
+              CHARACTER POOL
+                      │
+                      ▼
+               DUPLICATE CHECK
+                  ┌───┴───┐
+                  │       │
+                 YES      NO
+                  │       │
+                  ▼       ▼
+               RE-ROLL   ACCEPT
+                          │
+                          ▼
+                    CHARACTER ID
+                          │
+                          ▼
+                  GAME STATE SYSTEM
+                          │
+                          ▼
+                    DATABASE SYSTEM
+```
+
+---
+
+# ⚔️ 40. ENEMY LOOT ARCHITECTURE
+
+```text
+                  ENEMY
+                    │
+                    ▼
+                 DEFEATED
+                    │
+                    ▼
+                LOOT SYSTEM
+                    │
+                    ▼
+                RNG SYSTEM
+                    │
+                    ▼
+                LOOT RESULT
+                    │
+                    ▼
+              GAME STATE SYSTEM
+                    │
+                    ▼
+               INVENTORY SYSTEM
+                    │
+                    ▼
+               DATABASE SYSTEM
+```
+
+---
+
+# 🗼 41. FLOOR REWARD ARCHITECTURE
+
+```text
+                 FLOOR
+                   │
+                   ▼
+                CLEARED
+                   │
+                   ▼
+            FLOOR REWARD SYSTEM
+                   │
+                   ▼
+                RNG SYSTEM
+                   │
+                   ▼
+             REWARD RESULT
+                   │
+                   ▼
+           GAME STATE SYSTEM
+                   │
+                   ▼
+              MASTER / PARTY
+                   │
+                   ▼
+              DATABASE SYSTEM
+```
+
+---
+
+# 📜 42. QUEST REWARD ARCHITECTURE
+
+```text
+                  QUEST
+                    │
+                    ▼
+                COMPLETED
+                    │
+                    ▼
+              QUEST SYSTEM
+                    │
+                    ▼
+             REWARD SYSTEM
+                    │
+                    ▼
+                RNG SYSTEM
+                    │
+                    ▼
+              REWARD RESULT
+                    │
+                    ▼
+             GAME STATE SYSTEM
+                    │
+                    ▼
+                DATABASE
+```
+
+---
+
+# 🧠 43. RNG DOES NOT DECIDE OWNERSHIP
+
+The RNG System should never directly assign ownership.
+
+For example:
+
+```text
+RNG
+ ↓
+CHAR_000125
+```
+
+does not automatically mean:
+
+```text
+Master owns CHAR_000125
+```
+
+Instead:
+
+```text
+RNG
+ ↓
+Result
+ ↓
+Recruit System
+ ↓
+Game State System
+ ↓
+Ownership Update
+ ↓
+Database
+```
+
+This keeps responsibilities separated.
+
+---
+
+# 🔐 44. RNG INTEGRITY
+
+The system must prevent:
+
+```text
+Invalid Pool
+Invalid Star
+Invalid Reward
+Duplicate Character
+Invalid Item
+Negative Probability
+Probability > 100%
+Unauthorized RNG
+Client-Side RNG Manipulation
+```
+
+---
+
+# 📊 45. PROBABILITY VALIDATION
+
+Every probability table must satisfy:
+
+```text
+Total Probability = 100%
+```
+
+Example:
+
+```text
+Gold Recruit
+
+⭐       79%
+⭐⭐      20%
+⭐⭐⭐      1%
+
+TOTAL = 100%
+```
+
+If:
+
+```text
+79 + 20 + 5 = 104%
+```
+
+the configuration is invalid.
+
+---
+
+# 🧪 46. RNG TESTING
+
+The RNG System must support statistical testing.
+
+Example:
+
+```text
+1,000,000 Rolls
+```
+
+Expected:
+
+```text
+⭐       ≈ 79%
+⭐⭐      ≈ 20%
+⭐⭐⭐      ≈ 1%
+```
+
+Actual results will naturally vary.
+
+The purpose of testing is to verify that the distribution approximately follows the configured probability.
+
+---
+
+# 📈 47. BALANCE CONTROL
+
+All probability values should be configurable.
+
+Example:
+
+```text
+/recruit/gold.json
+/recruit/ticket.json
+/recruit/gem.json
+/recruit/special.json
+```
+
+This allows balancing without changing the RNG engine itself.
+
+---
+
+# 🧱 48. RECOMMENDED MODULES
+
+```text
+RNG SYSTEM
+│
+├── RNGManager
+├── RNGEngine
+├── WeightedRandom
+├── RangeRandom
+├── PoolRandom
+├── GuaranteedRandom
+├── ConditionalRandom
+├── RNGSeedManager
+├── ProbabilityValidator
+├── RNGLogger
+└── RNGConfiguration
+```
+
+### RNGManager
+
+Coordinates RNG requests.
+
+### RNGEngine
+
+Core random generation engine.
+
+### WeightedRandom
+
+Handles weighted probability.
+
+### RangeRandom
+
+Handles numeric ranges.
+
+### PoolRandom
+
+Selects objects from pools.
+
+### GuaranteedRandom
+
+Handles guaranteed results.
+
+### ConditionalRandom
+
+Handles state-dependent probabilities.
+
+### RNGSeedManager
+
+Manages reproducible seeds.
+
+### ProbabilityValidator
+
+Validates probability configurations.
+
+### RNGLogger
+
+Records important RNG results.
+
+### RNGConfiguration
+
+Stores adjustable probability settings.
+
+---
+
+# 🗃️ 49. RNG CONFIGURATION EXAMPLE
+
+```text
+RNG_POOL
+    │
+    ├── GOLD_RECRUIT
+    │     ├── STAR_1
+    │     ├── STAR_2
+    │     └── STAR_3
+    │
+    ├── TICKET_RECRUIT
+    │     ├── STAR_2
+    │     ├── STAR_3
+    │     └── STAR_4
+    │
+    ├── GEM_RECRUIT
+    │     ├── STAR_1
+    │     ├── STAR_2
+    │     ├── STAR_3
+    │     └── STAR_4
+    │
+    └── SPECIAL_RECRUIT
+          └── STAR_5
+```
+
+---
+
+# 🎲 50. COMPLETE RECRUITMENT EXAMPLE
+
+Master performs:
+
+```text
+GOLD RECRUIT
+```
+
+System:
+
+```text
+Gold Resource Check
+        ↓
+Resource Deducted
+        ↓
+RNG Request
+        ↓
+Gold Pool
+        ↓
+⭐ / ⭐⭐ / ⭐⭐⭐
+```
+
+RNG result:
+
+```text
+⭐⭐⭐
+```
+
+Then:
+
+```text
+⭐⭐⭐
+ ↓
+Available Star 3 Characters
+ ↓
+AI Selection
+ ↓
+Duplicate Check
+ ↓
+CHAR_000321
+```
+
+Game State:
+
+```text
+MASTER_000001
+      │
+      ▼
+CHAR_000321
+```
+
+Database:
+
+```text
+Recruit Result
+Character Ownership
+Character State
+```
+
+are saved.
+
+---
+
+# 🎁 51. COMPLETE LOOT EXAMPLE
+
+Enemy:
+
+```text
+ENEMY_000451
+```
+
+is defeated.
+
+```text
+Enemy
+ ↓
+Loot System
+ ↓
+RNG
+ ↓
+Gold: 150
+Iron: 2
+Corrupted Fragment: 1
+```
+
+Game State:
+
+```text
+Inventory Update
+```
+
+Database:
+
+```text
+Master Inventory
+```
+
+is updated.
+
+---
+
+# 🗼 52. COMPLETE FLOOR REWARD EXAMPLE
+
+Master clears:
+
+```text
+FLOOR_020
+```
+
+Reward System:
+
+```text
+Floor 20 Reward Pool
+       ↓
+RNG
+       ↓
+GEM
+       ↓
+50 Gems
+```
+
+Game State:
+
+```text
+Master Gems +50
+```
+
+Database:
+
+```text
+Master State Updated
+```
+
+---
+
+# 🔄 53. COMPLETE RNG FLOW
+
+```text
+                         GAME MANAGER
+                              │
+                              ▼
+                     GAME STATE SYSTEM
+                              │
+                              ▼
+                        REQUEST RNG
+                              │
+                              ▼
+                         RNG SYSTEM
+                              │
+                 ┌────────────┼────────────┐
+                 │            │            │
+                 ▼            ▼            ▼
+              RECRUIT        LOOT        REWARD
+                 │            │            │
+                 ▼            ▼            ▼
+               POOL          POOL         POOL
+                 │            │            │
+                 └────────────┼────────────┘
+                              │
+                              ▼
+                         RNG RESULT
+                              │
+                              ▼
+                      SYSTEM PROCESSING
+                              │
+                              ▼
+                     GAME STATE SYSTEM
+                              │
+                              ▼
+                       ID SYSTEM
+                              │
+                              ▼
+                     DATABASE SYSTEM
+```
+
+---
+
+# 🌎 54. RNG + AETHERIA WORLD SIMULATION
+
+The RNG System can eventually support the dynamic world.
+
+Example:
+
+```text
+TIME SYSTEM
+     ↓
+GAME STATE SYSTEM
+     ↓
+EVENT CONDITION
+     ↓
+RNG SYSTEM
+     ↓
+EVENT RESULT
+```
+
+Possible results:
+
+```text
+Cult Attack
+NPC Rescue
+Rare Enemy Spawn
+Treasure Discovery
+Merchant Arrival
+World Event
+Character Encounter
+```
+
+This allows Aetheria to generate unpredictable events while still respecting the world's rules.
+
+---
+
+# 🧠 55. SYSTEM RESPONSIBILITY
+
+The architecture follows:
+
+### RNG System
+
+> **"What is the random result?"**
+
+### Recruit System
+
+> **"How is the character recruited?"**
+
+### AI Recruitment System
+
+> **"Which valid character should be selected?"**
+
+### Game State System
+
+> **"What changes because of the result?"**
+
+### ID System
+
+> **"Which entity is involved?"**
+
+### Database System
+
+> **"What should be permanently remembered?"**
+
+### Game Manager
+
+> **"How do all systems work together?"**
+
+---
+
+# ✨ 56. FINAL PRINCIPLE
+
+Aetheria uses RNG to create uncertainty without sacrificing system control.
+
+```text
+RNG
+ ↓
+Probability
+ ↓
+Result
+ ↓
+System Validation
+ ↓
+Game State
+ ↓
+Database
+```
+
+For recruitment:
+
+```text
+RESOURCE
+   ↓
+RECRUIT METHOD
+   ↓
+RNG STAR
+   ↓
+AI CHARACTER SELECTION
+   ↓
+NO DUPLICATE CHECK
+   ↓
+CHARACTER ID
+   ↓
+GAME STATE
+   ↓
+DATABASE
+```
+
+The four recruitment methods are:
+
+```text
+🪙 GOLD
+⭐ 1–3
+
+🎟️ TICKET
+⭐⭐ 2–4
+
+💎 GEM
+⭐ 1–4
+
+🎫 SPECIAL TICKET
+⭐⭐⭐⭐⭐ 5 GUARANTEED
+```
+
+> **RNG creates the uncertainty.**
+>
+> **AI selects from valid possibilities.**
+>
+> **Game State applies the result.**
+>
+> **ID identifies the entity.**
+>
+> **Database remembers the outcome.**
+
+This makes the RNG System a reusable foundation for **Recruitment, Loot, Floor Rewards, Quest Rewards, and future Aetheria world events** without coupling randomness directly to any individual gameplay system.
