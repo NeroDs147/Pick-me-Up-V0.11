@@ -1,0 +1,1648 @@
+# BASIC SKILL RNG SYSTEM
+
+## Overview
+
+Basic Skill RNG System adalah sistem yang memberikan skill dasar kepada setiap karakter yang diperoleh melalui **Recruit / Summon System**.
+
+Basic Skill terbagi menjadi:
+
+```text
+BASIC SKILL
+│
+├── Town Square Skill
+│
+└── Combat Skill
+       │
+       ├── Attack
+       ├── Defense
+       ├── Support
+       └── Utility
+```
+
+Skill dasar digunakan untuk memberikan identitas awal kepada karakter setelah mereka berhasil di-summon.
+
+---
+
+# 1. BASIC SKILL PRINCIPLE
+
+Setiap karakter yang berhasil di-summon mendapatkan Basic Skill melalui RNG.
+
+```text
+RECRUIT
+   ↓
+Character Generated
+   ↓
+Race
+   ↓
+Class
+   ↓
+Basic Skill RNG
+   ↓
+Town Skill
+   +
+Combat Skill
+```
+
+Basic Skill **tidak menentukan keseluruhan kekuatan karakter**.
+
+Kekuatan karakter tetap dipengaruhi oleh:
+
+```text
+Star
+Level
+Stats
+Class
+Talent
+Trait
+Equipment
+Skill
+```
+
+---
+
+# 2. BASIC SKILL CATEGORY
+
+```text
+Basic Skill
+│
+├── Town Square
+│
+├── Combat
+│
+├── Defense
+│
+├── Support
+│
+└── Utility
+```
+
+Untuk versi awal, sistem fokus pada:
+
+```text
+Town Square Skill
++
+Attack Skill
+```
+
+---
+
+# 3. TOWN SQUARE SKILL
+
+Town Square Skill adalah skill yang dapat digunakan karakter ketika berada di **Town Square** atau fasilitas kota.
+
+Skill ini tidak berfungsi sebagai combat skill.
+
+Contoh:
+
+```text
+Town Square
+    ↓
+Character
+    ↓
+Town Skill
+    ↓
+Town Effect
+```
+
+---
+
+# 4. TOWN SKILL — SOCIAL
+
+### 01. Friendly Greeting
+
+**Effect:**
+
+Meningkatkan sedikit Happiness karakter lain di Town Square.
+
+```text
+Effect:
++3 Happiness
+Target:
+1 nearby character
+Cooldown:
+60 sec
+```
+
+---
+
+### 02. Cheerful Presence
+
+**Effect:**
+
+Karakter memberikan aura positif kepada karakter di sekitar.
+
+```text
+Effect:
++2% Happiness Gain
+Radius:
+5 m
+Duration:
+60 sec
+```
+
+---
+
+### 03. Friendly Conversation
+
+**Effect:**
+
+Berinteraksi dengan karakter lain dan meningkatkan Relationship.
+
+```text
+Effect:
++1 Relationship
+Target:
+1 character
+Cooldown:
+120 sec
+```
+
+---
+
+### 04. Storyteller
+
+**Effect:**
+
+Menceritakan kisah kepada karakter lain.
+
+```text
+Effect:
++5 Happiness
++1 Social EXP
+Cooldown:
+180 sec
+```
+
+---
+
+### 05. Town Performer
+
+**Effect:**
+
+Melakukan pertunjukan sederhana di Town Square.
+
+```text
+Effect:
++5 Happiness
+Radius:
+8 m
+Duration:
+30 sec
+```
+
+---
+
+### 06. Friendly Smile
+
+**Effect:**
+
+Meningkatkan mood karakter di sekitar.
+
+```text
+Effect:
++2 Happiness
+Target:
+Nearby characters
+Cooldown:
+45 sec
+```
+
+---
+
+# 5. TOWN SKILL — WORK
+
+### 07. Quick Repair
+
+**Effect:**
+
+Membantu memperbaiki fasilitas kecil di Town Square.
+
+```text
+Effect:
++2% Facility Repair Progress
+Cooldown:
+120 sec
+```
+
+---
+
+### 08. Clean Square
+
+**Effect:**
+
+Membersihkan area Town Square.
+
+```text
+Effect:
++3 Town Cleanliness
+Cooldown:
+180 sec
+```
+
+---
+
+### 09. Organize Supplies
+
+**Effect:**
+
+Merapikan resource yang berada di Town Square.
+
+```text
+Effect:
++2% Resource Handling Efficiency
+Duration:
+60 sec
+```
+
+---
+
+### 10. Merchant Sense
+
+**Effect:**
+
+Membantu aktivitas perdagangan.
+
+```text
+Effect:
++2% Town Shop Efficiency
+Duration:
+120 sec
+```
+
+---
+
+### 11. Appraise Item
+
+**Effect:**
+
+Memeriksa nilai dasar sebuah item.
+
+```text
+Effect:
+Reveal Basic Item Value
+Target:
+1 item
+```
+
+---
+
+### 12. Gather Supplies
+
+**Effect:**
+
+Menghasilkan sejumlah kecil resource dasar ketika berada di area town.
+
+```text
+Effect:
+Small chance to obtain:
+Food
+Wood
+Stone
+Cloth
+```
+
+---
+
+# 6. TOWN SKILL — FARMING
+
+### 13. Basic Farming
+
+**Effect:**
+
+Meningkatkan produksi farming.
+
+```text
+Effect:
++3% Farm Production
+Duration:
+120 sec
+```
+
+---
+
+### 14. Harvest Helper
+
+**Effect:**
+
+Mempercepat proses harvesting.
+
+```text
+Effect:
++5% Harvest Speed
+Duration:
+60 sec
+```
+
+---
+
+### 15. Seed Keeper
+
+**Effect:**
+
+Mengurangi kemungkinan kehilangan seed.
+
+```text
+Effect:
++3% Seed Preservation
+```
+
+---
+
+### 16. Green Thumb
+
+**Effect:**
+
+Meningkatkan peluang mendapatkan bonus hasil panen.
+
+```text
+Effect:
++3% Bonus Harvest Chance
+```
+
+---
+
+# 7. TOWN SKILL — CRAFTING
+
+### 17. Basic Crafting
+
+**Effect:**
+
+Meningkatkan efisiensi crafting sederhana.
+
+```text
+Effect:
++3% Crafting Speed
+```
+
+---
+
+### 18. Material Saver
+
+**Effect:**
+
+Ada kemungkinan kecil menghemat material crafting.
+
+```text
+Effect:
+3% chance
+to save 1 basic material
+```
+
+---
+
+### 19. Quick Hands
+
+**Effect:**
+
+Mempercepat pekerjaan manual.
+
+```text
+Effect:
++5% Work Speed
+Duration:
+60 sec
+```
+
+---
+
+### 20. Tool Maintenance
+
+**Effect:**
+
+Mengurangi penggunaan durability tool.
+
+```text
+Effect:
+-3% Tool Durability Consumption
+```
+
+---
+
+# 8. TOWN SKILL — TRAINING
+
+### 21. Training Partner
+
+**Effect:**
+
+Membantu karakter lain melakukan latihan.
+
+```text
+Effect:
++3% Training EXP
+Target:
+1 character
+Duration:
+120 sec
+```
+
+---
+
+### 22. Basic Coaching
+
+**Effect:**
+
+Memberikan bonus kecil terhadap training.
+
+```text
+Effect:
++2% Training Efficiency
+```
+
+---
+
+### 23. Practice Together
+
+**Effect:**
+
+Dua karakter berlatih bersama.
+
+```text
+Effect:
++3% Training Speed
+Both Characters
+```
+
+---
+
+### 24. Motivation
+
+**Effect:**
+
+Meningkatkan motivasi karakter yang sedang training.
+
+```text
+Effect:
++5 Happiness
++2% Training EXP
+```
+
+---
+
+# 9. COMBAT BASIC SKILL
+
+Combat Basic Skill adalah skill serangan sederhana yang dapat digunakan karakter di dalam combat.
+
+```text
+Character
+   ↓
+Combat
+   ↓
+Basic Attack Skill
+```
+
+---
+
+# 10. PHYSICAL ATTACK SKILLS
+
+### 25. Power Strike
+
+**Effect:**
+
+Serangan fisik sederhana dengan kekuatan lebih besar.
+
+```text
+Damage:
+120% ATK
+Target:
+1 enemy
+Cooldown:
+5 sec
+```
+
+---
+
+### 26. Quick Slash
+
+**Effect:**
+
+Serangan cepat menggunakan weapon.
+
+```text
+Damage:
+105% ATK
+Attack Speed:
++10%
+```
+
+---
+
+### 27. Heavy Blow
+
+**Effect:**
+
+Serangan kuat tetapi lebih lambat.
+
+```text
+Damage:
+135% ATK
+Cooldown:
+7 sec
+```
+
+---
+
+### 28. Double Strike
+
+**Effect:**
+
+Menyerang target dua kali.
+
+```text
+Hit:
+2
+
+Damage:
+60% ATK per hit
+```
+
+Total:
+
+```text
+120% ATK
+```
+
+---
+
+### 29. Piercing Strike
+
+**Effect:**
+
+Serangan yang mengabaikan sebagian Defense musuh.
+
+```text
+Damage:
+110% ATK
+
+Defense Penetration:
+10%
+```
+
+---
+
+### 30. Crushing Blow
+
+**Effect:**
+
+Serangan berat yang memiliki peluang memberikan Stagger.
+
+```text
+Damage:
+125% ATK
+
+Stagger Chance:
+10%
+```
+
+---
+
+# 11. MAGIC BASIC SKILLS
+
+### 31. Arcane Bolt
+
+**Effect:**
+
+Menembakkan proyektil magic.
+
+```text
+Magic Damage:
+120% MATK
+Target:
+1 enemy
+```
+
+---
+
+### 32. Fire Bolt
+
+**Effect:**
+
+Menembakkan proyektil api.
+
+```text
+Fire Damage:
+115% MATK
+
+Burn Chance:
+10%
+```
+
+---
+
+### 33. Ice Shard
+
+**Effect:**
+
+Menembakkan pecahan es.
+
+```text
+Ice Damage:
+110% MATK
+
+Slow:
+10%
+Duration:
+3 sec
+```
+
+---
+
+### 34. Wind Cutter
+
+**Effect:**
+
+Membentuk bilah angin.
+
+```text
+Wind Damage:
+115% MATK
+
+Speed:
+Fast
+```
+
+---
+
+### 35. Earth Spike
+
+**Effect:**
+
+Memunculkan duri tanah dari bawah target.
+
+```text
+Earth Damage:
+125% MATK
+
+Stagger Chance:
+8%
+```
+
+---
+
+### 36. Water Shot
+
+**Effect:**
+
+Menembakkan proyektil air.
+
+```text
+Water Damage:
+110% MATK
+
+Accuracy:
++5%
+```
+
+---
+
+# 12. RANGED BASIC SKILLS
+
+### 37. Precise Shot
+
+**Effect:**
+
+Serangan jarak jauh dengan akurasi tinggi.
+
+```text
+Damage:
+110% ATK
+
+Accuracy:
++10%
+```
+
+---
+
+### 38. Rapid Shot
+
+**Effect:**
+
+Menembakkan projectile dengan cepat.
+
+```text
+Hits:
+2
+
+Damage:
+55% ATK per hit
+```
+
+---
+
+### 39. Heavy Arrow
+
+**Effect:**
+
+Tembakan kuat yang memberikan damage tinggi.
+
+```text
+Damage:
+130% ATK
+
+Attack Speed:
+-10%
+```
+
+---
+
+### 40. Piercing Arrow
+
+**Effect:**
+
+Projectile menembus target.
+
+```text
+Damage:
+110% ATK
+
+Defense Penetration:
+10%
+```
+
+---
+
+# 13. DEFENSIVE BASIC SKILLS
+
+### 41. Guard
+
+**Effect:**
+
+Mengurangi damage yang diterima.
+
+```text
+Damage Reduction:
+10%
+Duration:
+3 sec
+```
+
+---
+
+### 42. Shield Bash
+
+**Effect:**
+
+Menyerang menggunakan shield.
+
+```text
+Damage:
+100% ATK
+
+Stagger Chance:
+10%
+```
+
+---
+
+### 43. Defensive Stance
+
+**Effect:**
+
+Meningkatkan Defense sementara.
+
+```text
+DEF:
++10%
+
+Duration:
+5 sec
+```
+
+---
+
+### 44. Iron Guard
+
+**Effect:**
+
+Mengurangi physical damage.
+
+```text
+Physical Damage Reduction:
+8%
+
+Duration:
+5 sec
+```
+
+---
+
+# 14. SUPPORT BASIC SKILLS
+
+### 45. Minor Heal
+
+**Effect:**
+
+Memulihkan HP satu target.
+
+```text
+Heal:
+10% Max HP
+Target:
+1 ally
+```
+
+---
+
+### 46. Healing Touch
+
+**Effect:**
+
+Memulihkan HP dengan magic sederhana.
+
+```text
+Heal:
+100% MATK
+Target:
+1 ally
+```
+
+---
+
+### 47. Encouragement
+
+**Effect:**
+
+Meningkatkan ATK ally.
+
+```text
+ATK:
++5%
+
+Duration:
+10 sec
+```
+
+---
+
+### 48. Focus
+
+**Effect:**
+
+Meningkatkan Accuracy dan Critical Rate.
+
+```text
+Accuracy:
++5%
+
+Critical Rate:
++3%
+
+Duration:
+10 sec
+```
+
+---
+
+### 49. Quick Step
+
+**Effect:**
+
+Meningkatkan movement speed.
+
+```text
+Move Speed:
++10%
+
+Duration:
+5 sec
+```
+
+---
+
+### 50. Mana Flow
+
+**Effect:**
+
+Memulihkan sebagian MP.
+
+```text
+MP Recovery:
+5% Max MP
+Target:
+1 ally
+```
+
+---
+
+# 15. UTILITY COMBAT SKILLS
+
+### 51. Taunt
+
+**Effect:**
+
+Meningkatkan kemungkinan musuh menyerang caster.
+
+```text
+Threat:
++50%
+
+Duration:
+5 sec
+```
+
+---
+
+### 52. Mark Target
+
+**Effect:**
+
+Menandai satu musuh.
+
+```text
+Target Damage Taken:
++5%
+
+Duration:
+10 sec
+```
+
+---
+
+### 53. Weakening Strike
+
+**Effect:**
+
+Mengurangi ATK target.
+
+```text
+Enemy ATK:
+-5%
+
+Duration:
+10 sec
+```
+
+---
+
+### 54. Slow Strike
+
+**Effect:**
+
+Mengurangi movement speed musuh.
+
+```text
+Move Speed:
+-10%
+
+Duration:
+3 sec
+```
+
+---
+
+### 55. Disrupt
+
+**Effect:**
+
+Memberikan peluang kecil mengganggu skill musuh.
+
+```text
+Interrupt Chance:
+5%
+```
+
+---
+
+# 16. BASIC SKILL RARITY
+
+Basic Skill memiliki rarity:
+
+```text
+Common
+Uncommon
+Rare
+```
+
+Basic Skill tidak menggunakan rarity tinggi seperti:
+
+```text
+Epic
+Legendary
+Mythic
+```
+
+Rarity tinggi dapat digunakan untuk **Advanced Skill System**.
+
+---
+
+# 17. BASIC SKILL RNG WEIGHT
+
+Recommended probability:
+
+```text
+Common:
+70%
+
+Uncommon:
+25%
+
+Rare:
+5%
+```
+
+Contoh:
+
+```text
+RNG
+│
+├── Common     70%
+├── Uncommon   25%
+└── Rare        5%
+```
+
+---
+
+# 18. TOWN SKILL RNG
+
+Town Skill dapat menggunakan:
+
+```text
+Common:
+80%
+
+Uncommon:
+17%
+
+Rare:
+3%
+```
+
+Contoh:
+
+```text
+Town Skill RNG
+
+80% → Basic Town Skill
+17% → Improved Town Skill
+ 3% → Rare Town Skill
+```
+
+---
+
+# 19. COMBAT SKILL RNG
+
+Combat Skill:
+
+```text
+Common:
+70%
+
+Uncommon:
+25%
+
+Rare:
+5%
+```
+
+---
+
+# 20. NUMBER OF BASIC SKILLS
+
+Saat karakter pertama kali di-summon:
+
+```text
+Basic Town Skill:
+1
+
+Basic Combat Skill:
+1
+```
+
+Contoh:
+
+```text
+Character
+    │
+    ├── Town Skill
+    │     └── Friendly Greeting
+    │
+    └── Combat Skill
+          └── Quick Slash
+```
+
+---
+
+# 21. CLASS INFLUENCE
+
+Class dapat mempengaruhi Skill Pool.
+
+Contoh:
+
+```text
+Warrior
+    ↓
+Power Strike
+Heavy Blow
+Guard
+Shield Bash
+```
+
+Mage:
+
+```text
+Mage
+    ↓
+Arcane Bolt
+Fire Bolt
+Ice Shard
+Mana Flow
+```
+
+Archer:
+
+```text
+Archer
+    ↓
+Precise Shot
+Rapid Shot
+Piercing Arrow
+Quick Step
+```
+
+Healer:
+
+```text
+Healer
+    ↓
+Minor Heal
+Healing Touch
+Mana Flow
+Encouragement
+```
+
+---
+
+# 22. RACE INFLUENCE
+
+Race juga dapat memberikan bonus terhadap pool tertentu.
+
+Contoh:
+
+```text
+Dwarf
+ ↓
+Crafting Town Skill
+Mining Skill
+Weapon Skill
+```
+
+Elf:
+
+```text
+Elf
+ ↓
+Farming
+Gathering
+Magic
+Nature-related Skill
+```
+
+Beastkin:
+
+```text
+Beastkin
+ ↓
+Physical Attack
+Movement
+Hunting
+Gathering
+```
+
+Dragonkin:
+
+```text
+Dragonkin
+ ↓
+Fire Skill
+Physical Attack
+Defense
+```
+
+---
+
+# 23. SKILL DUPLICATION RULE
+
+Skill dapat digunakan oleh banyak karakter.
+
+Contoh:
+
+```text
+Kael
+→ Power Strike
+
+Daren
+→ Power Strike
+
+Rurik
+→ Power Strike
+```
+
+Skill bukan entity yang hanya boleh dimiliki satu karakter.
+
+Yang unik adalah:
+
+```text
+Character_ID
+```
+
+---
+
+# 24. CHARACTER SKILL DATABASE
+
+Setiap skill memiliki `Skill_ID`.
+
+```text
+Skill_ID
+Skill_Name
+Skill_Type
+Skill_Category
+Rarity
+Target_Type
+Effect_Type
+Base_Value
+Cooldown
+Duration
+Mana_Cost
+```
+
+Contoh:
+
+```text
+Skill_ID:
+SKL-000025
+
+Skill_Name:
+Power Strike
+
+Skill_Type:
+Combat
+
+Skill_Category:
+Physical Attack
+
+Rarity:
+Common
+
+Target_Type:
+Single Enemy
+
+Effect_Type:
+Damage
+
+Base_Value:
+120% ATK
+
+Cooldown:
+5 sec
+```
+
+---
+
+# 25. CHARACTER OWNED SKILL
+
+Skill yang dimiliki karakter disimpan terpisah.
+
+```text
+CHARACTER_SKILL
+
+Character_ID
+Skill_ID
+Skill_Level
+Skill_Exp
+Unlock_Status
+```
+
+Contoh:
+
+```text
+Character_ID:
+CHR-000827
+
+Skill_ID:
+SKL-000025
+
+Skill_Level:
+1
+
+Skill_Exp:
+0
+
+Unlock_Status:
+Unlocked
+```
+
+---
+
+# 26. SKILL LEVEL
+
+Basic Skill dapat ditingkatkan.
+
+```text
+Level 1
+ ↓
+Level 2
+ ↓
+Level 3
+ ↓
+Level 4
+ ↓
+Level 5
+```
+
+Contoh:
+
+```text
+Power Strike
+
+Lv.1
+120% ATK
+
+Lv.2
+125% ATK
+
+Lv.3
+130% ATK
+
+Lv.4
+135% ATK
+
+Lv.5
+140% ATK
+```
+
+---
+
+# 27. BASIC SKILL RNG FLOW
+
+```text
+SUMMON
+   ↓
+CHARACTER
+   ↓
+RACE
+   ↓
+CLASS
+   ↓
+BACKGROUND
+   ↓
+TOWN SKILL RNG
+   ↓
+COMBAT SKILL RNG
+   ↓
+SKILL VALIDATION
+   ↓
+SKILL ASSIGNED
+```
+
+---
+
+# 28. EXAMPLE GENERATED CHARACTER
+
+```text
+================================
+SUMMON RESULT
+================================
+
+Character_ID:
+CHR-001001
+
+Name:
+Kael
+
+Race:
+Human
+
+Class:
+Warrior
+
+Background:
+Commoner
+
+================================
+BASIC SKILLS
+================================
+
+Town Skill:
+Quick Repair
+
+Combat Skill:
+Power Strike
+
+================================
+```
+
+---
+
+# 29. EXAMPLE MAGE
+
+```text
+================================
+SUMMON RESULT
+================================
+
+Character_ID:
+CHR-001002
+
+Name:
+Lina
+
+Race:
+Elf
+
+Class:
+Mage
+
+Background:
+Commoner
+
+================================
+BASIC SKILLS
+================================
+
+Town Skill:
+Green Thumb
+
+Combat Skill:
+Arcane Bolt
+
+================================
+```
+
+---
+
+# 30. EXAMPLE ARCHER
+
+```text
+================================
+SUMMON RESULT
+================================
+
+Character_ID:
+CHR-001003
+
+Name:
+Rin
+
+Race:
+Beastkin
+
+Class:
+Archer
+
+Background:
+Commoner
+
+================================
+BASIC SKILLS
+================================
+
+Town Skill:
+Gather Supplies
+
+Combat Skill:
+Precise Shot
+
+================================
+```
+
+---
+
+# 31. DESIGN PRINCIPLE
+
+Basic Skill harus:
+
+```text
+Simple
+Useful
+Easy to understand
+Low power
+Upgradeable
+RNG-compatible
+Class-compatible
+Race-compatible
+```
+
+Basic Skill **bukan skill utama karakter**.
+
+Skill yang lebih kuat dapat diperoleh melalui:
+
+```text
+Advanced Skill System
+Class Skill
+Talent System
+Trait System
+Star Up
+Skill Upgrade
+Special Event
+Unique Character Skill
+```
+
+---
+
+# 32. FUTURE EXPANSION
+
+Basic Skill System dapat dikembangkan menjadi:
+
+```text
+SKILL SYSTEM
+│
+├── Basic Skill
+├── Class Skill
+├── Active Skill
+├── Passive Skill
+├── Support Skill
+├── Town Skill
+├── Exploration Skill
+├── Dungeon Skill
+├── Boss Skill
+├── Talent Skill
+├── Ultimate Skill
+└── Unique Character Skill
+```
+
+---
+
+# 33. FINAL SYSTEM RULES
+
+```text
+RULE 01
+Every summoned character receives Basic Skills.
+
+RULE 02
+Each character initially receives:
+1 Town Skill + 1 Combat Skill.
+
+RULE 03
+Basic Skill is generated through RNG.
+
+RULE 04
+Class influences the Combat Skill Pool.
+
+RULE 05
+Race can influence the Skill Pool.
+
+RULE 06
+Town Skill is primarily used for Town Square
+and town-related activities.
+
+RULE 07
+Combat Skill is primarily used during combat.
+
+RULE 08
+Skill can be duplicated between characters.
+
+RULE 09
+Character_ID remains unique.
+
+RULE 10
+Every Skill has a unique Skill_ID.
+
+RULE 11
+Basic Skill does not determine total character power.
+
+RULE 12
+Basic Skill can be upgraded.
+
+RULE 13
+Advanced and Unique Skills are handled by
+separate systems.
+
+RULE 14
+Skill values should be configurable through
+the game configuration system.
+```
+
+---
+
+# 34. FINAL ARCHITECTURE
+
+```text
+                    RECRUIT SYSTEM
+                          │
+                          ↓
+                   CHARACTER RNG
+                          │
+          ┌───────────────┼───────────────┐
+          ↓               ↓               ↓
+        RACE            CLASS         BACKGROUND
+          │               │               │
+          └───────────────┼───────────────┘
+                          ↓
+                   BASIC SKILL RNG
+                          │
+             ┌────────────┴────────────┐
+             ↓                         ↓
+       TOWN SKILL RNG            COMBAT SKILL RNG
+             │                         │
+             ↓                         ↓
+       Town Square                 Combat
+             │                         │
+             └────────────┬────────────┘
+                          ↓
+                  CHARACTER SKILLS
+                          │
+                          ↓
+                  SKILL LEVEL SYSTEM
+                          │
+                          ↓
+                   ADVANCED SKILLS
+```
