@@ -1,0 +1,1270 @@
+# 🧬 AETHERIA — HERO PERSISTENT DATA & ID BINDING SYSTEM
+
+> **Every Hero has an identity.**
+>
+> Every change to that Hero becomes part of their history.
+>
+> Their Level, Stats, Skills, Star Rank, Traits, and development are permanently bound to their **Hero ID**.
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+Hero Persistent Data System bertanggung jawab memastikan seluruh perkembangan Hero tersimpan secara permanen di Database System.
+
+Setiap Hero memiliki:
+
+```text
+HERO ID
+```
+
+Contoh:
+
+```text
+HERO-000001
+HERO-000002
+HERO-000003
+```
+
+Semua data perkembangan akan terhubung langsung dengan ID tersebut.
+
+```text
+HERO ID
+   │
+   ├── Level
+   ├── EXP
+   ├── Star
+   ├── Stats
+   ├── Skills
+   ├── Traits
+   ├── Equipment
+   ├── Emotional State
+   ├── Growth History
+   └── Skill History
+```
+
+---
+
+# 2. HERO ID SEBAGAI IDENTITAS UTAMA
+
+HERO ID merupakan Primary Identity dari setiap Hero.
+
+Contoh:
+
+```text
+HERO ID:
+HERO-000125
+
+Name:
+Aren Valcrest
+
+Race:
+Human
+
+Class:
+Knight
+```
+
+Semua perubahan Hero harus menggunakan:
+
+```text
+HERO ID
+```
+
+sebagai referensi utama.
+
+---
+
+# 3. DATABASE RELATION
+
+Struktur dasar:
+
+```text
+                    DATABASE SYSTEM
+                           │
+                           ▼
+                       HERO DATA
+                           │
+                    HERO-000125
+                           │
+       ┌───────────────────┼───────────────────┐
+       │                   │                   │
+       ▼                   ▼                   ▼
+     STATS              SKILLS             PROGRESS
+       │                   │                   │
+       ▼                   ▼                   ▼
+   Stat Data           Skill Data         Level / Star
+```
+
+---
+
+# 4. HERO MASTER RECORD
+
+Setiap Hero memiliki satu Master Record.
+
+Contoh:
+
+```text
+HERO RECORD
+
+Hero ID:
+HERO-000125
+
+Name:
+Aren Valcrest
+
+Race:
+Human
+
+Class:
+Knight
+
+Star:
+5
+
+Level:
+42
+
+EXP:
+12500
+
+Status:
+ACTIVE
+```
+
+Master Record menjadi pusat referensi seluruh sistem Hero.
+
+---
+
+# 5. STAT DATA
+
+Stat Hero disimpan berdasarkan HERO ID.
+
+Contoh:
+
+```text
+HERO ID:
+HERO-000125
+
+HP:
+2450
+
+MP:
+680
+
+ATK:
+325
+
+DEF:
+290
+
+MAG_ATK:
+110
+
+MAG_DEF:
+180
+
+SPEED:
+145
+
+CRITICAL:
+12
+
+EVASION:
+8
+```
+
+Data tersebut merupakan **Current Stat** Hero.
+
+---
+
+# 6. STAT CHANGE
+
+Jika Hero mengalami perubahan Stat:
+
+```text
+OLD STAT
+   ↓
+GAME STATE SYSTEM
+   ↓
+STAT CALCULATION
+   ↓
+NEW STAT
+   ↓
+DATABASE UPDATE
+```
+
+Contoh:
+
+```text
+ATK:
+325 → 338
+```
+
+Database akan memperbarui data:
+
+```text
+HERO-000125
+ATK = 338
+```
+
+---
+
+# 7. STAT CHANGE SOURCE
+
+Setiap perubahan Stat harus memiliki sumber.
+
+Contoh:
+
+```text
+LEVEL UP
+STAR UP
+EQUIPMENT
+BUFF
+PASSIVE
+TRAINING
+EVENT
+QUEST
+SKILL EFFECT
+SYSTEM EFFECT
+```
+
+Contoh:
+
+```text
+ATK:
+325 → 338
+
+Source:
+LEVEL UP
+
+Hero ID:
+HERO-000125
+```
+
+---
+
+# 8. STAT HISTORY
+
+Selain Current Stat, sistem menyimpan riwayat perubahan.
+
+Contoh:
+
+```text
+STAT HISTORY
+
+History ID:
+STATLOG-000501
+
+Hero ID:
+HERO-000125
+
+Stat:
+ATK
+
+Before:
+325
+
+Change:
++13
+
+After:
+338
+
+Source:
+LEVEL UP
+
+Game Time:
+DAY 124
+
+Timestamp:
+SYSTEM TIME
+```
+
+Dengan demikian, perkembangan Hero dapat dilacak.
+
+---
+
+# 9. SKILL DATA
+
+Skill yang dimiliki Hero juga terikat dengan HERO ID.
+
+Contoh:
+
+```text
+HERO ID:
+HERO-000125
+
+SKILLS:
+
+SKILL-000021
+Power Slash
+
+SKILL-000034
+Shield Guard
+
+SKILL-000078
+Knight's Resolve
+```
+
+---
+
+# 10. SKILL ID + HERO ID
+
+Skill memiliki ID sendiri.
+
+Hero juga memiliki ID sendiri.
+
+Hubungannya:
+
+```text
+HERO ID
+   │
+   └── SKILL ID
+```
+
+Contoh:
+
+```text
+HERO-000125
+      │
+      ├── SKILL-000021
+      ├── SKILL-000034
+      └── SKILL-000078
+```
+
+Dengan sistem ini, Skill dapat digunakan sebagai data global tetapi kepemilikannya tetap melekat pada Hero.
+
+---
+
+# 11. NEW SKILL UNLOCK
+
+Jika Hero mendapatkan Skill baru:
+
+```text
+HERO LEVEL UP
+      ↓
+SKILL CHECK
+      ↓
+NEW SKILL
+      ↓
+CREATE / ASSIGN SKILL ID
+      ↓
+BIND TO HERO ID
+      ↓
+DATABASE
+```
+
+Contoh:
+
+```text
+Hero:
+HERO-000125
+
+New Skill:
+SKILL-000501
+
+Name:
+Royal Guard
+```
+
+Database:
+
+```text
+HERO-000125
+      │
+      └── SKILL-000501
+```
+
+---
+
+# 12. SKILL UNLOCK RECORD
+
+Setiap Skill baru harus memiliki catatan Unlock.
+
+```text
+SKILL UNLOCK RECORD
+
+Unlock ID:
+UNLOCK-000901
+
+Hero ID:
+HERO-000125
+
+Skill ID:
+SKILL-000501
+
+Skill Name:
+Royal Guard
+
+Unlock Source:
+LEVEL 40
+
+Required Star:
+4
+
+Status:
+UNLOCKED
+
+Game Time:
+DAY 124
+```
+
+---
+
+# 13. RARE SKILL
+
+Jika Hero mencapai Star 6:
+
+```text
+HERO-000125
+      ↓
+STAR 6
+      ↓
+RARE SKILL
+```
+
+Skill tersebut kemudian diikat ke Hero:
+
+```text
+HERO-000125
+      │
+      ├── Normal Skills
+      │
+      └── SKILL-RARE-00012
+```
+
+---
+
+# 14. ULTIMATE SKILL
+
+Jika Hero mencapai Star 7:
+
+```text
+HERO-000125
+      ↓
+STAR 7
+      ↓
+ULTIMATE AWAKENING
+      ↓
+SKILL-ULT-00001
+```
+
+Kemudian:
+
+```text
+HERO-000125
+      │
+      └── ULTIMATE
+             │
+             └── SKILL-ULT-00001
+```
+
+Ultimate tersebut menjadi bagian dari data permanen Hero.
+
+---
+
+# 15. STAR CHANGE
+
+Star Rank juga melekat pada HERO ID.
+
+Contoh:
+
+```text
+HERO-000125
+
+Before:
+⭐⭐⭐⭐⭐
+
+After:
+⭐⭐⭐⭐⭐⭐
+```
+
+Database:
+
+```text
+Star:
+6
+```
+
+History:
+
+```text
+STAR HISTORY
+
+Hero ID:
+HERO-000125
+
+Before:
+5
+
+After:
+6
+
+Source:
+STAR UP
+
+Game Time:
+DAY 160
+```
+
+---
+
+# 16. LEVEL CHANGE
+
+Level juga mengikuti HERO ID.
+
+Contoh:
+
+```text
+HERO-000125
+
+Level:
+39 → 40
+```
+
+Database:
+
+```text
+Level = 40
+```
+
+History:
+
+```text
+LEVEL HISTORY
+
+Hero ID:
+HERO-000125
+
+Previous:
+39
+
+Current:
+40
+
+EXP Used:
+Required EXP
+
+Source:
+COMBAT
+```
+
+---
+
+# 17. EXP DATA
+
+EXP juga disimpan pada Hero.
+
+```text
+HERO-000125
+
+Level:
+40
+
+EXP:
+1250
+
+EXP Required:
+5000
+```
+
+Ketika mendapatkan EXP:
+
+```text
+EXP
+ ↓
+GAME STATE
+ ↓
+HERO DATA
+ ↓
+DATABASE
+```
+
+---
+
+# 18. HERO SNAPSHOT
+
+Untuk menjaga integritas data, sistem dapat membuat Snapshot setiap perubahan besar.
+
+Contoh:
+
+```text
+HERO SNAPSHOT
+
+Snapshot ID:
+SNAPSHOT-000125-0042
+
+Hero ID:
+HERO-000125
+
+Level:
+42
+
+Star:
+5
+
+ATK:
+325
+
+DEF:
+290
+
+Skills:
+3
+
+Rare Skill:
+None
+
+Ultimate:
+None
+```
+
+Snapshot berguna untuk:
+
+```text
+Debugging
+History
+Recovery
+Replay
+Game State Verification
+```
+
+---
+
+# 19. PERMANENT HERO DEVELOPMENT
+
+Setiap perkembangan permanen:
+
+```text
+Recruit
+ ↓
+Hero ID Created
+ ↓
+Hero Exists
+ ↓
+Level Up
+ ↓
+Stat Change
+ ↓
+Skill Unlock
+ ↓
+Star Up
+ ↓
+Rare Skill
+ ↓
+Ultimate Skill
+```
+
+Semua tetap terhubung dengan:
+
+```text
+SAME HERO ID
+```
+
+---
+
+# 20. HERO ID TIDAK BERUBAH
+
+Hero ID tidak boleh berubah karena:
+
+```text
+Level Up
+Star Up
+Class Change
+Skill Unlock
+Equipment Change
+Training
+Quest
+Event
+```
+
+Contoh:
+
+```text
+HERO-000125
+```
+
+tetap:
+
+```text
+HERO-000125
+```
+
+walaupun Hero berubah dari:
+
+```text
+⭐ Lv.1
+```
+
+menjadi:
+
+```text
+⭐⭐⭐⭐⭐⭐⭐ Lv.70
+```
+
+---
+
+# 21. HERO DATA LIFECYCLE
+
+```text
+RECRUITMENT
+     ↓
+CREATE HERO ID
+     ↓
+DATABASE
+     ↓
+HERO CREATED
+     ↓
+LEVEL UP
+     ↓
+STAT UPDATE
+     ↓
+SKILL UPDATE
+     ↓
+STAR UP
+     ↓
+RARE / ULTIMATE
+     ↓
+DATABASE UPDATE
+```
+
+---
+
+# 22. GAME STATE SYSTEM sebagai DATA CONTROLLER
+
+Game State System menjadi sistem yang mengatur perubahan state.
+
+```text
+GAME EVENT
+    ↓
+GAME STATE SYSTEM
+    ↓
+VALIDATION
+    ↓
+HERO STATE CHANGE
+    ↓
+DATABASE UPDATE
+```
+
+Contoh:
+
+```text
+Hero menang dalam Combat
+        ↓
+Game State
+        ↓
+EXP +500
+        ↓
+Level Up
+        ↓
+ATK +12
+        ↓
+Skill Check
+        ↓
+Skill Unlocked
+        ↓
+Database
+```
+
+---
+
+# 23. DATABASE TIDAK DIUBAH LANGSUNG OLEH AI
+
+AI Character dan AI Fairy tidak boleh sembarangan mengubah database.
+
+AI memberikan:
+
+```text
+OBSERVATION
+DECISION
+SUGGESTION
+RESULT
+```
+
+Kemudian:
+
+```text
+GAME STATE SYSTEM
+```
+
+memvalidasi perubahan.
+
+Flow:
+
+```text
+AI
+ ↓
+PROPOSE CHANGE
+ ↓
+GAME STATE SYSTEM
+ ↓
+VALIDATION
+ ↓
+DATABASE
+```
+
+---
+
+# 24. AI FAIRY REPORT
+
+Setelah database berhasil diperbarui, Fairy mendapatkan informasi perubahan.
+
+Contoh:
+
+> **Fairy:**
+> "Master, HERO-000125 has reached Level 40."
+
+> **Fairy:**
+> "ATK increased from 325 to 338."
+
+> **Fairy:**
+> "A new skill has been unlocked."
+
+> **Fairy:**
+> "Skill ID SKILL-000501 has been registered to HERO-000125."
+
+---
+
+# 25. DATABASE SYNCHRONIZATION
+
+Semua sistem harus menggunakan satu sumber data Hero.
+
+```text
+                    HERO DATABASE
+                         │
+             ┌───────────┼───────────┐
+             │           │           │
+             ▼           ▼           ▼
+          PARTY       COMBAT      TRAINING
+             │           │           │
+             └───────────┼───────────┘
+                         │
+                    GAME STATE
+                         │
+                         ▼
+                    HERO UPDATE
+```
+
+Dengan demikian tidak boleh terjadi:
+
+```text
+Combat Hero Data ≠ Database Hero Data
+```
+
+---
+
+# 26. PARTY SYSTEM CONNECTION
+
+Party System hanya menyimpan referensi:
+
+```text
+HERO ID
+```
+
+Contoh:
+
+```text
+PARTY-001
+
+Leader:
+HERO-000125
+
+Member:
+HERO-000201
+HERO-000325
+HERO-000441
+HERO-000552
+```
+
+Party tidak membuat salinan permanen dari seluruh data Hero.
+
+Party membaca data dari Hero Database.
+
+---
+
+# 27. COMBAT SYSTEM CONNECTION
+
+Combat membaca:
+
+```text
+HERO ID
+     ↓
+CURRENT HERO DATA
+     ↓
+CURRENT STAT
+     ↓
+CURRENT SKILL
+     ↓
+CURRENT EQUIPMENT
+     ↓
+AI COMBAT
+```
+
+Setelah Combat:
+
+```text
+Combat Result
+ ↓
+Game State
+ ↓
+Hero Update
+ ↓
+Database
+```
+
+---
+
+# 28. TRAINING GROUND CONNECTION
+
+Training Ground menggunakan:
+
+```text
+HERO ID
+```
+
+Setelah Training:
+
+```text
+TRAINING
+   ↓
+EXP / STAT / EFFECT
+   ↓
+GAME STATE
+   ↓
+HERO UPDATE
+   ↓
+DATABASE
+   ↓
+FAIRY REPORT
+```
+
+---
+
+# 29. EVENT SYSTEM CONNECTION
+
+Event dapat mengubah Hero.
+
+Contoh:
+
+```text
+EVENT
+ ↓
+HERO-000125
+ ↓
+SPECIAL CONDITION
+ ↓
+STAT CHANGE
+ ↓
+NEW SKILL
+ ↓
+DATABASE
+```
+
+Semua perubahan tetap melekat pada:
+
+```text
+HERO-000125
+```
+
+---
+
+# 30. QUEST SYSTEM CONNECTION
+
+Quest Reward dapat menyebabkan:
+
+```text
+EXP
+Stat Effect
+Skill Unlock
+Star Material
+Temporary Effect
+Permanent Effect
+```
+
+Semua perubahan Hero dicatat melalui HERO ID.
+
+---
+
+# 31. ROLLBACK & DATA RECOVERY
+
+Jika terjadi kesalahan sistem, database dapat menggunakan:
+
+```text
+Snapshot
+History
+Transaction Log
+```
+
+untuk melakukan recovery.
+
+Contoh:
+
+```text
+CURRENT DATA
+     ↓
+ERROR DETECTED
+     ↓
+VALID SNAPSHOT
+     ↓
+RESTORE
+```
+
+Namun rollback hanya boleh dilakukan oleh sistem yang memiliki hak akses.
+
+---
+
+# 32. DATA INTEGRITY
+
+Setiap perubahan harus memenuhi:
+
+```text
+VALID HERO ID
+VALID SOURCE
+VALID CHANGE
+VALID TIMESTAMP
+VALID GAME STATE
+```
+
+Jika salah satu tidak valid:
+
+```text
+UPDATE REJECTED
+```
+
+---
+
+# 33. IMMUTABLE HISTORY
+
+Current Data dapat berubah.
+
+History tidak boleh dihapus secara normal.
+
+Contoh:
+
+```text
+CURRENT ATK:
+338
+```
+
+History:
+
+```text
+325 → 338
+300 → 325
+285 → 300
+```
+
+Dengan demikian perkembangan Hero dapat dilacak sejak awal.
+
+---
+
+# 34. COMPLETE HERO RECORD
+
+Contoh struktur konseptual:
+
+```text
+HERO-000125
+│
+├── Identity
+│   ├── Name
+│   ├── Race
+│   ├── Class
+│   └── Origin
+│
+├── Progression
+│   ├── Level
+│   ├── EXP
+│   └── Star
+│
+├── Stats
+│   ├── HP
+│   ├── MP
+│   ├── ATK
+│   ├── DEF
+│   ├── MAG_ATK
+│   ├── MAG_DEF
+│   ├── SPEED
+│   └── Other Stats
+│
+├── Skills
+│   ├── Normal Skills
+│   ├── Passive Skills
+│   ├── Rare Skill
+│   └── Ultimate Skill
+│
+├── Traits
+│
+├── Equipment References
+│
+├── Emotional State
+│
+├── Relationship Data
+│
+├── Growth History
+│
+└── Skill History
+```
+
+---
+
+# 35. FINAL DATA ARCHITECTURE
+
+```text
+                    HERO ID
+                 HERO-000125
+                       │
+        ┌──────────────┼──────────────┐
+        │              │              │
+        ▼              ▼              ▼
+     PROFILE         PROGRESS        STATS
+        │              │              │
+        │          ┌───┼───┐          │
+        │          │   │   │          │
+        │        LEVEL EXP STAR        │
+        │                              │
+        └──────────────┬───────────────┘
+                       │
+                       ▼
+                     SKILLS
+                       │
+              ┌────────┼────────┐
+              │        │        │
+              ▼        ▼        ▼
+           NORMAL    RARE    ULTIMATE
+              │        │        │
+              └────────┼────────┘
+                       │
+                       ▼
+                  HERO DATABASE
+                       │
+                       ▼
+                GAME STATE SYSTEM
+                       │
+              ┌────────┼────────┐
+              │        │        │
+              ▼        ▼        ▼
+            PARTY    COMBAT   TRAINING
+              │        │        │
+              └────────┼────────┘
+                       ▼
+                  WORLD STATE
+                       │
+                       ▼
+                   AI FAIRY
+                       │
+                       ▼
+                 MASTER REPORT
+```
+
+---
+
+# 36. CORE RULES
+
+### RULE 01
+
+> Setiap Hero wajib memiliki HERO ID unik.
+
+### RULE 02
+
+> HERO ID tidak berubah selama lifetime Hero.
+
+### RULE 03
+
+> Semua Stat Hero disimpan dan diikat kepada HERO ID.
+
+### RULE 04
+
+> Semua Skill yang dimiliki Hero diikat kepada HERO ID.
+
+### RULE 05
+
+> Skill baru harus mendapatkan SKILL ID.
+
+### RULE 06
+
+> Star 6 Rare Skill harus dicatat sebagai bagian dari Hero Data.
+
+### RULE 07
+
+> Star 7 Ultimate Skill harus dicatat sebagai bagian dari Hero Data.
+
+### RULE 08
+
+> Setiap perubahan Stat memiliki Source dan History.
+
+### RULE 09
+
+> Setiap Skill Unlock memiliki Unlock Record.
+
+### RULE 10
+
+> History perkembangan Hero tidak dihapus dalam operasi normal.
+
+### RULE 11
+
+> Game State System menjadi pengontrol perubahan state Hero.
+
+### RULE 12
+
+> AI tidak boleh mengubah Database secara langsung tanpa melalui validasi Game State System.
+
+### RULE 13
+
+> Party, Combat, Training Ground, Quest, Event, dan sistem lain menggunakan HERO ID sebagai referensi.
+
+### RULE 14
+
+> Database menyimpan Current State dan Historical State Hero.
+
+### RULE 15
+
+> AI Fairy menerima hasil perubahan yang telah berhasil disimpan dan melaporkannya kepada Master.
+
+---
+
+# 🌑 CORE PRINCIPLE
+
+```text
+                    HERO ID
+                       │
+                       ▼
+                  HERO CREATED
+                       │
+                       ▼
+                 HERO EXPERIENCES
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+        LEVEL         COMBAT      TRAINING
+          │            │            │
+          └────────────┼────────────┘
+                       ▼
+                   STAT CHANGE
+                       │
+                       ▼
+                  SKILL UNLOCK
+                       │
+                       ▼
+                    STAR UP
+                       │
+              ┌────────┴────────┐
+              ▼                 ▼
+           STAR 6             STAR 7
+              │                 │
+              ▼                 ▼
+         RARE SKILL        ULTIMATE SKILL
+              │                 │
+              └────────┬────────┘
+                       ▼
+                 HERO DATABASE
+                       │
+                       ▼
+                  HERO HISTORY
+```
+
+> **A Hero is not just a collection of numbers.**
+>
+> **The HERO ID represents the individual.**
+>
+> Every Level gained, every Stat increased, every Skill awakened, every Star achieved, and every important experience becomes part of that Hero's permanent history.
