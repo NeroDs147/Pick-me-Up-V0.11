@@ -1,0 +1,1698 @@
+# FAIRY AUTONOMOUS OBSERVATION & MISSION NARRATIVE SYSTEM
+
+## Overview
+
+Fairy adalah pengamat dan pendamping sistem yang memonitor Hero ketika menjalankan misi dalam **Autonomous Mode**.
+
+Ketika Master tidak mengendalikan Hero secara langsung, Fairy akan:
+
+```text
+Monitor Mission
+      ↓
+Observe Hero
+      ↓
+Analyze Events
+      ↓
+Generate Narrative
+      ↓
+Report to Master
+      ↓
+Mission Completed
+```
+
+Fairy tidak hanya menampilkan hasil akhir.
+
+Fairy akan membuat **laporan perjalanan berbasis sesi** dari awal misi sampai misi selesai.
+
+---
+
+# 1. AUTONOMOUS MISSION FLOW
+
+```text
+MISSION ACCEPTED
+       ↓
+PARTY PREPARATION
+       ↓
+MISSION START
+       ↓
+SESSION 01
+Departure
+       ↓
+SESSION 02
+Travel
+       ↓
+SESSION 03
+Environment
+       ↓
+SESSION 04
+Encounter
+       ↓
+SESSION 05
+Combat / Event
+       ↓
+SESSION 06
+Mission Objective
+       ↓
+SESSION 07
+Complication
+       ↓
+SESSION 08
+Final Encounter
+       ↓
+SESSION 09
+Mission Completion
+       ↓
+SESSION 10
+Return
+       ↓
+MISSION REPORT
+```
+
+Tidak semua misi harus memiliki jumlah sesi yang sama.
+
+Jumlah sesi ditentukan oleh:
+
+```text
+Mission Type
+Mission Difficulty
+Floor
+Map Size
+Objective
+Party Composition
+Random Event
+Boss
+Special Condition
+```
+
+---
+
+# 2. FAIRY ROLE
+
+Fairy memiliki beberapa fungsi:
+
+```text
+FAIRY
+│
+├── Observer
+├── Narrator
+├── Mission Monitor
+├── Event Detector
+├── Hero Status Monitor
+├── Risk Analyzer
+├── Combat Observer
+├── Objective Tracker
+└── Mission Reporter
+```
+
+Fairy tidak harus ikut bertarung.
+
+Dalam Autonomous Mode:
+
+```text
+MASTER
+   │
+   │ Autonomous Mission
+   ↓
+FAIRY
+   │
+   ├── Observe
+   ├── Analyze
+   ├── Record
+   └── Report
+          ↓
+        MASTER
+```
+
+---
+
+# 3. OBSERVATION SYSTEM
+
+Fairy mengamati:
+
+```text
+Hero HP
+Hero MP
+Hero Status
+Hero Position
+Hero Formation
+Hero Behavior
+Enemy
+Environment
+Mission Objective
+Combat Result
+Item Usage
+Skill Usage
+Injury
+Death
+Discovery
+Treasure
+Random Event
+```
+
+Fairy tidak harus melaporkan semua perubahan.
+
+Hanya kejadian penting yang masuk ke Narrative System.
+
+---
+
+# 4. EVENT PRIORITY
+
+Setiap kejadian mempunyai priority.
+
+```text
+LOW
+NORMAL
+IMPORTANT
+CRITICAL
+SPECIAL
+```
+
+### LOW
+
+Contoh:
+
+```text
+Hero berjalan.
+Hero menemukan tanaman.
+Hero berhenti sebentar.
+```
+
+Tidak selalu dikirim ke Master.
+
+---
+
+### NORMAL
+
+Contoh:
+
+```text
+Monster ditemukan.
+Hero menggunakan potion.
+Jalur bercabang.
+```
+
+Dapat masuk ke narrative session.
+
+---
+
+### IMPORTANT
+
+Contoh:
+
+```text
+Hero terluka.
+Elite Monster ditemukan.
+Mission objective berubah.
+Treasure ditemukan.
+```
+
+Fairy wajib melaporkan.
+
+---
+
+### CRITICAL
+
+Contoh:
+
+```text
+Hero HP < 20%
+Hero hampir mati.
+Party kehilangan anggota.
+Boss muncul.
+Mission gagal.
+```
+
+Fairy mengirim laporan segera.
+
+---
+
+### SPECIAL
+
+Contoh:
+
+```text
+Unique Event
+Hidden Room
+Rare NPC
+Legendary Item
+Secret Quest
+World Event
+```
+
+Fairy memberikan laporan khusus.
+
+---
+
+# 5. MISSION SESSION SYSTEM
+
+Mission dibagi menjadi beberapa sesi.
+
+```text
+MISSION
+│
+├── SESSION 01
+├── SESSION 02
+├── SESSION 03
+├── SESSION 04
+├── SESSION 05
+├── SESSION 06
+└── SESSION N
+```
+
+Jumlah sesi bersifat dinamis.
+
+---
+
+# 6. SESSION TYPES
+
+```text
+SESSION
+│
+├── Preparation
+├── Departure
+├── Travel
+├── Exploration
+├── Encounter
+├── Combat
+├── Objective
+├── Discovery
+├── Complication
+├── Boss
+├── Completion
+└── Return
+```
+
+Tidak semua sesi harus muncul.
+
+---
+
+# 7. SESSION 01 — PREPARATION
+
+Fairy mengamati persiapan Hero.
+
+Contoh:
+
+```text
+[FAIRY OBSERVATION]
+
+Mission preparation has begun.
+
+The selected Heroes are preparing their equipment
+before entering the next floor.
+
+Kane checks his sword.
+
+Mira prepares her healing supplies.
+
+The party formation has been confirmed.
+```
+
+Data:
+
+```text
+Session_Type:
+Preparation
+
+Party:
+Kane
+Mira
+Ronan
+
+Equipment:
+Ready
+
+Formation:
+Front / Support / Rear
+
+Mission:
+Floor Exploration
+```
+
+---
+
+# 8. SESSION 02 — DEPARTURE
+
+Hero mulai meninggalkan Town / starting point.
+
+Contoh:
+
+```text
+[FAIRY REPORT]
+
+The party has departed.
+
+The gate behind them slowly disappears from view
+as the Heroes begin their journey toward the mission area.
+
+No abnormalities detected.
+```
+
+---
+
+# 9. SESSION 03 — TRAVEL
+
+Fairy mengamati perjalanan.
+
+Kemungkinan event:
+
+```text
+Normal Travel
+Enemy Encounter
+Environmental Hazard
+NPC Encounter
+Resource Discovery
+Weather
+Ambush
+Hidden Path
+```
+
+Contoh:
+
+```text
+[FAIRY OBSERVATION]
+
+The party has been traveling for approximately
+thirty minutes.
+
+The path ahead appears quiet.
+
+Ronan suddenly raises his hand.
+
+The party stops.
+
+Something is moving beyond the trees.
+```
+
+---
+
+# 10. SESSION 04 — ENCOUNTER
+
+Fairy mendeteksi encounter.
+
+```text
+[FAIRY ALERT]
+
+Hostile presence detected.
+
+Estimated enemies:
+6
+
+Threat Level:
+Low
+
+Distance:
+Approximately 40 meters.
+```
+
+Kemudian narrative:
+
+```text
+The Heroes slowly draw their weapons.
+
+The creatures emerge from the darkness.
+
+Goblin scouts.
+
+Six targets confirmed.
+```
+
+---
+
+# 11. SESSION 05 — COMBAT
+
+Combat diamati oleh Fairy.
+
+Fairy tidak perlu mencatat setiap serangan.
+
+Fairy fokus pada:
+
+```text
+Combat Start
+Important Skill
+Critical Hit
+Hero Injury
+Hero Death
+Enemy Reinforcement
+Enemy Defeat
+Unexpected Event
+Combat End
+```
+
+Contoh:
+
+```text
+[FAIRY COMBAT REPORT]
+
+Combat has begun.
+
+The frontline has engaged the enemy.
+
+Kane is holding the center position.
+
+Mira remains behind the frontline.
+
+Three enemies have been defeated.
+
+One enemy has broken through the formation.
+
+Mira has been targeted.
+
+Kane has intercepted the attack.
+
+No critical injuries detected.
+```
+
+---
+
+# 12. COMBAT NARRATIVE ENGINE
+
+Combat narrative dibuat berdasarkan event.
+
+```text
+Combat Event
+      ↓
+Event Importance
+      ↓
+Hero Personality
+      ↓
+Hero Skill
+      ↓
+Enemy Type
+      ↓
+Narrative Generator
+      ↓
+Fairy Report
+```
+
+Contoh:
+
+```text
+EVENT:
+Hero successfully blocks Boss Attack
+
+PERSONALITY:
+Brave
+
+NARRATIVE:
+
+"Kane stepped forward just before the attack landed.
+
+His shield absorbed the impact.
+
+The force pushed him several meters backward,
+but he remained standing."
+```
+
+---
+
+# 13. SESSION 06 — MISSION OBJECTIVE
+
+Fairy melaporkan perkembangan objective.
+
+Contoh:
+
+```text
+[MISSION PROGRESS]
+
+Objective:
+Collect Ancient Crystal
+
+Progress:
+3 / 5
+
+Current Status:
+60%
+```
+
+Narrative:
+
+```text
+The party has located another crystal.
+
+Mira carefully removes it from the stone wall.
+
+Only two more remain.
+```
+
+---
+
+# 14. SESSION 07 — COMPLICATION
+
+Tidak semua misi berjalan sesuai rencana.
+
+Fairy dapat menghasilkan:
+
+```text
+Enemy Ambush
+Trap
+Path Blocked
+Hero Injury
+Equipment Damage
+Unexpected Boss
+Resource Shortage
+Mission Condition Change
+```
+
+Contoh:
+
+```text
+[FAIRY ALERT]
+
+The original route is no longer accessible.
+
+A large rock formation has collapsed behind the party.
+
+The Heroes must find another route.
+```
+
+---
+
+# 15. RANDOM EVENT
+
+Autonomous Mission dapat mempunyai random events.
+
+```text
+RANDOM EVENT
+│
+├── Treasure
+├── Ambush
+├── Merchant
+├── Lost Traveler
+├── Hidden Room
+├── Rare Monster
+├── Environmental Hazard
+├── Resource Node
+├── Secret Path
+├── Mini Boss
+└── Special Event
+```
+
+Contoh:
+
+```text
+[FAIRY OBSERVATION]
+
+The party has discovered an unusual door.
+
+No structure was recorded in the original map.
+
+The door appears to have been hidden
+behind a layer of rock.
+```
+
+---
+
+# 16. SESSION 08 — BOSS
+
+Jika mission mempunyai Boss:
+
+```text
+BOSS DETECTED
+      ↓
+THREAT ANALYSIS
+      ↓
+PARTY STATUS
+      ↓
+BOSS COMBAT
+      ↓
+BOSS DEFEATED
+```
+
+Contoh:
+
+```text
+[FAIRY CRITICAL REPORT]
+
+A powerful presence has been detected.
+
+The energy level is significantly higher
+than previous encounters.
+
+Boss-class entity confirmed.
+
+Estimated threat:
+
+HIGH.
+```
+
+Setelah battle:
+
+```text
+[FAIRY REPORT]
+
+The Boss has been defeated.
+
+The party remains operational.
+
+Two Heroes have suffered moderate injuries.
+
+The mission objective remains achievable.
+```
+
+---
+
+# 17. SESSION 09 — MISSION COMPLETION
+
+Ketika objective selesai:
+
+```text
+[MISSION COMPLETE]
+
+Primary Objective:
+Complete
+
+Secondary Objective:
+Complete
+
+Enemies Defeated:
+27
+
+Heroes Injured:
+2
+
+Heroes Lost:
+0
+
+Rare Discovery:
+1
+
+Mission Status:
+SUCCESS
+```
+
+Narrative:
+
+```text
+The final objective has been completed.
+
+The Heroes stand quietly for a moment.
+
+The danger that had followed them
+throughout the floor has finally disappeared.
+
+The mission is complete.
+```
+
+---
+
+# 18. SESSION 10 — RETURN
+
+Hero kembali.
+
+```text
+[FAIRY OBSERVATION]
+
+The party has begun returning.
+
+No hostile presence has been detected.
+
+The Heroes are tired, but all members remain capable
+of continuing the journey.
+```
+
+Kemudian:
+
+```text
+RETURN COMPLETE
+```
+
+---
+
+# 19. FINAL FAIRY REPORT
+
+Setelah mission selesai, Fairy membuat ringkasan.
+
+```text
+══════════════════════════════
+        FAIRY FINAL REPORT
+══════════════════════════════
+
+Mission:
+Ancient Crystal Expedition
+
+Floor:
+12
+
+Status:
+SUCCESS
+
+Duration:
+02:43:21
+
+Heroes:
+4
+
+Heroes Lost:
+0
+
+Heroes Injured:
+2
+
+Enemies Defeated:
+31
+
+Boss:
+None
+
+Primary Objective:
+Complete
+
+Secondary Objective:
+Complete
+
+Materials Obtained:
+Ancient Crystal × 5
+Monster Bone × 12
+Iron Ore × 18
+
+Rare Discovery:
+Hidden Chamber
+
+══════════════════════════════
+```
+
+---
+
+# 20. NARRATIVE DETAIL LEVEL
+
+Master dapat menentukan detail laporan.
+
+```text
+Narrative Level
+│
+├── MINIMAL
+├── NORMAL
+├── DETAILED
+└── FULL
+```
+
+### MINIMAL
+
+Hanya event penting.
+
+```text
+Enemy encountered.
+Combat completed.
+Objective completed.
+Mission successful.
+```
+
+### NORMAL
+
+```text
+Enemy encountered.
+
+The frontline engaged the enemy.
+
+Two Heroes sustained minor injuries.
+
+Enemy defeated.
+```
+
+### DETAILED
+
+Narasi lebih panjang dan menggambarkan keadaan.
+
+### FULL
+
+Fairy membuat laporan hampir seperti cerita perjalanan.
+
+---
+
+# 21. FAIRY PERSONALITY
+
+Fairy dapat mempunyai personality.
+
+```text
+Fairy Personality
+│
+├── Calm
+├── Serious
+├── Cheerful
+├── Analytical
+├── Formal
+├── Curious
+├── Sarcastic
+└── Emotional
+```
+
+Personality mempengaruhi gaya laporan.
+
+---
+
+# 22. ANALYTICAL FAIRY
+
+```text
+[ANALYSIS]
+
+Enemy count:
+8
+
+Estimated threat:
+Medium
+
+Party advantage:
+Moderate
+
+Recommended action:
+Maintain current formation.
+```
+
+---
+
+# 23. CHEERFUL FAIRY
+
+```text
+[FAIRY REPORT]
+
+Good news, Master!
+
+The Heroes have encountered a group of monsters.
+
+And they are already handling them!
+
+Everything appears to be under control!
+```
+
+---
+
+# 24. SERIOUS FAIRY
+
+```text
+[FAIRY REPORT]
+
+Hostile entities detected.
+
+Eight targets.
+
+The party has engaged.
+
+I recommend continued observation.
+```
+
+---
+
+# 25. FAIRY OBSERVATION MEMORY
+
+Fairy menyimpan event selama mission berlangsung.
+
+```text
+MISSION MEMORY
+
+Session 01
+Preparation
+
+Session 02
+Departure
+
+Session 03
+Travel
+
+Session 04
+Goblin Encounter
+
+Session 05
+Combat
+
+Session 06
+Crystal Discovery
+
+Session 07
+Cave Collapse
+
+Session 08
+Alternative Route
+
+Session 09
+Objective Complete
+
+Session 10
+Return
+```
+
+Data ini digunakan untuk Final Report.
+
+---
+
+# 26. EVENT CHAIN
+
+Event sebelumnya dapat mempengaruhi event berikutnya.
+
+```text
+Goblin Encounter
+      ↓
+Hero Injury
+      ↓
+Healing Potion Used
+      ↓
+Potion Stock Reduced
+      ↓
+Later Mission Risk Increased
+```
+
+Dengan demikian narrative tidak terasa seperti kumpulan event acak.
+
+---
+
+# 27. HERO PERSONALITY CONNECTION
+
+Narasi dapat memperhatikan personality Hero.
+
+Contoh:
+
+```text
+Hero A:
+Brave
+
+Hero B:
+Cowardly
+
+Hero C:
+Calm
+
+Hero D:
+Aggressive
+```
+
+Event:
+
+```text
+Boss Appears
+```
+
+Narasi:
+
+```text
+Hero A immediately moved forward.
+
+Hero B stepped backward.
+
+Hero C calmly observed the Boss.
+
+Hero D tightened his grip on his weapon.
+```
+
+---
+
+# 28. HERO RELATIONSHIP CONNECTION
+
+Relationship antar Hero juga dapat mempengaruhi narrative.
+
+```text
+Friends
+Rivals
+Enemies
+Respect
+Trust
+Fear
+Admiration
+```
+
+Contoh:
+
+```text
+Kane was injured.
+
+Mira immediately moved toward him.
+
+Their relationship allowed her to react
+before the rest of the party.
+```
+
+---
+
+# 29. SKILL CONNECTION
+
+Skill Hero juga dapat muncul dalam narrative.
+
+```text
+Hero Skill
+    ↓
+Skill Activation
+    ↓
+Combat Event
+    ↓
+Narrative
+```
+
+Contoh:
+
+```text
+[FAIRY OBSERVATION]
+
+The enemy attempted to surround the party.
+
+Mira activated her Barrier Field.
+
+A translucent wall appeared around the group,
+blocking the incoming attack.
+```
+
+---
+
+# 30. AUTONOMOUS DECISION RECORD
+
+Fairy juga dapat mencatat keputusan penting yang dilakukan AI Hero.
+
+```text
+Decision:
+Retreat
+
+Reason:
+Party HP < 30%
+
+Decision:
+Use Potion
+
+Reason:
+Hero HP < 40%
+
+Decision:
+Change Formation
+
+Reason:
+Enemy Reinforcement
+
+Decision:
+Continue Mission
+
+Reason:
+Objective nearly completed
+```
+
+Ini penting agar Master dapat mengetahui **mengapa Hero melakukan sesuatu** ketika Master tidak mengontrol mereka.
+
+---
+
+# 31. AUTONOMOUS RISK LEVEL
+
+Fairy menghitung:
+
+```text
+Risk Level
+│
+├── SAFE
+├── LOW
+├── MODERATE
+├── HIGH
+└── CRITICAL
+```
+
+Contoh:
+
+```text
+Party HP:
+82%
+
+Enemy:
+Low
+
+Risk:
+LOW
+```
+
+atau:
+
+```text
+Party HP:
+24%
+
+Boss:
+Active
+
+Risk:
+CRITICAL
+```
+
+---
+
+# 32. MASTER NOTIFICATION
+
+Fairy tidak perlu mengirim semua laporan sebagai notification.
+
+```text
+NORMAL EVENT
+→ Mission Log
+
+IMPORTANT EVENT
+→ Fairy Report
+
+CRITICAL EVENT
+→ Immediate Master Notification
+```
+
+Contoh:
+
+```text
+[FAIRY ALERT]
+
+Master.
+
+The party has encountered a Boss-class enemy.
+
+Current party HP:
+43%
+
+I recommend immediate attention.
+```
+
+---
+
+# 33. MISSION LOG
+
+Semua sesi disimpan.
+
+```text
+Mission_Log_ID
+Mission_ID
+Session_ID
+Timestamp
+Event_Type
+Event_Priority
+Hero_ID
+Location
+Narrative
+Decision
+Result
+```
+
+Contoh:
+
+```text
+Mission_Log_ID:
+LOG-000821
+
+Mission_ID:
+MIS-001204
+
+Session_ID:
+SES-00005
+
+Event_Type:
+Combat
+
+Priority:
+IMPORTANT
+
+Narrative:
+The frontline engaged the Goblin group.
+
+Result:
+Victory
+```
+
+---
+
+# 34. NARRATIVE GENERATION RULE
+
+Narrative tidak boleh sepenuhnya random.
+
+Gunakan:
+
+```text
+Mission Context
++
+World Context
++
+Floor Context
++
+Hero Context
++
+Enemy Context
++
+Event Context
++
+Previous Session
++
+Result
+=
+Fairy Narrative
+```
+
+Dengan begitu:
+
+```text
+SESSION 01
+```
+
+akan mempengaruhi:
+
+```text
+SESSION 02
+```
+
+dan seterusnya.
+
+---
+
+# 35. MISSION NARRATIVE STRUCTURE
+
+Format standar:
+
+```text
+[FAIRY REPORT]
+
+Session:
+05
+
+Location:
+Floor 12 — Eastern Corridor
+
+Situation:
+Enemy Encounter
+
+Observation:
+
+The party has encountered
+a group of hostile creatures.
+
+Kane has taken the frontline.
+
+Mira remains behind the formation.
+
+Combat has begun.
+
+Status:
+Stable
+```
+
+---
+
+# 36. MISSION TYPES
+
+Sistem session harus menyesuaikan Mission Type.
+
+```text
+MISSION TYPE
+│
+├── Hunt
+├── Gather
+├── Escort
+├── Rescue
+├── Search
+├── Exploration
+├── Elimination
+├── Delivery
+├── Defense
+├── Capture
+├── Boss Hunt
+└── Special Mission
+```
+
+Contoh:
+
+### HUNT
+
+```text
+Preparation
+→ Travel
+→ Track
+→ Encounter
+→ Hunt
+→ Target Defeated
+→ Return
+```
+
+### ESCORT
+
+```text
+Preparation
+→ Departure
+→ Travel
+→ Escort
+→ Ambush
+→ Defense
+→ Destination
+→ Return
+```
+
+### RESCUE
+
+```text
+Departure
+→ Search
+→ Discovery
+→ Enemy Encounter
+→ Rescue
+→ Escape
+→ Return
+```
+
+### EXPLORATION
+
+```text
+Departure
+→ Exploration
+→ Discovery
+→ Random Event
+→ Hidden Area
+→ Resource Collection
+→ Return
+```
+
+---
+
+# 37. DYNAMIC SESSION GENERATION
+
+Jumlah session:
+
+```text
+Session_Count =
+Base Mission Sessions
++
+Random Events
++
+Special Events
++
+Boss Events
++
+Complications
+```
+
+Contoh:
+
+```text
+Basic Mission
+
+01 Preparation
+02 Departure
+03 Travel
+04 Objective
+05 Completion
+06 Return
+```
+
+Jika Random Event muncul:
+
+```text
+01 Preparation
+02 Departure
+03 Travel
+04 Random Event
+05 Encounter
+06 Objective
+07 Completion
+08 Return
+```
+
+---
+
+# 38. MISSION BRANCHING
+
+Mission dapat bercabang.
+
+```text
+TRAVEL
+  │
+  ├── Safe Route
+  │      ↓
+  │   Objective
+  │
+  └── Hidden Route
+         ↓
+    Secret Area
+         ↓
+    Rare Loot
+```
+
+Fairy mencatat jalur yang dipilih.
+
+---
+
+# 39. CONSEQUENCE SYSTEM
+
+Keputusan Autonomous Hero dapat menghasilkan consequence.
+
+```text
+Decision
+   ↓
+Event
+   ↓
+Consequence
+   ↓
+Future Session
+```
+
+Contoh:
+
+```text
+Hero memilih jalur pendek
+        ↓
+Encounter Elite Monster
+        ↓
+Hero terluka
+        ↓
+Healing Potion digunakan
+        ↓
+Potion berkurang
+```
+
+---
+
+# 40. MISSION END RESULT
+
+Mission memiliki beberapa hasil.
+
+```text
+SUCCESS
+PARTIAL_SUCCESS
+FAILED
+ABANDONED
+CRITICAL_FAILURE
+```
+
+### SUCCESS
+
+Objective selesai.
+
+### PARTIAL_SUCCESS
+
+Objective utama selesai tetapi objective tambahan gagal.
+
+### FAILED
+
+Objective gagal.
+
+### ABANDONED
+
+Hero memutuskan mundur.
+
+### CRITICAL_FAILURE
+
+Party mengalami kondisi kritis atau kehilangan Hero.
+
+---
+
+# 41. FINAL NARRATIVE
+
+Selain data statistik, Fairy dapat membuat cerita singkat.
+
+Contoh:
+
+```text
+══════════════════════════════
+       MISSION SUMMARY
+══════════════════════════════
+
+The expedition began quietly.
+
+The party encountered several groups of monsters
+before reaching the eastern ruins.
+
+A cave collapse forced the Heroes to abandon
+their original route.
+
+Despite the setback, they discovered
+a hidden chamber containing the final crystal.
+
+Two Heroes were injured during the final encounter,
+but the party successfully completed the objective.
+
+They returned safely.
+
+Mission successful.
+══════════════════════════════
+```
+
+---
+
+# 42. FAIRY AUTONOMOUS SYSTEM
+
+```text
+                    MASTER
+                      │
+                      │
+               Autonomous Mode
+                      ↓
+                    FAIRY
+                      │
+              ┌───────┴────────┐
+              ↓                ↓
+          OBSERVER          ANALYZER
+              │                │
+              └───────┬────────┘
+                      ↓
+                  EVENT LOG
+                      ↓
+              SESSION MANAGER
+                      ↓
+              NARRATIVE ENGINE
+                      ↓
+              FAIRY REPORT
+                      ↓
+                    MASTER
+```
+
+---
+
+# 43. COMPLETE MISSION FLOW
+
+```text
+MISSION ACCEPTED
+        ↓
+FAIRY INITIALIZATION
+        ↓
+PARTY OBSERVATION
+        ↓
+SESSION GENERATION
+        ↓
+PREPARATION
+        ↓
+DEPARTURE
+        ↓
+TRAVEL
+        ↓
+EXPLORATION
+        ↓
+ENCOUNTER
+        ↓
+COMBAT / EVENT
+        ↓
+OBJECTIVE
+        ↓
+RANDOM EVENT
+        ↓
+COMPLICATION
+        ↓
+BOSS / FINAL ENCOUNTER
+        ↓
+OBJECTIVE COMPLETE
+        ↓
+RETURN
+        ↓
+MISSION RESULT
+        ↓
+FINAL FAIRY REPORT
+        ↓
+MASTER
+```
+
+---
+
+# 44. CORE RULES
+
+```text
+RULE 01
+Fairy observes autonomous missions.
+
+RULE 02
+Fairy does not need to report every minor action.
+
+RULE 03
+Important and critical events must be reported.
+
+RULE 04
+Mission reports are divided into sessions.
+
+RULE 05
+Session count is dynamic.
+
+RULE 06
+Mission Type determines the basic session structure.
+
+RULE 07
+Random Events can create additional sessions.
+
+RULE 08
+Previous sessions can influence future sessions.
+
+RULE 09
+Hero personality can influence narrative.
+
+RULE 10
+Hero relationships can influence narrative.
+
+RULE 11
+Hero skills can appear in narrative events.
+
+RULE 12
+Autonomous decisions must be recorded.
+
+RULE 13
+Critical situations trigger immediate notification.
+
+RULE 14
+Final Mission Report summarizes the entire mission.
+
+RULE 15
+Mission Narrative must use actual mission data.
+
+RULE 16
+Narrative should not change the actual game result.
+
+RULE 17
+Narrative is a presentation layer over the real
+Mission / Combat / Loot / Hero systems.
+
+RULE 18
+All Mission Logs must be stored with unique IDs.
+
+RULE 19
+The system must support replaying the mission log.
+
+RULE 20
+The Fairy should explain important autonomous
+decisions so the Master understands what happened.
+```
+
+---
+
+# 45. SYSTEM CONNECTION
+
+```text
+FAIRY
+│
+├── Hero System
+│
+├── Character Personality
+│
+├── Relationship System
+│
+├── Skill System
+│
+├── Mission System
+│
+├── Floor System
+│
+├── Dungeon System
+│
+├── Boss Raid
+│
+├── World Exploration
+│
+├── Combat System
+│
+├── Loot System
+│
+├── Inventory System
+│
+├── Medical System
+│
+├── Town System
+│
+├── Master System
+│
+└── Narrative System
+```
+
+Dengan struktur ini, **Fairy menjadi “mata dan narator” Master selama Autonomous Mission**. Master tidak perlu melihat setiap aksi Hero secara real-time, tetapi tetap bisa membaca perjalanan mereka dalam bentuk laporan sesi yang berkembang dari awal sampai akhir misi.
