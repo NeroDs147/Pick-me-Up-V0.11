@@ -1,0 +1,1894 @@
+# 👹 AETHERIA — ENEMY SYSTEM
+
+> **The Tower does not become dangerous later.**
+>
+> **It is dangerous from the moment the Master enters Floor 1.**
+>
+> Every enemy exists as part of the Tower's dynamic ecosystem.
+> Enemy composition, quantity, behavior, difficulty, and loot are controlled through the **RNG System** and synchronized by the **Game State System**.
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+Enemy System mengatur seluruh musuh yang muncul di:
+
+```text
+Tower Dungeon
+Floor 1
+    ↓
+Floor 2
+    ↓
+Floor 3
+    ↓
+...
+Floor 100
+```
+
+Enemy tidak dibuat dengan jumlah tetap.
+
+```text
+Dungeon Floor
+      ↓
+Enemy Pool
+      ↓
+RNG System
+      ↓
+Enemy Quantity RNG
+      ↓
+Enemy Composition RNG
+      ↓
+Enemy Difficulty
+      ↓
+Game State System
+      ↓
+Combat
+```
+
+---
+
+# 2. CORE RULE
+
+Enemy System memiliki aturan utama:
+
+```text
+RULE 01
+Enemy sudah sulit sejak Floor 1.
+
+RULE 02
+Jumlah enemy menggunakan RNG.
+
+RULE 03
+Jenis enemy menggunakan RNG.
+
+RULE 04
+Komposisi enemy menggunakan RNG.
+
+RULE 05
+Setiap Floor memiliki Enemy Pool.
+
+RULE 06
+Floor 10, 20, 30, 40, 50,
+60, 70, 80, 90, 100
+WAJIB memiliki Large Enemy.
+
+RULE 07
+Large Enemy memiliki tingkat ancaman lebih tinggi.
+
+RULE 08
+Enemy tidak memberikan EXP.
+
+RULE 09
+Enemy dapat memberikan Loot melalui RNG System.
+
+RULE 10
+Semua Enemy memiliki Enemy ID.
+
+RULE 11
+Enemy State disimpan melalui Game State System.
+
+RULE 12
+AI Fairy mengobservasi pertempuran dan melaporkan kondisi kepada Master.
+```
+
+---
+
+# 3. ENEMY DATABASE
+
+Setiap enemy memiliki data:
+
+```text
+ENEMY
+│
+├── Enemy_ID
+├── Enemy_Name
+├── Race / Species
+├── Enemy_Type
+├── Size
+├── Rarity
+├── Level
+├── HP
+├── Attack
+├── Defense
+├── Speed
+├── Magic
+├── Resistance
+├── AI_Behavior
+├── Difficulty
+├── Loot_Pool_ID
+├── Floor_Min
+├── Floor_Max
+├── Faction
+└── Special_Trait
+```
+
+---
+
+# 4. ENEMY ID
+
+Setiap enemy mempunyai ID unik.
+
+Contoh:
+
+```text
+ENEMY-000001
+ENEMY-000002
+ENEMY-000003
+ENEMY-000004
+```
+
+Enemy ID tidak berubah selama data enemy tersebut masih digunakan oleh sistem.
+
+Untuk enemy yang merupakan instance dari monster tertentu:
+
+```text
+ENEMY-INSTANCE-000001
+```
+
+---
+
+# 5. ENEMY TYPES
+
+Enemy dibagi menjadi:
+
+```text
+Normal
+Elite
+Large
+Elite Large
+Mini Boss
+Boss
+Raid Boss
+Special Enemy
+Event Enemy
+```
+
+---
+
+# 6. ENEMY SIZE
+
+Ukuran enemy:
+
+```text
+Small
+Medium
+Large
+Massive
+Colossal
+```
+
+### Small
+
+Contoh:
+
+```text
+Goblin
+Rat
+Imp
+Wolf
+Spider
+Bat
+```
+
+### Medium
+
+Contoh:
+
+```text
+Orc
+Skeleton Warrior
+Lizardman
+Bandit
+Dark Elf
+```
+
+### Large
+
+Contoh:
+
+```text
+Ogre
+Troll
+Large Golem
+Giant Beast
+Demon Beast
+```
+
+### Massive
+
+Contoh:
+
+```text
+Ancient Golem
+Titan Beast
+Demon Giant
+```
+
+### Colossal
+
+Contoh:
+
+```text
+Ancient Dragon
+World Beast
+Tower Guardian
+```
+
+---
+
+# 7. DIFFICULTY SYSTEM
+
+Aetheria tidak menggunakan:
+
+```text
+Floor 1 = Easy
+Floor 100 = Very Hard
+```
+
+Sebaliknya:
+
+```text
+Floor 1 = HARD
+Floor 10 = HARD+
+Floor 20 = VERY HARD
+Floor 30 = VERY HARD+
+Floor 40 = EXTREME
+Floor 50 = EXTREME+
+Floor 60 = NIGHTMARE
+Floor 70 = NIGHTMARE+
+Floor 80 = CATASTROPHIC
+Floor 90 = CATASTROPHIC+
+Floor 100 = GOD TIER
+```
+
+Namun tingkat kesulitan dapat berubah berdasarkan:
+
+```text
+Game State
+Destruction Level
+Enemy Composition
+Event
+Floor Condition
+Master Progress
+Party Condition
+```
+
+---
+
+# 8. FLOOR 1 DIFFICULTY
+
+Floor 1 sudah merupakan survival challenge.
+
+Contoh:
+
+```text
+FLOOR 1
+
+Enemy:
+Goblin Warrior
+Goblin Archer
+Dire Wolf
+Corrupted Bat
+
+Difficulty:
+HARD
+```
+
+Master tidak boleh menganggap Floor 1 sebagai tutorial tanpa risiko.
+
+Tutorial dapat dilakukan melalui:
+
+```text
+AI Fairy
+Tutorial Quest
+Training
+Combat Explanation
+```
+
+bukan dengan membuat enemy terlalu lemah.
+
+---
+
+# 9. ENEMY QUANTITY RNG
+
+Jumlah enemy tidak tetap.
+
+Contoh:
+
+```text
+Floor 1
+Minimum: 4
+Maximum: 10
+```
+
+RNG:
+
+```text
+Result:
+7 Enemy
+```
+
+Floor lain:
+
+```text
+Floor 17
+Minimum: 6
+Maximum: 14
+
+RNG:
+11 Enemy
+```
+
+---
+
+# 10. QUANTITY RANGE
+
+Contoh konfigurasi:
+
+```text
+Floor 1–9
+4–12 Enemy
+
+Floor 10–19
+5–14 Enemy
+
+Floor 20–29
+6–16 Enemy
+
+Floor 30–39
+6–18 Enemy
+
+Floor 40–49
+7–20 Enemy
+
+Floor 50–59
+8–22 Enemy
+
+Floor 60–69
+8–24 Enemy
+
+Floor 70–79
+9–26 Enemy
+
+Floor 80–89
+10–28 Enemy
+
+Floor 90–99
+10–30 Enemy
+
+Floor 100
+Variable
+```
+
+Angka ini adalah **RNG configuration**, bukan jumlah tetap.
+
+---
+
+# 11. ENEMY COMPOSITION RNG
+
+RNG tidak hanya menentukan jumlah.
+
+RNG menentukan:
+
+```text
+Quantity
++
+Species
++
+Type
++
+Role
++
+Size
++
+Rarity
++
+Behavior
+```
+
+Contoh:
+
+```text
+Floor 23
+
+RNG Result:
+
+4 × Skeleton Warrior
+3 × Skeleton Archer
+2 × Dark Wolf
+1 × Skeleton Mage
+```
+
+---
+
+# 12. ENEMY ROLE
+
+Enemy dapat memiliki role:
+
+```text
+Tank
+Melee
+Ranged
+Mage
+Assassin
+Support
+Healer
+Controller
+Summoner
+Berserker
+Scout
+```
+
+RNG dapat membuat kombinasi.
+
+Contoh:
+
+```text
+Melee × 5
+Ranged × 3
+Mage × 2
+Tank × 1
+```
+
+---
+
+# 13. ENEMY FORMATION
+
+Enemy dapat muncul dalam:
+
+```text
+Frontline
+Backline
+Flanking
+Ambush
+Surround
+Defensive Formation
+Protective Formation
+Random Formation
+```
+
+AI Enemy menentukan posisi berdasarkan kondisi pertempuran.
+
+---
+
+# 14. ENEMY BEHAVIOR
+
+Setiap enemy memiliki AI Behavior.
+
+Contoh:
+
+```text
+Aggressive
+Defensive
+Cautious
+Hunter
+Pack Hunter
+Ambusher
+Protective
+Berserker
+Tactical
+Coward
+Predator
+Summoner
+```
+
+Behavior dapat berubah selama combat.
+
+---
+
+# 15. ENEMY AI
+
+Enemy AI dapat melakukan:
+
+```text
+Observe
+Evaluate
+Target Selection
+Movement
+Attack
+Defend
+Retreat
+Call Reinforcement
+Protect Ally
+Change Formation
+Use Skill
+```
+
+Flow:
+
+```text
+Enemy
+ ↓
+Observe
+ ↓
+Evaluate Party
+ ↓
+Select Target
+ ↓
+Action
+ ↓
+Combat Result
+ ↓
+Re-evaluate
+```
+
+---
+
+# 16. LARGE ENEMY RULE
+
+Setiap kelipatan 10:
+
+```text
+Floor 10
+Floor 20
+Floor 30
+Floor 40
+Floor 50
+Floor 60
+Floor 70
+Floor 80
+Floor 90
+Floor 100
+```
+
+WAJIB memiliki:
+
+```text
+Large Enemy
+```
+
+Minimal:
+
+```text
+1 Large Enemy
+```
+
+Tetapi RNG dapat menghasilkan lebih banyak.
+
+Contoh:
+
+```text
+Floor 30
+
+RNG:
+
+12 Normal Enemy
++
+2 Elite Enemy
++
+1 Large Enemy
+```
+
+---
+
+# 17. LARGE ENEMY GUARANTEE
+
+Large Enemy tidak boleh gagal muncul karena RNG.
+
+Flow:
+
+```text
+Floor = 30
+     ↓
+RNG Enemy Generation
+     ↓
+Check Large Enemy
+     ↓
+Large Enemy = FALSE
+     ↓
+System Override
+     ↓
+Generate Large Enemy
+```
+
+Jadi:
+
+```text
+RNG
++
+Guarantee Rule
+```
+
+digunakan bersama.
+
+---
+
+# 18. LARGE ENEMY DIFFICULTY
+
+Large Enemy harus lebih berbahaya daripada normal enemy.
+
+Contoh:
+
+```text
+Normal Enemy
+Threat: High
+
+Elite Enemy
+Threat: Very High
+
+Large Enemy
+Threat: Extreme
+
+Elite Large Enemy
+Threat: Extreme+
+
+Mini Boss
+Threat: Nightmare
+```
+
+---
+
+# 19. LARGE ENEMY MECHANIC
+
+Large Enemy dapat mempunyai:
+
+```text
+High HP
+High Defense
+Area Attack
+Knockback
+Stun
+Bleed
+Poison
+Fear
+Regeneration
+Summoning
+Enrage
+Armor Break
+```
+
+Tidak semua Large Enemy mempunyai semua kemampuan.
+
+Ability ditentukan oleh Enemy Definition + RNG.
+
+---
+
+# 20. FLOOR 10
+
+Floor 10 merupakan Large Enemy checkpoint.
+
+Contoh:
+
+```text
+NORMAL
+Goblin Warrior
+Goblin Archer
+Corrupted Wolf
+
+LARGE
+Ogre Brute
+```
+
+---
+
+# 21. FLOOR 20
+
+Contoh:
+
+```text
+Skeleton Warrior
+Skeleton Archer
+Dark Mage
+Death Hound
+
+LARGE
+Bone Golem
+```
+
+---
+
+# 22. FLOOR 30
+
+Contoh:
+
+```text
+Orc Warrior
+Orc Archer
+Orc Shaman
+Dark Beast
+
+LARGE
+Orc War Mammoth
+```
+
+---
+
+# 23. FLOOR 40
+
+Contoh:
+
+```text
+Demon Soldier
+Demon Archer
+Shadow Hound
+Dark Mage
+
+LARGE
+Demon Beast
+```
+
+---
+
+# 24. FLOOR 50
+
+Contoh:
+
+```text
+Corrupted Elf
+Dark Knight
+Shadow Assassin
+Cult Mage
+
+LARGE
+Corrupted Treant
+```
+
+---
+
+# 25. FLOOR 60
+
+Contoh:
+
+```text
+Ancient Skeleton
+Demon Warrior
+Void Beast
+Cult Sorcerer
+
+LARGE
+Ancient Bone Golem
+```
+
+---
+
+# 26. FLOOR 70
+
+Contoh:
+
+```text
+Abyssal Beast
+Demon Knight
+Void Archer
+Dark Priest
+
+LARGE
+Abyssal Giant
+```
+
+---
+
+# 27. FLOOR 80
+
+Contoh:
+
+```text
+Corrupted Dragonkin
+Void Demon
+Abyssal Mage
+Shadow Assassin
+
+LARGE
+Ancient Demon Beast
+```
+
+---
+
+# 28. FLOOR 90
+
+Contoh:
+
+```text
+Abyssal Knight
+Void Dragonkin
+Dark Apostle
+Corrupted Mage
+
+LARGE
+Abyssal Titan
+```
+
+---
+
+# 29. FLOOR 100
+
+Floor 100 merupakan domain Nythar.
+
+Enemy composition dapat berisi:
+
+```text
+Abyssal Knight
+Dark Apostle
+Void Demon
+Corrupted Dragonkin
+Ancient Guardian
+```
+
+Large:
+
+```text
+Nythar's Colossal Guardian
+```
+
+Kemudian:
+
+```text
+FLOOR 100
+     ↓
+NYTHAR DOMAIN
+     ↓
+FINAL ENCOUNTER
+```
+
+---
+
+# 30. ENEMY POOL PER FLOOR
+
+Setiap floor memiliki:
+
+```text
+Enemy Pool ID
+```
+
+Contoh:
+
+```text
+ENEMY-POOL-F001
+ENEMY-POOL-F002
+ENEMY-POOL-F003
+```
+
+Pool menentukan enemy yang boleh muncul.
+
+RNG **tidak boleh mengambil enemy dari luar pool**, kecuali:
+
+```text
+Event
+Special Encounter
+Boss
+Story Event
+```
+
+---
+
+# 31. FLOOR ENEMY PROGRESSION
+
+```text
+FLOOR 1
+Goblin
+Wolf
+Skeleton
+↓
+FLOOR 10
+Ogre
+Elite Beast
+↓
+FLOOR 20
+Undead
+Dark Mage
+Bone Golem
+↓
+FLOOR 30
+Orc
+Demon Beast
+↓
+FLOOR 40
+Demon
+Cult Enemy
+↓
+FLOOR 50
+Corrupted Race
+↓
+FLOOR 60
+Ancient Enemy
+↓
+FLOOR 70
+Abyssal Enemy
+↓
+FLOOR 80
+Void Enemy
+↓
+FLOOR 90
+High Abyss Enemy
+↓
+FLOOR 100
+Nythar Domain
+```
+
+---
+
+# 32. CULT ENEMY
+
+Karena Cult of Eternal Night berasal dari berbagai ras, enemy Cult tidak mempunyai satu bentuk ras.
+
+Contoh:
+
+```text
+Human Cultist
+Elf Cultist
+Dwarf Cultist
+Beastfolk Cultist
+Demon Cultist
+Dark Priest
+Dark Apostle
+Cult Commander
+```
+
+Hal ini menjaga prinsip Core World Building:
+
+> Race does not determine alignment.
+
+---
+
+# 33. CORRUPTED ENEMY
+
+Nythar dapat menyebabkan corruption.
+
+Contoh:
+
+```text
+Wolf
+ ↓
+Corrupted Wolf
+
+Elf
+ ↓
+Corrupted Elf
+
+Dragonkin
+ ↓
+Corrupted Dragonkin
+```
+
+Corruption dapat mengubah:
+
+```text
+Appearance
+Stats
+Behavior
+Skills
+Resistance
+Loot Pool
+```
+
+---
+
+# 34. ENEMY LEVEL
+
+Enemy memiliki level berdasarkan:
+
+```text
+Floor
+Enemy Type
+Difficulty
+Game State
+```
+
+Contoh:
+
+```text
+Floor 1
+Normal Enemy:
+LV 10–15
+
+Elite:
+LV 15–20
+
+Large:
+LV 20+
+```
+
+Floor 50:
+
+```text
+Normal:
+LV 50+
+
+Elite:
+LV 60+
+
+Large:
+LV 70+
+```
+
+Level bukan EXP reward.
+
+Level hanya menentukan kekuatan enemy.
+
+---
+
+# 35. ENEMY STAT GENERATION
+
+Stat enemy dapat menggunakan:
+
+```text
+Base Stat
+×
+Floor Modifier
+×
+Enemy Type Modifier
+×
+Difficulty Modifier
+×
+Game State Modifier
+```
+
+Contoh:
+
+```text
+Enemy Base HP
+        ×
+Floor Modifier
+        ×
+Destruction Modifier
+        =
+Final HP
+```
+
+---
+
+# 36. DESTRUCTION LEVEL
+
+Destruction Level dari Core World Building memengaruhi enemy.
+
+```text
+Destruction ↑
+       ↓
+Corruption ↑
+       ↓
+Enemy Threat ↑
+```
+
+Tetapi Game State System tetap menjadi pengendali akhir.
+
+---
+
+# 37. ENEMY LOOT
+
+Enemy tidak memberikan EXP.
+
+Enemy dapat memberikan:
+
+```text
+Gold
+Material
+Equipment
+Consumable
+Monster Part
+Rare Material
+Artifact Fragment
+Quest Item
+```
+
+Loot ditentukan oleh:
+
+```text
+RNG SYSTEM
+```
+
+Flow:
+
+```text
+Enemy Defeated
+      ↓
+Loot Pool
+      ↓
+RNG
+      ↓
+Loot Result
+      ↓
+Game State
+      ↓
+Inventory Database
+      ↓
+AI Fairy Report
+```
+
+---
+
+# 38. NO EXP
+
+Enemy:
+
+```text
+DEFEATED
+    ↓
+NO EXP
+```
+
+Sebaliknya:
+
+```text
+DEFEATED
+    ↓
+RNG LOOT
+```
+
+---
+
+# 39. ENEMY DEATH STATE
+
+Ketika enemy mati:
+
+```text
+ALIVE
+ ↓
+CRITICAL
+ ↓
+DEFEATED
+ ↓
+LOOT GENERATED
+ ↓
+INSTANCE CLOSED
+```
+
+State disimpan oleh:
+
+```text
+Game State System
+```
+
+---
+
+# 40. ENEMY INSTANCE
+
+Setiap enemy yang muncul dalam dungeon memiliki instance.
+
+Contoh:
+
+```text
+Enemy Definition:
+Goblin Warrior
+
+Enemy Instance:
+ENEMY-INSTANCE-000948
+```
+
+Dengan demikian dua Goblin tetap merupakan dua entity berbeda.
+
+```text
+Goblin A
+ENEMY-INSTANCE-000948
+
+Goblin B
+ENEMY-INSTANCE-000949
+```
+
+---
+
+# 41. GAME STATE CONNECTION
+
+Enemy System terhubung langsung dengan:
+
+```text
+GAME STATE SYSTEM
+```
+
+Game State mengatur:
+
+```text
+Current Floor
+Enemy State
+Enemy Count
+Enemy Death
+Enemy Reinforcement
+Enemy Mutation
+Enemy Difficulty
+Enemy Event
+World Condition
+Destruction Level
+```
+
+---
+
+# 42. RNG CONNECTION
+
+```text
+DUNGEON SYSTEM
+       ↓
+CURRENT FLOOR
+       ↓
+ENEMY POOL
+       ↓
+RNG SYSTEM
+       ↓
+QUANTITY
+       ↓
+COMPOSITION
+       ↓
+TYPE
+       ↓
+SIZE
+       ↓
+BEHAVIOR
+       ↓
+DIFFICULTY
+```
+
+Dengan pengecualian:
+
+```text
+Floor ×10
+     ↓
+Large Enemy Guarantee
+```
+
+---
+
+# 43. COMBAT CONNECTION
+
+```text
+ENEMY
+  ↓
+ENEMY AI
+  ↓
+BASIC COMBAT SYSTEM
+  ↓
+HERO AI
+  ↓
+EMOTIONAL SYSTEM
+  ↓
+COMBAT RESULT
+```
+
+Hero tidak dikendalikan sepenuhnya secara manual selama combat jika mode AI digunakan.
+
+Kondisi emosional Hero dapat memengaruhi:
+
+```text
+Decision
+Risk Taking
+Attack Priority
+Defensive Behavior
+Skill Usage
+Retreat
+Team Cooperation
+```
+
+---
+
+# 44. FAIRY OBSERVATION
+
+AI Fairy mengamati pertempuran.
+
+Fairy tidak hanya melaporkan:
+
+```text
+Enemy defeated.
+```
+
+Tetapi menghasilkan narasi berdasarkan kondisi nyata.
+
+Contoh:
+
+```text
+[FAIRY OBSERVATION]
+
+Master, enemy formation detected.
+
+There are eight enemies ahead.
+
+Five are approaching from the front.
+Two ranged enemies are positioned behind them.
+
+One larger creature has appeared.
+
+It appears to be an Ogre.
+
+Its physical strength is considerably higher
+than the surrounding enemies.
+
+The party has entered combat.
+```
+
+---
+
+# 45. COMBAT OBSERVATION
+
+Fairy dapat mendeteksi:
+
+```text
+Enemy Count
+Enemy Type
+Enemy Position
+Large Enemy
+Enemy Skill
+Enemy Formation
+Hero Condition
+Hero Emotional State
+Critical Event
+Hero Injury
+Enemy Reinforcement
+Battle Result
+```
+
+---
+
+# 46. LARGE ENEMY ALERT
+
+Jika Large Enemy muncul:
+
+```text
+[FAIRY ALERT]
+
+Master.
+
+A high-threat entity has entered the battlefield.
+
+Classification:
+LARGE ENEMY
+
+Threat Level:
+EXTREME
+
+The surrounding enemies appear
+to be protecting it.
+
+Recommend immediate tactical evaluation.
+```
+
+---
+
+# 47. RNG EXAMPLE
+
+```text
+FLOOR 37
+     ↓
+Enemy Pool
+     ↓
+RNG Quantity
+     ↓
+Result: 15
+     ↓
+RNG Composition
+
+Goblin Mutant ×3
+Orc Warrior ×4
+Dark Hound ×3
+Cult Archer ×2
+Cult Mage ×2
+Elite Orc ×1
+```
+
+Total:
+
+```text
+15 Enemy
+```
+
+Tidak ada Large Enemy guarantee karena Floor 37 bukan kelipatan 10.
+
+---
+
+# 48. RNG EXAMPLE — FLOOR 40
+
+```text
+FLOOR 40
+     ↓
+RNG
+     ↓
+Normal Enemy ×12
+Elite Enemy ×2
+Large Enemy ×1
+```
+
+Jika RNG awal menghasilkan:
+
+```text
+Large Enemy = 0
+```
+
+maka system menjalankan:
+
+```text
+GUARANTEE CHECK
+       ↓
+Large Enemy missing
+       ↓
+GENERATE LARGE ENEMY
+```
+
+Final:
+
+```text
+12 Normal
+2 Elite
+1 Large
+```
+
+---
+
+# 49. FLOOR 100 SPECIAL RULE
+
+Floor 100 mempunyai aturan khusus.
+
+```text
+Large Enemy = GUARANTEED
+Special Enemy = POSSIBLE
+Mini Boss = POSSIBLE
+Boss = STORY CONTROLLED
+Nythar = STORY CONTROLLED
+```
+
+Nythar tidak sepenuhnya dikontrol RNG.
+
+Karena:
+
+```text
+Nythar
+=
+Main Story Entity
+```
+
+---
+
+# 50. ENEMY EVENT
+
+Game State System dapat mengubah enemy melalui event.
+
+Contoh:
+
+```text
+EVENT:
+Abyssal Surge
+```
+
+Effect:
+
+```text
+Enemy Corruption ↑
+Enemy Spawn Quantity ↑
+Enemy Aggression ↑
+Rare Enemy Chance ↑
+```
+
+---
+
+# 51. ENEMY MUTATION
+
+RNG dapat menghasilkan mutation.
+
+```text
+Normal Enemy
+      ↓
+Mutation RNG
+      ↓
+Mutated Enemy
+```
+
+Contoh:
+
+```text
+Goblin
+↓
+Bloodthirsty Goblin
+
+Wolf
+↓
+Abyss-Touched Wolf
+
+Skeleton
+↓
+Ancient Skeleton
+```
+
+Mutation chance tetap dibatasi oleh Floor Enemy Pool dan Game State.
+
+---
+
+# 52. REINFORCEMENT
+
+Beberapa enemy memiliki kemampuan memanggil bantuan.
+
+```text
+Enemy
+ ↓
+Call Reinforcement
+ ↓
+RNG
+ ↓
+Additional Enemy
+```
+
+Game State harus memperbarui:
+
+```text
+Enemy Count
+Floor State
+Combat State
+```
+
+---
+
+# 53. ENEMY FLEE
+
+Tidak semua enemy harus bertarung sampai mati.
+
+AI dapat memilih:
+
+```text
+Fight
+Retreat
+Surrender
+Hide
+Call Reinforcement
+```
+
+Keputusan tergantung:
+
+```text
+HP
+Morale
+Personality
+Enemy Type
+Leader Status
+Combat Result
+```
+
+---
+
+# 54. ENEMY LEADER
+
+Beberapa group memiliki leader.
+
+```text
+Enemy Group
+│
+├── Leader
+├── Frontline
+├── Ranged
+└── Support
+```
+
+Jika leader mati:
+
+```text
+Morale Change
+Behavior Change
+Formation Change
+```
+
+---
+
+# 55. ENEMY GROUP SYSTEM
+
+Enemy yang muncul tidak selalu independen.
+
+Contoh:
+
+```text
+ORC WAR PARTY
+
+Leader:
+Orc Captain ×1
+
+Frontline:
+Orc Warrior ×5
+
+Ranged:
+Orc Archer ×2
+
+Support:
+Orc Shaman ×1
+```
+
+Komposisi tersebut dibuat melalui RNG dari valid Enemy Pool.
+
+---
+
+# 56. DATABASE STRUCTURE
+
+```text
+ENEMY_DATABASE
+│
+├── Enemy_ID
+├── Enemy_Name
+├── Species
+├── Type
+├── Size
+├── Rarity
+├── Level
+├── Base_Stats
+├── Skills
+├── AI_Profile
+├── Loot_Pool_ID
+├── Floor_Min
+├── Floor_Max
+├── Faction
+└── Special_Rules
+```
+
+---
+
+# 57. ENEMY INSTANCE DATABASE
+
+```text
+ENEMY_INSTANCE_DATABASE
+│
+├── Instance_ID
+├── Enemy_ID
+├── Dungeon_ID
+├── Floor_ID
+├── Spawn_Time
+├── Current_HP
+├── Current_State
+├── Position
+├── Target_ID
+├── Behavior_State
+├── Mutation_State
+├── Leader_ID
+└── Death_Time
+```
+
+---
+
+# 58. ENEMY SYSTEM FLOW
+
+```text
+                    DUNGEON
+                       │
+                       ▼
+                    FLOOR
+                       │
+                       ▼
+                  ENEMY POOL
+                       │
+                       ▼
+                  RNG SYSTEM
+                       │
+          ┌────────────┼────────────┐
+          │            │            │
+       Quantity    Composition     Type
+          │            │            │
+          └────────────┼────────────┘
+                       ▼
+                    ENEMY
+                       │
+                       ▼
+                 GAME STATE
+                       │
+                       ▼
+                  ENEMY AI
+                       │
+                       ▼
+                BASIC COMBAT
+                       │
+                       ▼
+                    DEATH
+                       │
+                       ▼
+                  LOOT RNG
+                       │
+                       ▼
+                  INVENTORY
+                       │
+                       ▼
+                  AI FAIRY
+                       │
+                       ▼
+                    MASTER
+```
+
+---
+
+# 59. COMPLETE FLOOR STRUCTURE
+
+```text
+FLOOR 1–9
+│
+├── Normal Enemy
+├── Elite Enemy
+└── Random Composition
+
+FLOOR 10
+│
+├── Normal Enemy
+├── Elite Enemy
+└── LARGE ENEMY ★
+
+FLOOR 11–19
+│
+├── Normal Enemy
+├── Elite Enemy
+└── Random Composition
+
+FLOOR 20
+│
+├── Normal Enemy
+├── Elite Enemy
+└── LARGE ENEMY ★
+
+...
+
+FLOOR 90
+│
+├── High Tier Enemy
+├── Elite Enemy
+└── LARGE ENEMY ★
+
+FLOOR 91–99
+│
+├── Abyss Enemy
+├── Elite Enemy
+└── Special Enemy
+
+FLOOR 100
+│
+├── High Tier Enemy
+├── Elite Enemy
+├── LARGE ENEMY ★
+├── Special Enemy
+├── Mini Boss
+└── NYTHAR
+```
+
+---
+
+# 60. FINAL SYSTEM RELATIONSHIP
+
+```text
+                         CORE WORLD
+                             │
+                    DESTRUCTION LEVEL
+                             │
+                             ▼
+                       GAME STATE
+                             │
+                             ▼
+                     DUNGEON SYSTEM
+                             │
+                             ▼
+                           FLOOR
+                             │
+                             ▼
+                        ENEMY POOL
+                             │
+                             ▼
+                         RNG SYSTEM
+                             │
+             ┌───────────────┼───────────────┐
+             │               │               │
+          Quantity       Composition       Type
+             │               │               │
+             └───────────────┼───────────────┘
+                             ▼
+                        ENEMY SYSTEM
+                             │
+                             ▼
+                          ENEMY AI
+                             │
+                             ▼
+                      BASIC COMBAT
+                             │
+                ┌────────────┴────────────┐
+                │                         │
+             HERO AI                 ENEMY AI
+                │                         │
+                └────────────┬────────────┘
+                             ▼
+                           BATTLE
+                             │
+                             ▼
+                         ENEMY DEATH
+                             │
+                             ▼
+                         LOOT RNG
+                             │
+                             ▼
+                       INVENTORY
+                             │
+                             ▼
+                         DATABASE
+                             │
+                             ▼
+                         AI FAIRY
+                             │
+                             ▼
+                           MASTER
+```
+
+# 61. FINAL DESIGN PHILOSOPHY
+
+Enemy di Aetheria bukan sekadar target untuk dibunuh.
+
+Enemy merupakan bagian dari **World Simulation**.
+
+Mereka memiliki:
+
+```text
+Identity
+Faction
+Behavior
+AI
+Group
+Leader
+Difficulty
+Mutation
+Relationship
+Loot
+World State
+```
+
+Jumlah mereka tidak selalu sama.
+
+Komposisi mereka tidak selalu sama.
+
+Perilaku mereka tidak selalu sama.
+
+Bahkan kondisi sebuah Floor dapat membuat encounter berubah.
+
+Namun terdapat satu aturan yang tidak berubah:
+
+> **The Tower must be dangerous from Floor 1.**
+
+Dan setiap sepuluh lantai:
+
+> **Something bigger is waiting.**
+
+```text
+FLOOR 1
+Hard
+
+FLOOR 10
+Hard + LARGE ENEMY
+
+FLOOR 20
+Very Hard + LARGE ENEMY
+
+FLOOR 30
+Very Hard + LARGE ENEMY
+
+FLOOR 40
+Extreme + LARGE ENEMY
+
+FLOOR 50
+Extreme + LARGE ENEMY
+
+FLOOR 60
+Nightmare + LARGE ENEMY
+
+FLOOR 70
+Nightmare + LARGE ENEMY
+
+FLOOR 80
+Catastrophic + LARGE ENEMY
+
+FLOOR 90
+Catastrophic + LARGE ENEMY
+
+FLOOR 100
+God Tier + LARGE ENEMY + NYTHAR
+```
+
+> **The number of enemies is decided by RNG.**
+>
+> **The composition is decided by RNG.**
+>
+> **The battlefield is controlled by AI.**
+>
+> **The world condition is controlled by Game State System.**
+>
+> **The loot is decided by RNG.**
+>
+> **The Fairy observes the battle.**
+>
+> **And the Master decides whether the party survives.**
