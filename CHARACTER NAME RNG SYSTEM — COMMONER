@@ -1,0 +1,1614 @@
+# 🔤 CHARACTER NAME RNG SYSTEM — COMMONER / NON-NOBLE
+
+## 1. OVERVIEW
+
+**Character Name RNG System** adalah sistem pembentukan nama karakter secara otomatis untuk seluruh karakter **non-bangsawan** yang diperoleh melalui Recruit System.
+
+Sistem ini digunakan untuk:
+
+```text
+Recruit System
+      ↓
+Character RNG
+      ↓
+Race RNG
+      ↓
+Background RNG
+      ↓
+Noble Check
+      ↓
+NON-NOBLE
+      ↓
+Name RNG
+      ↓
+Alphabet RNG
+      ↓
+Generated Character Name
+      ↓
+Character_ID
+      ↓
+Database
+```
+
+Karakter yang memiliki status:
+
+```text
+Commoner
+Farmer
+Worker
+Merchant
+Craftsman
+Soldier
+Adventurer
+Mage
+Priest
+Wanderer
+Tribal
+Nomad
+```
+
+dapat menggunakan sistem ini.
+
+Karakter dengan:
+
+```text
+Noble
+Royal
+Imperial
+Aristocrat
+Ancient Royal Bloodline
+```
+
+tidak menggunakan sistem ini dan mengikuti **Character Family & Noble House RNG System**.
+
+---
+
+# 2. CORE PRINCIPLE
+
+Nama karakter non-bangsawan tidak berasal dari Family Name.
+
+Format dasar:
+
+```text
+FIRST NAME
+```
+
+Contoh:
+
+```text
+Kael
+Liora
+Riven
+Mira
+Daren
+Sylva
+Orin
+Vera
+```
+
+Tidak ada:
+
+```text
+Kael Ravencrest
+Liora Aurelius
+Daren Caelorian
+```
+
+karena karakter tersebut menggunakan sistem keluarga bangsawan.
+
+---
+
+# 3. ALPHABET RNG
+
+Sistem menggunakan alfabet sebagai sumber RNG.
+
+Alphabet dasar:
+
+```text
+A B C D E F G H I J K L M
+N O P Q R S T U V W X Y Z
+```
+
+Setiap karakter dapat dibuat dengan mengacak:
+
+```text
+Letter
+↓
+Letter
+↓
+Letter
+↓
+Letter
+↓
+Letter
+```
+
+Contoh:
+
+```text
+RNG
+
+R
+A
+V
+E
+N
+
+Result:
+
+Raven
+```
+
+Contoh lain:
+
+```text
+L
+I
+O
+R
+A
+
+Result:
+
+Liora
+```
+
+---
+
+# 4. NAME GENERATION ENGINE
+
+Nama dibuat melalui beberapa tahap.
+
+```text
+Alphabet Pool
+      ↓
+Letter RNG
+      ↓
+Name Length RNG
+      ↓
+Letter Sequence
+      ↓
+Pronunciation Check
+      ↓
+Race Phonetic Rule
+      ↓
+Duplicate Check
+      ↓
+Final Name
+```
+
+---
+
+# 5. NAME LENGTH RNG
+
+Panjang nama ditentukan oleh RNG.
+
+Default:
+
+```text
+3 Letters
+4 Letters
+5 Letters
+6 Letters
+7 Letters
+8 Letters
+9 Letters
+10 Letters
+```
+
+Contoh:
+
+```text
+3:
+Ren
+
+4:
+Lira
+
+5:
+Kaela
+
+6:
+Darian
+
+7:
+Seravin
+
+8:
+Valerion
+```
+
+Probability dapat dikonfigurasi melalui:
+
+```text
+Economy / Character Configuration
+```
+
+tanpa mengubah sistem inti.
+
+---
+
+# 6. LETTER RNG
+
+Setiap posisi huruf memiliki RNG.
+
+Contoh:
+
+```text
+Position 1
+↓
+RNG
+↓
+K
+
+Position 2
+↓
+RNG
+↓
+A
+
+Position 3
+↓
+RNG
+↓
+E
+
+Position 4
+↓
+RNG
+↓
+L
+```
+
+Result:
+
+```text
+KAEL
+```
+
+---
+
+# 7. VOWEL / CONSONANT CONTROL
+
+Pure random alphabet dapat menghasilkan nama yang sulit dibaca.
+
+Contoh buruk:
+
+```text
+Xqztr
+Bvkld
+Qrxzt
+```
+
+Karena itu sistem menggunakan:
+
+```text
+Alphabet RNG
++
+Phonetic Validation
+```
+
+Huruf dibagi menjadi:
+
+### Vowel
+
+```text
+A
+E
+I
+O
+U
+```
+
+### Consonant
+
+```text
+B C D F G H J K L M N
+P Q R S T V W X Y Z
+```
+
+Sistem dapat mengatur pola:
+
+```text
+CVC
+CV
+CVCV
+CVCCV
+CVCVC
+CVVCV
+```
+
+Contoh:
+
+```text
+K + A + E + L
+
+KAEL
+```
+
+atau:
+
+```text
+L + I + O + R + A
+
+LIORA
+```
+
+---
+
+# 8. PHONETIC VALIDATION
+
+Setelah nama dibuat:
+
+```text
+Generated Name
+      ↓
+Phonetic Validator
+      ↓
+Readable?
+   /       \
+ NO        YES
+ ↓          ↓
+Reroll    Continue
+```
+
+Jika nama tidak memenuhi aturan pengucapan:
+
+```text
+Reroll
+```
+
+dilakukan.
+
+Contoh:
+
+```text
+QZXTR
+```
+
+ditolak.
+
+Kemudian:
+
+```text
+Q
+A
+R
+I
+N
+```
+
+menjadi:
+
+```text
+Qarin
+```
+
+dan dapat diterima jika sesuai dengan aturan ras.
+
+---
+
+# 9. RACE PHONETIC STYLE
+
+Walaupun karakter non-bangsawan tidak mempunyai Family Name, nama tetap mengikuti karakteristik ras.
+
+```text
+Race
+ ↓
+Race Naming Pattern
+ ↓
+Alphabet RNG
+ ↓
+Generated Name
+```
+
+Setiap ras mempunyai gaya fonetik berbeda.
+
+---
+
+# 10. HUMAN
+
+Human memiliki pola nama yang paling fleksibel.
+
+Possible patterns:
+
+```text
+CVC
+CVCV
+CVCC
+CVCVC
+CVVCV
+```
+
+Contoh:
+
+```text
+Kael
+Lira
+Daren
+Mira
+Riven
+Elan
+Tarin
+Vera
+Nolan
+Kira
+```
+
+Human memiliki naming restriction paling rendah.
+
+---
+
+# 11. ELF
+
+Elf menggunakan nama dengan karakteristik:
+
+```text
+Vowel-rich
+Long vowel
+Soft consonant
+Elegant syllable
+```
+
+Possible letters:
+
+```text
+A E I L N R S V Y
+```
+
+Contoh:
+
+```text
+Aelir
+Elian
+Liora
+Sylia
+Vaeli
+Elarin
+Aeris
+Liriel
+```
+
+Nama dapat dibuat lebih panjang:
+
+```text
+6–10 letters
+```
+
+---
+
+# 12. HIGH ELF
+
+High Elf menggunakan struktur lebih kompleks.
+
+Pattern:
+
+```text
+CVVCVC
+CVCVCVC
+VCCVCVC
+```
+
+Contoh:
+
+```text
+Aelion
+Vaelir
+Elarion
+Sylvar
+Aelira
+Caelith
+```
+
+Nama cenderung:
+
+```text
+Elegant
+Ancient
+Long
+Magical
+```
+
+---
+
+# 13. DARK ELF
+
+Dark Elf menggunakan:
+
+```text
+Hard consonant
+Sharp syllable
+Short vowel
+```
+
+Contoh:
+
+```text
+Zarek
+Varyn
+Nyra
+Khael
+Zira
+Ravik
+Veyra
+```
+
+Possible structure:
+
+```text
+CVC
+CVCC
+CVCV
+CVCCV
+```
+
+---
+
+# 14. DWARF
+
+Dwarf menggunakan nama yang lebih berat.
+
+Pattern:
+
+```text
+CVCC
+CVC
+CVCCC
+CVCVC
+```
+
+Preferred letters:
+
+```text
+B D G K R T
+```
+
+Contoh:
+
+```text
+Borin
+Drek
+Garn
+Korin
+Brak
+Torin
+Darg
+Rurik
+```
+
+Nama cenderung:
+
+```text
+Short
+Strong
+Heavy
+```
+
+---
+
+# 15. BEASTFOLK
+
+Beastfolk menggunakan nama yang lebih beragam.
+
+Pattern dapat mengandung:
+
+```text
+R
+K
+G
+Z
+X
+F
+V
+```
+
+Contoh:
+
+```text
+Raka
+Kiro
+Zara
+Vexa
+Rin
+Kara
+Garo
+Fira
+```
+
+Beastfolk juga dapat menggunakan nama sangat pendek:
+
+```text
+Rok
+Kai
+Zin
+Vex
+Rin
+```
+
+---
+
+# 16. DRAGONKIN
+
+Dragonkin menggunakan nama dengan karakter kuat.
+
+Preferred letters:
+
+```text
+R
+K
+G
+Z
+D
+X
+V
+T
+```
+
+Contoh:
+
+```text
+Rakar
+Zarek
+Drava
+Khar
+Varek
+Graz
+Zarok
+Raxen
+```
+
+Pattern:
+
+```text
+CVC
+CVCC
+CVCVC
+CVCCVC
+```
+
+---
+
+# 17. DEMON
+
+Demon naming menggunakan kombinasi:
+
+```text
+Hard consonant
+Dark vowel
+Sharp ending
+```
+
+Contoh:
+
+```text
+Varek
+Zorin
+Kazar
+Ravik
+Draz
+Xera
+Vexar
+Zarek
+```
+
+---
+
+# 18. ANGEL / DIVINE RACE
+
+Jika ras Divine tersedia dalam Core World Building, nama menggunakan:
+
+```text
+A
+E
+I
+L
+R
+S
+V
+```
+
+Contoh:
+
+```text
+Ariel
+Elira
+Serin
+Avel
+Liora
+Eriel
+Sariel
+```
+
+---
+
+# 19. VAMPIRE
+
+Vampire menggunakan:
+
+```text
+Soft consonant
+Dark vowels
+Elegant syllables
+```
+
+Contoh:
+
+```text
+Vera
+Lira
+Riven
+Selra
+Varyn
+Elira
+Ravel
+```
+
+---
+
+# 20. FAIRY
+
+Fairy menggunakan nama pendek atau ringan.
+
+Pattern:
+
+```text
+CV
+CVC
+CVCV
+CVVC
+```
+
+Contoh:
+
+```text
+Lia
+Fey
+Mira
+Lumi
+Nia
+Eli
+Ria
+Fira
+```
+
+---
+
+# 21. MERFOLK
+
+Merfolk menggunakan nama dengan banyak vowel.
+
+Contoh:
+
+```text
+Aira
+Neris
+Liora
+Marei
+Sela
+Aerin
+Nalia
+```
+
+Pattern:
+
+```text
+CVVCV
+CVCV
+VCVC
+```
+
+---
+
+# 22. GIANT
+
+Giant menggunakan nama pendek dan berat.
+
+Contoh:
+
+```text
+Gor
+Brak
+Darg
+Krag
+Tor
+Rok
+Grun
+Drok
+```
+
+---
+
+# 23. NOMAD / TRIBAL
+
+Jika background:
+
+```text
+Nomad
+Tribal
+Wanderer
+Hunter
+```
+
+nama dapat menggunakan struktur sederhana:
+
+```text
+Raka
+Taro
+Kira
+Nara
+Suri
+Bako
+Rin
+Kano
+```
+
+Nama tidak mendapatkan Family Name.
+
+---
+
+# 24. NAME UNIQUENESS
+
+Nama yang dihasilkan harus diperiksa sebelum disimpan.
+
+```text
+Generate Name
+      ↓
+Database Check
+      ↓
+Name Exists?
+   /        \
+ YES         NO
+ ↓            ↓
+Reroll      Accept
+```
+
+Namun:
+
+> **Nama karakter boleh sama jika Character_ID berbeda.**
+
+Contoh:
+
+```text
+CHR-000001
+Kael
+
+CHR-000742
+Kael
+```
+
+Keduanya valid.
+
+---
+
+# 25. CHARACTER ID REMAINS PRIMARY IDENTITY
+
+Nama bukan identitas utama database.
+
+Identitas utama:
+
+```text
+Character_ID
+```
+
+Contoh:
+
+```text
+Character_ID:
+CHR-000827
+
+Name:
+Kael
+
+Race:
+Human
+
+Star:
+3
+```
+
+Karakter lain:
+
+```text
+Character_ID:
+CHR-001827
+
+Name:
+Kael
+
+Race:
+Dwarf
+
+Star:
+5
+```
+
+Tidak ada konflik karena:
+
+```text
+Character_ID
+```
+
+berbeda.
+
+---
+
+# 26. STAR DOES NOT CHANGE NAME RNG
+
+Name RNG berlaku untuk semua Star yang dapat direkrut.
+
+```text
+⭐
+⭐⭐
+⭐⭐⭐
+⭐⭐⭐⭐
+⭐⭐⭐⭐⭐
+⭐⭐⭐⭐⭐⭐
+⭐⭐⭐⭐⭐⭐⭐
+```
+
+Selama karakter tersebut:
+
+```text
+NON-NOBLE
+```
+
+nama menggunakan:
+
+```text
+Alphabet RNG
+```
+
+Contoh:
+
+```text
+⭐ Kael
+
+⭐⭐ Lira
+
+⭐⭐⭐ Riven
+
+⭐⭐⭐⭐ Aerin
+
+⭐⭐⭐⭐⭐ Varek
+
+⭐⭐⭐⭐⭐⭐ Sylia
+
+⭐⭐⭐⭐⭐⭐⭐ Zarek
+```
+
+Star tidak menentukan apakah karakter mendapat nama bangsawan.
+
+Status:
+
+```text
+Noble / Non-Noble
+```
+
+ditentukan oleh **Noble Family RNG System**.
+
+---
+
+# 27. RECRUIT SYSTEM INTEGRATION
+
+Alur lengkap:
+
+```text
+RECRUIT
+   ↓
+RNG CHARACTER
+   ↓
+RACE RNG
+   ↓
+GENDER RNG
+   ↓
+STAR RNG
+   ↓
+BACKGROUND RNG
+   ↓
+NOBLE STATUS CHECK
+       │
+       ├── NOBLE
+       │      ↓
+       │  FAMILY RNG
+       │
+       └── NON-NOBLE
+              ↓
+          NAME RNG
+              ↓
+       ALPHABET RNG
+              ↓
+       PHONETIC VALIDATION
+              ↓
+        CHARACTER CREATED
+```
+
+---
+
+# 28. EXAMPLE — COMMONER ⭐1
+
+```text
+Character_ID:
+CHR-001001
+
+Star:
+1
+
+Race:
+Human
+
+Background:
+Commoner
+
+Noble:
+No
+
+Name RNG:
+Alphabet
+
+Result:
+Lira
+```
+
+Final:
+
+```text
+⭐ Lira
+Human
+Commoner
+```
+
+---
+
+# 29. EXAMPLE — ADVENTURER ⭐3
+
+```text
+Character_ID:
+CHR-001002
+
+Star:
+3
+
+Race:
+Beastfolk
+
+Background:
+Adventurer
+
+Noble:
+No
+
+Alphabet RNG:
+R
+A
+K
+A
+```
+
+Result:
+
+```text
+Raka
+```
+
+Final:
+
+```text
+⭐⭐⭐ Raka
+Beastfolk
+Adventurer
+```
+
+---
+
+# 30. EXAMPLE — MAGE ⭐5
+
+```text
+Character_ID:
+CHR-001003
+
+Star:
+5
+
+Race:
+High Elf
+
+Background:
+Mage
+
+Noble:
+No
+
+Alphabet RNG:
+
+A
+E
+L
+I
+R
+A
+```
+
+Result:
+
+```text
+Aelira
+```
+
+Final:
+
+```text
+⭐⭐⭐⭐⭐ Aelira
+High Elf
+Mage
+```
+
+---
+
+# 31. EXAMPLE — NOBLE ⭐5
+
+Jika hasil Background RNG:
+
+```text
+Noble
+```
+
+maka sistem tidak menggunakan Alphabet-only Name RNG.
+
+Flow:
+
+```text
+⭐5
+ ↓
+Human
+ ↓
+Noble
+ ↓
+Noble RNG
+ ↓
+Family RNG
+ ↓
+Family_ID
+ ↓
+Family Name
+```
+
+Contoh:
+
+```text
+Kael Ravencrest
+```
+
+---
+
+# 32. NAME RNG SEED
+
+Setiap generation dapat menggunakan:
+
+```text
+RNG Seed
+```
+
+Contoh:
+
+```text
+Name_Seed:
+847291
+```
+
+Seed memungkinkan sistem melakukan:
+
+```text
+Generate
+Reproduce
+Validate
+Debug
+```
+
+tanpa kehilangan hasil RNG.
+
+---
+
+# 33. NAME GENERATION DATA
+
+Recommended data:
+
+```text
+Character_ID
+Name
+Name_Type
+Race
+Background
+Star
+Name_Seed
+Name_Length
+Name_Pattern
+Phonetic_Profile
+Name_Generation_Version
+```
+
+Example:
+
+```text
+Character_ID:
+CHR-001002
+
+Name:
+Raka
+
+Name_Type:
+Commoner
+
+Race:
+Beastfolk
+
+Background:
+Adventurer
+
+Star:
+3
+
+Name_Seed:
+847291
+
+Name_Length:
+4
+
+Name_Pattern:
+CVCV
+
+Phonetic_Profile:
+Beastfolk
+
+Name_Generation_Version:
+1.0
+```
+
+---
+
+# 34. DATABASE STORAGE
+
+Nama harus disimpan secara permanen setelah karakter berhasil dibuat.
+
+```text
+CHARACTER
+│
+├── Character_ID
+├── Name
+├── Race
+├── Gender
+├── Star
+├── Background
+├── Family_ID
+├── Name_Seed
+└── Name_Generation_Version
+```
+
+Untuk non-noble:
+
+```text
+Family_ID = NULL
+```
+
+Contoh:
+
+```text
+CHR-000827
+│
+├── Name: Kael
+├── Race: Human
+├── Star: 4
+├── Background: Soldier
+├── Family_ID: NULL
+└── Name_Seed: 928174
+```
+
+---
+
+# 35. NAME IMMUTABILITY
+
+Setelah karakter direkrut:
+
+```text
+Alphabet RNG
+      ↓
+Name Generated
+      ↓
+Character Created
+      ↓
+Database Saved
+```
+
+Nama tidak boleh diacak ulang setiap kali:
+
+```text
+Login
+Load Game
+Enter Dungeon
+Enter Battle
+Change Party
+Change Star
+Level Up
+```
+
+Nama tetap melekat pada:
+
+```text
+Character_ID
+```
+
+---
+
+# 36. STAR UP
+
+Ketika karakter naik Star:
+
+```text
+⭐
+ ↓
+⭐⭐
+ ↓
+⭐⭐⭐
+ ↓
+⭐⭐⭐⭐
+ ↓
+⭐⭐⭐⭐⭐
+```
+
+nama tidak berubah.
+
+Contoh:
+
+```text
+CHR-000827
+
+Name:
+Kael
+
+Star:
+3
+```
+
+Setelah Star Up:
+
+```text
+CHR-000827
+
+Name:
+Kael
+
+Star:
+4
+```
+
+Tetap:
+
+```text
+Kael
+```
+
+---
+
+# 37. HIDDEN POTENTIAL INTEGRATION
+
+Jika karakter mendapatkan:
+
+```text
+Hidden Potential Event
+```
+
+nama tidak diubah.
+
+Yang berubah:
+
+```text
+Character State
+Potential
+Skill
+Trait
+Emotion
+Battle Condition
+```
+
+Contoh:
+
+```text
+Kael
+ ↓
+Hidden Potential Event
+ ↓
+Rare Skill Unlocked
+```
+
+Tetap:
+
+```text
+Kael
+```
+
+---
+
+# 38. CORE WORLD BUILDING CONNECTION
+
+Nama harus tetap mendukung identitas dunia.
+
+```text
+CORE WORLD BUILDING
+        ↓
+RACE
+        ↓
+CULTURE
+        ↓
+PHONETIC STYLE
+        ↓
+ALPHABET RNG
+        ↓
+CHARACTER NAME
+```
+
+Dengan demikian:
+
+```text
+RNG ≠ Random Garbage
+```
+
+tetapi:
+
+```text
+RNG
++
+Race Identity
++
+Culture
++
+Phonetic Rule
+=
+World-Compatible Name
+```
+
+---
+
+# 39. FINAL NAME GENERATION FLOW
+
+```text
+                 CHARACTER RECRUIT
+                        │
+                        ▼
+                   CHARACTER RNG
+                        │
+                        ▼
+                     RACE RNG
+                        │
+                        ▼
+                  BACKGROUND RNG
+                        │
+                        ▼
+                  NOBLE STATUS
+                     /       \
+                   YES        NO
+                    │          │
+                    ▼          ▼
+              FAMILY RNG    NAME RNG
+                    │          │
+                    ▼          ▼
+              FAMILY NAME   ALPHABET RNG
+                               │
+                               ▼
+                         NAME LENGTH RNG
+                               │
+                               ▼
+                         LETTER RNG
+                               │
+                               ▼
+                       PHONETIC CHECK
+                               │
+                         ┌─────┴─────┐
+                         │           │
+                       FAIL        PASS
+                         │           │
+                         ▼           ▼
+                       REROLL    FINAL NAME
+                                     │
+                                     ▼
+                               CHARACTER_ID
+                                     │
+                                     ▼
+                                  DATABASE
+```
+
+---
+
+# 40. CORE RULES
+
+```text
+RULE 01
+Every character must have a unique Character_ID.
+
+RULE 02
+Non-Noble characters use Alphabet Name RNG.
+
+RULE 03
+Alphabet RNG is available at every recruitable Star.
+
+RULE 04
+Star does not determine whether a character is Noble.
+
+RULE 05
+Noble / Royal / Imperial characters use Family RNG.
+
+RULE 06
+Non-Noble characters normally have Family_ID = NULL.
+
+RULE 07
+Race determines the phonetic naming profile.
+
+RULE 08
+Purely unreadable random strings are rejected.
+
+RULE 09
+Generated names are validated before creation.
+
+RULE 10
+Duplicate names are allowed when Character_ID differs.
+
+RULE 11
+Name remains permanently attached to Character_ID.
+
+RULE 12
+Star Up does not regenerate the name.
+
+RULE 13
+Level Up does not regenerate the name.
+
+RULE 14
+Hidden Potential does not regenerate the name.
+
+RULE 15
+Name RNG uses a stored Seed for reproducibility.
+
+RULE 16
+Character Name is data stored in the Character Database.
+
+RULE 17
+Family Name and Commoner Name are separate systems.
+
+RULE 18
+Alphabet RNG must follow Core World Building and Race identity.
+```
+
+# 41. SYSTEM CONNECTION
+
+```text
+RECRUIT SYSTEM
+      │
+      ▼
+CHARACTER RNG
+      │
+      ├── Race System
+      │
+      ├── Gender System
+      │
+      ├── Star System
+      │
+      ├── Background System
+      │
+      └── Noble Status RNG
+                │
+          ┌─────┴─────┐
+          ▼           ▼
+      NOBLE        NON-NOBLE
+          │           │
+          ▼           ▼
+     FAMILY RNG   ALPHABET RNG
+          │           │
+          └─────┬─────┘
+                ▼
+         CHARACTER SYSTEM
+                │
+                ▼
+          CHARACTER_ID
+                │
+                ▼
+            DATABASE
+```
+
+Dengan sistem ini, karakter rakyat biasa dapat memiliki **nama yang benar-benar dihasilkan oleh RNG**, tetapi tetap terasa berasal dari ras dan budaya yang sesuai dengan **Core World Building**. Sementara karakter bangsawan tetap menggunakan sistem **Family_ID + Family Name**, sehingga kedua sistem nama tidak bercampur.
