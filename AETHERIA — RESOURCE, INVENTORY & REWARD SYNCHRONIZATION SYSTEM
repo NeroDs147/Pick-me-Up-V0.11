@@ -1,0 +1,4853 @@
+# 🔄 AETHERIA — RESOURCE, INVENTORY & REWARD SYNCHRONIZATION SYSTEM
+
+## Overview
+
+**Resource, Inventory & Reward Synchronization System** adalah sistem yang memastikan seluruh hasil yang diperoleh Master dari berbagai aktivitas game tercatat, terakumulasi, digunakan, dan disimpan secara konsisten.
+
+Sistem ini menghubungkan:
+
+```text
+QUEST SYSTEM
+      │
+      ├── Quest Reward
+      ├── Gem Reward
+      ├── Recruit Ticket Reward
+      └── Resource Reward
+      │
+      ▼
+DUNGEON SYSTEM
+      │
+      ├── Dungeon Reward
+      ├── Loot Drop
+      ├── Boss Reward
+      ├── Raid Reward
+      └── Exploration Reward
+      │
+      ▼
+REWARD PROCESSOR
+      │
+      ▼
+REWARD ACCUMULATION
+      │
+      ├── Gold
+      ├── Gem
+      ├── Recruit Ticket
+      ├── Resource
+      ├── Item
+      ├── Equipment
+      └── Special Reward
+      │
+      ▼
+ACCOUNT / INVENTORY
+      │
+      ▼
+RECRUITMENT SYSTEM
+      │
+      ▼
+GAME STATE
+      │
+      ▼
+DATABASE
+```
+
+Tujuan utama sistem:
+
+```text
+Reward tidak hilang
+Reward tidak terduplikasi
+Reward tidak dihitung dua kali
+Gem dari Quest selalu tersinkron
+Recruit Ticket dari Quest selalu tersinkron
+Gem dan Ticket dapat diakumulasi untuk Recruitment
+Biaya Recruitment selalu divalidasi
+Recruitment gagal jika resource tidak cukup
+Currency selalu sinkron
+Inventory selalu sinkron
+Quest progress selalu sinkron
+Dungeon result selalu sinkron
+Loot Drop selalu tercatat
+Database selalu memiliki hasil final
+```
+
+---
+
+# 1. SYSTEM OBJECTIVE
+
+Sistem ini bertanggung jawab terhadap:
+
+```text
+Reward Calculation
+Reward Accumulation
+Reward Validation
+Reward Distribution
+Currency Synchronization
+Gem Synchronization
+Recruit Ticket Synchronization
+Resource Synchronization
+Inventory Synchronization
+Quest Reward Synchronization
+Dungeon Reward Synchronization
+Loot Drop Synchronization
+Recruitment Cost Validation
+Recruitment Transaction
+Insufficient Resource Error
+Transaction Tracking
+Duplicate Prevention
+Rollback
+Game State Synchronization
+Database Persistence
+```
+
+---
+
+# 2. CORE PRINCIPLE
+
+Semua reward harus melewati satu jalur pemrosesan.
+
+Tidak diperbolehkan:
+
+```text
+Quest
+ ↓
+langsung menambahkan Gem ke Recruitment System
+```
+
+atau:
+
+```text
+Quest
+ ↓
+langsung menambahkan Ticket ke Inventory
+```
+
+atau:
+
+```text
+Recruitment
+ ↓
+langsung mengurangi Gem tanpa validasi
+```
+
+atau:
+
+```text
+Dungeon
+ ↓
+langsung mengubah Currency Account
+```
+
+Semua harus melalui:
+
+```text
+REWARD PROCESSOR
+```
+
+Untuk penggunaan Gem dan Ticket, semua transaksi harus melalui:
+
+```text
+RECRUITMENT PROCESSOR
+```
+
+Struktur:
+
+```text
+QUEST
+DUNGEON
+LOOT
+EVENT
+EXPLORATION
+RAID
+      │
+      ▼
+REWARD PROCESSOR
+      │
+      ▼
+VALIDATION
+      │
+      ▼
+ACCUMULATION
+      │
+      ├── Currency Account
+      ├── Resource Account
+      └── Inventory
+      │
+      ▼
+RECRUITMENT PROCESSOR
+      │
+      ├── Gem Validation
+      ├── Ticket Validation
+      ├── Cost Calculation
+      └── Recruitment Result
+      │
+      ▼
+GAME STATE
+      │
+      ▼
+DATABASE
+```
+
+---
+
+# 3. SYSTEM SOURCES
+
+Reward dapat berasal dari:
+
+```text
+Quest System
+Dungeon System
+World Exploration
+Boss Raid
+Boss Battle
+Enemy Loot Drop
+Event System
+Achievement System
+Daily System
+Weekly System
+Special Event
+Master Progression
+Floor Completion
+Hidden Event
+Character Event
+Recruitment Milestone
+```
+
+Setiap sumber wajib memiliki:
+
+```text
+Source_ID
+Source_Type
+Source_Instance_ID
+Reward_ID
+Transaction_ID
+Master_ID
+```
+
+---
+
+# 4. REWARD SOURCE TYPE
+
+Contoh:
+
+```text
+QUEST
+DUNGEON
+ENEMY_LOOT
+BOSS
+RAID
+EXPLORATION
+EVENT
+ACHIEVEMENT
+DAILY
+WEEKLY
+SPECIAL
+MASTER_PROGRESS
+RECRUITMENT_MILESTONE
+```
+
+Contoh:
+
+```text
+Source_Type:
+QUEST
+
+Source_ID:
+QUEST-DAILY-001
+```
+
+atau:
+
+```text
+Source_Type:
+DUNGEON
+
+Source_ID:
+FLOOR-000023
+```
+
+---
+
+# 5. REWARD ID
+
+Setiap reward instance harus memiliki ID unik.
+
+Contoh:
+
+```text
+REW-00000001
+REW-00000002
+REW-00000003
+```
+
+Reward ID digunakan untuk mencegah reward diterima dua kali.
+
+Contoh:
+
+```text
+REW-00000123
+```
+
+sudah diproses.
+
+Jika sistem menerima request yang sama:
+
+```text
+REW-00000123
+```
+
+maka:
+
+```text
+DUPLICATE DETECTED
+       ↓
+REJECT
+```
+
+---
+
+# 6. TRANSACTION ID
+
+Setiap perubahan resource, currency, ticket, gem, atau inventory harus memiliki Transaction ID.
+
+Contoh:
+
+```text
+TXN-20260829-000001
+TXN-20260829-000002
+TXN-20260829-000003
+```
+
+Transaction digunakan untuk:
+
+```text
+Tracking
+Audit
+Rollback
+Debugging
+Recovery
+Database Verification
+Recruitment Verification
+Currency Verification
+```
+
+---
+
+# 7. REWARD TRANSACTION
+
+Struktur dasar:
+
+```text
+Reward Transaction
+│
+├── Transaction_ID
+├── Reward_ID
+├── Source_Type
+├── Source_ID
+├── Master_ID
+├── Timestamp
+├── Reward_List
+├── Validation_State
+├── Distribution_State
+└── Commit_State
+```
+
+Contoh:
+
+```text
+Transaction_ID:
+TXN-000123
+
+Reward_ID:
+REW-000456
+
+Source_Type:
+QUEST
+
+Source_ID:
+QUEST-DAILY-001
+
+Master_ID:
+MASTER-001
+
+Reward:
+Gold 1,000
+Gem 20
+Recruit Ticket 2
+Iron Ore 15
+```
+
+---
+
+# 8. REWARD PROCESSING PIPELINE
+
+Semua reward menggunakan pipeline:
+
+```text
+SOURCE
+  ↓
+REWARD GENERATED
+  ↓
+REWARD ID CREATED
+  ↓
+TRANSACTION ID CREATED
+  ↓
+VALIDATION
+  ↓
+DUPLICATE CHECK
+  ↓
+REWARD ACCUMULATION
+  ↓
+NORMALIZATION
+  ↓
+DISTRIBUTION
+  ↓
+ACCOUNT / INVENTORY UPDATE
+  ↓
+QUEST STATE UPDATE
+  ↓
+GAME STATE UPDATE
+  ↓
+DATABASE COMMIT
+  ↓
+TRANSACTION COMPLETE
+```
+
+---
+
+# 9. QUEST REWARD FLOW
+
+Quest System menghasilkan reward:
+
+```text
+QUEST COMPLETE
+      ↓
+QUEST REWARD GENERATED
+      ↓
+REWARD PROCESSOR
+      ↓
+VALIDATION
+      ↓
+REWARD ACCUMULATION
+      ↓
+CURRENCY / RESOURCE / INVENTORY UPDATE
+      ↓
+QUEST STATE UPDATE
+      ↓
+DATABASE
+```
+
+Contoh:
+
+```text
+Quest Reward:
+
+Gold:
+1,000
+
+Gem:
+10
+
+Recruit Ticket:
+1
+
+Iron Ore:
+20
+```
+
+Sistem menghitung:
+
+```text
+Current Gem = 80
+
+Quest Gem Reward = 10
+
+Final Gem = 90
+```
+
+Untuk Ticket:
+
+```text
+Current Recruit Ticket = 3
+
+Quest Ticket Reward = 1
+
+Final Recruit Ticket = 4
+```
+
+---
+
+# 10. DUNGEON REWARD FLOW
+
+Dungeon menghasilkan:
+
+```text
+Floor Reward
+Boss Reward
+Exploration Reward
+Event Reward
+Raid Reward
+Completion Reward
+Gem Reward
+Recruit Ticket Reward
+```
+
+Flow:
+
+```text
+DUNGEON COMPLETE
+       ↓
+REWARD TABLE
+       ↓
+RNG SYSTEM
+       ↓
+REWARD RESULT
+       ↓
+REWARD PROCESSOR
+       ↓
+CURRENCY / RESOURCE / INVENTORY
+```
+
+---
+
+# 11. LOOT DROP FLOW
+
+Enemy dapat memberikan loot.
+
+```text
+ENEMY DEFEATED
+      ↓
+LOOT TABLE
+      ↓
+PRNG / RNG
+      ↓
+LOOT RESULT
+      ↓
+REWARD PROCESSOR
+      ↓
+INVENTORY / RESOURCE ACCOUNT
+```
+
+Contoh:
+
+```text
+Enemy:
+Corrupted Wolf
+
+Loot Roll:
+
+Gold:
+35
+
+Gem:
+1
+
+Wolf Fang:
+2
+
+Corrupted Essence:
+1
+```
+
+Semua hasil menjadi transaction.
+
+---
+
+# 12. BOSS LOOT
+
+Boss memiliki loot table berbeda.
+
+```text
+BOSS DEFEATED
+      ↓
+BOSS LOOT TABLE
+      ↓
+RNG
+      ↓
+LOOT RESULT
+      ↓
+REWARD PROCESSOR
+```
+
+Contoh:
+
+```text
+Boss Reward:
+
+Gold
+Gem
+Recruit Ticket
+Rare Material
+Equipment
+Artifact
+Special Item
+```
+
+---
+
+# 13. RAID REWARD
+
+Raid Boss dapat menghasilkan beberapa reward source.
+
+```text
+RAID
+ │
+ ├── Party Objective Reward
+ ├── Boss Reward
+ ├── Raid Completion Reward
+ ├── Gem Reward
+ ├── Recruit Ticket Reward
+ └── RNG Bonus Reward
+```
+
+Semua masuk ke:
+
+```text
+REWARD PROCESSOR
+```
+
+Kemudian dihitung sebagai satu Raid Reward Transaction atau beberapa child transaction yang berada di bawah satu parent transaction.
+
+---
+
+# 14. WORLD EXPLORATION REWARD
+
+World Exploration dapat menghasilkan:
+
+```text
+Resource
+Item
+Equipment
+Artifact
+Quest Item
+Historical Item
+Special Item
+Gold
+Gem
+Recruit Ticket
+```
+
+Flow:
+
+```text
+EXPLORATION COMPLETE
+       ↓
+DISCOVERY RESULT
+       ↓
+RNG
+       ↓
+REWARD PROCESSOR
+       ↓
+INVENTORY / ACCOUNT
+```
+
+---
+
+# 15. REWARD ACCUMULATION
+
+Sistem harus menghitung seluruh reward sebelum melakukan commit final.
+
+Contoh:
+
+```text
+QUEST
+Gold +1,000
+Gem +10
+Recruit Ticket +1
+
+DUNGEON
+Gold +500
+Gem +5
+
+LOOT
+Gold +250
+Recruit Ticket +1
+
+BOSS
+Gold +750
+Gem +15
+```
+
+Accumulation:
+
+```text
+Gold:
+1,000
++ 500
++ 250
++ 750
+──────
+2,500 GOLD
+```
+
+```text
+Gem:
+10
++5
++15
+──
+30 GEM
+```
+
+```text
+Recruit Ticket:
+1
++1
+──
+2 TICKET
+```
+
+Final transaction:
+
+```text
+TOTAL GOLD:
++2,500
+
+TOTAL GEM:
++30
+
+TOTAL RECRUIT TICKET:
++2
+```
+
+---
+
+# 16. MULTIPLE REWARD SOURCES
+
+Jika satu Dungeon menghasilkan banyak sumber:
+
+```text
+Quest
++
+Enemy Loot
++
+Boss Loot
++
+Exploration
++
+Floor Clear
+```
+
+maka sistem menggabungkan semuanya.
+
+```text
+DUNGEON SESSION
+      │
+      ├── Quest Reward
+      ├── Enemy Loot
+      ├── Boss Loot
+      ├── Exploration Reward
+      └── Floor Reward
+              │
+              ▼
+       REWARD ACCUMULATOR
+              │
+              ▼
+        FINAL REWARD SET
+```
+
+Gem dan Recruit Ticket dari seluruh sumber juga harus diakumulasi.
+
+---
+
+# 17. REWARD ACCUMULATOR
+
+Reward Accumulator bertugas mengumpulkan semua hasil sementara.
+
+```text
+Reward Accumulator
+│
+├── Gold
+├── Gem
+├── Recruit Ticket
+├── Select Ticket
+├── Material
+├── Resource
+├── Item
+├── Equipment
+├── Artifact
+└── Special Item
+```
+
+Contoh:
+
+```text
+Gold:
++2,500
+
+Gem:
++30
+
+Recruit Ticket:
++2
+
+Iron Ore:
++32
+
+Corrupted Essence:
++4
+
+Equipment:
++1
+```
+
+---
+
+# 18. CURRENCY ACCOUNT
+
+Currency tidak disimpan sebagai item biasa.
+
+Currency menggunakan:
+
+# RESOURCE & CURRENCY ACCOUNT SYSTEM
+
+Contoh:
+
+```text
+Gold
+Gem
+Recruit Ticket
+Select Ticket
+Special Ticket
+```
+
+Struktur:
+
+```text
+CURRENCY ACCOUNT
+│
+├── Gold
+├── Gem
+├── Recruit Ticket
+├── Select Ticket
+└── Special Currency
+```
+
+Gem dan Ticket harus memiliki saldo yang dapat digunakan oleh Recruitment System.
+
+---
+
+# 19. GEM SYNCHRONIZATION
+
+Gem yang diperoleh dari Quest, Dungeon, Event, Loot, atau sumber lain harus masuk ke Currency Account melalui Reward Processor.
+
+Flow:
+
+```text
+QUEST / DUNGEON / EVENT / LOOT
+              │
+              ▼
+       GEM REWARD GENERATED
+              │
+              ▼
+        REWARD PROCESSOR
+              │
+              ▼
+        GEM VALIDATION
+              │
+              ▼
+       GEM ACCUMULATION
+              │
+              ▼
+       CURRENCY ACCOUNT
+              │
+              ▼
+          GEM BALANCE
+              │
+              ▼
+       RECRUITMENT SYSTEM
+```
+
+Contoh:
+
+```text
+Current Gem:
+120
+
+Quest Reward:
++30
+
+Dungeon Reward:
++20
+
+Event Reward:
++50
+
+Final Gem:
+220
+```
+
+Sistem tidak boleh langsung mengirim Gem ke Recruitment System tanpa memperbarui Currency Account.
+
+---
+
+# 20. RECRUIT TICKET SYNCHRONIZATION
+
+Recruit Ticket yang diperoleh dari Quest, Event, Achievement, Dungeon, atau sumber lain harus masuk ke Currency Account atau Ticket Account.
+
+Flow:
+
+```text
+QUEST / EVENT / DUNGEON
+          │
+          ▼
+RECRUIT TICKET GENERATED
+          │
+          ▼
+REWARD PROCESSOR
+          │
+          ▼
+TICKET VALIDATION
+          │
+          ▼
+TICKET ACCUMULATION
+          │
+          ▼
+TICKET ACCOUNT
+          │
+          ▼
+RECRUITMENT SYSTEM
+```
+
+Contoh:
+
+```text
+Current Recruit Ticket:
+2
+
+Quest Reward:
++1
+
+Achievement Reward:
++2
+
+Final Recruit Ticket:
+5
+```
+
+---
+
+# 21. GEM AND TICKET ACCUMULATION
+
+Gem dan Ticket harus diakumulasi berdasarkan tipe currency masing-masing.
+
+Contoh:
+
+```text
+Quest A:
+Gem +20
+
+Quest B:
+Gem +30
+
+Dungeon:
+Gem +50
+
+Event:
+Recruit Ticket +2
+
+Achievement:
+Recruit Ticket +1
+```
+
+Hasil akumulasi:
+
+```text
+Gem:
+20
++30
++50
+───
+100 Gem
+```
+
+```text
+Recruit Ticket:
+2
++1
+──
+3 Recruit Ticket
+```
+
+Gem tidak boleh digabung dengan Ticket.
+
+```text
+Gem +100
+Recruit Ticket +3
+```
+
+tetap disimpan sebagai dua saldo berbeda.
+
+---
+
+# 22. RECRUITMENT SYSTEM
+
+Recruitment menggunakan Gem atau Ticket sebagai biaya.
+
+```text
+RECRUITMENT SYSTEM
+│
+├── Single Recruit
+├── Multi Recruit
+├── Ticket Recruit
+├── Gem Recruit
+├── Guaranteed Recruit
+└── Special Recruit
+```
+
+Contoh biaya:
+
+```text
+Single Recruit:
+100 Gem
+
+Multi Recruit:
+1,000 Gem
+
+Ticket Recruit:
+1 Recruit Ticket
+```
+
+---
+
+# 23. RECRUITMENT FLOW
+
+```text
+MASTER SELECTS RECRUITMENT
+          ↓
+RECRUITMENT REQUEST CREATED
+          ↓
+COST CALCULATION
+          ↓
+RESOURCE VALIDATION
+          ↓
+SUFFICIENT CHECK
+          ↓
+CURRENCY / TICKET LOCK
+          ↓
+COST DEDUCTION
+          ↓
+RNG / RECRUITMENT RESULT
+          ↓
+CHARACTER DISTRIBUTION
+          ↓
+INVENTORY / CHARACTER ACCOUNT UPDATE
+          ↓
+DATABASE COMMIT
+          ↓
+RECRUITMENT COMPLETE
+```
+
+---
+
+# 24. RECRUITMENT COST VALIDATION
+
+Sebelum Recruitment dijalankan, sistem harus memeriksa:
+
+```text
+Master_ID
+Recruitment_Type
+Required_Gem
+Required_Ticket
+Current_Gem
+Current_Ticket
+Recruitment_Banner
+Banner_State
+Transaction_State
+```
+
+Contoh:
+
+```text
+Recruitment Type:
+Multi Recruit
+
+Required Gem:
+1,000
+
+Current Gem:
+1,250
+```
+
+Result:
+
+```text
+SUFFICIENT RESOURCE
+```
+
+Kemudian:
+
+```text
+Final Gem:
+250
+```
+
+---
+
+# 25. GEM RECRUITMENT VALIDATION
+
+Contoh:
+
+```text
+Current Gem:
+80
+
+Recruitment Cost:
+100 Gem
+```
+
+Sistem menghitung:
+
+```text
+80 < 100
+```
+
+Result:
+
+```text
+INSUFFICIENT GEM
+```
+
+Recruitment tidak boleh dijalankan.
+
+```text
+RECRUITMENT REJECTED
+       ↓
+NO GEM DEDUCTED
+       ↓
+NO RNG EXECUTED
+       ↓
+NO CHARACTER GENERATED
+       ↓
+NO DATABASE COMMIT
+```
+
+---
+
+# 26. TICKET RECRUITMENT VALIDATION
+
+Contoh:
+
+```text
+Current Recruit Ticket:
+0
+
+Recruitment Cost:
+1 Recruit Ticket
+```
+
+Sistem menghitung:
+
+```text
+0 < 1
+```
+
+Result:
+
+```text
+INSUFFICIENT RECRUIT TICKET
+```
+
+Recruitment ditolak.
+
+```text
+RECRUITMENT REJECTED
+       ↓
+NO TICKET DEDUCTED
+       ↓
+NO RNG EXECUTED
+       ↓
+NO CHARACTER GENERATED
+```
+
+---
+
+# 27. MULTI-RECRUIT VALIDATION
+
+Contoh:
+
+```text
+Current Gem:
+900
+
+Multi Recruit Cost:
+1,000 Gem
+```
+
+Result:
+
+```text
+INSUFFICIENT GEM
+```
+
+Walaupun kekurangan hanya 100 Gem, sistem tetap menolak seluruh request.
+
+```text
+NO PARTIAL RECRUITMENT
+NO PARTIAL COST DEDUCTION
+NO PARTIAL RNG
+```
+
+---
+
+# 28. RECRUITMENT ERROR SYSTEM
+
+Jika item atau currency yang digunakan tidak cukup, sistem menghasilkan error terstruktur.
+
+```text
+Recruitment Error
+│
+├── Error_Code
+├── Error_Type
+├── Master_ID
+├── Recruitment_Type
+├── Required_Amount
+├── Current_Amount
+├── Missing_Amount
+├── Transaction_ID
+└── Timestamp
+```
+
+Contoh:
+
+```text
+Error_Code:
+ERR-RECRUIT-INSUFFICIENT-GEM
+
+Error_Type:
+INSUFFICIENT_GEM
+
+Required_Amount:
+100
+
+Current_Amount:
+80
+
+Missing_Amount:
+20
+
+Transaction_ID:
+TXN-RECRUIT-0001
+```
+
+---
+
+# 29. ERROR TYPES
+
+```text
+INSUFFICIENT_GEM
+INSUFFICIENT_RECRUIT_TICKET
+INSUFFICIENT_SELECT_TICKET
+INSUFFICIENT_SPECIAL_CURRENCY
+INSUFFICIENT_RESOURCE
+INVALID_RECRUITMENT_TYPE
+BANNER_CLOSED
+BANNER_NOT_AVAILABLE
+DUPLICATE_RECRUITMENT_REQUEST
+RECRUITMENT_TRANSACTION_FAILED
+RECRUITMENT_ROLLBACK
+DATABASE_COMMIT_FAILED
+```
+
+---
+
+# 30. ERROR RESPONSE
+
+Jika Gem tidak cukup:
+
+```text
+ERROR:
+INSUFFICIENT_GEM
+
+Required:
+100 Gem
+
+Current:
+80 Gem
+
+Missing:
+20 Gem
+
+Action:
+Recruitment cancelled.
+No currency deducted.
+```
+
+Jika Ticket tidak cukup:
+
+```text
+ERROR:
+INSUFFICIENT_RECRUIT_TICKET
+
+Required:
+1 Recruit Ticket
+
+Current:
+0 Recruit Ticket
+
+Missing:
+1 Recruit Ticket
+
+Action:
+Recruitment cancelled.
+No ticket deducted.
+```
+
+---
+
+# 31. AI FAIRY ERROR REPORT
+
+Jika Gem tidak cukup:
+
+> **"Master, Recruitment tidak dapat dilakukan. Gem yang tersedia tidak mencukupi."**
+
+> **"Dibutuhkan: 100 Gem. Saldo saat ini: 80 Gem. Kekurangan: 20 Gem."**
+
+Jika Ticket tidak cukup:
+
+> **"Master, Recruit Ticket tidak mencukupi. Dibutuhkan 1 Ticket, tetapi saldo saat ini 0."**
+
+Jika resource cukup:
+
+> **"Master, resource telah diverifikasi. Recruitment dapat dilanjutkan."**
+
+---
+
+# 32. RECRUITMENT ATOMIC TRANSACTION
+
+Recruitment harus diproses secara atomic.
+
+Artinya:
+
+```text
+COST DEDUCTION SUCCESS
++
+RNG SUCCESS
++
+CHARACTER DISTRIBUTION SUCCESS
++
+DATABASE COMMIT SUCCESS
+```
+
+atau:
+
+```text
+ALL ROLLBACK
+```
+
+Contoh:
+
+```text
+Cost:
+100 Gem
+
+Result:
+Rare Character
+
+Database:
+Failed
+```
+
+Maka:
+
+```text
+ROLLBACK
+
+Gem:
+Dikembalikan 100
+
+Character:
+Tidak disimpan
+
+Recruitment:
+Failed
+```
+
+Tidak boleh:
+
+```text
+Gem berkurang
+tetapi Character hilang
+```
+
+atau:
+
+```text
+Character masuk
+tetapi Gem tidak berkurang
+```
+
+---
+
+# 33. RECRUITMENT TRANSACTION STATE
+
+Setiap Recruitment memiliki state:
+
+```text
+CREATED
+VALIDATING
+VALIDATED
+RESOURCE_LOCKED
+COST_DEDUCTED
+RNG_PROCESSING
+RESULT_GENERATED
+CHARACTER_DISTRIBUTED
+COMMITTING
+COMPLETED
+FAILED
+ROLLED_BACK
+```
+
+Flow:
+
+```text
+CREATED
+   ↓
+VALIDATING
+   ↓
+VALIDATED
+   ↓
+RESOURCE_LOCKED
+   ↓
+COST_DEDUCTED
+   ↓
+RNG_PROCESSING
+   ↓
+RESULT_GENERATED
+   ↓
+CHARACTER_DISTRIBUTED
+   ↓
+COMMITTING
+   ↓
+COMPLETED
+```
+
+---
+
+# 34. RESOURCE LOCK
+
+Sebelum biaya Recruitment dikurangi, Gem atau Ticket harus dikunci sementara.
+
+```text
+CURRENT GEM:
+1,000
+
+RECRUITMENT COST:
+1,000
+
+RESOURCE LOCK:
+1,000 Gem
+
+AVAILABLE GEM:
+0
+```
+
+Jika proses berhasil:
+
+```text
+LOCKED GEM
+      ↓
+DEDUCTED
+```
+
+Jika proses gagal:
+
+```text
+LOCKED GEM
+      ↓
+RELEASED
+      ↓
+BALANCE RESTORED
+```
+
+---
+
+# 35. CONCURRENT RECRUITMENT PROTECTION
+
+Jika Master mengirim dua request Recruitment secara bersamaan:
+
+```text
+Request A:
+100 Gem
+
+Request B:
+100 Gem
+```
+
+dan saldo hanya:
+
+```text
+150 Gem
+```
+
+sistem harus mencegah kedua request menggunakan saldo yang sama.
+
+```text
+REQUEST A
+   ↓
+LOCK 100 GEM
+   ↓
+AVAILABLE 50 GEM
+
+REQUEST B
+   ↓
+CHECK AVAILABLE
+   ↓
+INSUFFICIENT GEM
+   ↓
+REJECT
+```
+
+---
+
+# 36. RECRUITMENT IDEMPOTENCY
+
+Sistem harus aman jika request Recruitment dikirim lebih dari satu kali.
+
+Contoh:
+
+```text
+Recruitment Request:
+RECRUIT-0001
+```
+
+Jika request yang sama diterima kembali:
+
+```text
+RECRUIT-0001
+```
+
+maka:
+
+```text
+DUPLICATE RECRUITMENT REQUEST
+       ↓
+DO NOT DEDUCT AGAIN
+       ↓
+DO NOT EXECUTE RNG AGAIN
+```
+
+---
+
+# 37. RECRUITMENT RNG STORAGE
+
+Hasil RNG Recruitment harus disimpan.
+
+```text
+Recruitment RNG
+
+RNG_ID:
+RNG-RECRUIT-0001
+
+Banner_ID:
+BANNER-001
+
+Recruitment_Type:
+MULTI_RECRUIT
+
+Roll:
+847291
+
+Result:
+Legendary Character
+```
+
+Tujuannya:
+
+```text
+Audit
+Replay
+Debugging
+Anti-Duplicate
+Recovery
+Recruitment Verification
+```
+
+---
+
+# 38. RECRUITMENT RESULT DISTRIBUTION
+
+Hasil Recruitment dapat berupa:
+
+```text
+New Character
+Duplicate Character
+Character Shard
+Equipment
+Currency
+Special Item
+```
+
+Flow:
+
+```text
+RECRUITMENT RESULT
+        ↓
+RESULT VALIDATION
+        ↓
+CHARACTER ACCOUNT
+        ↓
+INVENTORY
+        ↓
+DUPLICATE CONVERSION
+        ↓
+DATABASE
+```
+
+---
+
+# 39. DUPLICATE CHARACTER RESULT
+
+Jika Master mendapatkan karakter yang sudah dimiliki:
+
+```text
+RECRUITMENT RESULT:
+Character A
+
+OWNERSHIP CHECK:
+Already Owned
+```
+
+Sistem menjalankan aturan duplicate:
+
+```text
+Character A
+      ↓
+Duplicate Conversion
+      ↓
+Character Shard / Upgrade Material
+```
+
+Transaction tetap mencatat:
+
+```text
+Original Result:
+Character A
+
+Converted Result:
+Character A Shard ×10
+```
+
+---
+
+# 40. REWARD NORMALIZATION
+
+Semua reward harus dinormalisasi sebelum masuk ke storage.
+
+Contoh hasil RNG:
+
+```text
+Gem: 500
+Gem: 250
+Recruit Ticket: 1
+Recruit Ticket: 2
+Iron: 5
+Iron: 10
+```
+
+Setelah normalization:
+
+```text
+Gem:
+750
+
+Recruit Ticket:
+3
+
+Iron:
+15
+```
+
+Kemudian baru diproses.
+
+---
+
+# 41. REWARD VALIDATION
+
+Sebelum reward diberikan:
+
+```text
+Reward Validation
+```
+
+memeriksa:
+
+```text
+Reward_ID
+Source_ID
+Master_ID
+Item_ID
+Quantity
+Currency Type
+Inventory Limit
+Stack Limit
+Ownership
+Transaction State
+```
+
+Untuk Gem dan Ticket, sistem juga memeriksa:
+
+```text
+Currency Account
+Currency Type
+Currency Limit
+Accumulation Rule
+Recruitment Compatibility
+```
+
+---
+
+# 42. NEGATIVE QUANTITY PROTECTION
+
+Reward tidak boleh menghasilkan nilai negatif.
+
+Invalid:
+
+```text
+Gem:
+-100
+```
+
+atau:
+
+```text
+Recruit Ticket:
+-1
+```
+
+Reward transaction harus menolak:
+
+```text
+INVALID QUANTITY
+```
+
+Untuk pengurangan Gem atau Ticket, gunakan:
+
+```text
+RECRUITMENT SPENDING TRANSACTION
+```
+
+bukan:
+
+```text
+REWARD TRANSACTION
+```
+
+---
+
+# 43. INVENTORY CAPACITY
+
+Jika Inventory memiliki kapasitas:
+
+```text
+Inventory:
+95 / 100
+```
+
+dan reward:
+
+```text
++10 Items
+```
+
+sistem harus memproses sesuai aturan Inventory.
+
+Possible result:
+
+```text
+Auto Stack
+Mailbox
+Overflow Storage
+Reward Claim Pending
+Quest Reward Pending
+```
+
+Tidak boleh:
+
+```text
+Reward Lost
+```
+
+---
+
+# 44. REWARD OVERFLOW
+
+Jika inventory penuh:
+
+```text
+REWARD
+ ↓
+INVENTORY FULL
+ ↓
+OVERFLOW STORAGE
+```
+
+Contoh:
+
+```text
+Inventory:
+100 / 100
+
+Reward:
+Legendary Sword
+```
+
+Result:
+
+```text
+Legendary Sword
+↓
+Overflow Storage
+```
+
+Master tetap memiliki reward tersebut.
+
+---
+
+# 45. CURRENCY LIMIT
+
+Jika currency memiliki batas:
+
+```text
+MAX GOLD
+MAX GEM
+MAX RECRUIT TICKET
+```
+
+sistem harus menentukan hasil sesuai konfigurasi.
+
+Contoh:
+
+```text
+Current Gem:
+9,900
+
+Maximum:
+10,000
+
+Reward:
+500
+```
+
+Normal accumulation:
+
+```text
+10,000 Gem
+```
+
+Sisa:
+
+```text
+400 Gem
+```
+
+harus ditangani oleh aturan Economy System.
+
+Possible:
+
+```text
+Overflow
+Mail
+Converted Resource
+Reward Pending
+Lost By Configuration
+```
+
+Konfigurasi ini harus ditentukan secara eksplisit.
+
+---
+
+# 46. QUEST PROGRESS SYNCHRONIZATION
+
+Quest tidak hanya menghasilkan reward.
+
+Quest juga menerima progress dari sistem lain.
+
+Contoh:
+
+```text
+Kill 10 Enemies
+```
+
+Dungeon membunuh:
+
+```text
+Enemy × 7
+```
+
+Quest State:
+
+```text
+0 / 10
+   ↓
+7 / 10
+```
+
+Dungeon berikutnya:
+
+```text
+Enemy × 3
+```
+
+Result:
+
+```text
+10 / 10
+```
+
+Quest:
+
+```text
+COMPLETE
+```
+
+Kemudian Quest Reward dapat berisi:
+
+```text
+Gold
+Gem
+Recruit Ticket
+Resource
+Item
+```
+
+---
+
+# 47. DUNGEON → QUEST
+
+Dungeon mengirim event:
+
+```text
+Enemy Defeated
+Boss Defeated
+Floor Completed
+Exploration Completed
+Item Obtained
+Gem Obtained
+Recruit Ticket Obtained
+Raid Completed
+```
+
+ke Quest System.
+
+```text
+DUNGEON
+   ↓
+PROGRESS EVENT
+   ↓
+QUEST SYSTEM
+   ↓
+QUEST PROGRESS
+```
+
+---
+
+# 48. LOOT → QUEST
+
+Jika Quest meminta:
+
+```text
+Collect:
+Corrupted Essence ×10
+```
+
+dan Loot Drop memberikan:
+
+```text
+Corrupted Essence ×4
+```
+
+maka:
+
+```text
+Loot Processor
+      ↓
+Inventory Update
+      ↓
+Quest Progress Event
+      ↓
+Quest:
+4 / 10
+```
+
+Inventory dan Quest harus menggunakan transaction yang sama sebagai referensi sumber.
+
+---
+
+# 49. REWARD → QUEST
+
+Quest reward tidak boleh dianggap sebagai Quest Progress.
+
+Contoh:
+
+```text
+Quest Complete
+      ↓
+Quest Reward
+```
+
+Reward diproses oleh:
+
+```text
+Reward Processor
+```
+
+sedangkan status quest:
+
+```text
+Quest System
+```
+
+Keduanya kemudian disinkronkan.
+
+---
+
+# 50. ATOMIC TRANSACTION
+
+Reward harus diproses secara atomic.
+
+Artinya:
+
+```text
+ALL SUCCESS
+```
+
+atau:
+
+```text
+ALL ROLLBACK
+```
+
+Contoh:
+
+```text
+Quest Complete
+
+Gold +1,000
+Gem +10
+Recruit Ticket +1
+Item +1
+```
+
+Jika database gagal menyimpan Item:
+
+```text
+Gold +1,000
+Gem +10
+Recruit Ticket +1
+Item +1
+```
+
+tidak boleh sebagian masuk.
+
+System melakukan:
+
+```text
+ROLLBACK
+```
+
+kemudian mencoba kembali.
+
+---
+
+# 51. TRANSACTION STATE
+
+Setiap transaction memiliki state:
+
+```text
+CREATED
+VALIDATING
+VALIDATED
+ACCUMULATING
+DISTRIBUTING
+COMMITTING
+COMPLETED
+FAILED
+ROLLED_BACK
+```
+
+Flow:
+
+```text
+CREATED
+   ↓
+VALIDATING
+   ↓
+VALIDATED
+   ↓
+ACCUMULATING
+   ↓
+DISTRIBUTING
+   ↓
+COMMITTING
+   ↓
+COMPLETED
+```
+
+---
+
+# 52. IDEMPOTENCY
+
+Sistem harus aman jika request reward dikirim lebih dari satu kali.
+
+Contoh:
+
+```text
+Dungeon Complete
+```
+
+mengirim:
+
+```text
+Reward Transaction:
+TXN-1001
+```
+
+Jika sistem menerima:
+
+```text
+TXN-1001
+```
+
+lagi:
+
+```text
+DUPLICATE
+```
+
+Result:
+
+```text
+Do Not Grant Again
+```
+
+---
+
+# 53. REWARD SOURCE LOCK
+
+Sumber reward juga dapat dikunci.
+
+Contoh:
+
+```text
+Dungeon Session:
+DUN-000123
+```
+
+Status:
+
+```text
+Reward:
+UNCLAIMED
+```
+
+Setelah diproses:
+
+```text
+Reward:
+CLAIMED
+```
+
+Jika Master mencoba mengambil lagi:
+
+```text
+CLAIMED
+ ↓
+REJECT
+```
+
+---
+
+# 54. DUNGEON COMPLETION LOCK
+
+Dungeon tidak boleh menghasilkan reward completion lebih dari sekali untuk session yang sama.
+
+```text
+DUNGEON SESSION
+      ↓
+VICTORY
+      ↓
+REWARD GENERATED
+      ↓
+COMPLETION LOCK
+```
+
+Database:
+
+```text
+Dungeon_Session:
+DUN-001
+
+Completion:
+TRUE
+
+Reward_Processed:
+TRUE
+```
+
+---
+
+# 55. LOOT DROP DUPLICATE PROTECTION
+
+Setiap loot roll memiliki:
+
+```text
+Loot_Roll_ID
+```
+
+Contoh:
+
+```text
+LOOT-000001
+```
+
+Jika sudah diproses:
+
+```text
+LOOT-000001
+```
+
+tidak boleh diproses kembali.
+
+---
+
+# 56. RNG RESULT STORAGE
+
+Untuk reward RNG, hasil RNG harus disimpan.
+
+Contoh:
+
+```text
+RNG Transaction
+
+RNG_ID:
+RNG-000123
+
+Seed Reference:
+PRNG-000982
+
+Roll:
+847291
+
+Result:
+Legendary Sword
+```
+
+Tujuannya:
+
+```text
+Audit
+Replay
+Debugging
+Anti-Duplicate
+Recovery
+```
+
+---
+
+# 57. REWARD ACCUMULATION EXAMPLE
+
+Satu Dungeon menghasilkan:
+
+### Quest
+
+```text
+Gold +1,000
+Gem +5
+Recruit Ticket +1
+```
+
+### Enemy Loot
+
+```text
+Gold +350
+Gem +2
+Iron Ore +12
+Monster Core +2
+```
+
+### Boss Loot
+
+```text
+Gold +500
+Gem +10
+Recruit Ticket +1
+Rare Equipment ×1
+```
+
+### Exploration
+
+```text
+Ancient Fragment +3
+```
+
+### Floor Clear
+
+```text
+Gold +750
+Gem +3
+```
+
+Accumulator:
+
+```text
+Gold
+1,000
++350
++500
++750
+────
+2,600
+```
+
+```text
+Gem
+5
++2
++10
++3
+──
+20
+```
+
+```text
+Recruit Ticket
+1
++1
+──
+2
+```
+
+```text
+Iron Ore:
+12
+
+Monster Core:
+2
+
+Ancient Fragment:
+3
+
+Rare Equipment:
+1
+```
+
+---
+
+# 58. FINAL REWARD SET
+
+```text
+FINAL REWARD
+
+Currency:
+Gold +2,600
+Gem +20
+Recruit Ticket +2
+
+Resource:
+Iron Ore +12
+Monster Core +2
+Ancient Fragment +3
+
+Equipment:
+Rare Equipment ×1
+```
+
+Kemudian:
+
+```text
+FINAL REWARD
+      ↓
+DISTRIBUTION
+```
+
+---
+
+# 59. DISTRIBUTION
+
+Currency:
+
+```text
+Gold
+Gem
+Recruit Ticket
+```
+
+masuk:
+
+```text
+RESOURCE & CURRENCY ACCOUNT
+```
+
+Resource:
+
+```text
+Iron Ore
+Monster Core
+Ancient Fragment
+```
+
+masuk:
+
+```text
+RESOURCE ACCOUNT / INVENTORY
+```
+
+Equipment:
+
+```text
+Rare Equipment
+```
+
+masuk:
+
+```text
+INVENTORY
+```
+
+---
+
+# 60. GAME STATE UPDATE
+
+Setelah distribution:
+
+```text
+Reward Processor
+      ↓
+Currency Account Update
+      ↓
+Resource Account Update
+      ↓
+Inventory Update
+      ↓
+Quest Update
+      ↓
+Dungeon Update
+      ↓
+Game State Update
+```
+
+Contoh:
+
+```text
+Floor 20:
+Completed
+
+Quest:
+Completed
+
+Gold:
++2,600
+
+Gem:
++20
+
+Recruit Ticket:
++2
+
+Inventory:
++4 Resource
++1 Equipment
+```
+
+---
+
+# 61. DATABASE COMMIT
+
+Setelah seluruh state valid:
+
+```text
+ACCOUNT
+INVENTORY
+QUEST
+DUNGEON
+GAME STATE
+TRANSACTION
+REWARD HISTORY
+```
+
+disimpan.
+
+```text
+DATABASE
+├── Currency
+├── Resource
+├── Inventory
+├── Quest
+├── Dungeon
+├── Reward
+├── Transaction
+├── Recruitment
+└── Game State
+```
+
+---
+
+# 62. SYNCHRONIZATION ORDER
+
+Recommended order:
+
+```text
+1. SOURCE VALIDATION
+        ↓
+2. REWARD GENERATION
+        ↓
+3. REWARD NORMALIZATION
+        ↓
+4. DUPLICATE CHECK
+        ↓
+5. REWARD ACCUMULATION
+        ↓
+6. CURRENCY UPDATE
+        ↓
+7. GEM UPDATE
+        ↓
+8. RECRUIT TICKET UPDATE
+        ↓
+9. RESOURCE UPDATE
+        ↓
+10. INVENTORY UPDATE
+        ↓
+11. QUEST UPDATE
+        ↓
+12. DUNGEON UPDATE
+        ↓
+13. GAME STATE UPDATE
+        ↓
+14. DATABASE COMMIT
+        ↓
+15. TRANSACTION COMPLETE
+```
+
+Untuk Recruitment:
+
+```text
+1. RECRUITMENT REQUEST
+        ↓
+2. COST CALCULATION
+        ↓
+3. GEM / TICKET VALIDATION
+        ↓
+4. SUFFICIENT RESOURCE CHECK
+        ↓
+5. RESOURCE LOCK
+        ↓
+6. COST DEDUCTION
+        ↓
+7. RNG EXECUTION
+        ↓
+8. RESULT DISTRIBUTION
+        ↓
+9. DATABASE COMMIT
+        ↓
+10. RECRUITMENT COMPLETE
+```
+
+---
+
+# 63. QUEST + DUNGEON SYNCHRONIZATION
+
+```text
+                  DUNGEON
+                     │
+       ┌─────────────┼─────────────┐
+       │             │             │
+    Enemy         Boss        Exploration
+       │             │             │
+       └─────────────┼─────────────┘
+                     ▼
+               PROGRESS EVENTS
+                     │
+                     ▼
+                QUEST SYSTEM
+                     │
+                     ▼
+                QUEST COMPLETE
+                     │
+                     ▼
+              REWARD PROCESSOR
+                     │
+                     ├── Gold
+                     ├── Gem
+                     ├── Recruit Ticket
+                     ├── Resource
+                     └── Item
+```
+
+---
+
+# 64. INVENTORY SYNCHRONIZATION
+
+```text
+QUEST
+ │
+DUNGEON
+ │
+LOOT
+ │
+BOSS
+ │
+EXPLORATION
+ │
+EVENT
+ │
+RAID
+ │
+ ▼
+REWARD PROCESSOR
+ │
+ ▼
+INVENTORY SERVICE
+ │
+ ├── Add Item
+ ├── Stack Item
+ ├── Create Instance
+ ├── Convert Duplicate
+ └── Overflow
+```
+
+---
+
+# 65. CURRENCY SYNCHRONIZATION
+
+```text
+QUEST
+DUNGEON
+BOSS
+RAID
+LOOT
+EVENT
+EXPLORATION
+      │
+      ▼
+REWARD PROCESSOR
+      │
+      ▼
+CURRENCY ACCOUNT
+      │
+      ├── Gold
+      ├── Gem
+      ├── Recruit Ticket
+      ├── Select Ticket
+      └── Special Currency
+      │
+      ▼
+RECRUITMENT SYSTEM
+```
+
+---
+
+# 66. RESOURCE SYNCHRONIZATION
+
+```text
+QUEST
+DUNGEON
+LOOT
+EXPLORATION
+BOSS
+RAID
+      │
+      ▼
+REWARD PROCESSOR
+      │
+      ▼
+RESOURCE ACCOUNT
+      │
+      ├── Materials
+      ├── Crafting Resources
+      ├── Upgrade Materials
+      └── Special Resources
+```
+
+---
+
+# 67. RECRUITMENT SYNCHRONIZATION
+
+```text
+QUEST
+DUNGEON
+EVENT
+ACHIEVEMENT
+      │
+      ▼
+REWARD PROCESSOR
+      │
+      ├── Gem
+      └── Recruit Ticket
+      │
+      ▼
+CURRENCY ACCOUNT
+      │
+      ▼
+RECRUITMENT SYSTEM
+      │
+      ├── Check Gem
+      ├── Check Ticket
+      ├── Lock Resource
+      ├── Deduct Cost
+      ├── Execute RNG
+      └── Distribute Result
+```
+
+---
+
+# 68. QUEST SYNCHRONIZATION EVENT
+
+Setiap perubahan penting menghasilkan event.
+
+```text
+RewardGranted
+ItemObtained
+CurrencyObtained
+GemObtained
+RecruitTicketObtained
+ResourceObtained
+EnemyDefeated
+BossDefeated
+FloorCompleted
+ExplorationCompleted
+RaidCompleted
+RecruitmentCompleted
+RecruitmentFailed
+```
+
+Quest System mendengarkan event tersebut.
+
+---
+
+# 69. EVENT EXAMPLE
+
+```text
+GemObtained
+```
+
+Data:
+
+```text
+Master_ID:
+MASTER-001
+
+Source_Type:
+QUEST
+
+Source_ID:
+QUEST-DAILY-001
+
+Amount:
+30
+
+Transaction_ID:
+TXN-QUEST-0001
+```
+
+Currency Account:
+
+```text
+Current Gem:
+120
+
+Reward Gem:
+30
+
+Final Gem:
+150
+```
+
+Recruitment System tidak perlu menerima update langsung dari Quest. Recruitment System membaca saldo final dari Currency Account.
+
+---
+
+# 70. REWARD HISTORY
+
+Master memiliki reward history.
+
+```text
+Reward History
+│
+├── Date
+├── Source
+├── Reward
+├── Quantity
+├── Currency Type
+├── Transaction_ID
+└── Status
+```
+
+Contoh:
+
+```text
+29 Aug 2026
+
+Source:
+Daily Quest
+
+Reward:
+Gem +30
+Recruit Ticket +1
+
+Transaction:
+TXN-000123
+
+Status:
+Completed
+```
+
+---
+
+# 71. RECRUITMENT HISTORY
+
+Master juga memiliki Recruitment History.
+
+```text
+Recruitment History
+│
+├── Recruitment_ID
+├── Banner_ID
+├── Recruitment_Type
+├── Cost_Type
+├── Cost_Amount
+├── Result
+├── RNG_ID
+├── Transaction_ID
+├── Status
+└── Timestamp
+```
+
+Contoh:
+
+```text
+Recruitment_ID:
+RECRUIT-000001
+
+Banner_ID:
+BANNER-001
+
+Recruitment_Type:
+SINGLE_RECRUIT
+
+Cost_Type:
+GEM
+
+Cost_Amount:
+100
+
+Result:
+Rare Character
+
+Transaction_ID:
+TXN-RECRUIT-000001
+
+Status:
+Completed
+```
+
+---
+
+# 72. REWARD AUDIT
+
+Audit dapat mencari:
+
+```text
+Reward_ID
+Transaction_ID
+Source_ID
+Master_ID
+Item_ID
+Currency_Type
+RNG_ID
+Timestamp
+```
+
+Contoh:
+
+```text
+TXN-000123
+      ↓
+QUEST-DAILY-001
+      ↓
+Reward:
+Gem +30
+Recruit Ticket +1
+      ↓
+Currency Account
+      ↓
+Recruitment
+      ↓
+TXN-RECRUIT-000001
+```
+
+Dengan demikian Gem dan Ticket dapat dilacak dari sumber reward sampai digunakan.
+
+---
+
+# 73. CURRENCY PROVENANCE
+
+Setiap penggunaan Gem atau Ticket harus memiliki asal saldo.
+
+Contoh:
+
+```text
+Gem Balance:
+220
+
+Sources:
+Quest:
++30
+
+Dungeon:
++20
+
+Event:
++50
+
+Achievement:
++120
+```
+
+Saat Recruitment menggunakan:
+
+```text
+100 Gem
+```
+
+sistem mencatat:
+
+```text
+Spending Transaction:
+SPEND-000001
+
+Cost:
+100 Gem
+
+Remaining:
+120 Gem
+```
+
+---
+
+# 74. REWARD CHAIN
+
+Satu reward dapat memiliki chain:
+
+```text
+Quest
+ ↓
+Quest Completion
+ ↓
+Gem Reward
+ ↓
+Reward Transaction
+ ↓
+Currency Account
+ ↓
+Recruitment Cost
+ ↓
+Recruitment Result
+```
+
+Contoh:
+
+```text
+Daily Quest
+      ↓
+Gem +30
+      ↓
+REW-QUEST-001
+      ↓
+TXN-QUEST-001
+      ↓
+Gem Balance
+      ↓
+Recruitment Cost -100 Gem
+      ↓
+TXN-RECRUIT-001
+      ↓
+Rare Character
+```
+
+---
+
+# 75. FAILED TRANSACTION
+
+Jika terjadi error:
+
+```text
+REWARD TRANSACTION
+       ↓
+ERROR
+       ↓
+ROLLBACK
+       ↓
+FAILED
+       ↓
+RECOVERY QUEUE
+```
+
+Tidak boleh:
+
+```text
+Currency masuk
+tetapi Item hilang
+```
+
+atau:
+
+```text
+Gem berkurang
+tetapi Recruitment Result tidak tersimpan
+```
+
+atau:
+
+```text
+Ticket berkurang
+tetapi Character tidak diberikan
+```
+
+---
+
+# 76. RECOVERY SYSTEM
+
+Jika server/database gagal setelah reward diberikan tetapi sebelum status final disimpan:
+
+```text
+RECOVERY SYSTEM
+      ↓
+CHECK TRANSACTION
+      ↓
+CHECK DATABASE
+      ↓
+CHECK IDEMPOTENCY
+      ↓
+RESTORE OR COMPLETE
+```
+
+Untuk Recruitment:
+
+```text
+CHECK RECRUITMENT TRANSACTION
+      ↓
+CHECK COST DEDUCTION
+      ↓
+CHECK RNG RESULT
+      ↓
+CHECK CHARACTER RESULT
+      ↓
+RESTORE OR COMPLETE
+```
+
+Sistem menentukan apakah:
+
+```text
+Transaction already committed
+```
+
+atau:
+
+```text
+Transaction not committed
+```
+
+---
+
+# 77. ROLLBACK EXAMPLE
+
+Reward:
+
+```text
+Gold +1,000
+Gem +10
+Recruit Ticket +1
+Sword +1
+```
+
+Jika Sword gagal:
+
+```text
+ROLLBACK
+
+Gold:
+No Change
+
+Gem:
+No Change
+
+Recruit Ticket:
+No Change
+
+Sword:
+No Change
+```
+
+Kemudian transaction dapat dicoba kembali.
+
+---
+
+# 78. RECRUITMENT ROLLBACK EXAMPLE
+
+Sebelum Recruitment:
+
+```text
+Gem:
+500
+```
+
+Biaya:
+
+```text
+100 Gem
+```
+
+Setelah deduction sementara:
+
+```text
+Gem:
+400
+```
+
+RNG menghasilkan:
+
+```text
+Rare Character
+```
+
+Database gagal menyimpan hasil:
+
+```text
+DATABASE COMMIT FAILED
+```
+
+Sistem melakukan:
+
+```text
+ROLLBACK
+
+Gem:
+Dikembalikan menjadi 500
+
+Character:
+Tidak disimpan
+
+Recruitment:
+ROLLED_BACK
+```
+
+---
+
+# 79. SAVE CHECKPOINT
+
+Dungeon session dapat menggunakan checkpoint.
+
+```text
+Dungeon Session
+      ↓
+Checkpoint
+      ↓
+Reward State
+      ↓
+Currency State
+      ↓
+Inventory State
+      ↓
+Game State
+```
+
+Checkpoint berguna untuk:
+
+```text
+Multi-Party
+Raid
+Long Dungeon
+Exploration
+Event Chain
+Gem Reward Chain
+Ticket Reward Chain
+```
+
+---
+
+# 80. MULTI-PARTY SYNCHRONIZATION
+
+Pada Multi-Party Floor:
+
+```text
+Party 1
+Party 2
+Party 3
+Party 4
+Party 5
+```
+
+masing-masing dapat menghasilkan reward.
+
+```text
+Party 1
+ └── Reward
+
+Party 2
+ └── Reward
+
+Party 3
+ └── Reward
+
+Party 4
+ └── Reward
+
+Party 5
+ └── Reward
+```
+
+Kemudian:
+
+```text
+MULTI-PARTY REWARD ACCUMULATOR
+```
+
+menggabungkan seluruh hasil yang memang menjadi hak Master.
+
+Gem dan Ticket juga harus dipisahkan berdasarkan tipe:
+
+```text
+Total Gem
+Total Recruit Ticket
+Total Select Ticket
+```
+
+---
+
+# 81. MULTI-PARTY REWARD
+
+Contoh:
+
+```text
+Party 1:
+Gold +500
+Gem +10
+
+Party 2:
+Gold +700
+Gem +5
+
+Party 3:
+Gold +300
+Recruit Ticket +1
+
+Shared Boss:
+Gold +1,000
+Gem +15
+```
+
+Total:
+
+```text
+Gold:
+500
++700
++300
++1000
+─────
+2,500 Gold
+```
+
+```text
+Gem:
+10
++5
++15
+──
+30 Gem
+```
+
+```text
+Recruit Ticket:
+1
+```
+
+Sistem memberikan:
+
+```text
+Gold +2,500
+Gem +30
+Recruit Ticket +1
+```
+
+melalui satu synchronized reward transaction.
+
+---
+
+# 82. RAID REWARD SYNCHRONIZATION
+
+```text
+RAID
+ │
+ ├── Party Reward
+ ├── Boss Reward
+ ├── Objective Reward
+ ├── Gem Reward
+ ├── Recruit Ticket Reward
+ └── Completion Reward
+          │
+          ▼
+   REWARD ACCUMULATOR
+          │
+          ▼
+     VALIDATION
+          │
+          ▼
+      DISTRIBUTION
+          │
+          ▼
+   CURRENCY ACCOUNT
+```
+
+---
+
+# 83. QUEST + RAID
+
+Raid dapat menyelesaikan beberapa quest sekaligus.
+
+Contoh:
+
+```text
+Quest A:
+Defeat Raid Boss
+
+Quest B:
+Complete Floor 50
+
+Quest C:
+Collect Boss Core
+
+Quest D:
+Obtain 100 Gem
+```
+
+Raid result:
+
+```text
+Boss Defeated
+Floor Completed
+Boss Core Obtained
+Gem +100
+```
+
+Maka:
+
+```text
+Quest A → Complete
+Quest B → Complete
+Quest C → Complete
+Quest D → Complete
+```
+
+Reward masing-masing kemudian diproses oleh:
+
+```text
+REWARD PROCESSOR
+```
+
+---
+
+# 84. NO DOUBLE REWARD
+
+Contoh:
+
+```text
+Raid Boss defeated
+```
+
+Boss memberikan:
+
+```text
+Boss Loot
+```
+
+Quest memberikan:
+
+```text
+Quest Reward
+```
+
+Jangan menganggap kedua reward sebagai reward yang sama.
+
+Mereka memiliki:
+
+```text
+Source_ID berbeda
+Reward_ID berbeda
+Transaction_ID berbeda
+```
+
+Contoh:
+
+```text
+Boss Reward:
+REW-BOSS-001
+
+Quest Reward:
+REW-QUEST-001
+```
+
+Keduanya valid.
+
+---
+
+# 85. REWARD AGGREGATION RULE
+
+Reward hanya boleh digabung jika:
+
+```text
+Master_ID sama
+Currency_Type sama
+Item_ID sama
+Resource_ID sama
+Transaction Session sama
+```
+
+Contoh:
+
+```text
+Gem +100
+Gem +200
+Gem +300
+```
+
+dapat menjadi:
+
+```text
+Gem +600
+```
+
+Contoh lain:
+
+```text
+Recruit Ticket +1
+Recruit Ticket +2
+```
+
+dapat menjadi:
+
+```text
+Recruit Ticket +3
+```
+
+Tetapi:
+
+```text
+Gem
+Recruit Ticket
+Iron Ore
+```
+
+tidak boleh digabung menjadi satu currency.
+
+---
+
+# 86. REWARD PRIORITY
+
+Jika reward memiliki rule berbeda:
+
+```text
+Guaranteed Reward
+RNG Reward
+Bonus Reward
+Conditional Reward
+```
+
+sistem memproses:
+
+```text
+Guaranteed
+      ↓
+RNG
+      ↓
+Bonus
+      ↓
+Conditional
+```
+
+Kemudian:
+
+```text
+Normalization
+      ↓
+Currency / Resource / Inventory Distribution
+```
+
+---
+
+# 87. GUARANTEED VS RNG
+
+Contoh Dungeon:
+
+```text
+Guaranteed:
+Gold +500
+
+RNG:
+Gem 0–20
+
+RNG:
+Recruit Ticket
+
+RNG:
+Equipment
+
+Bonus:
+Special Material
+```
+
+Result:
+
+```text
+Guaranteed Reward
++
+RNG Result
++
+Bonus Result
+```
+
+---
+
+# 88. REWARD CLAIM
+
+Beberapa reward dapat langsung diberikan:
+
+```text
+AUTO CLAIM
+```
+
+Beberapa dapat membutuhkan:
+
+```text
+MANUAL CLAIM
+```
+
+Contoh:
+
+```text
+Dungeon Loot:
+AUTO CLAIM
+
+Quest Completion:
+AUTO CLAIM
+
+Gem Reward:
+AUTO CLAIM
+
+Recruit Ticket Reward:
+AUTO CLAIM
+
+Special Event Reward:
+MANUAL CLAIM
+```
+
+Aturan ini ditentukan oleh Reward Configuration.
+
+---
+
+# 89. REWARD STATUS
+
+Reward dapat memiliki:
+
+```text
+Generated
+Pending
+Claimed
+Distributed
+Stored
+Overflow
+Expired
+Failed
+Rolled Back
+```
+
+Recruitment memiliki status:
+
+```text
+Requested
+Validating
+Resource Locked
+Cost Deducted
+RNG Completed
+Result Generated
+Completed
+Failed
+Rolled Back
+```
+
+---
+
+# 90. SYNCHRONIZATION WITH GAME STATE
+
+Game State harus mengetahui:
+
+```text
+Currency
+Gem
+Recruit Ticket
+Resource
+Inventory
+Quest
+Dungeon
+Reward
+Transaction
+Recruitment
+```
+
+Tetapi Game State tidak boleh menghitung reward atau biaya Recruitment sendiri.
+
+Rule:
+
+```text
+REWARD PROCESSOR
+        ↓
+SOURCE OF TRUTH FOR REWARD CALCULATION
+```
+
+dan:
+
+```text
+RECRUITMENT PROCESSOR
+        ↓
+SOURCE OF TRUTH FOR RECRUITMENT COST AND RESULT
+```
+
+Game State hanya menerima hasil final.
+
+---
+
+# 91. SOURCE OF TRUTH
+
+Setiap data memiliki owner system.
+
+```text
+Quest Progress
+→ Quest System
+
+Dungeon Progress
+→ Dungeon System
+
+Currency
+→ Resource & Currency Account
+
+Gem
+→ Currency Account
+
+Recruit Ticket
+→ Ticket Account / Currency Account
+
+Items
+→ Inventory System
+
+Reward Calculation
+→ Reward Processor
+
+Recruitment Cost
+→ Recruitment Processor
+
+Recruitment Result
+→ Recruitment Processor
+
+RNG Result
+→ RNG System
+
+World State
+→ Game State System
+
+Persistent Storage
+→ Database System
+```
+
+---
+
+# 92. COMPLETE SYNCHRONIZATION ARCHITECTURE
+
+```text
+                 QUEST SYSTEM
+                      │
+          ┌───────────┼───────────┐
+          │           │           │
+      Quest Gold   Quest Gem   Quest Ticket
+          │           │           │
+          └───────────┼───────────┘
+                      ▼
+DUNGEON ───────► REWARD PROCESSOR ◄────── LOOT
+  │                    │                    │
+  │                    │                    │
+  ├── Boss             │                 Enemy
+  ├── Raid             │                 Boss
+  ├── Exploration      │
+  └── Floor Reward     │
+                       ▼
+                REWARD ACCUMULATOR
+                       │
+              ┌────────┼────────┐
+              │        │        │
+              ▼        ▼        ▼
+          CURRENCY  RESOURCE  INVENTORY
+           ACCOUNT   ACCOUNT
+              │
+              ├── Gold
+              ├── Gem
+              └── Recruit Ticket
+              │
+              ▼
+        RECRUITMENT PROCESSOR
+              │
+              ├── Cost Validation
+              ├── Resource Lock
+              ├── Cost Deduction
+              ├── RNG
+              └── Character Result
+              │
+              ▼
+          GAME STATE
+              │
+              ▼
+           DATABASE
+```
+
+---
+
+# 93. COMPLETE REWARD FLOW
+
+```text
+QUEST
+DUNGEON
+EXPLORATION
+BOSS
+RAID
+ENEMY
+EVENT
+      │
+      ▼
+REWARD GENERATION
+      │
+      ▼
+REWARD ID
+      │
+      ▼
+TRANSACTION ID
+      │
+      ▼
+VALIDATION
+      │
+      ▼
+DUPLICATE CHECK
+      │
+      ▼
+REWARD ACCUMULATION
+      │
+      ▼
+NORMALIZATION
+      │
+      ▼
+DISTRIBUTION
+      │
+ ┌────┼──────────────┐
+ ▼    ▼              ▼
+GOLD GEM / TICKET   ITEM
+ │      │             │
+ ▼      ▼             ▼
+ACCOUNT ACCOUNT     INVENTORY
+        │
+        ▼
+   RECRUITMENT
+        │
+        ▼
+   COST VALIDATION
+        │
+        ▼
+   RECRUITMENT RESULT
+        ▼
+   QUEST UPDATE
+        ▼
+   DUNGEON UPDATE
+        ▼
+   GAME STATE
+        ▼
+    DATABASE
+        ▼
+ TRANSACTION COMPLETE
+```
+
+---
+
+# 94. DATABASE TABLE STRUCTURE
+
+Recommended tables:
+
+```text
+reward_transaction
+reward_item
+reward_source
+currency_account
+gem_account
+ticket_account
+resource_account
+inventory
+inventory_item_instance
+quest_state
+dungeon_session
+loot_result
+rng_result
+recruitment_transaction
+recruitment_result
+recruitment_cost
+game_state
+transaction_log
+reward_history
+recruitment_history
+error_log
+```
+
+---
+
+# 95. REWARD TRANSACTION TABLE
+
+```text
+Transaction_ID
+Reward_ID
+Master_ID
+Source_Type
+Source_ID
+Created_Time
+Processed_Time
+Status
+Total_Gold
+Total_Gem
+Total_Recruit_Ticket
+Total_Resource
+Total_Item
+```
+
+---
+
+# 96. REWARD ITEM TABLE
+
+```text
+Reward_ID
+Item_ID
+Item_Type
+Currency_Type
+Quantity
+Rarity
+RNG_ID
+Source_ID
+```
+
+---
+
+# 97. INVENTORY RECORD
+
+```text
+Inventory_ID
+Master_ID
+Item_ID
+Instance_ID
+Quantity
+Acquired_From
+Acquired_Transaction_ID
+Acquired_Time
+```
+
+---
+
+# 98. CURRENCY ACCOUNT RECORD
+
+```text
+Account_ID
+Master_ID
+Currency_Type
+Current_Value
+Locked_Value
+Available_Value
+Last_Transaction_ID
+Updated_Time
+```
+
+Contoh:
+
+```text
+Currency_Type:
+GEM
+
+Current_Value:
+500
+
+Locked_Value:
+100
+
+Available_Value:
+400
+```
+
+---
+
+# 99. RESOURCE ACCOUNT RECORD
+
+```text
+Resource_Account_ID
+Master_ID
+Resource_ID
+Quantity
+Locked_Quantity
+Available_Quantity
+Last_Transaction_ID
+Updated_Time
+```
+
+---
+
+# 100. QUEST STATE RECORD
+
+```text
+Quest_ID
+Master_ID
+Quest_State
+Progress
+Required_Progress
+Completion_Time
+Reward_Transaction_ID
+```
+
+---
+
+# 101. DUNGEON SESSION RECORD
+
+```text
+Dungeon_Session_ID
+Master_ID
+Floor_ID
+Party_ID
+Session_State
+Completion_State
+Reward_State
+Reward_Transaction_ID
+Start_Time
+End_Time
+```
+
+---
+
+# 102. RECRUITMENT TRANSACTION TABLE
+
+```text
+Recruitment_ID
+Master_ID
+Banner_ID
+Recruitment_Type
+Cost_Type
+Required_Amount
+Locked_Amount
+Deducted_Amount
+RNG_ID
+Result_ID
+Status
+Created_Time
+Completed_Time
+```
+
+---
+
+# 103. RECRUITMENT ERROR TABLE
+
+```text
+Error_ID
+Error_Code
+Error_Type
+Master_ID
+Recruitment_ID
+Required_Amount
+Current_Amount
+Missing_Amount
+Transaction_ID
+Timestamp
+Resolution_State
+```
+
+---
+
+# 104. TRANSACTION RELATIONSHIP
+
+```text
+Dungeon Session
+      │
+      ▼
+Reward Transaction
+      │
+      ├── Quest Reward
+      ├── Boss Reward
+      ├── Loot Reward
+      ├── Exploration Reward
+      └── Floor Reward
+             │
+             ▼
+       Reward Items
+             │
+      ┌──────┼──────────┐
+      ▼      ▼          ▼
+   Currency Resource Inventory
+      │
+      ├── Gem
+      └── Recruit Ticket
+             │
+             ▼
+       Recruitment Transaction
+             │
+             ▼
+       Recruitment Result
+```
+
+---
+
+# 105. PARENT / CHILD TRANSACTION
+
+Untuk sistem kompleks:
+
+```text
+PARENT TRANSACTION
+        │
+        ├── Quest Reward
+        ├── Loot Reward
+        ├── Boss Reward
+        ├── Exploration Reward
+        ├── Completion Reward
+        └── Recruitment Transaction
+```
+
+Contoh:
+
+```text
+TXN-DUNGEON-0001
+│
+├── TXN-QUEST-0001
+├── TXN-LOOT-0001
+├── TXN-BOSS-0001
+├── TXN-FLOOR-0001
+└── TXN-RECRUIT-0001
+```
+
+Semua memiliki:
+
+```text
+Parent_Transaction_ID
+```
+
+---
+
+# 106. REWARD SUMMARY
+
+Setelah Dungeon selesai, sistem dapat menghasilkan summary:
+
+```text
+================================
+DUNGEON REWARD SUMMARY
+================================
+
+Floor:
+20
+
+Session:
+DUN-000020
+
+QUEST
+Gold +1,000
+Gem +5
+Recruit Ticket +1
+
+LOOT
+Gold +350
+Gem +2
+Iron Ore +12
+Monster Core +2
+
+BOSS
+Gold +500
+Gem +10
+Recruit Ticket +1
+Rare Equipment ×1
+
+EXPLORATION
+Ancient Fragment +3
+
+FLOOR CLEAR
+Gold +750
+Gem +3
+
+--------------------------------
+TOTAL
+--------------------------------
+
+Gold:
++2,600
+
+Gem:
++20
+
+Recruit Ticket:
++2
+
+Iron Ore:
++12
+
+Monster Core:
++2
+
+Ancient Fragment:
++3
+
+Rare Equipment:
+×1
+
+--------------------------------
+
+Transaction:
+TXN-000123
+
+Status:
+COMPLETED
+================================
+```
+
+---
+
+# 107. RECRUITMENT SUMMARY
+
+Setelah Recruitment selesai:
+
+```text
+================================
+RECRUITMENT SUMMARY
+================================
+
+Banner:
+Standard Recruitment
+
+Type:
+Single Recruit
+
+Cost:
+100 Gem
+
+Gem Before:
+220
+
+Gem After:
+120
+
+Result:
+Rare Character
+
+RNG:
+RNG-RECRUIT-0001
+
+Transaction:
+TXN-RECRUIT-0001
+
+Status:
+COMPLETED
+================================
+```
+
+Jika gagal:
+
+```text
+================================
+RECRUITMENT ERROR
+================================
+
+Type:
+Single Recruit
+
+Required:
+100 Gem
+
+Current:
+80 Gem
+
+Missing:
+20 Gem
+
+Error:
+INSUFFICIENT_GEM
+
+Status:
+REJECTED
+
+Gem Deducted:
+0
+
+RNG Executed:
+NO
+================================
+```
+
+---
+
+# 108. AI FAIRY REPORT
+
+Setelah transaction selesai, AI Fairy dapat memberikan laporan.
+
+Contoh:
+
+> **"Master, Floor 20 telah selesai. Seluruh reward telah berhasil disinkronkan."**
+
+Kemudian:
+
+> **"Total yang diperoleh: 2.600 Gold, 20 Gem, 2 Recruit Ticket, 12 Iron Ore, 2 Monster Core, 3 Ancient Fragment, dan 1 Rare Equipment."**
+
+Jika saldo Gem berubah:
+
+> **"Saldo Gem Master bertambah dari 200 menjadi 220."**
+
+Jika Ticket bertambah:
+
+> **"Recruit Ticket Master bertambah dari 3 menjadi 5."**
+
+Jika Recruitment berhasil:
+
+> **"Recruitment berhasil. 100 Gem telah digunakan dan satu Rare Character diperoleh."**
+
+Jika terjadi overflow:
+
+> **"Master, Inventory penuh. Item telah dipindahkan ke Overflow Storage."**
+
+---
+
+# 109. ERROR REPORT
+
+Jika transaction gagal:
+
+> **"Master, sinkronisasi reward mengalami kegagalan. Tidak ada reward yang hilang atau diberikan dua kali. Transaction telah dimasukkan ke Recovery Queue."**
+
+Jika Gem tidak cukup:
+
+> **"Master, Recruitment dibatalkan karena Gem tidak mencukupi. Dibutuhkan 100 Gem, sedangkan saldo saat ini hanya 80 Gem."**
+
+Jika Ticket tidak cukup:
+
+> **"Master, Recruitment Ticket tidak mencukupi. Tidak ada Ticket yang dikurangi dan tidak ada proses Recruitment yang dijalankan."**
+
+Jika Recruitment gagal setelah biaya dikurangi:
+
+> **"Master, proses Recruitment mengalami kegagalan teknis. Biaya telah dikembalikan dan hasil Recruitment tidak digandakan."**
+
+---
+
+# 110. ECONOMY SYSTEM CONNECTION
+
+Reward Processor terhubung dengan:
+
+```text
+ECONOMY SYSTEM
+      │
+      ├── Currency Configuration
+      ├── Gem Configuration
+      ├── Ticket Configuration
+      ├── Resource Configuration
+      ├── Reward Limit
+      ├── Inventory Limit
+      ├── Stack Limit
+      ├── Recruitment Cost
+      └── Overflow Rule
+```
+
+Reward Processor tidak menentukan nilai ekonomi secara sembarangan.
+
+Nilai reward berasal dari:
+
+```text
+Quest Configuration
+Dungeon Configuration
+Loot Table
+Boss Table
+Event Configuration
+Economy Configuration
+RNG Configuration
+Recruitment Configuration
+Banner Configuration
+```
+
+---
+
+# 111. SECURITY RULE
+
+Reward transaction dan Recruitment transaction harus diverifikasi berdasarkan:
+
+```text
+Master_ID
+Source_ID
+Reward_ID
+Transaction_ID
+Session_ID
+RNG_ID
+Recruitment_ID
+Banner_ID
+Timestamp
+State
+```
+
+Client tidak boleh menentukan:
+
+```text
+Gold Amount
+Gem Amount
+Ticket Amount
+Item Quantity
+Item ID
+Rarity
+RNG Result
+Reward Result
+Recruitment Result
+Recruitment Cost
+```
+
+Client hanya menerima hasil dari server atau game logic.
+
+---
+
+# 112. ANTI-DUPLICATE RULE
+
+```text
+RULE 01
+One Reward_ID can only be processed once.
+
+RULE 02
+One Loot_Roll_ID can only be processed once.
+
+RULE 03
+One Dungeon Completion can only generate
+its completion reward once.
+
+RULE 04
+One Quest Completion can only generate
+its completion reward once.
+
+RULE 05
+One Transaction_ID can only be committed once.
+
+RULE 06
+One Recruitment_ID can only be processed once.
+
+RULE 07
+One Recruitment Request can only execute
+one RNG result.
+
+RULE 08
+Retry must use the same Transaction_ID.
+
+RULE 09
+Failed transactions must be rolled back.
+
+RULE 10
+Successful transactions must be idempotent.
+
+RULE 11
+Gem and Ticket cannot be deducted twice
+for the same Recruitment_ID.
+
+RULE 12
+Insufficient resource requests must not
+execute RNG or generate a result.
+```
+
+---
+
+# 113. CORE SYNCHRONIZATION RULES
+
+```text
+RULE 01
+All rewards must pass through Reward Processor.
+
+RULE 02
+Reward calculation must not be duplicated
+by Inventory or Currency systems.
+
+RULE 03
+Currency belongs to Currency Account.
+
+RULE 04
+Gem belongs to Currency Account.
+
+RULE 05
+Recruit Ticket belongs to Ticket Account
+or Currency Account according to configuration.
+
+RULE 06
+Resources belong to Resource Account or Inventory
+according to item configuration.
+
+RULE 07
+Items belong to Inventory.
+
+RULE 08
+Quest Progress belongs to Quest System.
+
+RULE 09
+Dungeon Progress belongs to Dungeon System.
+
+RULE 10
+Recruitment Cost belongs to Recruitment Processor.
+
+RULE 11
+Recruitment Result belongs to Recruitment Processor.
+
+RULE 12
+RNG Result belongs to RNG System.
+
+RULE 13
+Game State stores synchronized final state.
+
+RULE 14
+Database stores persistent state.
+
+RULE 15
+Every reward transaction requires a unique ID.
+
+RULE 16
+Every reward source requires a source ID.
+
+RULE 17
+Every recruitment request requires a unique ID.
+
+RULE 18
+Every transaction must support rollback.
+
+RULE 19
+Duplicate reward distribution is forbidden.
+
+RULE 20
+Partial reward commit is forbidden for atomic transactions.
+
+RULE 21
+Recruitment cannot proceed if Gem or Ticket is insufficient.
+
+RULE 22
+Insufficient resource errors must not deduct any resource.
+
+RULE 23
+Insufficient resource errors must not execute RNG.
+
+RULE 24
+Concurrent Recruitment requests must use resource locking.
+
+RULE 25
+Currency balance must be read from the authoritative account.
+```
+
+---
+
+# 114. FINAL ARCHITECTURE
+
+```text
+                         MASTER
+                           │
+                           ▼
+                    GAME STATE SYSTEM
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+        ▼                  ▼                  ▼
+      QUEST             DUNGEON             PARTY
+      SYSTEM             SYSTEM             SYSTEM
+        │                  │
+        │          ┌───────┼────────┐
+        │          │       │        │
+        │        BOSS     LOOT   EXPLORATION
+        │          │       │        │
+        └──────────┴───────┴────────┘
+                           │
+                           ▼
+                     RNG / PRNG
+                           │
+                           ▼
+                   REWARD PROCESSOR
+                           │
+                           ▼
+                  REWARD ACCUMULATOR
+                           │
+                    ┌──────┼──────┐
+                    │      │      │
+                    ▼      ▼      ▼
+                 CURRENCY RESOURCE INVENTORY
+                  ACCOUNT  ACCOUNT
+                    │
+          ┌─────────┼─────────┐
+          │                   │
+          ▼                   ▼
+         GEM            RECRUIT TICKET
+          │                   │
+          └─────────┬─────────┘
+                    ▼
+             RECRUITMENT PROCESSOR
+                    │
+          ┌─────────┼─────────┐
+          │         │         │
+          ▼         ▼         ▼
+       VALIDATE   LOCK      DEDUCT
+          │         │         │
+          └─────────┼─────────┘
+                    ▼
+                 RNG SYSTEM
+                    │
+                    ▼
+            RECRUITMENT RESULT
+                    │
+                    ▼
+             CHARACTER ACCOUNT
+                    │
+                    ▼
+                 GAME STATE
+                    │
+                    ▼
+                  DATABASE
+                    │
+                    ▼
+                 AI FAIRY
+                    │
+                    ▼
+                  MASTER
+```
+
+---
+
+# 115. COMPLETE SESSION EXAMPLE
+
+```text
+MASTER ENTERS FLOOR 30
+        ↓
+DUNGEON SESSION CREATED
+        ↓
+PARTY DEPLOYED
+        ↓
+ENEMY DEFEATED
+        ↓
+LOOT ROLL
+        ↓
+LOOT GENERATED
+        ↓
+QUEST PROGRESS UPDATED
+        ↓
+BOSS DEFEATED
+        ↓
+BOSS RNG
+        ↓
+EXPLORATION COMPLETED
+        ↓
+EXPLORATION RNG
+        ↓
+FLOOR COMPLETED
+        ↓
+FLOOR REWARD
+        ↓
+QUEST COMPLETED
+        ↓
+QUEST REWARD
+        ↓
+GEM AND TICKET REWARD GENERATED
+        ↓
+REWARD ACCUMULATOR
+        ↓
+NORMALIZATION
+        ↓
+DUPLICATE CHECK
+        ↓
+VALIDATION
+        ↓
+CURRENCY UPDATE
+        ↓
+GEM UPDATE
+        ↓
+RECRUIT TICKET UPDATE
+        ↓
+RESOURCE UPDATE
+        ↓
+INVENTORY UPDATE
+        ↓
+QUEST STATE UPDATE
+        ↓
+DUNGEON STATE UPDATE
+        ↓
+GAME STATE UPDATE
+        ↓
+DATABASE COMMIT
+        ↓
+TRANSACTION COMPLETED
+        ↓
+MASTER OPENS RECRUITMENT
+        ↓
+RECRUITMENT COST CALCULATION
+        ↓
+GEM / TICKET VALIDATION
+        ↓
+SUFFICIENT CHECK
+        ↓
+RESOURCE LOCK
+        ↓
+COST DEDUCTION
+        ↓
+RECRUITMENT RNG
+        ↓
+CHARACTER RESULT
+        ↓
+DATABASE COMMIT
+        ↓
+RECRUITMENT COMPLETED
+        ↓
+AI FAIRY REPORT
+```
+
+---
+
+# 116. DESIGN PHILOSOPHY
+
+Sistem ini menggunakan prinsip:
+
+> **"One Reward, One Transaction, One Source of Truth."**
+
+Untuk Recruitment:
+
+> **"One Recruitment, One Cost Validation, One RNG Result, One Final Outcome."**
+
+Artinya setiap reward yang diperoleh harus dapat ditelusuri:
+
+```text
+DARI MANA
+   ↓
+MENGAPA DIDAPAT
+   ↓
+RNG APA YANG MENGHASILKAN
+   ↓
+TRANSACTION APA
+   ↓
+MASUK KE ACCOUNT / INVENTORY MANA
+   ↓
+KAPAN DISIMPAN
+   ↓
+APAKAH DIGUNAKAN UNTUK RECRUITMENT
+```
+
+Contoh:
+
+```text
+Daily Quest
+      ↓
+Gem +30
+      ↓
+Reward_ID
+      ↓
+Transaction_ID
+      ↓
+Currency Account
+      ↓
+Gem Balance
+      ↓
+Recruitment Cost
+      ↓
+Spending Transaction
+      ↓
+Recruitment RNG
+      ↓
+Character Result
+      ↓
+Database
+```
+
+---
+
+# 117. FINAL SYSTEM CONNECTION
+
+```text
+                 QUEST SYSTEM
+                       │
+                       ▼
+              QUEST GEM / TICKET REWARD
+                       │
+                       ▼
+DUNGEON ───────► REWARD PROCESSOR ◄────── LOOT
+   │                   │                    │
+   ├── Boss            │                    │
+   ├── Raid            │                    │
+   ├── Exploration     │                    │
+   └── Floor           │                    │
+                       ▼
+                REWARD ACCUMULATION
+                       │
+                       ▼
+                    VALIDATION
+                       │
+                       ▼
+                  DUPLICATE CHECK
+                       │
+                       ▼
+                   DISTRIBUTION
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+       CURRENCY      RESOURCE     INVENTORY
+       ACCOUNT       ACCOUNT
+          │
+          ├── Gold
+          ├── Gem
+          └── Recruit Ticket
+          │
+          ▼
+       RECRUITMENT PROCESSOR
+          │
+          ├── Cost Validation
+          ├── Sufficient Check
+          ├── Resource Lock
+          ├── Cost Deduction
+          ├── RNG
+          └── Result Distribution
+                       │
+                       ▼
+                  QUEST STATE
+                       │
+                       ▼
+                 DUNGEON STATE
+                       │
+                       ▼
+                  GAME STATE
+                       │
+                       ▼
+                    DATABASE
+                       │
+                       ▼
+                   AI FAIRY
+                       │
+                       ▼
+                     MASTER
+```
+
+# 118. FINAL PRINCIPLE
+
+Tidak peduli reward berasal dari:
+
+```text
+Quest
+Dungeon
+Enemy
+Boss
+Raid Boss
+World Exploration
+Event
+Hidden Event
+Floor Completion
+Achievement
+```
+
+semuanya harus berakhir pada:
+
+```text
+REWARD PROCESSOR
+        ↓
+REWARD ACCUMULATOR
+        ↓
+VALIDATION
+        ↓
+CURRENCY / RESOURCE / INVENTORY
+        ↓
+GAME STATE
+        ↓
+DATABASE
+```
+
+Jika Gem atau Ticket digunakan untuk Recruitment:
+
+```text
+CURRENCY ACCOUNT
+        ↓
+RECRUITMENT PROCESSOR
+        ↓
+COST VALIDATION
+        ↓
+SUFFICIENT CHECK
+        ↓
+RESOURCE LOCK
+        ↓
+COST DEDUCTION
+        ↓
+RNG
+        ↓
+RECRUITMENT RESULT
+        ↓
+DATABASE
+```
+
+Jika resource tidak cukup:
+
+```text
+INSUFFICIENT RESOURCE
+        ↓
+RECRUITMENT REJECTED
+        ↓
+NO RESOURCE DEDUCTED
+        ↓
+NO RNG EXECUTED
+        ↓
+NO CHARACTER GENERATED
+        ↓
+ERROR LOGGED
+```
+
+Dengan demikian sistem dapat menjamin:
+
+```text
+✓ Reward tidak hilang
+✓ Reward tidak duplicate
+✓ Reward RNG dapat dilacak
+✓ Loot dapat dilacak
+✓ Quest progress sinkron
+✓ Dungeon progress sinkron
+✓ Currency selalu konsisten
+✓ Gem selalu konsisten
+✓ Recruit Ticket selalu konsisten
+✓ Resource selalu konsisten
+✓ Inventory selalu konsisten
+✓ Gem dapat diakumulasi untuk Recruitment
+✓ Ticket dapat diakumulasi untuk Recruitment
+✓ Recruitment hanya berjalan jika resource cukup
+✓ Resource tidak berkurang jika Recruitment gagal
+✓ RNG tidak berjalan jika resource tidak cukup
+✓ Multi-Party reward dapat digabung
+✓ Raid reward dapat digabung
+✓ Transaction dapat di-audit
+✓ Transaction dapat di-rollback
+✓ Database memiliki state final
+✓ AI Fairy dapat melaporkan hasil
+```
+
+**Reward bukan hanya angka yang ditambahkan ke Inventory atau Currency Account.**
+
+Reward adalah sebuah **transaction** yang memiliki asal, hasil, validasi, distribusi, dan riwayat.
+
+**Gem dan Recruit Ticket bukan hanya reward, tetapi juga resource yang dapat diakumulasi dan digunakan oleh Recruitment System.**
+
+```text
+SOURCE
+  ↓
+RNG
+  ↓
+REWARD
+  ↓
+TRANSACTION
+  ↓
+ACCUMULATION
+  ↓
+CURRENCY / RESOURCE / INVENTORY
+  ↓
+QUEST / DUNGEON STATE
+  ↓
+GAME STATE
+  ↓
+DATABASE
+  ↓
+RECRUITMENT VALIDATION
+  ↓
+COST DEDUCTION
+  ↓
+RECRUITMENT RESULT
+```
+
+**Dengan arsitektur ini, seluruh ekonomi reward dan Recruitment Aetheria memiliki satu jalur sinkronisasi yang konsisten, aman, dapat diaudit, dan terlindungi dari kekurangan resource maupun duplikasi transaksi.**
