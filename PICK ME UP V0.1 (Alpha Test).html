@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHERIA — Tower of Rebirth (Pick Me Up! Web Edition v2.0)</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: #131b2e;
+            --panel-border: #1e293b;
+            --accent-gold: #f59e0b;
+            --accent-gem: #38bdf8;
+            --accent-purple: #a855f7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #22c55e;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; padding: 15px; }
+        header { background: var(--panel-bg); border: 1px solid var(--panel-border); padding: 15px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .header-title h1 { font-size: 1.4rem; color: var(--accent-gold); letter-spacing: 1px; }
+        .header-title p { font-size: 0.85rem; color: var(--text-muted); }
+        .resources { display: flex; gap: 15px; font-weight: 600; font-size: 0.95rem; }
+        .res-item { background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 20px; border: 1px solid var(--panel-border); }
+        .gold { color: var(--accent-gold); }
+        .gem { color: var(--accent-gem); }
+        .ticket { color: var(--accent-purple); }
+
+        .main-container { display: grid; grid-template-columns: 280px 1fr; gap: 15px; }
+        @media (max-width: 900px) { .main-container { grid-template-columns: 1fr; } }
+
+        nav { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 8px; height: fit-content; }
+        nav button { background: #1e293b; color: var(--text-main); border: none; padding: 10px 15px; text-align: left; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        nav button:hover, nav button.active { background: var(--accent-gold); color: #000; }
+
+        .content-panel { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 8px; padding: 20px; min-height: 550px; display: flex; flex-direction: column; gap: 20px; }
+        .tab-content { display: none; flex-direction: column; gap: 15px; }
+        .tab-content.active { display: flex; }
+
+        h2 { font-size: 1.2rem; border-bottom: 2px solid var(--panel-border); padding-bottom: 8px; margin-bottom: 5px; color: var(--accent-gold); }
+        p { color: var(--text-muted); font-size: 0.95rem; }
+
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+        .card { background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); border-radius: 6px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .card h3 { font-size: 1rem; color: var(--text-main); }
+        .card p { font-size: 0.85rem; }
+
+        .btn { background: var(--accent-gold); color: #000; border: none; padding: 8px 14px; border-radius: 4px; font-weight: 700; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-secondary { background: #334155; color: var(--text-main); }
+        .btn-danger { background: var(--danger); color: #fff; }
+
+        .log-box { background: #07090f; border: 1px solid var(--panel-border); border-radius: 6px; padding: 12px; height: 180px; overflow-y: auto; font-family: monospace; font-size: 0.85rem; color: #38bdf8; display: flex; flex-direction: column; gap: 4px; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--panel-border); padding: 8px; text-align: left; }
+        th { background: rgba(0,0,0,0.5); color: var(--accent-gold); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>AETHERIA — TOWER OF REBIRTH</h1>
+            <p>Master: <span id="ui-master-name">Master</span> | Level: <span id="ui-master-level">1</span> | Floor: <span id="ui-tower-floor">1</span> | Day: <span id="ui-day">1</span></p>
+        </div>
+        <div class="resources">
+            <div class="res-item gold">🪙 <span id="res-gold">1000</span> Gold</div>
+            <div class="res-item gem">💎 <span id="res-gem">50</span> Gem</div>
+            <div class="res-item ticket">🎫 <span id="res-ticket">3</span> Ticket</div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <nav>
+            <button onclick="switchTab('tab-lobby')" class="active" id="btn-tab-lobby">🏰 Lobby & Overview</button>
+            <button onclick="switchTab('tab-recruit')" id="btn-tab-recruit">🎲 Recruit (RNG)</button>
+            <button onclick="switchTab('tab-roster')" id="btn-tab-roster">👥 Hero Roster & ID</button>
+            <button onclick="switchTab('tab-party')" id="btn-tab-party">⚔️ Party Management</button>
+            <button onclick="switchTab('tab-dungeon')" id="btn-tab-dungeon">🗼 Tower & Dungeon</button>
+            <button onclick="switchTab('tab-town')" id="btn-tab-town">🏘️ Town Square Facilities</button>
+            <button onclick="switchTab('tab-inventory')" id="btn-tab-inventory">🎒 Inventory & Items</button>
+            <button onclick="executeSkipDay()" id="btn-skip-day" style="background:#0284c7; color:#fff;">⏩ Skip Day (Daily Reset)</button>
+            <button onclick="saveGameManual()" class="btn-secondary">💾 Manual Save</button>
+            <button onclick="resetGameData()" class="btn-danger">⚠️ Reset Game</button>
+        </nav>
+
+        <div class="content-panel">
+            <!-- TAB 1: LOBBY -->
+            <div id="tab-lobby" class="tab-content active">
+                <h2>AI Fairy Observation & Command Center</h2>
+                <p>Selamat datang kembali, Master. Dunia telah hancur oleh Nythar, dan Tower of Rebirth adalah satu-satunya jalan menuju kebangkitan dunia.</p>
+                
+                <div class="grid-cards">
+                    <div class="card">
+                        <h3>Status Tower</h3>
+                        <p>Lantai Saat Ini: <strong><span id="lobby-floor">1</span></strong></p>
+                        <p>Tingkat Kehancuran (Destruction): <strong>85.4%</strong></p>
+                        <button class="btn" onclick="switchTab('tab-dungeon')">Masuk Dungeon</button>
+                    </div>
+                    <div class="card">
+                        <h3>Manajemen Roster</h3>
+                        <p>Total Hero Terdaftar: <span id="lobby-hero-count">0</span></p>
+                        <p>Party Aktif: <span id="lobby-party-count">1 / 5</span></p>
+                        <button class="btn" onclick="switchTab('tab-roster')">Kelola Hero</button>
+                    </div>
+                    <div class="card">
+                        <h3>Fasilitas Town Square</h3>
+                        <p>Alchemy Lab: <span id="lobby-alchemy-status">NO_LEADER</span></p>
+                        <p>Blacksmith: <span id="lobby-blacksmith-status">NO_LEADER</span></p>
+                        <button class="btn" onclick="switchTab('tab-town')">Kelola Town</button>
+                    </div>
+                </div>
+
+                <h3>Fairy Live Narrative Log</h3>
+                <div id="fairy-log" class="log-box">
+                    <div>[00:00] Inisialisasi Game State & Database berhasil. Fairy AI siap memandu Master.</div>
+                </div>
+            </div>
+
+            <!-- TAB 2: RECRUIT -->
+            <div id="tab-recruit" class="tab-content">
+                <h2>Recruitment Center (PRNG & RNG System)</h2>
+                <p>Temukan para survivor dari reruntuhan dunia Aetheria melalui berbagai metode rekrutmen berstandar sistem.</p>
+                
+                <div class="grid-cards">
+                    <div class="card">
+                        <h3>Gold Standard Recruit</h3>
+                        <p>Biaya: 500 Gold</p>
+                        <p>Peluang: Star 1 (60%), Star 2 (30%), Star 3 (10%)</p>
+                        <button class="btn" onclick="recruitHero('gold')">Rekrut (Gold)</button>
+                    </div>
+                    <div class="card">
+                        <h3>Ticket Recruit</h3>
+                        <p>Biaya: 1 Summon Ticket</p>
+                        <p>Peluang: Star 2 (50%), Star 3 (40%), Star 4 (10%)</p>
+                        <button class="btn" onclick="recruitHero('ticket')">Rekrut (Ticket)</button>
+                    </div>
+                    <div class="card">
+                        <h3>Gem Premium Recruit</h3>
+                        <p>Biaya: 50 Gems</p>
+                        <p>Peluang: Star 3 (60%), Star 4 (30%), Star 5 (10%)</p>
+                        <button class="btn" onclick="recruitHero('gem')">Rekrut (Gem)</button>
+                    </div>
+                    <div class="card">
+                        <h3>Special Star 5 Recruit</h3>
+                        <p>Biaya: 200 Gems</p>
+                        <p>Peluang: Dijamin Hero Star 5 Berdarah Bangsawan/Spesial!</p>
+                        <button class="btn" onclick="recruitHero('special')">Rekrut (Star 5)</button>
+                    </div>
+                </div>
+
+                <h3>Hasil Rekrutmen Terakhir</h3>
+                <div id="recruit-result-box" class="card" style="background: rgba(245, 158, 11, 0.05); border-color: var(--accent-gold);">
+                    <p>Belum ada rekrutmen yang dilakukan dalam sesi ini.</p>
+                </div>
+            </div>
+
+            <!-- TAB 3: ROSTER -->
+            <div id="tab-roster" class="tab-content">
+                <h2>Hero Roster & ID Binding System</h2>
+                <p>Daftar seluruh Hero yang terikat dengan ID unik, Star Rank, Level, dan Basic Skill RNG.</p>
+                
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hero ID</th>
+                                <th>Nama & Title</th>
+                                <th>Ras & Star</th>
+                                <th>Class</th>
+                                <th>Level / Stat</th>
+                                <th>Basic Skills</th>
+                                <th>Aksi / Synthesis</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roster-table-body">
+                            <!-- Diisi via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 4: PARTY -->
+            <div id="tab-party" class="tab-content">
+                <h2>Party Management & Leader System</h2>
+                <p>Atur formasi Party (Maksimal 5 Hero per Party). Party 1 dipimpin oleh Leader yang ditunjuk Master.</p>
+                
+                <div class="card">
+                    <h3>Party 1 Configuration</h3>
+                    <p>Leader: <span id="party-1-leader">Belum ditentukan</span></p>
+                    <div id="party-1-members" style="margin-top: 8px; display:flex; gap: 8px; flex-wrap: wrap;">
+                        <!-- Anggota Party 1 -->
+                    </div>
+                    <div style="margin-top: 10px; display: flex; gap: 10px;">
+                        <select id="select-hero-party1" class="btn-secondary" style="padding: 6px; border-radius: 4px; color:#fff; background:#1e293b;"></select>
+                        <button class="btn" onclick="addHeroToParty(1)">Masukkan ke Party 1</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: DUNGEON -->
+            <div id="tab-dungeon" class="tab-content">
+                <h2>Tower of Rebirth & Floor Mission</h2>
+                <p>Setiap lantai adalah fragmen dunia masa lalu. Pilih Party dan hadapi musuh berdasarkan Enemy Database resmi Aetheria.</p>
+                
+                <div class="card" style="background: rgba(56, 189, 248, 0.05); border-color: var(--accent-gem);">
+                    <h3>Eksplorasi Lantai <span id="dungeon-current-floor">1</span></h3>
+                    <p><strong>Musuh di Lantai Ini:</strong> <span id="dungeon-enemy-info">-</span></p>
+                    <p><strong>Analisis Kekuatan & Win Rate:</strong> <span id="dungeon-winrate">-</span></p>
+                    <p style="margin-top: 5px; color: var(--text-main);"><em>Aturan Dungeon:</em> Tidak ada EXP! Kemenangan memberikan Gold, Gem, Summon Ticket, dan Material sesuai Dungeon Reward Pool System.</p>
+                    <button class="btn" style="margin-top: 10px; width: fit-content;" onclick="startDungeonBattle()">Mulai Pertempuran Lantai Ini</button>
+                </div>
+
+                <h3>Battle Simulation Log</h3>
+                <div id="battle-log" class="log-box">
+                    <div>[Dungeon Ready] Pilih Party dan tekan tombol mulai pertempuran untuk masuk ke Floor Tower.</div>
+                </div>
+            </div>
+
+            <!-- TAB 6: TOWN SQUARE -->
+            <div id="tab-town" class="tab-content">
+                <h2>Town Square — Facility Leader Requirement System</h2>
+                <p><em>No Leader, No Operation.</em> Tunjuk Hero sebagai Leader untuk mengaktifkan fasilitas otomatis harian.</p>
+                
+                <div class="grid-cards">
+                    <div class="card">
+                        <h3>Alchemy Laboratory</h3>
+                        <p>Status: <span id="facility-alchemy-state" style="color:var(--danger)">NO_LEADER</span></p>
+                        <p>Leader: <span id="facility-alchemy-leader">-</span></p>
+                        <p>Produksi Harian: +5 Gems per Skip Day</p>
+                        <select id="select-leader-alchemy" class="btn-secondary" style="padding: 6px; border-radius:4px; color:#fff; background:#1e293b; margin-top:5px;"></select>
+                        <button class="btn" style="margin-top:5px;" onclick="assignFacilityLeader('alchemy')">Tunjuk Leader</button>
+                    </div>
+                    <div class="card">
+                        <h3>Blacksmith Workshop</h3>
+                        <p>Status: <span id="facility-blacksmith-state" style="color:var(--danger)">NO_LEADER</span></p>
+                        <p>Leader: <span id="facility-blacksmith-leader">-</span></p>
+                        <p>Produksi Harian: +200 Gold per Skip Day</p>
+                        <select id="select-leader-blacksmith" class="btn-secondary" style="padding: 6px; border-radius:4px; color:#fff; background:#1e293b; margin-top:5px;"></select>
+                        <button class="btn" style="margin-top:5px;" onclick="assignFacilityLeader('blacksmith')">Tunjuk Leader</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 7: INVENTORY -->
+            <div id="tab-inventory" class="tab-content">
+                <h2>Item + Inventory & Reward Synchronization System</h2>
+                <p>Semua item, material, dan reward yang diperoleh tercatat secara aman dalam Database.</p>
+                
+                <div class="grid-cards" id="inventory-grid">
+                    <!-- Item Inventory -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * AETHERIA — WEB ENGINE IMPLEMENTATION (v0.1 s.d v2.0)
+         * Mengikuti seluruh spesifikasi resmi Pick Me Up!
+         */
+
+        let gameState = {
+            masterName: "Master",
+            masterLevel: 1,
+            towerFloor: 1,
+            gold: 1000,
+            gem: 50,
+            ticket: 3,
+            day: 1,
+            heroes: [],
+            parties: {
+                party1: []
+            },
+            inventory: {
+                "MAT-IRON-01": { name: "Iron Ore", count: 10, type: "material" },
+                "MAT-WOOD-01": { name: "Basic Wood", count: 10, type: "material" },
+                "MAT-STONE-01": { name: "Stone", count: 15, type: "material" }
+            },
+            facilities: {
+                alchemy: { status: "NO_LEADER", leaderId: null },
+                blacksmith: { status: "NO_LEADER", leaderId: null }
+            }
+        };
+
+        const ENEMY_DATABASE = {
+            1: { id: "ENM-001", name: "Goblin Scout", type: "Small", atk: 15, hp: 50, desc: "Pramuka goblin agresif dari lantai awal Tower." },
+            2: { id: "ENM-002", name: "Corrupted Orc", type: "Medium", atk: 28, hp: 120, desc: "Orc sisa peradaban yang tercemar energi gelap Nythar." },
+            3: { id: "ENM-003", name: "Shadow Skeleton", type: "Medium", atk: 35, hp: 160, desc: "Kerangka berbalut kutukan lantai menengah." },
+            5: { id: "ENM-005", name: "Tower Guardian Boss", type: "Large", atk: 60, hp: 500, desc: "Boss milestone penjaga lantai 5 Tower." }
+        };
+
+        function initGame() {
+            loadGame();
+            if (gameState.heroes.length === 0) {
+                // Berikan starter hero default sesuai babak awal
+                createStarterHero("HR-00001", "Kaelen", "Human", 2, "Warrior");
+                createStarterHero("HR-00002", "Lyra", "Elf", 2, "Mage");
+            }
+            render();
+            logFairy("Inisialisasi sistem Aetheria berhasil. Paket pemula telah diklaim. Tower of Rebirth terbuka, dan dunia menunggu keputusan Anda, Master.");
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+            
+            const targetTab = document.getElementById(tabId);
+            if(targetTab) targetTab.classList.add('active');
+
+            const btnId = 'btn-' + tabId;
+            const targetBtn = document.getElementById(btnId);
+            if(targetBtn) targetBtn.classList.add('active');
+        }
+
+        function logFairy(msg) {
+            const box = document.getElementById('fairy-log');
+            if(!box) return;
+            const time = `[Hari ${gameState.day}]`;
+            box.innerHTML += `<div>${time} ${msg}</div>`;
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function createStarterHero(id, name, race, star, charClass) {
+            gameState.heroes.push({
+                id: id,
+                name: name,
+                race: race,
+                star: star,
+                class: charClass,
+                level: 1,
+                atk: 25 + (star * 10),
+                hp: 120 + (star * 30),
+                skills: ["Friendly Greeting", "Basic Slash"]
+            });
+        }
+
+        function recruitHero(method) {
+            let costGold = 0, costGem = 0, costTicket = 0;
+            let starProb = 1;
+
+            if (method === 'gold') {
+                costGold = 500;
+                const roll = Math.random();
+                starProb = roll < 0.6 ? 1 : (roll < 0.9 ? 2 : 3);
+            } else if (method === 'ticket') {
+                costTicket = 1;
+                const roll = Math.random();
+                starProb = roll < 0.5 ? 2 : (roll < 0.9 ? 3 : 4);
+            } else if (method === 'gem') {
+                costGem = 50;
+                const roll = Math.random();
+                starProb = roll < 0.6 ? 3 : (roll < 0.9 ? 4 : 5);
+            } else if (method === 'special') {
+                costGem = 200;
+                starProb = 5;
+            }
+
+            if (gameState.gold < costGold || gameState.gem < costGem || gameState.ticket < costTicket) {
+                alert("Resource tidak mencukupi untuk rekrutmen ini, Master!");
+                logFairy(`Recruitment dibatalkan: Resource tidak mencukupi.`);
+                return;
+            }
+
+            gameState.gold -= costGold;
+            gameState.gem -= costGem;
+            gameState.ticket -= costTicket;
+
+            const newId = "HR-" + Math.floor(10000 + Math.random() * 90000);
+            const races = ["Human", "Elf", "Dwarf", "Beastfolk", "Dragonkin"];
+            const classes = ["Warrior", "Mage", "Archer", "Healer", "Rogue"];
+            const randomRace = races[Math.floor(Math.random() * races.length)];
+            const randomClass = classes[Math.floor(Math.random() * classes.length)];
+            const randomName = "Survivor " + newId.substring(3);
+
+            const newHero = {
+                id: newId,
+                name: randomName,
+                race: randomRace,
+                star: starProb,
+                class: randomClass,
+                level: 1,
+                atk: 20 + (starProb * 12),
+                hp: 100 + (starProb * 35),
+                skills: ["Basic Skill RNG", "Battle Instinct"]
+            };
+
+            gameState.heroes.push(newHero);
+            saveGame();
+            render();
+
+            document.getElementById('recruit-result-box').innerHTML = `
+                <h3>Berhasil Merekrut!</h3>
+                <p><strong>[${newHero.id}] ${newHero.name}</strong> (${newHero.race} - ⭐${newHero.star} ${newHero.class})</p>
+                <p>ATK: ${newHero.atk} | HP: ${newHero.hp}</p>
+            `;
+            logFairy(`Fairy mencatat rekrutmen baru: ${newHero.name} (⭐${newHero.star} ${newHero.race} ${newHero.class}) masuk ke Roster.`);
+        }
+
+        function addHeroToParty(partyNum) {
+            const selectId = `select-hero-party${partyNum}`;
+            const heroId = document.getElementById(selectId).value;
+            if (!heroId) return;
+
+            if (!gameState.parties.party1.includes(heroId)) {
+                if (gameState.parties.party1.length >= 5) {
+                    alert("Party sudah mencapai batas maksimum 5 Hero!");
+                    return;
+                }
+                gameState.parties.party1.push(heroId);
+                saveGame();
+                render();
+                logFairy(`Hero ${heroId} ditambahkan ke Party 1.`);
+            } else {
+                alert("Hero tersebut sudah ada di dalam Party!");
+            }
+        }
+
+        function removeHeroFromParty(heroId) {
+            gameState.parties.party1 = gameState.parties.party1.filter(id => id !== heroId);
+            saveGame();
+            render();
+            logFairy(`Hero ${heroId} dikeluarkan dari Party 1.`);
+        }
+
+        function levelUpHero(heroId) {
+            const hero = gameState.heroes.find(h => h.id === heroId);
+            const cost = hero.level * 100;
+            if (gameState.gold < cost) {
+                alert(`Gold tidak cukup untuk Level Up! Butuh ${cost} Gold.`);
+                return;
+            }
+            gameState.gold -= cost;
+            hero.level += 1;
+            hero.atk += 6;
+            hero.hp += 25;
+            saveGame();
+            render();
+            logFairy(`Hero ${hero.name} (${hero.id}) naik ke Level ${hero.level} melalui investasi Gold Master.`);
+        }
+
+        function synthesizeHero(heroId) {
+            if (gameState.heroes.length <= 1) {
+                alert("Butuh minimal 2 Hero untuk melakukan Hero Synthesis!");
+                return;
+            }
+            if (confirm("Korbankan Hero lain untuk menaikkan level target secara instan?")) {
+                const target = gameState.heroes.find(h => h.id === heroId);
+                const index = gameState.heroes.findIndex(h => h.id !== heroId);
+                if (index !== -1) {
+                    const sacrificed = gameState.heroes.splice(index, 1)[0];
+                    target.level += 3;
+                    target.atk += 25;
+                    target.hp += 90;
+                    saveGame();
+                    render();
+                    logFairy(`Hero Synthesis berhasil! ${target.name} menyerap esensi ${sacrificed.name} dan naik drastis.`);
+                }
+            }
+        }
+
+        function startDungeonBattle() {
+            if (gameState.parties.party1.length === 0) {
+                alert("Party 1 kosong! Masukkan minimal 1 Hero ke Party sebelum masuk Dungeon.");
+                return;
+            }
+
+            const floor = gameState.towerFloor;
+            const enemy = ENEMY_DATABASE[floor] || ENEMY_DATABASE[1];
+            
+            let totalPartyAtk = 0;
+            gameState.parties.party1.forEach(id => {
+                const h = gameState.heroes.find(item => item.id === id);
+                if(h) totalPartyAtk += h.atk;
+            });
+
+            const box = document.getElementById('battle-log');
+            box.innerHTML += `<div>[Combat] Party 1 memasuki Lantai ${floor} melawan ${enemy.name} (${enemy.type})...</div>`;
+
+            if (totalPartyAtk >= enemy.atk * 1.1) {
+                const rewardGold = floor * 180;
+                const rewardGem = floor * 10;
+                const rewardTicket = Math.random() < 0.35 ? 1 : 0;
+
+                gameState.gold += rewardGold;
+                gameState.gem += rewardGem;
+                gameState.ticket += rewardTicket;
+                gameState.towerFloor += 1;
+                masterLevelProgressionCheck();
+
+                box.innerHTML += `<div style="color:var(--success)">[Victory] Lantai ${floor} berhasil dibersihkan! Reward: +${rewardGold} Gold, +${rewardGem} Gems ${rewardTicket > 0 ? ', +1 Ticket' : ''}. Tower naik ke Lantai ${gameState.towerFloor}.</div>`;
+                logFairy(`Kemenangan gemilang di Lantai ${floor}! Tower naik ke Lantai ${gameState.towerFloor}. Reward disinkronkan.`);
+            } else {
+                box.innerHTML += `<div style="color:var(--danger)">[Defeat] Party gagal menembus kekuatan ${enemy.name}! Perkuat hero Anda di Roster atau Town Square.</div>`;
+                logFairy(`Kekalahan di Lantai ${floor}. Party mundur dengan kerugian psikologis.`);
+            }
+            saveGame();
+            render();
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function masterLevelProgressionCheck() {
+            gameState.masterLevel = Math.floor((gameState.towerFloor - 1) / 5) + 1;
+        }
+
+        function assignFacilityLeader(facilityKey) {
+            const selectId = `select-leader-${facilityKey}`;
+            const heroId = document.getElementById(selectId).value;
+            if (!heroId) {
+                alert("Pilih Hero terlebih dahulu sebagai Leader!");
+                return;
+            }
+
+            gameState.facilities[facilityKey].leaderId = heroId;
+            gameState.facilities[facilityKey].status = "ACTIVE";
+            saveGame();
+            render();
+            logFairy(`Hero ${heroId} ditunjuk sebagai Leader fasilitas ${facilityKey}. Fasilitas aktif beroperasi.`);
+        }
+
+        function executeSkipDay() {
+            gameState.day += 1;
+            if (gameState.facilities.alchemy.status === "ACTIVE") gameState.gem += 5;
+            if (gameState.facilities.blacksmith.status === "ACTIVE") gameState.gold += 200;
+
+            saveGame();
+            render();
+            logFairy(`Daily Reset Day ${gameState.day} selesai. Fasilitas Town Square memproduksi hasil otomatis harian.`);
+            alert(`Berhasil melewati hari ke-${gameState.day}. Sinkronisasi dunia dan reset harian dijalankan.`);
+        }
+
+        function saveGame() {
+            try {
+                localStorage.setItem('aetheria_html_save_v2', JSON.stringify(gameState));
+            } catch (e) {
+                console.error("Gagal menyimpan ke LocalStorage:", e);
+            }
+        }
+
+        function loadGame() {
+            const saved = localStorage.getItem('aetheria_html_save_v2');
+            if (saved) {
+                try {
+                    gameState = JSON.parse(saved);
+                } catch (e) {
+                    console.error("Gagal memuat save data:", e);
+                }
+            }
+        }
+
+        function saveGameManual() {
+            saveGame();
+            alert("Progres permainan berhasil disimpan ke LocalStorage browser!");
+        }
+
+        function resetGameData() {
+            if (confirm("Apakah Anda yakin ingin mereset seluruh data permainan Aetheria?")) {
+                localStorage.removeItem('aetheria_html_save_v2');
+                location.reload();
+            }
+        }
+
+        function render() {
+            document.getElementById('ui-master-name').innerText = gameState.masterName;
+            document.getElementById('ui-master-level').innerText = gameState.masterLevel;
+            document.getElementById('ui-tower-floor').innerText = gameState.towerFloor;
+            document.getElementById('ui-day').innerText = gameState.day;
+            document.getElementById('res-gold').innerText = gameState.gold;
+            document.getElementById('res-gem').innerText = gameState.gem;
+            document.getElementById('res-ticket').innerText = gameState.ticket;
+
+            document.getElementById('lobby-floor').innerText = gameState.towerFloor;
+            document.getElementById('lobby-hero-count').innerText = gameState.heroes.length;
+            document.getElementById('lobby-party-count').innerText = `${gameState.parties.party1.length} / 5`;
+            
+            document.getElementById('lobby-alchemy-status').innerText = gameState.facilities.alchemy.status;
+            document.getElementById('lobby-blacksmith-status').innerText = gameState.facilities.blacksmith.status;
+
+            // Render Roster Table
+            const rosterBody = document.getElementById('roster-table-body');
+            rosterBody.innerHTML = '';
+            const selectParty1 = document.getElementById('select-hero-party1');
+            const selectAlchemy = document.getElementById('select-leader-alchemy');
+            const selectBlacksmith = document.getElementById('select-leader-blacksmith');
+            
+            selectParty1.innerHTML = '<option value="">-- Pilih Hero --</option>';
+            selectAlchemy.innerHTML = '<option value="">-- Pilih Leader Alchemy --</option>';
+            selectBlacksmith.innerHTML = '<option value="">-- Pilih Leader Blacksmith --</option>';
+
+            gameState.heroes.forEach(h => {
+                rosterBody.innerHTML += `
+                    <tr>
+                        <td><code>${h.id}</code></td>
+                        <td><strong>${h.name}</strong></td>
+                        <td>${h.race} (⭐${h.star})</td>
+                        <td>${h.class}</td>
+                        <td>Lv. ${h.level} (ATK: ${h.atk} | HP: ${h.hp})</td>
+                        <td><small>${h.skills.join(', ')}</small></td>
+                        <td>
+                            <button class="btn" style="padding:4px 8px; font-size:0.75rem;" onclick="levelUpHero('${h.id}')">Level Up (${h.level * 100} G)</button>
+                            <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="synthesizeHero('${h.id}')">Synthesize</button>
+                        </td>
+                    </tr>
+                `;
+                selectParty1.innerHTML += `<option value="${h.id}">${h.name} (${h.id} - ⭐${h.star})</option>`;
+                selectAlchemy.innerHTML += `<option value="${h.id}">${h.name} (${h.id})</option>`;
+                selectBlacksmith.innerHTML += `<option value="${h.id}">${h.name} (${h.id})</option>`;
+            });
+
+            // Render Party 1 Members
+            const party1Container = document.getElementById('party-1-members');
+            party1Container.innerHTML = '';
+            if (gameState.parties.party1.length === 0) {
+                party1Container.innerHTML = '<p style="font-size:0.85rem;">Party 1 masih kosong.</p>';
+                document.getElementById('party-1-leader').innerText = 'Belum ditentukan';
+            } else {
+                document.getElementById('party-1-leader').innerText = gameState.parties.party1[0];
+                gameState.parties.party1.forEach(id => {
+                    const hero = gameState.heroes.find(h => h.id === id);
+                    if (hero) {
+                        party1Container.innerHTML += `
+                            <div class="card" style="padding:6px 10px; width: 140px;">
+                                <strong style="font-size:0.85rem;">${hero.name}</strong>
+                                <small>⭐${hero.star} ${hero.class}</small>
+                                <button class="btn btn-danger" style="padding:2px; font-size:0.7rem; margin-top:4px;" onclick="removeHeroFromParty('${hero.id}')">Keluarkan</button>
+                            </div>
+                        `;
+                    }
+                });
+            }
+
+            // Render Dungeon Floor Info
+            document.getElementById('dungeon-current-floor').innerText = gameState.towerFloor;
+            const currentEnemy = ENEMY_DATABASE[gameState.towerFloor] || ENEMY_DATABASE[1];
+            document.getElementById('dungeon-enemy-info').innerText = `${currentEnemy.id} - ${currentEnemy.name} (${currentEnemy.type} | ATK: ${currentEnemy.atk}, HP: ${currentEnemy.hp}) — ${currentEnemy.desc}`;
+            
+            let partyAtkSum = 0;
+            gameState.parties.party1.forEach(id => {
+                const h = gameState.heroes.find(item => item.id === id);
+                if(h) partyAtkSum += h.atk;
+            });
+            const winRateEst = partyAtkSum >= currentEnemy.atk * 1.1 ? "Tinggi (Layak Tempur)" : "Rendah (Butuh Level Up / Hero Lebih Kuat)";
+            document.getElementById('dungeon-winrate').innerText = `${winRateEst} (Party ATK: ${partyAtkSum} vs Enemy ATK: ${currentEnemy.atk})`;
+
+            // Render Town Facility Status
+            document.getElementById('facility-alchemy-state').innerText = gameState.facilities.alchemy.status;
+            document.getElementById('facility-alchemy-state').style.color = gameState.facilities.alchemy.status === "ACTIVE" ? "var(--success)" : "var(--danger)";
+            document.getElementById('facility-alchemy-leader').innerText = gameState.facilities.alchemy.leaderId || '-';
+
+            document.getElementById('facility-blacksmith-state').innerText = gameState.facilities.blacksmith.status;
+            document.getElementById('facility-blacksmith-state').style.color = gameState.facilities.blacksmith.status === "ACTIVE" ? "var(--success)" : "var(--danger)";
+            document.getElementById('facility-blacksmith-leader').innerText = gameState.facilities.blacksmith.leaderId || '-';
+
+            // Render Inventory
+            const invGrid = document.getElementById('inventory-grid');
+            invGrid.innerHTML = '';
+            for (const [key, item] of Object.entries(gameState.inventory)) {
+                invGrid.innerHTML += `
+                    <div class="card">
+                        <h3>${item.name}</h3>
+                        <p>ID: <code>${key}</code></p>
+                        <p>Jumlah: <strong>x${item.count}</strong></p>
+                    </div>
+                `;
+            }
+        }
+
+        window.onload = initGame;
+    </script>
+</body>
+</html>
