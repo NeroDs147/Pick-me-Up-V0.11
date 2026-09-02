@@ -17,10 +17,9 @@ The **Game State System** is one of the most important core systems in Aetheria.
 It is responsible for managing the current condition of:
 
 ```text
-World
+core World building
 Master
 Characters
-NPCs
 Enemies
 Items
 Inventory
@@ -33,7 +32,7 @@ Events
 Relationships
 Resources
 Story
-Destruction
+Destruction floor
 Time-dependent states
 ```
 
@@ -54,9 +53,9 @@ Instead, it acts as the central state-management layer that connects them.
        │                      │                      │
        ├── World              ├── Master            ├── Quest
        ├── Tower              ├── Character         ├── Event
-       ├── Floor              ├── NPC               ├── Recruit
-       ├── Faction            ├── Enemy             ├── Dungeon
-       └── Destruction        └── Item              └── Inventory
+       ├── Floor              ├── Enemy             ├── Recruit
+       ├── Faction            ├── Item              ├── Dungeon
+       └── Destruction                              └── Inventory
                               │
                               ▼
                        DATABASE SYSTEM
@@ -83,10 +82,6 @@ Character:
 CHAR_000125
 Level 25
 HP 100%
-
-NPC:
-NPC_000012
-Status: Injured
 
 Enemy:
 ENEMY_000451
